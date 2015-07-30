@@ -1,0 +1,98 @@
+{% extends 'base.html.twig' %}
+
+{% block jumbotronTitle %}
+    <span class="text-info">
+        <i class="fontello-icon-cog-alt"></i><strong>Project</strong> Manager
+    </span>
+{% endblock %}
+
+{% block jumbotronBody %}
+    <p class="text-center">
+        <a href="{{ path('homepage') }}">
+            <i class="fontello-icon-left-circled"></i>Return to <strong>project list</strong>
+        </a>
+    </p>
+{% endblock %}
+
+{% block breadcrumb_items %}
+    <li><a href="{{ path('homepage') }}"><i class="fontello-icon-right-open"></i>Home</a></li>
+    <li class="active"><i class="fontello-icon-angle-circled-right"></i>{{ project }}</li>
+{% endblock %}
+
+{% block body %}
+    {% set context = 'info' %}
+    <div class="col-md-7">
+        <div class="panel panel-{{ context }}" id="panel-project-{{ project.id }}">
+            <div class="panel-heading">
+                <strong>
+                    <i class="fontello-icon-cog"></i>
+                    <a href="#" id="name"
+                       data-type="text"
+                       data-pk="{{ project.id }}"
+                       data-url="{{ path('app_project_update_name_ajax', { 'id': project.id }) }}"
+                       data-title="Update name">{{ project.name }}</a>
+                </strong>
+                <span class="pull-right">
+                    <a href="#" id="delete-project-{{ project.id }}" data-id="{{ project.id }}"
+                       data-name="{{ project.name }}"
+                       data-toggle="tooltip" data-placement="right" title="Delete">
+                       <i class="fontello-icon-trash"></i></a>
+                </span>
+            </div>
+            <div class="panel-body" id="panel-body-{{ project.id }}">
+                <blockquote>
+                    <p>
+                        <small>
+                            <a href="#" id="description"
+                               data-type="textarea"
+                               data-pk="{{ project.id }}"
+                               data-url="{{ path('app_project_update_description_ajax', { 'id': project.id }) }}"
+                               data-title="Update description">{{ project.description }}</a>
+                        </small>
+                    </p>
+                </blockquote>
+                <p>
+                    <span id="application-count-{{ project.id }}">
+                        {% if project.applications|length <= 1 %}There is {% else %}There are{% endif %}
+                        {% if project.applications|length == 0 %}no {% else %}<span class="badge">{{ project.applications|length }}</span>{% endif %}
+                        application{% if project.applications|length > 1 %}s{% endif %} in the project
+                    </span>
+                    <span class="pull-right">
+                        <a href="#" id="add-application-{{ project.id }}"
+                           data-project-id="{{ project.id }}"
+                           data-project-name="{{ project.name }}"
+                           data-project-description="{{ project.description }}"
+                           data-toggle="tooltip" data-placement="left" title="Add a new application">
+                           <i class="fontello-icon-plus-circled"></i><i class="fontello-icon-leaf"></i>
+                        </a>
+                    </span>
+                </p>
+                {% include "AppMainBundle:application:list.html.twig" with { 'project' : project } %}
+            </div>
+            <div class="panel-footer text-right"><i class="fontello-icon-calendar"></i> Created on {{ project.createdAt|date('d/m/Y \\a\\t H:i:s') }}</div>
+        </div>
+    </div>          
+    {% include "AppMainBundle:application:new.form.html.twig" %}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $( "#name" ).editable({
+                onblur: 'ignore',
+                error: function(response, newValue) {
+                    swal({
+                        title: "{% trans from 'titles' %}Error{% endtrans %}",
+                        text: response.responseText,
+                        type: "error",
+                        confirmButtonText: "{% trans from 'labels' %}OK{% endtrans %}"
+                    }); 
+                }
+            });
+            $( "#description" ).editable({
+                emptytext: 'Add description'
+            });
+        });
+    </script>
+{% endblock %}

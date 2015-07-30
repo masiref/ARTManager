@@ -1,0 +1,86 @@
+<div class="col-md-4" style="position: relative;">
+    <div class="col-md-4" style="position: fixed;">
+        <div class="panel panel-info" id="panel-object-properties">
+            <div class="panel-heading">
+                <strong>
+                    <i class="fontello-icon-list-bullet"></i> Object Properties
+                </strong>
+                <span class="pull-right">
+                    <a href="#" data-toggle="tooltip"
+                       data-placement="top"
+                       title="Select an object in the tree to edit its properties">
+                       <i class="fontello-icon-info-circled"></i>
+                    </a>
+                </span>
+            </div>
+            <div class="panel-body" id="panel-body-object-properties" style="display:none;">
+                <div class="text-center">
+                    <div id="object-properties-loader" class="three-quarters-loader" style="display:none;"></div>
+                </div>
+                <div id="panel-body-content-object-properties">
+                    <p>
+                        <i id="object-icon" class="fontello-icon-puzzle"></i>
+                        <a href="#" id="object-name"
+                           data-type="text"
+                           data-pk=""
+                           data-url=""
+                           data-title="Update name"></a>
+                    </p>
+                    <blockquote>
+                        <p>
+                            <small>
+                                <a href="#" id="object-description"
+                                   data-type="textarea"
+                                   data-pk=""
+                                   data-url=""
+                                   data-title="Update description"></a>
+                            </small>
+                        </p>
+                    </blockquote>
+                    <div id="object-type-block">
+                        <p>
+                            <i class="fontello-icon-code"></i>
+                            <a href="#" id="object-type"
+                               data-type="select"
+                               data-pk=""
+                               data-url=""
+                               data-title="Change type"
+                               data-source="{{ path('app_application_get_object_map_page_object_types_ajax') }}">Object Type</a>
+                        </p>
+                    </div>
+                    <div id="page-type-block">
+                        <p>
+                            <i class="fontello-icon-code"></i>
+                            <a href="#" id="page-type"
+                               data-type="select"
+                               data-pk=""
+                               data-url=""
+                               data-title="Change type"
+                               data-source="{{ path('app_application_get_object_map_page_types_ajax') }}">Page Type</a>
+                        </p>
+                    </div>
+                    <div id="object-identifier-block">
+                        <p>
+                            <i id="object-identifier-icon" class="fontello-icon-target"></i>
+                            <a href="#" id="object-identifier-type"
+                               data-type="select"
+                               data-pk=""
+                               data-url=""
+                               data-title="Change type"
+                               data-source="{{ path('app_application_get_object_map_page_object_identifier_types_ajax') }}">Type</a>
+                            :
+                            <a href="#" id="object-identifier-value"
+                               data-type="text"
+                               data-pk=""
+                               data-url=""
+                               data-title="Update value">Value</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-footer text-right" id="panel-footer-object-properties" style="display:none;">
+                <i class="fontello-icon-calendar"></i> Created on <span id="object-creation-date">date</span>
+            </div>
+        </div>
+    </div>
+</div>   

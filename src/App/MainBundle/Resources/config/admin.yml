@@ -1,0 +1,159 @@
+services:
+    # general services
+    sonata.admin.project:
+        class: App\MainBundle\Admin\ProjectAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "General", label: "Project" }
+        arguments:
+            - ~
+            - App\MainBundle\Entity\Project
+            - ~
+        calls:
+            - [ setTranslationDomain, [AppMainBundle] ]
+    sonata.admin.application:
+        class: App\MainBundle\Admin\ApplicationAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "General", label: "Application" }
+        arguments:
+            - ~
+            - App\MainBundle\Entity\Application
+            - ~
+        calls:
+            - [ setTranslationDomain, [AppMainBundle] ]
+            
+    # objects services
+    sonata.admin.object_map:
+        class: App\MainBundle\Admin\ObjectMapAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Objects", label: "Object Map" }
+        arguments:
+            - ~
+            - App\MainBundle\Entity\ObjectMap
+            - ~
+        calls:
+            - [ setTranslationDomain, [AppMainBundle] ]
+    sonata.admin.page:
+        class: App\MainBundle\Admin\PageAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Objects", label: "Page" }
+        arguments:
+            - ~
+            - App\MainBundle\Entity\Page
+            - ~
+        calls:
+            - [ setTranslationDomain, [AppMainBundle] ]
+    sonata.admin.page_type:
+        class: App\MainBundle\Admin\PageTypeAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Objects", label: "Page Type" }
+        arguments:
+            - ~
+            - App\MainBundle\Entity\PageType
+            - ~
+        calls:
+            - [ setTranslationDomain, [AppMainBundle] ]
+    sonata.admin.object:
+        class: App\MainBundle\Admin\ObjectAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Objects", label: "Object" }
+        arguments:
+            - ~
+            - App\MainBundle\Entity\Object
+            - ~
+        calls:
+            - [ setTranslationDomain, [AppMainBundle] ]
+    sonata.admin.object_identifier:
+        class: App\MainBundle\Admin\ObjectIdentifierAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Objects", label: "Object Identifier" }
+        arguments:
+            - ~
+            - App\MainBundle\Entity\ObjectIdentifier
+            - ~
+        calls:
+            - [ setTranslationDomain, [AppMainBundle] ]
+            
+    # tests services
+    sonata.admin.test_folder:
+        class: App\MainBundle\Admin\TestFolderAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Tests", label: "Test Folder" }
+        arguments:
+            - ~
+            - App\MainBundle\Entity\TestFolder
+            - ~
+        calls:
+            - [ setTranslationDomain, [AppMainBundle] ]
+    sonata.admin.test:
+        class: App\MainBundle\Admin\TestAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Tests", label: "Test" }
+        arguments:
+            - ~
+            - App\MainBundle\Entity\Test
+            - ~
+        calls:
+            - [ setTranslationDomain, [AppMainBundle] ]
+    sonata.admin.step:
+        class: App\MainBundle\Admin\StepAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Tests", label: "Step" }
+        arguments:
+            - ~
+            - App\MainBundle\Entity\Step
+            - ~
+        calls:
+            - [ setTranslationDomain, [AppMainBundle] ]
+            - [ setSubClasses, [{ "Execute Step": "App\MainBundle\Entity\ExecuteStep", "Control Step": "App\MainBundle\Entity\ControlStep" }] ]
+            
+    # settings services
+    sonata.admin.object_type:
+        class: App\MainBundle\Admin\ObjectTypeAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Settings", label: "Object Type" }
+        arguments:
+            - ~
+            - App\MainBundle\Entity\ObjectType
+            - ~
+        calls:
+            - [ setTranslationDomain, [AppMainBundle] ]
+    sonata.admin.object_identifier_type:
+        class: App\MainBundle\Admin\ObjectIdentifierTypeAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Settings", label: "Object Identifier Type" }
+        arguments:
+            - ~
+            - App\MainBundle\Entity\ObjectIdentifierType
+            - ~
+        calls:
+            - [ setTranslationDomain, [AppMainBundle] ]
+    sonata.admin.action:
+        class: App\MainBundle\Admin\ActionAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Settings", label: "Action" }
+        arguments:
+            - ~
+            - App\MainBundle\Entity\Action
+            - ~
+        calls:
+            - [ setTranslationDomain, [AppMainBundle] ]
+    sonata.admin.parameter_set:
+        class: App\MainBundle\Admin\ParameterSetAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Settings", label: "Parameter Set" }
+        arguments:
+            - ~
+            - App\MainBundle\Entity\ParameterSet
+            - ~
+        calls:
+            - [ setTranslationDomain, [AppMainBundle] ]
+    sonata.admin.parameter:
+        class: App\MainBundle\Admin\ParameterAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Settings", label: "Parameter" }
+        arguments:
+            - ~
+            - App\MainBundle\Entity\Parameter
+            - ~
+        calls:
+            - [ setTranslationDomain, [AppMainBundle] ]

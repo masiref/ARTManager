@@ -1,0 +1,5 @@
+<div class="row" id="projects-row">
+    {% for project in projects %}
+        {% include "AppMainBundle:project:item.html.twig" with { 'project' : project } %}
+    {% endfor %}
+</div>

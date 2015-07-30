@@ -1,0 +1,46 @@
+{% set context = 'danger' %}
+<div class="col-md-6">
+    <div class="panel panel-default panel-{{ context }}" id="panel-object-map-{{ objectMap.id }}">
+        <div class="panel-heading" id="heading-object-map-{{ objectMap.id }}">
+            <h4 class="panel-title">
+                <a data-parent="#object-maps" data-toggle="collapse"
+                   href="#collapse-object-map-{{ objectMap.id }}">
+                    <i class="fontello-icon-sitemap"></i><strong>{{ objectMap.name }}</strong>
+                    - Created on {{ objectMap.createdAt|date('d/m/Y \\a\\t H:i:s') }}
+                </a>
+                <span class="pull-right">
+                    <a href="{{ path('app_editor_application_object_map', { 'id': objectMap.id }) }}"
+                       id="open-object-map-{{ objectMap.id }}"
+                       data-toggle="tooltip" data-placement="top" title="Open">
+                       <i class="fontello-icon-folder-open"></i></a>
+                    <a href="#" id="delete-object-map-{{ objectMap.id }}" data-id="{{ objectMap.id }}"
+                       data-name="{{ objectMap.name }}"
+                       data-toggle="tooltip" data-placement="right" title="Delete">
+                       <i class="fontello-icon-trash"></i></a>
+                </span>
+            </h4>
+        </div>
+        <div class="panel-collapse collapse in" id="collapse-object-map-{{ objectMap.id }}">
+            <div class="panel-body" id="panel-body-{{ objectMap.id }}">
+                {% if objectMap.description %}
+                    <blockquote>
+                        <p><small>{{ objectMap.description }}</small></p>
+                    </blockquote>
+                {% endif %}
+                <p>
+                    <span id="page-count-{{ objectMap.id }}">
+                        {% if objectMap.pagesCount <= 1 %}There is {% else %}There are{% endif %}
+                        {% if objectMap.pagesCount == 0 %}no {% else %}<span class="badge">{{ objectMap.pagesCount }}</span>{% endif %}
+                        page{% if objectMap.pagesCount > 1 %}s{% endif %}
+                        in the object map
+                    </span>
+                </p>
+                <div class="text-center">
+                    <div id="tree-object-map-{{ objectMap.id }}-loader" class="three-quarters-loader"></div>
+                </div>
+                <div id="tree-object-map-{{ objectMap.id }}"></div>
+                {% include "AppMainBundle:object-map:new.form.html.twig" %}
+            </div>
+        </div>
+    </div>
+</div>

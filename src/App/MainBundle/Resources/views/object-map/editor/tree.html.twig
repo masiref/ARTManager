@@ -1,0 +1,79 @@
+{% set context = 'danger' %}
+<div class="col-md-8">
+    <div class="panel panel-{{ context }}" id="panel-object-map-{{ objectMap.id }}">
+        <div class="panel-heading">
+            <strong>
+                <i class="fontello-icon-sitemap"></i>
+                <a href="#" id="name"
+                   data-type="text"
+                   data-pk="{{ objectMap.id }}"
+                   data-url="{{ path('app_application_object_map_update_name_ajax', { 'id': objectMap.id }) }}"
+                   data-title="Update name">{{ objectMap.name }}</a>
+            </strong>
+            <span class="pull-right">
+                <a href="#" id="delete-object-map-{{ objectMap.id }}" data-id="{{ objectMap.id }}"
+                   data-name="{{ objectMap.name }}"
+                   data-toggle="tooltip" data-placement="right" title="Delete">
+                   <i class="fontello-icon-trash"></i></a>
+            </span>
+        </div>
+        <div class="panel-body" id="panel-body-{{ objectMap.id }}">
+            <blockquote>
+                <p>
+                    <small>
+                        <a href="#" id="description"
+                           data-type="textarea"
+                           data-pk="{{ objectMap.id }}"
+                           data-url="{{ path('app_application_object_map_update_description_ajax', { 'id': objectMap.id }) }}"
+                           data-title="Update description">{{ objectMap.description }}</a>
+                    </small>
+                </p>
+            </blockquote>
+            <p>
+                <span id="page-count-{{ objectMap.id }}">
+                    {% if objectMap.pagesCount <= 1 %}There is{% else %}There are{% endif %}
+                    {% if objectMap.pagesCount == 0 %}no {% else %}<span class="badge">{{ objectMap.pagesCount }}</span>{% endif %}
+                    page{% if objectMap.pagesCount > 1 %}s{% endif %} in the object map
+                </span>
+                <span class="pull-right">
+                    <a href="#" id="add-page-{{ objectMap.id }}"
+                       data-object-map-id="{{ objectMap.id }}"
+                       data-object-map-name="{{ objectMap.name }}"
+                       data-object-map-description="{{ objectMap.description }}"
+                       data-toggle="tooltip" data-placement="left" title="Add a new page">
+                       <i class="fontello-icon-plus-circled"></i><i class="fontello-icon-th-large"></i>
+                    </a>
+                </span>
+            </p>
+            <p>
+                <span id="object-count-{{ objectMap.id }}">
+                    {% if objectMap.objectsCount <= 1 %}There is{% else %}There are{% endif %}
+                    {% if objectMap.objectsCount == 0 %}no {% else %}<span class="badge">{{ objectMap.objectsCount }}</span>{% endif %}
+                    object{% if objectMap.objectsCount > 1 %}s{% endif %} in the object map
+                </span>
+                <span class="pull-right">
+                    <a href="#" id="add-object"
+                       data-page-id=""
+                       data-page-name=""
+                       data-page-description=""
+                       data-toggle="tooltip" data-placement="left" title="Add a new object">
+                       <i class="fontello-icon-plus-circled"></i><i class="fontello-icon-puzzle"></i>
+                    </a>
+                </span>
+            </p>
+            <div class="text-center">
+                <div id="tree-object-map-{{ objectMap.id }}-loader" class="three-quarters-loader"></div>
+            </div>
+            <div id="tree-object-map-{{ objectMap.id }}"></div>
+            <p>
+                <a href="#" id="delete-checked-objects" class="btn btn-danger disabled" data-object-map-id="{{ objectMap.id }}">
+                    <span class="badge" id="checked-objects-count">0</span> <i class="fontello-icon-trash"></i>
+                </a>
+            </p>
+        </div>
+        <div class="panel-footer text-right">
+            <i class="fontello-icon-calendar"></i>
+            Created on {{ objectMap.createdAt|date('d/m/Y \\a\\t H:i:s') }}
+        </div>
+    </div>
+</div>  

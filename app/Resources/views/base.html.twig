@@ -1,0 +1,72 @@
+{% set error = error|default(false) %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>{% block title %}ART Manager{% endblock %}</title>
+        {% block stylesheets %}
+            <link href="{{ asset('built/min.css') }}" rel="stylesheet" />
+            <link href='http://fonts.googleapis.com/css?family=Titillium+Web:400,900' rel='stylesheet' type='text/css'>
+            <link href='http://fonts.googleapis.com/css?family=Maven+Pro' rel='stylesheet' type='text/css'>
+            <link href="http://css-spinners.com/css/spinner/three-quarters.css" rel="stylesheet" type="text/css">
+        {% endblock %}
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+    </head>
+    <body>
+        {% include "::navbar.html.twig" %}
+        <div class="jumbotron">
+            <h1 class="text-center">
+                {% block jumbotronTitle %}{% endblock %}
+            </h1>
+            <h3 class="text-center">
+                {% block jumbotronSubtitle %}{% endblock %}
+            </h3>
+            <div>{% block jumbotronBody %}{% endblock %}</div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="row text-center">
+                        <ol class="breadcrumb">
+                            {% block breadcrumb_items %}{% endblock %}
+                        </ol>
+                    </div>
+                    {% block body %}{% endblock %}
+                </div>
+            </div>
+        </div>
+        {% block javascripts %}
+            <script src="{{ asset('built/app.min.js') }}"></script>
+            <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+            <script src="{{ path('fos_js_routing_js', {'callback': 'fos.Router.setData'}) }}"></script>
+            {# if app.session.flashBag.peekAll()|length #}
+                <script type="text/javascript">
+                    $(document).ready(function() {
+                        {% for type, messages in app.session.flashBag.all %}
+                            {% for message in messages %}
+                                swal({
+                                    title: "
+                                        {% if type == 'error' %}{% trans from 'titles' %}Error{% endtrans %}{% endif %}
+                                        {% if type == 'info' %}{% trans from 'titles' %}Info{% endtrans %}{% endif %}
+                                        {% if type == 'success' %}{% trans from 'titles' %}Success{% endtrans %}{% endif %}
+                                    ",
+                                    text: "{{ message|trans({}, 'FOSUserBundle') }}",
+                                    type: "{{ type }}",
+                                    confirmButtonText: "{% trans from 'labels' %}OK{% endtrans %}"
+                                });    
+                            {% endfor %}
+                        {% endfor %}
+                        {% if error %}
+                            swal({
+                                title: "{% trans from 'titles' %}Error{% endtrans %}",
+                                text: "{{ error|trans({}, 'FOSUserBundle') }}",
+                                type: "error",
+                                confirmButtonText: "{% trans from 'labels' %}OK{% endtrans %}"
+                            });
+                        {% endif %}
+                    });
+                </script>
+            {# endif #}
+        {% endblock %}
+    </body>
+</html>

@@ -1,0 +1,88 @@
+{% extends 'base.html.twig' %}
+
+{% block jumbotronTitle %}
+    <span class="text-mypurple">
+        <i class="fontello-icon-ellipsis-vert"></i><strong>Test</strong> Editor
+    </span>
+{% endblock %}
+
+{% set application = test.testFolder.rootApplication %}
+
+{% block jumbotronBody %}
+    <p class="text-center">
+        <a href="{{ path('app_index_application_test_planner', { 'id': application.id }) }}">
+            <i class="fontello-icon-left-circled"></i>Return to <strong>{{ application.name }}</strong> test plan
+        </a>
+    </p>
+{% endblock %}
+
+{% block breadcrumb_items %}
+    <li>
+        <a href="{{ path('homepage') }}"><i class="fontello-icon-right-open"></i>Home</a>
+    </li>
+    <li>
+        <a href="{{ path('app_index_project', { 'id': application.project.id }) }}">
+            <i class="fontello-icon-right-open"></i>{{ application.project }}</a>
+    </li>
+    <li>
+        <a href="{{ path('app_index_application', { 'id': application.id }) }}">
+            <i class="fontello-icon-right-open"></i>{{ application }}</a>
+    </li>
+    <li>
+        <a href="{{ path('app_index_application_test_planner', { 'id': application.id }) }}">
+            <i class="fontello-icon-right-open"></i>Test plan</a>
+    </li>
+    <li class="active">
+        <i class="fontello-icon-angle-circled-right"></i>{{ test }}
+    </li>
+{% endblock %}
+
+{% block body %}
+    <div class="row test-starting">
+        <div class="col-md-6 col-md-offset-3">
+            <h2 class="text-center">
+                <i class="fontello-icon-to-start"></i> Starting page
+            </h2>
+            <h2 class="text-center">
+                {% include 'AppMainBundle:test:starting-page.html.twig' with { 'page': test.startingPage } %}
+            </h2>
+        </div>
+    </div>
+    <div class="row step-header">
+        <div class="col-md-6">
+            <h1 class="text-center"><i class="fontello-icon-play"></i> Execute</h1>
+        </div>
+        <div class="col-md-6">
+            <h1 class="text-center text-success"><i class="fontello-icon-ok"></i> Control</h1>
+        </div>
+    </div>
+    {% include 'AppMainBundle:test:step/execute/list.html.twig' %}
+    {% include 'AppMainBundle:test:step/execute/new.form.html.twig' %}
+    {% include 'AppMainBundle:test:step/control/new.form.html.twig' %}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $("#form_startingPage").change(function() {
+                var id = $(this).val();
+                $.ajax({
+                    type: 'POST',
+                    url: Routing.generate('app_application_test_update_starting_page_ajax', {
+                        id: {{ test.id }}
+                    }),
+                    data: {
+                        pageId: id
+                    }
+                }).done(function(data) {
+                    if (data.error) {
+                        swal("Starting page not updated !", data.error, "error");
+                    } else {
+                        $("#modal-add-execute-step").replaceWith(data.addExecuteStepForm);
+                    }
+                });
+            });
+        });
+    </script>
+{% endblock %}

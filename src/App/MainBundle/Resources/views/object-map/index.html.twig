@@ -1,0 +1,76 @@
+{% extends 'base.html.twig' %}
+
+{% block jumbotronTitle %}
+    <span class="text-danger">
+        <i class="fontello-icon-sitemap"></i><strong>Object Map</strong> Manager
+    </span>
+{% endblock %}
+
+{% block jumbotronBody %}
+    <p class="text-center">
+        <a href="{{ path('app_index_application', { 'id': application.id }) }}">
+            <i class="fontello-icon-left-circled"></i>Return to <strong>{{ application.name }}</strong> application
+        </a>
+    </p>
+{% endblock %}
+
+{% block breadcrumb_items %}
+    <li>
+        <a href="{{ path('homepage') }}"><i class="fontello-icon-right-open"></i>Home</a>
+    </li>
+    <li>
+        <a href="{{ path('app_index_project', { 'id': application.project.id }) }}">
+            <i class="fontello-icon-right-open"></i>{{ application.project }}</a>
+    </li>
+    <li>
+        <a href="{{ path('app_index_application', { 'id': application.id }) }}">
+            <i class="fontello-icon-right-open"></i>{{ application }}</a>
+    </li>
+    <li class="active">
+        <i class="fontello-icon-angle-circled-right"></i>Object maps
+    </li>
+{% endblock %}
+
+{% block body %}
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <p>
+                <span id="object-maps-count">
+                    {% if objectMaps|length <= 1 %}There is {% else %}There are{% endif %}
+                    {% if objectMaps|length == 0 %}no {% else %}<span class="badge">{{ objectMaps|length }}</span>{% endif %}
+                    object map{% if objectMaps|length > 1 %}s{% endif %}
+                </span>
+                <span class="pull-right">
+                    <a href="#" id="add-object-map"
+                       data-toggle="tooltip" data-placement="left" title="Add a new object map">
+                        <i class="fontello-icon-plus-circled"></i><i class="fontello-icon-sitemap"></i>
+                    </a>
+                </span>
+            </p>
+        </div>
+        {#
+        <div class="panel-footer">
+            <strong>&nbsp;</strong>
+            <span class="pull-right">
+                <ul class="list-unstyled list-inline">
+                    <li><i class="fontello-icon-th-large"></i> Page</li>
+                    {% for objectType in objectTypes %}
+                        <li><i class="{{ objectType.icon }}"></i> {{ objectType.name }}</li>
+                    {% endfor %}
+                </ul>
+            </span>
+        </div>
+        #}
+    </div>
+    {% include 'AppMainBundle:object-map:new.form.html.twig' %}
+    {% include 'AppMainBundle:object-map:list.html.twig' with { 'objectMaps': objectMaps } %}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript">
+        $(document).ready(function() {
+            refreshObjectMaps({{ application.id }}, true, false);
+        });
+    </script>
+{% endblock %}

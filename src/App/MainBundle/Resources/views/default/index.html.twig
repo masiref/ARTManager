@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+{% set page = "homepage" %}
+
+{% block jumbotronTitle %}
+    <i class="fontello-icon-ok"></i><strong>ART</strong> Manager
+{% endblock %}
+
+{% block jumbotronSubtitle %}
+    <strong>A</strong>utomate your <strong>R</strong>egression <strong>T</strong>ests projects
+{% endblock %}
+
+{% block breadcrumb_items %}
+    <li class="active"><i class="fontello-icon-angle-circled-right"></i>Home</li>
+{% endblock %}
+
+{% block body %}
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <span id="projects-count">
+                {% if projects|length <= 1 %}There is {% else %}There are{% endif %}
+                {% if projects|length == 0 %}no {% else %}<span class="badge">{{ projects|length }}</span>{% endif %}
+                project{% if projects|length > 1 %}s{% endif %}
+            </span>
+            <span class="pull-right">
+                <a href="#" id="add-project"
+                   data-toggle="tooltip" data-placement="left" title="Add a new project">
+                    <i class="fontello-icon-plus-circled"></i><i class="fontello-icon-cog"></i>
+                </a>
+            </span>
+        </div>
+    </div>
+    {% include 'AppMainBundle:project:new.form.html.twig' %}
+    {% include 'AppMainBundle:project:list.html.twig' with { 'projects': projects } %}
+    {% include "AppMainBundle:application:new.form.html.twig" %}
+{% endblock %}

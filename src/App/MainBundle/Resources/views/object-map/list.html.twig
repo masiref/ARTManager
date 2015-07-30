@@ -1,0 +1,7 @@
+<div class="row" id="object-maps-row">
+    <div class="panel-group" id="object-maps">
+        {% for objectMap in objectMaps %}
+            {% include "AppMainBundle:object-map:item.html.twig" with { 'objectMap' : objectMap } %}
+        {% endfor %}
+    </div>
+</div>

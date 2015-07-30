@@ -1,0 +1,17 @@
+{
+  "name": "project",
+  "version": "0.0.1",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "app/Resources/lib",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "https://github.com/twbs/bootstrap-sass/archive/v3.3.0.tar.gz",
+    "jquery": "2.0.1",
+    "Fontello": "https://github.com/BrandyMint/brandymint-fontello/archive/master.zip"
+  }
+}

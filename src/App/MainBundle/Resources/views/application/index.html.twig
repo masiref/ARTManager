@@ -1,0 +1,168 @@
+{% extends 'base.html.twig' %}
+
+{% block jumbotronTitle %}
+    <span class="text-success">
+        <i class="fontello-icon-leaf"></i><strong>Application</strong> Manager
+    </span>
+{% endblock %}
+
+{% block jumbotronBody %}
+    <p class="text-center">
+        <a href="{{ path('app_index_project', { 'id': application.project.id }) }}">
+            <i class="fontello-icon-left-circled"></i>Return to <strong>{{ application.project }}</strong> project
+        </a>
+    </p>
+{% endblock %}
+
+{% block breadcrumb_items %}
+    <li>
+        <a href="{{ path('homepage') }}"><i class="fontello-icon-right-open"></i>Home</a>
+    </li>
+    <li>
+        <a href="{{ path('app_index_project', { 'id': application.project.id }) }}">
+            <i class="fontello-icon-right-open"></i>{{ application.project }}</a>
+    </li>
+    <li class="active">
+        <i class="fontello-icon-angle-circled-right"></i>{{ application }}
+    </li>
+{% endblock %}
+
+{% block body %}
+    {% set context = 'success' %}
+    <div class="col-md-7">
+        <div class="panel panel-{{ context }}" id="panel-application-{{ application.id }}">
+            <div class="panel-heading">
+                <strong>
+                    <i class="fontello-icon-leaf"></i>
+                    <a href="#" id="name"
+                       data-type="text"
+                       data-pk="{{ application.id }}"
+                       data-url="{{ path('app_application_update_name_ajax', { 'id': application.id }) }}"
+                       data-title="Update name">{{ application.name }}</a>
+                </strong>
+            </div>
+            <div class="panel-body" id="panel-body-{{ application.id }}">
+                <blockquote>
+                    <p>
+                        <small>
+                            <a href="#" id="description"
+                               data-type="textarea"
+                               data-pk="{{ application.id }}"
+                               data-url="{{ path('app_application_update_description_ajax', { 'id': application.id }) }}"
+                               data-title="Update description">{{ application.description }}</a>
+                        </small>
+                    </p>
+                </blockquote>
+                <p>
+                    <i class="fontello-icon-link"></i> Accessible via
+                    <a href="#" id="url"
+                       data-type="text"
+                       data-pk="{{ application.id }}"
+                       data-url="{{ path('app_application_update_url_ajax', { 'id': application.id }) }}"
+                       data-title="Update URL">{{ application.url }}</a>
+                       <a id="goto-application-link" href="{{ application.url }}" target="about:blank"
+                          {% if not application.url %}style="display: none;"{% endif %}>
+                           <i class="fontello-icon-link-ext-alt"></i>
+                       </a>
+                </p>
+            </div>
+            <div class="panel-footer text-right"><i class="fontello-icon-calendar"></i> Created on {{ application.createdAt|date('d/m/Y \\a\\t H:i:s') }}</div>
+        </div>
+    </div>
+    <div class="col-md-5">
+        <div class="list-group">
+            <a href="{{ path('app_index_application_object_map', { 'id': application.id }) }}"
+               class="list-group-item list-group-item-danger">
+                <h4 class="list-group-item-heading"><i class="fontello-icon-sitemap"></i> <strong>Object Map</strong> Manager</h4>
+                <p class="list-group-item-text">
+                    <p>Map the objects of your application</p>
+                    <ul class="list-unstyled text-right">
+                        <li>
+                            {% if application.objectMaps|length <= 1 %}There is {% else %}There are{% endif %}
+                            {% if application.objectMaps|length == 0 %}no {% else %}<span class="badge">{{ application.objectMaps|length }}</span>{% endif %}
+                            object map{% if application.objectMaps|length > 1 %}s{% endif %}
+                        </li>
+                        {% if application.objectMaps|length > 0 %}
+                            <li>
+                                containing
+                                <span class="badge">{{ application.pagesCount }}</span>
+                                page{% if application.pagesCount > 1 %}s{% endif %}
+                                and
+                                <span class="badge">{{ application.objectsCount }}</span>
+                                object{% if application.objectsCount > 1 %}s{% endif %}
+                            </li>
+                        {% endif %}
+                    </ul>
+                </p>
+            </a>
+            <a href="{{ path('app_index_application_test_planner', { 'id': application.id }) }}"
+               class="list-group-item list-group-item-mypurple">
+                <h4 class="list-group-item-heading"><i class="fontello-icon-tasks"></i> <strong>Test</strong> Planner</h4>
+                <p class="list-group-item-text">
+                    <p>Design the tests of your application</p>
+                    <ul class="list-unstyled text-right">
+                        <li>
+                            {% if application.testFoldersCount <= 1 %}There is {% else %}There are{% endif %}
+                            {% if application.testFoldersCount == 0 %}no {% else %}<span class="badge">{{ application.testFoldersCount }}</span>{% endif %}
+                            folder{% if application.testFoldersCount > 1 %}s{% endif %}
+                        </li>
+                        {% if application.testFoldersCount > 0 %}
+                            <li>
+                                containing <span class="badge">{{ application.testsCount }}</span>
+                                test{% if application.testsCount > 1 %}s{% endif %}
+                            </li>
+                        {% endif %}
+                    </ul>
+                </p>
+            </a>
+            {#
+            <a href="#" class="list-group-item">Morbi leo risus</a>
+            <a href="#" class="list-group-item">Porta ac consectetur ac</a>
+            <a href="#" class="list-group-item">Vestibulum at eros</a>
+            #}
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $( "#name" ).editable({
+                onblur: 'ignore',
+                error: function(response, newValue) {
+                    swal({
+                        title: "{% trans from 'titles' %}Error{% endtrans %}",
+                        text: response.responseText,
+                        type: "error",
+                        confirmButtonText: "{% trans from 'labels' %}OK{% endtrans %}"
+                    }); 
+                }
+            });
+            $( "#description" ).editable({
+                emptytext: 'Add a description'
+            });
+            $( "#url" ).editable({
+                onblur: 'ignore',
+                emptytext: 'Add an URL',
+                success: function(response, newValue) {
+                    var gotoApplicationLink = $("#goto-application-link");
+                    if (newValue === "") {
+                        gotoApplicationLink.hide();
+                    } else {
+                        gotoApplicationLink.show();
+                        gotoApplicationLink.attr("href", newValue);
+                    }
+                },
+                error: function(response, newValue) {
+                    swal({
+                        title: "{% trans from 'titles' %}Error{% endtrans %}",
+                        text: response.responseText,
+                        type: "error",
+                        confirmButtonText: "{% trans from 'labels' %}OK{% endtrans %}"
+                    }); 
+                }
+            });
+        });
+    </script>
+{% endblock %}

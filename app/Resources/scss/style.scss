@@ -1,0 +1,157 @@
+@import 'app/Resources/libs/bootstrap/assets/stylesheets/bootstrap';
+@import 'app/Resources/libs/sweetalert/lib/sweet-alert';
+
+$state-mypurple-bg:             #D6ADC2;
+$state-mypurple-text:           #401122;
+$state-mypurple-border:         darken(adjust-hue($state-mypurple-bg, -10), 5%) !default;
+
+$panel-mypurple-text:           $state-mypurple-text !default;
+$panel-mypurple-border:         $state-mypurple-border !default;
+$panel-mypurple-heading-bg:     $state-mypurple-bg !default;
+
+body {
+    color: #293540;
+    font-family: 'Maven Pro', sans-serif;
+    min-height: 2000px;
+    padding-top: 70px;
+}
+
+@font-face {
+    font-family: 'fontello';
+    src: url('../fonts/fontello.eot?65928365');
+    src: url('../fonts/fontello.eot?65928365#iefix') format('embedded-opentype'),
+        url('../fonts/fontello.woff?65928365') format('woff'),
+        url('../fonts/fontello.ttf?65928365') format('truetype'),
+        url('../fonts/fontello.svg?65928365#fontello') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+[class^="fontello-icon-"]:before, [class*=" fontello-icon-"]:before {
+    font-family: "fontello";
+    font-style: normal;
+    font-weight: normal;
+    speak: none;
+    display: inline-block;
+    text-decoration: inherit;
+    width: 1em;
+    margin-right: .2em;
+    text-align: center;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1em;
+    margin-left: .2em;
+}
+
+a {
+    -o-transition:.5s;
+    -ms-transition:.5s;
+    -moz-transition:.5s;
+    -webkit-transition:.5s;
+    transition:.5s;
+}
+
+.navbar-header {
+    .navbar-brand {
+        color: #293540;
+    }
+}
+
+.navbar-item-hover {
+    box-shadow: 0 4px 2px -2px #79BDE0;
+}
+
+.navbar-default {
+    .navbar-nav > li > a {
+        color: #79BDE0;
+    }
+
+    .navbar-nav > .active > a, .navbar-nav > .active > a:focus, .navbar-nav > .active > a:hover {
+        @extend .navbar-item-hover;
+        background-color: #fff;
+        color: #293540;
+    }
+
+    .navbar-nav > li > a:focus, .navbar-nav > li > a:hover {
+        @extend .navbar-item-hover;
+        color: #79BDE0;
+    }
+}
+
+.navbar-default .navbar-text {
+    color: #79BDE0;
+}
+
+.breadcrumb {
+    background-color: #fff;
+}
+
+.breadcrumb > li {
+    display: inline;
+}
+
+.breadcrumb > li + li:before {
+    color: #ccc;
+    content: "";
+    padding: 0 0;
+}
+
+.breadcrumb > .active {
+    font-weight: bold;
+}
+
+.jumbotron {
+    background-color: #fff;
+    margin-bottom: 0;
+
+    h1 {
+        font-family: 'Titillium Web', sans-serif;
+    }
+}
+
+.badge {
+    background-color: #293540;
+}
+
+.vcenter {
+    display: inline-block;
+    vertical-align: middle;
+    float: none;
+}
+
+.test-starting {
+    border-bottom: 1px dashed #ccc;
+}
+
+.step {
+    border-bottom: 1px solid #ccc;
+}
+
+.step-header {
+    border-bottom: 3px solid #ccc;
+}
+
+.step-order {
+    font-size: 25px;
+    text-align: center;
+}
+
+div.row.step > div.step-left > div, div.row.control-step > div {
+    height: 3em;
+    line-height: 3em;
+}
+
+.control-step-order {
+    font-size: 15px;
+    text-align: center;
+}
+
+@include list-group-item-variant(mypurple, $state-mypurple-bg, $state-mypurple-text);
+
+.text-mypurple {
+    color: $state-mypurple-text;
+}
+
+.panel-mypurple {
+    @include panel-variant($panel-mypurple-border, $panel-mypurple-text, $panel-mypurple-heading-bg, $panel-mypurple-border);
+}

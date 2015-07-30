@@ -1,0 +1,15 @@
+{% for controlStep in step.controlSteps %}
+    {% include 'AppMainBundle:test:step/control/item.html.twig' with { 'controlStep': controlStep } %}
+{% endfor %}
+<div class="row control-step" id="control-step-footer-{{ step.id }}">
+    <div class="col-md-12">
+        <a href="#" id="add-control-step-step-{{ step.id }}"
+           data-step-id="{{ step.id }}"
+           data-step-name="{{ step.order }}"
+           data-toggle="tooltip"
+           data-placement="right"
+           title="Add a new verification step">
+            <i class="fontello-icon-plus-circled"></i>
+        </a>
+    </div>
+</div>

@@ -1,0 +1,22 @@
+{% set form = addProjectFormView %}
+<div class="modal fade" id="modal-add-project">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title text-info">
+                    <i class="fontello-icon-cog"></i> Add a <strong>project</strong>
+                </h4>
+            </div>
+            <div class="modal-body">
+                <form id="form-add-project" name="project" method="post" action="#">
+                {{ form_widget(form) }}
+                {{ form_end(form) }}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="save-project">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>

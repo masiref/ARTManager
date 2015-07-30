@@ -1,0 +1,50 @@
+{% set context = 'mypurple' %}
+<div class="col-md-8">
+    <div class="panel panel-{{ context }}" id="panel-tests-{{ application.id }}">
+        <div class="panel-heading">
+            <strong>
+                <i class="fontello-icon-database"></i> Test Plan
+            </strong>
+        </div>
+        <div class="panel-body" id="panel-body-{{ application.id }}">
+            <p>
+                <span id="test-folders-count">
+                    {% if application.testFoldersCount <= 1 %}There is {% else %}There are{% endif %}
+                    {% if application.testFoldersCount == 0 %}no {% else %}<span class="badge">{{ application.testFoldersCount }}</span>{% endif %}
+                    folder{% if application.testFoldersCount > 1 %}s{% endif %}
+                </span>
+                <span class="pull-right">
+                    <a href="#" id="add-test-folder"
+                       data-toggle="tooltip" data-placement="left" title="Add a new folder">
+                        <i class="fontello-icon-plus-circled"></i><i class="fontello-icon-folder"></i>
+                    </a>
+                </span>
+            </p>
+            <p>
+                <span id="tests-count">
+                    {% if application.testsCount <= 1 %}There is {% else %}There are{% endif %}
+                    {% if application.testsCount == 0 %}no {% else %}<span class="badge">{{ application.testsCount }}</span>{% endif %}
+                    test{% if application.testsCount > 1 %}s{% endif %}
+                </span>
+                <span class="pull-right">
+                    <a href="#" id="add-test"
+                       data-test-folder-id=""
+                       data-test-folder-name=""
+                       data-test-folder-description=""
+                       data-toggle="tooltip" data-placement="left" title="Add a new test">
+                        <i class="fontello-icon-plus-circled"></i><i class="fontello-icon-tasks"></i>
+                    </a>
+                </span>
+            </p>
+            <div class="text-center">
+                <div id="tree-tests-{{ application.id }}-loader" class="three-quarters-loader"></div>
+            </div>
+            <div id="tree-tests-{{ application.id }}"></div>
+            <p>
+                <a href="#" id="delete-checked-entities" class="btn btn-danger disabled" data-application-id="{{ application.id }}">
+                    <span class="badge" id="checked-entities-count">0</span> <i class="fontello-icon-trash"></i>
+                </a>
+            </p>
+        </div>
+    </div>
+</div>

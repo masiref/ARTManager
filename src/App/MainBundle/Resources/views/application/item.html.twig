@@ -1,0 +1,14 @@
+<tr id="row-application-{{ application.id }}">
+    <td id="cell-application-{{ application.id }}-delete-anchor">
+        <a href="#" id="delete-application-{{ application.id }}" data-id="{{ application.id }}" 
+           data-name="{{ application.name }}" 
+           data-project-id="{{ project.id }}"
+           data-project-name="{{ project.name }}"
+           data-toggle="tooltip" data-placement="left" title="Delete">
+            <i class="fontello-icon-minus-circled"></i></a>
+    </td>
+    <td id="cell-application-{{ application.id }}-name">
+        <a href="{{ path('app_index_application', { 'id': application.id }) }}">{{ application.name }}</a>
+    </td>
+    <td id="cell-application-{{ application.id }}-description">{{ application.description }}</td>
+</tr>

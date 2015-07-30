@@ -1,0 +1,65 @@
+security:
+    encoders:
+        FOS\UserBundle\Model\UserInterface: sha512
+
+    providers:
+        fos_userbundle:
+            id: fos_user.user_provider.username
+
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt|error)|css|images|js)/
+            security: false
+        admin:
+            pattern:            /admin(.*)
+            context:            user
+            form_login:
+                provider:       fos_userbundle
+                login_path:     /admin/login
+                use_forward:    true
+                check_path:     /admin/login_check
+                failure_path:   null
+            logout:
+                path:           /admin/logout
+            anonymous:          true
+        main:
+            pattern: ^/
+            form_login:
+                provider: fos_userbundle
+                csrf_provider: form.csrf_provider
+            logout:       true
+            anonymous:    true
+        default:
+            anonymous: ~
+
+    access_control:
+        - { path: ^/wdt/, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/profiler/, role: IS_AUTHENTICATED_ANONYMOUSLY }
+
+        # AsseticBundle paths used when using the controller for assets
+        #- { path: ^/js/, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        #- { path: ^/css/, role: IS_AUTHENTICATED_ANONYMOUSLY }
+
+        - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/login_check$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/user/new$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/user/check-confirmation-email$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/user/confirm/, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/user/confirmed$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/user/request-reset-password$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/user/send-resetting-email$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/user/check-resetting-email$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/user/reset-password/, role: IS_AUTHENTICATED_ANONYMOUSLY }
+
+        - { path: ^/admin/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/admin/login_check$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/admin/, role: ROLE_ADMIN }
+        - { path: ^/audit/, role: ROLE_ADMIN }
+        - { path: ^/.*, role: IS_AUTHENTICATED_ANONYMOUSLY }
+
+    role_hierarchy:
+        ROLE_ADMIN:       [ROLE_USER, ROLE_SONATA_ADMIN]
+        ROLE_SUPER_ADMIN: [ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
+
+    acl:
+        connection: default

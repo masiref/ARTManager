@@ -1,0 +1,27 @@
+{% set form = addTestFormView %}
+{% set application = application %}
+<div class="modal fade" id="modal-add-test">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title text-mypurple">
+                    <i class="fontello-icon-tasks"></i> Add a <strong>test</strong> to 
+                    <strong><span id="new-test-test-folder-name"></span></strong>
+                    <small><span id="new-test-test-folder-description"></span></small>
+                </h4>
+            </div>
+            <div class="modal-body">
+                <form id="form-add-test" name="test" method="post" action="#">
+                    {{ form_widget(form) }}
+                    {{ form_end(form) }}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="save-test"
+                        data-test-folder-id=""
+                        data-test-folder-name="">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>

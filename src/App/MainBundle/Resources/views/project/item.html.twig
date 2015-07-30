@@ -1,0 +1,43 @@
+{% set context = 'info' %}
+<div class=" col-md-6">
+    <div class="panel panel-{{ context }}" id="panel-project-{{ project.id }}">
+        <div class="panel-heading">
+            <i class="fontello-icon-cog"></i><strong>{{ project.name }}</strong>
+            - Created on {{ project.createdAt|date('d/m/Y \\a\\t H:i:s') }}
+            <span class="pull-right">
+                <a href="{{ path('app_index_project', { 'id': project.id }) }}"
+                   id="open-project-{{ project.id }}"
+                   data-toggle="tooltip" data-placement="top" title="Open">
+                   <i class="fontello-icon-folder-open"></i></a>
+                <a href="#" id="delete-project-{{ project.id }}" data-id="{{ project.id }}"
+                   data-name="{{ project.name }}"
+                   data-toggle="tooltip" data-placement="right" title="Delete">
+                   <i class="fontello-icon-trash"></i></a>
+            </span>
+        </div>
+        <div class="panel-body" id="panel-body-{{ project.id }}">
+            {% if project.description %}
+                <blockquote>
+                    <p><small>{{ project.description }}</small></p>
+                </blockquote>
+            {% endif %}
+            <p>
+                <span id="application-count-{{ project.id }}">
+                    {% if project.applications|length <= 1 %}There is {% else %}There are{% endif %}
+                    {% if project.applications|length == 0 %}no {% else %}<span class="badge">{{ project.applications|length }}</span>{% endif %}
+                    application{% if project.applications|length > 1 %}s{% endif %} in the project
+                </span>
+                <span class="pull-right">
+                    <a href="#" id="add-application-{{ project.id }}"
+                       data-project-id="{{ project.id }}"
+                       data-project-name="{{ project.name }}"
+                       data-project-description="{{ project.description }}"
+                       data-toggle="tooltip" data-placement="left" title="Add a new application">
+                       <i class="fontello-icon-plus-circled"></i><i class="fontello-icon-leaf"></i>
+                    </a>
+                </span>
+            </p>
+            {% include "AppMainBundle:application:list.html.twig" with { 'project' : project } %}
+        </div>
+    </div>
+</div>

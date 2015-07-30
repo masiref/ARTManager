@@ -1,0 +1,134 @@
+{% extends 'base.html.twig' %}
+
+{% block jumbotronTitle %}
+    <span class="text-danger">
+        <i class="fontello-icon-sitemap"></i><strong>Object Map</strong> Editor
+    </span>
+{% endblock %}
+
+{% block jumbotronBody %}
+    <p class="text-center">
+        <a href="{{ path('app_index_application_object_map', { 'id': objectMap.application.id }) }}">
+            <i class="fontello-icon-left-circled"></i>Return to <strong>{{ objectMap.application.name }}</strong> object maps
+        </a>
+    </p>
+{% endblock %}
+
+{% block breadcrumb_items %}
+    <li>
+        <a href="{{ path('homepage') }}"><i class="fontello-icon-right-open"></i>Home</a>
+    </li>
+    <li>
+        <a href="{{ path('app_index_project', { 'id': objectMap.application.project.id }) }}">
+            <i class="fontello-icon-right-open"></i>{{ objectMap.application.project }}</a>
+    </li>
+    <li>
+        <a href="{{ path('app_index_application', { 'id': objectMap.application.id }) }}">
+            <i class="fontello-icon-right-open"></i>{{ objectMap.application }}</a>
+    </li>
+    <li>
+        <a href="{{ path('app_index_application_object_map', { 'id': objectMap.application.id }) }}">
+            <i class="fontello-icon-right-open"></i>Object maps</a>
+    </li>
+    <li class="active">
+        <i class="fontello-icon-angle-circled-right"></i>{{ objectMap }}
+    </li>
+{% endblock %}
+
+{% block body %}
+    {% include 'AppMainBundle:object-map:editor/tree.html.twig' with { 'objectMap': objectMap } %}
+    {% include 'AppMainBundle:object-map:editor/object-properties.html.twig' %}
+    {% include "AppMainBundle:object-map:page/new.form.html.twig" %}
+    {% include "AppMainBundle:object-map:object/new.form.html.twig" %}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $( "#name" ).editable({
+                error: function(response, newValue) {
+                    swal({
+                        title: "{% trans from 'titles' %}Error{% endtrans %}",
+                        text: response.responseText,
+                        type: "error",
+                        confirmButtonText: "{% trans from 'labels' %}OK{% endtrans %}"
+                    }); 
+                }
+            });
+            $( "#description" ).editable({
+                emptytext: 'Add description'
+            });
+            $( "#object-name" ).editable({
+                error: function(response, newValue) {
+                    swal({
+                        title: "{% trans from 'titles' %}Error{% endtrans %}",
+                        text: response.responseText,
+                        type: "error",
+                        confirmButtonText: "{% trans from 'labels' %}OK{% endtrans %}"
+                    }); 
+                },
+                success: function(response, newValue) {
+                    hideObjectMapPanel({{ objectMap.id }});
+                    switch(response.objectType) {
+                        case "page":
+                            showObjectMapTreeWithSelectedPage(response.pageId);
+                            $('#add-object').data('page-name', newValue);
+                            break;
+                        case "object":
+                            showObjectMapTreeWithSelectedObject(response.objectId);
+                            break;
+                    }
+                }
+            });
+            $( "#object-description" ).editable({
+                emptytext: 'Add description',
+                defaultValue: '',
+                success: function(response, newValue) {
+                    hideObjectMapPanel({{ objectMap.id }});
+                    switch(response.objectType) {
+                        case "page":
+                            showObjectMapTreeWithSelectedPage(response.pageId);
+                            $('#add-object').data('page-description', newValue);
+                            break;
+                        case "object":
+                            showObjectMapTreeWithSelectedObject(response.objectId);
+                            break;
+                    }
+                }
+            });
+            $( "#object-type" ).editable({
+                emptytext: 'Select a type',
+                success: function(response, newValue) {
+                    hideObjectMapPanel({{ objectMap.id }});
+                    showObjectMapTreeWithSelectedObject(response.objectId);
+                    refreshObjectTypeIcon(response.objectTypeIcon);
+                }
+            });
+            $( "#page-type" ).editable({
+                emptytext: 'Select a type',
+                success: function(response, newValue) {
+                    hideObjectMapPanel({{ objectMap.id }});
+                    showObjectMapTreeWithSelectedPage(response.pageId);
+                    refreshObjectTypeIcon(response.pageTypeIcon);
+                    $('#add-object').data('page-name', newValue);
+                }
+            });
+            $( "#object-identifier-type" ).editable({
+                emptytext: 'Select a type'
+            });
+            $( "#object-identifier-value" ).editable({
+                emptytext: 'Enter a value',
+                error: function(response, newValue) {
+                    swal({
+                        title: "{% trans from 'titles' %}Error{% endtrans %}",
+                        text: response.responseText,
+                        type: "error",
+                        confirmButtonText: "{% trans from 'labels' %}OK{% endtrans %}"
+                    }); 
+                }
+            });
+            refreshObjectMap({{ objectMap.id }}, true, true);
+        });
+    </script>
+{% endblock %}

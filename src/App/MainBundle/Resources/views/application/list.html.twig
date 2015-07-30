@@ -1,0 +1,16 @@
+<table id="applications-{{ project.id }}"
+        class="table table-hover table-condensed table-striped table-responsive datatable"
+        {% if project.applications|length == 0 %}style="display: none;"{% endif %}>
+    <thead>
+        <tr>
+            <th>&nbsp;</th>
+            <th>Name</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for application in project.applications %}
+            {% include "AppMainBundle:application:item.html.twig" with { 'application' : application } %}
+        {% endfor %}
+    </tbody>
+</table>

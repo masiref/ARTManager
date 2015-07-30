@@ -1,0 +1,22 @@
+<div class="row control-step" id="control-step-row-{{ controlStep.id }}">
+    <div class="col-md-1">
+        <a href="#"
+           id="delete-control-step-{{ controlStep.id }}"
+               data-id="{{ controlStep.id }}"
+               data-name="{{ controlStep.name }}"
+               data-order="{{ controlStep.order }}"
+               data-step-id="{{ controlStep.parentStep.id }}">
+            <i class="fontello-icon-minus-circled"></i>
+        </a>
+    </div>
+    <div class="col-md-1">
+        <p class="control-step-order">
+            <strong>
+                <span id="control-step-order-{{ controlStep.id }}">{{ controlStep.order }}</span>
+            </strong>
+        </p>
+    </div>
+    <div class="col-md-10">
+        {% include 'AppMainBundle:test:step/control/line.html.twig' with { 'controlStep': controlStep } %}
+    </div>
+</div>

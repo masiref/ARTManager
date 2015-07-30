@@ -1,0 +1,25 @@
+{% set form = addPageFormView %}
+<div class="modal fade" id="modal-add-page">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title text-danger">
+                    <i class="fontello-icon-th-large"></i> Add a page to 
+                    <strong><span id="new-page-object-map-name"></span></strong>
+                    <small><span id="new-page-object-map-description"></span></small>
+                </h4>
+            </div>
+            <div class="modal-body">
+                <form id="form-add-page" name="page" method="post" action="#">
+                    {{ form_widget(form) }}
+                    {{ form_end(form) }}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="save-page"
+                        data-object-map-id="{{ objectMap.id }}">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>

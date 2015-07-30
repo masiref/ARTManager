@@ -1,0 +1,119 @@
+imports:
+    - { resource: ../../vendor/knplabs/doctrine-behaviors/config/orm-services.yml }
+    - { resource: parameters.yml }
+    - { resource: security.yml }
+    - { resource: services.yml }
+    - { resource: @AppMainBundle/Resources/config/admin.yml }
+    - { resource: @AppMainBundle/Resources/config/services.yml }
+framework:
+    secret: "%secret%"
+    router:
+        resource: "%kernel.root_dir%/config/routing.yml"
+        strict_requirements: null
+    form: null
+    csrf_protection: null
+    validation:
+        enable_annotations: true
+    templating:
+        engines:
+            - twig
+    default_locale: "%locale%"
+    translator:      { fallback: %locale% }
+    trusted_hosts: null
+    trusted_proxies: null
+    session:
+        handler_id: null
+    fragments: null
+    http_method_override: true
+twig:
+    debug: "%kernel.debug%"
+    strict_variables: "%kernel.debug%"
+    form:
+        resources: ['bootstrap_3_layout.html.twig']
+doctrine:
+    dbal:
+        driver: "%database_driver%"
+        host: "%database_host%"
+        port: "%database_port%"
+        dbname: "%database_name%"
+        user: "%database_user%"
+        password: "%database_password%"
+        charset: UTF8
+        types:
+            json: Sonata\Doctrine\Types\JsonType
+    orm:
+        entity_managers:
+            default:
+                mappings:
+                    gedmo_tree:
+                        type: annotation
+                        prefix: Gedmo\Tree\Entity
+                        dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Tree/Entity"
+                        alias: GedmoTree
+                        is_bundle: false
+                auto_mapping: true
+        auto_generate_proxy_classes: "%kernel.debug%"
+swiftmailer:
+    transport: "%mailer_transport%"
+    host: "%mailer_host%"
+    username: "%mailer_user%"
+    password: "%mailer_password%"
+    spool:
+        type: memory
+fos_user:
+    db_driver: orm
+    firewall_name: main
+    #user_class: App\UserBundle\Entity\User
+    user_class:     Application\Sonata\UserBundle\Entity\User
+    group:
+        group_class:   Application\Sonata\UserBundle\Entity\Group
+        group_manager: sonata.user.orm.group_manager
+    service:
+        user_manager: sonata.user.orm.user_manager
+sonata_block:
+    default_contexts: [cms]
+    blocks:
+        sonata.admin.block.admin_list:
+            contexts:   [admin]
+        sonata.user.block.menu:
+        sonata.user.block.account:
+        sonata.block.service.text:
+sonata_admin:
+    title:      ART Manager Backend
+    #title_logo: bundles/acmedemo/img/fancy_acme_logo.png
+    security:
+        handler: sonata.admin.security.handler.acl
+        information:
+            GUEST:    [VIEW, LIST]
+            STAFF:    [EDIT, LIST, CREATE]
+            EDITOR:   [OPERATOR, EXPORT]
+            ADMIN:    [MASTER]
+        admin_permissions: [CREATE, LIST, DELETE, UNDELETE, EXPORT, OPERATOR, MASTER]
+        object_permissions: [VIEW, EDIT, DELETE, UNDELETE, OPERATOR, MASTER, OWNER]
+sonata_user:
+    security_acl: true
+    manager_type: orm
+sonata_media:
+    default_context: default
+    db_driver: doctrine_orm
+    contexts:
+        default:
+            providers:
+                - sonata.media.provider.dailymotion
+                - sonata.media.provider.youtube
+                - sonata.media.provider.image
+                - sonata.media.provider.file
+            formats:
+                small: { width: 100 , quality: 70}
+                big:   { width: 500 , quality: 70}
+    cdn:
+        server:
+            path: /uploads/media
+    filesystem:
+        local:
+            directory:  %kernel.root_dir%/../web/uploads/media
+            create:     false
+stof_doctrine_extensions:
+    orm:
+        default:
+            tree: true
