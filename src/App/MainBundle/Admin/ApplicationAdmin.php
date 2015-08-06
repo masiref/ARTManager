@@ -11,20 +11,22 @@ class ApplicationAdmin extends Admin {
 
     protected function configureFormFields(FormMapper $formMapper) {
         $formMapper
-                ->add('name', 'text', array('label' => 'Name'))
+                ->add('name', 'text', array(
+                    'label' => 'Name'
+                ))
                 ->add('description', 'text', array(
                     'label' => 'Description',
-                    'required' => false))
+                    'required' => false
+                ))
                 ->add('url', 'url', array(
                     'label' => 'URL',
-                    'required' => false))
+                    'required' => false
+                ))
                 ->add('objectMaps', 'sonata_type_collection', array(
                     'by_reference' => false,
                     'type_options' => array(
-                        // Prevents the "Delete" option from being displayed
                         'delete' => true
-                    )
-                        ), array(
+                    )), array(
                     'edit' => 'inline',
                     'inline' => 'table',
                     'sortable' => 'position',
@@ -41,8 +43,7 @@ class ApplicationAdmin extends Admin {
                 ->add('name')
                 ->add('description')
                 ->add('url')
-                ->add('project')
-        ;
+                ->add('project');
     }
 
     protected function configureListFields(ListMapper $listMapper) {
@@ -50,8 +51,7 @@ class ApplicationAdmin extends Admin {
                 ->addIdentifier('name')
                 ->add('description')
                 ->add('url')
-                ->add('project')
-        ;
+                ->add('project');
     }
 
 }

@@ -11,7 +11,9 @@ class ProjectAdmin extends Admin {
 
     protected function configureFormFields(FormMapper $formMapper) {
         $formMapper
-                ->add('name', 'text', array('label' => 'Name'))
+                ->add('name', 'text', array(
+                    'label' => 'Name'
+                ))
                 ->add('description', 'textarea', array(
                     'label' => 'Description',
                     'required' => false
@@ -19,29 +21,24 @@ class ProjectAdmin extends Admin {
                 ->add('applications', 'sonata_type_collection', array(
                     'by_reference' => false,
                     'type_options' => array(
-                        // Prevents the "Delete" option from being displayed
                         'delete' => true
-                    )
-                        ), array(
+                    )), array(
                     'edit' => 'inline',
                     'inline' => 'table',
                     'sortable' => 'position',
-                ))
-        ;
+        ));
     }
 
     protected function configureDatagridFilters(DatagridMapper $datagridMapper) {
         $datagridMapper
                 ->add('name')
-                ->add('description')
-        ;
+                ->add('description');
     }
 
     protected function configureListFields(ListMapper $listMapper) {
         $listMapper
                 ->addIdentifier('name')
-                ->add('description')
-        ;
+                ->add('description');
     }
 
 }

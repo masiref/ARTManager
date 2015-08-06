@@ -10,13 +10,17 @@ use Sonata\AdminBundle\Form\FormMapper;
 class ParameterAdmin extends Admin {
 
     protected function configureFormFields(FormMapper $formMapper) {
-        $subject = $this->getSubject();
         $formMapper
-                ->add('name', 'text', array('label' => 'Name'))
+                ->add('name', 'text', array(
+                    'label' => 'Name'
+                ))
                 ->add('description', 'text', array(
                     'label' => 'Description',
-                    'required' => false))
-                ->add('order', 'number', array('label' => 'Order'))
+                    'required' => false
+                ))
+                ->add('order', 'number', array(
+                    'label' => 'Order'
+                ))
                 ->add('mandatory', 'checkbox');
         if (!$this->hasParentFieldDescription()) {
             $formMapper->add('parameterSet', 'sonata_type_model', array(
@@ -30,8 +34,7 @@ class ParameterAdmin extends Admin {
                 ->add('name')
                 ->add('description')
                 ->add('order')
-                ->add('mandatory')
-        ;
+                ->add('mandatory');
     }
 
     protected function configureListFields(ListMapper $listMapper) {
@@ -39,8 +42,7 @@ class ParameterAdmin extends Admin {
                 ->addIdentifier('name')
                 ->add('description')
                 ->add('order')
-                ->add('mandatory')
-        ;
+                ->add('mandatory');
     }
 
 }

@@ -7,7 +7,6 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use JsonSerializable;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
@@ -47,16 +46,7 @@ class Step implements JsonSerializable {
     protected $id;
 
     /**
-     * @ORM\Column(type="string")
-     * @Assert\NotBlank(
-     *      message = "Name cannot be empty."
-     * )
-     * @Assert\Length(
-     *      min = "3",
-     *      max = "50",
-     *      minMessage = "Name is too short. It should have {{ limit }} characters or more.",
-     *      maxMessage = "Name is too long. It should have {{ limit }} characters or less."
-     * )
+     * @ORM\Column(type="string", nullable=true)
      */
     protected $name;
 
@@ -98,9 +88,15 @@ class Step implements JsonSerializable {
      */
     protected $parentStep;      // ControlStep must be linked to one ExecuteStep
 
+    /**
+     * @ORM\OneToMany(targetEntity="ParameterData", mappedBy="step", cascade={"all"}, orphanRemoval=true)
+     */
+    protected $parameterDatas;
+
     public function __construct() {
         $this->createdAt = new DateTime();
         $this->controlSteps = new ArrayCollection();
+        $this->parameterDatas = new ArrayCollection();
     }
 
     public function __toString() {
@@ -119,6 +115,10 @@ class Step implements JsonSerializable {
             'status' => $this->status,
             'createdAt' => $this->createdAt->format('d/m/Y H:i:s')
         );
+    }
+
+    public function clearParameterDatas() {
+        $this->parameterDatas->clear();
     }
 
     /**
@@ -307,6 +307,37 @@ class Step implements JsonSerializable {
      */
     public function getParentStep() {
         return $this->parentStep;
+    }
+
+    /**
+     * Add parameterDatas
+     *
+     * @param \App\MainBundle\Entity\ParameterData $parameterDatas
+     * @return Step
+     */
+    public function addParameterData(\App\MainBundle\Entity\ParameterData $parameterDatas) {
+        $parameterDatas->setStep($this);
+        $this->parameterDatas[] = $parameterDatas;
+
+        return $this;
+    }
+
+    /**
+     * Remove parameterDatas
+     *
+     * @param \App\MainBundle\Entity\ParameterData $parameterDatas
+     */
+    public function removeParameterData(\App\MainBundle\Entity\ParameterData $parameterDatas) {
+        $this->parameterDatas->removeElement($parameterDatas);
+    }
+
+    /**
+     * Get parameterDatas
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getParameterDatas() {
+        return $this->parameterDatas;
     }
 
 }

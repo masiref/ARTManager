@@ -8,7 +8,6 @@ use App\MainBundle\Entity\Step;
 use App\MainBundle\Entity\Test;
 use App\MainBundle\Form\Type\ControlStepType;
 use App\MainBundle\Form\Type\ExecuteStepType;
-use Doctrine\DBAL\DBALException;
 use Doctrine\ORM\EntityRepository;
 use JMS\SecurityExtraBundle\Annotation\Secure;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -20,7 +19,10 @@ use Symfony\Component\HttpFoundation\Response;
 class TestEditorController extends Controller {
 
     /**
-     * @Route("/application/test/{id}/editor", name="app_index_application_test_editor", options={"expose" = true })
+     * @Route("/application/test/{id}/editor",
+     *      name="app_index_application_test_editor",
+     *      options={"expose" = true }
+     * )
      * @Secure(roles="ROLE_USER")
      * @ParamConverter("test", class="AppMainBundle:Test")
      */
@@ -28,7 +30,7 @@ class TestEditorController extends Controller {
         $em = $this->getDoctrine()->getManager();
         $executeStep = new ExecuteStep();
         $executeStep->setTest($test);
-        $addExecuteStepFormView = $this->createForm(new ExecuteStepType($test->getActivePage()), $executeStep, array(
+        $addExecuteStepFormView = $this->createForm(new ExecuteStepType($test, $em), $executeStep, array(
                     'method' => 'POST'
                 ))->createView();
         $addControlStepFormView = $this->createForm(new ControlStepType(), new ControlStep(), array(
@@ -61,10 +63,40 @@ class TestEditorController extends Controller {
     }
 
     /**
+     * @Route("/application/test/{id}/check/step",
+     *      name="app_check_application_test_execute_step_ajax",
+     *      requirements={"_method" = "post"},
+     *      options={"expose" = true }
+     * )
+     * @Secure(roles="ROLE_SUPER_ADMIN")
+     * @ParamConverter("test", class="AppMainBundle:Test")
+     */
+    public function checkExecuteStepAction($test, Request $request) {
+        $ajaxResponse = array();
+        $em = $this->getDoctrine()->getManager();
+        if ($request->getMethod() == 'POST' && $request->isXmlHttpRequest()) {
+            if ($test !== null) {
+                $form = $this->createForm(new ExecuteStepType($test, $em), new ExecuteStep());
+                $form->handleRequest($request);
+                if (!$form->isValid()) {
+                    $ajaxResponse['form'] = $this->render('AppMainBundle:test:step/execute/form_content.html.twig', array(
+                                'form' => $form->createView()
+                            ))->getContent();
+                }
+            } else {
+                $ajaxResponse['error'] = "This test does not exist.";
+            }
+        }
+        $response = new Response(json_encode($ajaxResponse));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
+    }
+
+    /**
      * @Route("/application/test/{id}/add/step",
-     *          name="app_add_application_test_execute_step_ajax",
-     *          requirements={"_method" = "post"},
-     *          options={"expose" = true }
+     *      name="app_add_application_test_execute_step_ajax",
+     *      requirements={"_method" = "post"},
+     *      options={"expose" = true }
      * )
      * @Secure(roles="ROLE_SUPER_ADMIN")
      * @ParamConverter("test", class="AppMainBundle:Test")
@@ -74,27 +106,21 @@ class TestEditorController extends Controller {
         $em = $this->getDoctrine()->getManager();
         if ($request->getMethod() == 'POST' && $request->isXmlHttpRequest()) {
             if ($test !== null) {
-                $form = $this->createForm(new ExecuteStepType(), new ExecuteStep());
+                $form = $this->createForm(new ExecuteStepType($test, $em), new ExecuteStep());
                 $form->handleRequest($request);
                 if ($form->isValid()) {
-                    try {
-                        $step = $form->getData();
-                        $test->addStep($step);
-                        $em->persist($test);
-                        $em->flush();
-                        $ajaxResponse['id'] = $step->getId();
-                        $ajaxResponse['row'] = $this->render('AppMainBundle:test:step/execute/item.html.twig', array(
-                                    'step' => $step
-                                ))->getContent();
-                    } catch (DBALException $e) {
-                        if ($test->getName() == null || $test->getName() == "") {
-                            $ajaxResponse['error'] = "ERROR: Name cannot be empty.";
-                        } else {
-                            $ajaxResponse['error'] = "ERROR: Name already used.";
-                        }
-                    }
+                    $step = $form->getData();
+                    $test->addStep($step);
+                    $em->persist($test);
+                    $em->flush();
+                    $ajaxResponse['id'] = $step->getId();
+                    $ajaxResponse['row'] = $this->render('AppMainBundle:test:step/execute/item.html.twig', array(
+                                'step' => $step
+                            ))->getContent();
                 } else {
-                    $ajaxResponse['error'] = (string) $form->getErrors(true);
+                    $ajaxResponse['form'] = $this->render('AppMainBundle:test:step/execute/form_content.html.twig', array(
+                                'form' => $form->createView()
+                            ))->getContent();
                 }
             } else {
                 $ajaxResponse['error'] = "This test does not exist.";
@@ -107,9 +133,9 @@ class TestEditorController extends Controller {
 
     /**
      * @Route("/application/test/step/{id}/add/control",
-     *          name="app_add_application_test_step_control_step_ajax",
-     *          requirements={"_method" = "post"},
-     *          options={"expose" = true }
+     *      name="app_add_application_test_step_control_step_ajax",
+     *      requirements={"_method" = "post"},
+     *      options={"expose" = true }
      * )
      * @Secure(roles="ROLE_SUPER_ADMIN")
      * @ParamConverter("step", class="AppMainBundle:Step")
@@ -122,7 +148,6 @@ class TestEditorController extends Controller {
                 $form = $this->createForm(new ControlStepType(), new ControlStep());
                 $form->handleRequest($request);
                 if ($form->isValid()) {
-                    //try {
                     $controlStep = $form->getData();
                     $step->addControlStep($controlStep);
                     $em->persist($step);
@@ -131,13 +156,6 @@ class TestEditorController extends Controller {
                     $ajaxResponse['row'] = $this->render('AppMainBundle:test:step/control/item.html.twig', array(
                                 'controlStep' => $controlStep
                             ))->getContent();
-                    /* } catch (DBALException $e) {
-                      if ($step->getName() == null || $step->getName() == "") {
-                      $ajaxResponse['error'] = "ERROR: Name cannot be empty.";
-                      } else {
-                      $ajaxResponse['error'] = "ERROR: Name already used.";
-                      }
-                      } */
                 } else {
                     $ajaxResponse['error'] = (string) $form->getErrors(true);
                 }
@@ -151,7 +169,11 @@ class TestEditorController extends Controller {
     }
 
     /**
-     * @Route("/application/test/step/{id}/delete", name="app_delete_application_test_execute_step_ajax", requirements={"_method" = "post"}, options={"expose" = true })
+     * @Route("/application/test/step/{id}/delete",
+     *      name="app_delete_application_test_execute_step_ajax",
+     *      requirements={"_method" = "post"},
+     *      options={"expose" = true }
+     * )
      * @Secure(roles="ROLE_SUPER_ADMIN")
      * @ParamConverter("step", class="AppMainBundle:Step")
      */
@@ -187,13 +209,16 @@ class TestEditorController extends Controller {
     }
 
     /**
-     * @Route("/application/test/{id}/step/orders", name="app_get_application_test_execute_step_orders_ajax", requirements={"_method" = "post"}, options={"expose" = true })
+     * @Route("/application/test/{id}/step/orders",
+     *      name="app_get_application_test_execute_step_orders_ajax",
+     *      requirements={"_method" = "post"},
+     *      options={"expose" = true }
+     * )
      * @Secure(roles="ROLE_SUPER_ADMIN")
      * @ParamConverter("test", class="AppMainBundle:Test")
      */
     public function getExecuteStepsOrders(Test $test, Request $request) {
         $ajaxResponse = array();
-        $em = $this->getDoctrine()->getManager();
         if ($request->getMethod() == 'POST' && $request->isXmlHttpRequest()) {
             if ($test !== null) {
                 $steps = $test->getSteps();
@@ -208,7 +233,11 @@ class TestEditorController extends Controller {
     }
 
     /**
-     * @Route("/application/test/step/control/step/{id}/delete", name="app_delete_application_test_step_control_step_ajax", requirements={"_method" = "post"}, options={"expose" = true })
+     * @Route("/application/test/step/control/step/{id}/delete",
+     *      name="app_delete_application_test_step_control_step_ajax",
+     *      requirements={"_method" = "post"},
+     *      options={"expose" = true }
+     * )
      * @Secure(roles="ROLE_SUPER_ADMIN")
      * @ParamConverter("step", class="AppMainBundle:Step")
      */
@@ -239,13 +268,16 @@ class TestEditorController extends Controller {
     }
 
     /**
-     * @Route("/application/test/step/{id}/control/step/orders", name="app_get_application_test_step_control_step_orders_ajax", requirements={"_method" = "post"}, options={"expose" = true })
+     * @Route("/application/test/step/{id}/control/step/orders",
+     *      name="app_get_application_test_step_control_step_orders_ajax",
+     *      requirements={"_method" = "post"},
+     *      options={"expose" = true }
+     * )
      * @Secure(roles="ROLE_SUPER_ADMIN")
      * @ParamConverter("step", class="AppMainBundle:Step")
      */
     public function getControlStepsOrders(Step $step, Request $request) {
         $ajaxResponse = array();
-        $em = $this->getDoctrine()->getManager();
         if ($request->getMethod() == 'POST' && $request->isXmlHttpRequest()) {
             if ($step !== null) {
                 $controlSteps = $step->getControlSteps();
@@ -260,7 +292,10 @@ class TestEditorController extends Controller {
     }
 
     /**
-     * @Route("/application/test/step/actions", name="app_get_application_test_step_actions_ajax", options={"expose" = true })
+     * @Route("/application/test/step/actions",
+     *      name="app_get_application_test_step_actions_ajax",
+     *      options={"expose" = true }
+     * )
      * @Secure(roles="ROLE_SUPER_ADMIN")
      */
     public function getActions(Request $request) {
@@ -275,7 +310,11 @@ class TestEditorController extends Controller {
     }
 
     /**
-     * @Route("/application/test/{id}/update/starting/page", name="app_application_test_update_starting_page_ajax", options={"expose" = true })
+     * @Route("/application/test/{id}/update/starting/page",
+     *      name="app_application_test_update_starting_page_ajax",
+     *      requirements={"_method" = "post"},
+     *      options={"expose" = true }
+     * )
      * @Secure(roles="ROLE_SUPER_ADMIN")
      * @ParamConverter("test", class="AppMainBundle:Test")
      */
@@ -292,17 +331,90 @@ class TestEditorController extends Controller {
                     $em->flush();
                     $executeStep = new ExecuteStep();
                     $executeStep->setTest($test);
-                    $addExecuteStepFormView = $this->createForm(new ExecuteStepType($test->getActivePage()), $executeStep, array(
+                    $addExecuteStepFormView = $this->createForm(new ExecuteStepType($test, $em), $executeStep, array(
                                 'method' => 'POST'
                             ))->createView();
-                    $ajaxResponse['addExecuteStepForm'] = $this->render('AppMainBundle:test:step/execute/new.form.html.twig', array(
-                                'addExecuteStepFormView' => $addExecuteStepFormView
+                    $ajaxResponse['addExecuteStepForm'] = $this->render('AppMainBundle:test:step/execute/form.html.twig', array(
+                                'form' => $addExecuteStepFormView
                             ))->getContent();
                 } else {
                     $ajaxResponse['error'] = "This page does not exist.";
                 }
             } else {
                 $ajaxResponse['error'] = "This test does not exist.";
+            }
+        }
+        $response = new Response(json_encode($ajaxResponse));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
+    }
+
+    /**
+     * @Route("/application/test/{testId}/step/{id}/form",
+     *      name="app_get_application_test_step_form_ajax",
+     *      requirements={"_method" = "post"},
+     *      options={"expose" = true },
+     *      defaults={"id" = -1}
+     * )
+     * @Secure(roles="ROLE_SUPER_ADMIN")
+     * @ParamConverter("test", class="AppMainBundle:Test", options={"id" = "testId"})
+     */
+    public function getExecuteStepFormAction($id, Test $test, Request $request) {
+        $ajaxResponse = array();
+        $em = $this->getDoctrine()->getManager();
+        if ($request->getMethod() == 'POST' && $request->isXmlHttpRequest()) {
+            if ($id != -1) {
+                $executeStep = $em->getRepository("AppMainBundle:ExecuteStep")->find($id);
+                $executeStepFormView = $this->createForm(new ExecuteStepType($test, $em), $executeStep, array(
+                            'method' => 'POST'
+                        ))->createView();
+                $modalTitleView = $this->render('AppMainBundle:test:step/execute/edit.modal-title.html.twig', array(
+                    'step' => $executeStep
+                ));
+            } else {
+                $executeStepFormView = $this->createForm(new ExecuteStepType($test, $em), new ExecuteStep(), array(
+                            'method' => 'POST'
+                        ))->createView();
+                $modalTitleView = $this->render('AppMainBundle:test:step/execute/add.modal-title.html.twig', array(
+                    'test' => $test
+                ));
+            }
+            $ajaxResponse['form'] = $this->render('AppMainBundle:test:step/execute/form_content.html.twig', array(
+                        'form' => $executeStepFormView
+                    ))->getContent();
+            $ajaxResponse['modalTitle'] = $modalTitleView->getContent();
+        }
+        $response = new Response(json_encode($ajaxResponse));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
+    }
+
+    /**
+     * @Route("/application/test/update/step/{id}",
+     *      name="app_update_application_test_execute_step_ajax",
+     *      requirements={"_method" = "post"},
+     *      options={"expose" = true }
+     * )
+     * @Secure(roles="ROLE_SUPER_ADMIN")
+     * @ParamConverter("step", class="AppMainBundle:ExecuteStep")
+     */
+    public function updateExecuteStepAction($step, Request $request) {
+        $ajaxResponse = array();
+        $em = $this->getDoctrine()->getManager();
+        if ($request->getMethod() == 'POST' && $request->isXmlHttpRequest()) {
+            $test = $step->getTest();
+            $form = $this->createForm(new ExecuteStepType($test, $em), $step);
+            $form->handleRequest($request);
+            if ($form->isValid()) {
+                $em->flush();
+                $ajaxResponse['id'] = $step->getId();
+                $ajaxResponse['row'] = $this->render('AppMainBundle:test:step/execute/item.html.twig', array(
+                            'step' => $step
+                        ))->getContent();
+            } else {
+                $ajaxResponse['form'] = $this->render('AppMainBundle:test:step/execute/form_content.html.twig', array(
+                            'form' => $form->createView()
+                        ))->getContent();
             }
         }
         $response = new Response(json_encode($ajaxResponse));

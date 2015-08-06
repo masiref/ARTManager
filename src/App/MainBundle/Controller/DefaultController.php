@@ -40,7 +40,11 @@ class DefaultController extends Controller {
     }
 
     /**
-     * @Route("/project/add", name="app_add_project_ajax", requirements={"_method" = "post"}, options={"expose" = true })
+     * @Route("/project/add",
+     *      name="app_add_project_ajax",
+     *      requirements={"_method" = "post"},
+     *      options={"expose" = true }
+     * )
      * @Secure(roles="ROLE_SUPER_ADMIN")
      */
     public function addProjectAction(Request $request) {
@@ -72,7 +76,11 @@ class DefaultController extends Controller {
     }
 
     /**
-     * @Route("/project/{id}/delete", name="app_delete_project_ajax", requirements={"_method" = "post"}, options={"expose" = true })
+     * @Route("/project/{id}/delete",
+     *      name="app_delete_project_ajax",
+     *      requirements={"_method" = "post"},
+     *      options={"expose" = true }
+     * )
      * @Secure(roles="ROLE_SUPER_ADMIN")
      * @ParamConverter("project", class="AppMainBundle:Project")
      */
@@ -93,7 +101,11 @@ class DefaultController extends Controller {
     }
 
     /**
-     * @Route("/project/{id}/application/add", name="app_add_application_ajax", requirements={"_method" = "post"}, options={"expose" = true })
+     * @Route("/project/{id}/application/add",
+     *      name="app_add_application_ajax",
+     *      requirements={"_method" = "post"},
+     *      options={"expose" = true }
+     * )
      * @Secure(roles="ROLE_SUPER_ADMIN")
      * @ParamConverter("project", class="AppMainBundle:Project")
      */
@@ -106,8 +118,8 @@ class DefaultController extends Controller {
                 $form = $this->createForm(new ApplicationType(), new Application());
                 $form->handleRequest($request);
                 if ($form->isValid()) {
+                    $application = $form->getData();
                     try {
-                        $application = $form->getData();
                         $application->setProject($project);
                         $em->persist($application);
                         $em->flush();
@@ -119,6 +131,7 @@ class DefaultController extends Controller {
                                     'application' => $application
                                 ))->getContent();
                     } catch (\Doctrine\DBAL\DBALException $e) {
+                        $e->getCode();
                         if ($application->getName() == null || $application->getName() == "") {
                             $ajaxResponse['error'] = "ERROR: Name cannot be empty.";
                         } else {
@@ -138,7 +151,11 @@ class DefaultController extends Controller {
     }
 
     /**
-     * @Route("/project/{id}/application/delete", name="app_delete_application_ajax", requirements={"_method" = "post"}, options={"expose" = true })
+     * @Route("/project/{id}/application/delete",
+     *      name="app_delete_application_ajax",
+     *      requirements={"_method" = "post"},
+     *      options={"expose" = true }
+     * )
      * @Secure(roles="ROLE_SUPER_ADMIN")
      * @ParamConverter("application", class="AppMainBundle:Application")
      */

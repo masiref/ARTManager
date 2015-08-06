@@ -31,7 +31,11 @@ class ProjectController extends Controller {
     }
 
     /**
-     * @Route("/project/{id}/update/name", name="app_project_update_name_ajax", requirements={"_method" = "post"}, options={"expose" = true })
+     * @Route("/project/{id}/update/name",
+     *      name="app_project_update_name_ajax",
+     *      requirements={"_method" = "post"},
+     *      options={"expose" = true }
+     * )
      * @Secure(roles="ROLE_SUPER_ADMIN")
      */
     public function updateNameAction(Request $request) {
@@ -65,7 +69,11 @@ class ProjectController extends Controller {
     }
 
     /**
-     * @Route("/project/{id}/update/description", name="app_project_update_description_ajax", requirements={"_method" = "post"}, options={"expose" = true })
+     * @Route("/project/{id}/update/description",
+     *      name="app_project_update_description_ajax",
+     *      requirements={"_method" = "post"},
+     *      options={"expose" = true }
+     * )
      * @Secure(roles="ROLE_SUPER_ADMIN")
      */
     public function updateDescriptionAction(Request $request) {

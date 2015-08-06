@@ -24,7 +24,11 @@ class ApplicationController extends Controller {
     }
 
     /**
-     * @Route("/application/{id}/update/name", name="app_application_update_name_ajax", requirements={"_method" = "post"}, options={"expose" = true })
+     * @Route("/application/{id}/update/name",
+     *      name="app_application_update_name_ajax",
+     *      requirements={"_method" = "post"},
+     *      options={"expose" = true }
+     * )
      * @Secure(roles="ROLE_SUPER_ADMIN")
      */
     public function updateNameAction(Request $request) {
@@ -58,7 +62,11 @@ class ApplicationController extends Controller {
     }
 
     /**
-     * @Route("/application/{id}/update/description", name="app_application_update_description_ajax", requirements={"_method" = "post"}, options={"expose" = true })
+     * @Route("/application/{id}/update/description",
+     *      name="app_application_update_description_ajax",
+     *      requirements={"_method" = "post"},
+     *      options={"expose" = true }
+     * )
      * @Secure(roles="ROLE_SUPER_ADMIN")
      */
     public function updateDescriptionAction(Request $request) {
@@ -92,7 +100,11 @@ class ApplicationController extends Controller {
     }
 
     /**
-     * @Route("/application/{id}/update/url", name="app_application_update_url_ajax", requirements={"_method" = "post"}, options={"expose" = true })
+     * @Route("/application/{id}/update/url",
+     *      name="app_application_update_url_ajax",
+     *      requirements={"_method" = "post"},
+     *      options={"expose" = true }
+     * )
      * @Secure(roles="ROLE_SUPER_ADMIN")
      */
     public function updateUrlAction(Request $request) {

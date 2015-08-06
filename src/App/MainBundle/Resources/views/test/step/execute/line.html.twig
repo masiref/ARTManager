@@ -1,1 +1,27 @@
-<p class="control-step-content">{{ step.name }}</p>
+<div class="col-md-1">
+    <a href="#"
+       id="delete-execute-step-{{ step.id }}"
+       data-id="{{ step.id }}"
+       data-name="{{ step.name }}"
+       data-order="{{ step.order }}"
+       data-test-id="{{ step.test.id }}"
+       data-toggle="tooltip" data-placement="bottom" title="Delete">
+        <i class="fontello-icon-minus-circled"></i>
+    </a>
+</div>
+<div class="col-md-1">
+    <p class="step-order"><strong><span id="step-order-{{ step.id }}">{{ step.order }}</span></strong></p>
+</div>
+<div class="col-md-9">
+    <p class="control-step-content">{{ step }}</p>
+</div>
+<div class="col-md-1">
+    <a href="#"
+       id="edit-execute-step-{{ step.id }}"
+       data-id="{{ step.id }}"
+       data-test-id="{{ step.test.id }}"
+       data-toggle="tooltip" data-placement="bottom" title="Edit">
+        <i class="fontello-icon-edit"></i>
+    </a>
+</div>
+               

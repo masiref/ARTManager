@@ -42,16 +42,6 @@ services:
             - ~
         calls:
             - [ setTranslationDomain, [AppMainBundle] ]
-    sonata.admin.page_type:
-        class: App\MainBundle\Admin\PageTypeAdmin
-        tags:
-            - { name: sonata.admin, manager_type: orm, group: "Objects", label: "Page Type" }
-        arguments:
-            - ~
-            - App\MainBundle\Entity\PageType
-            - ~
-        calls:
-            - [ setTranslationDomain, [AppMainBundle] ]
     sonata.admin.object:
         class: App\MainBundle\Admin\ObjectAdmin
         tags:
@@ -107,6 +97,16 @@ services:
             - [ setSubClasses, [{ "Execute Step": "App\MainBundle\Entity\ExecuteStep", "Control Step": "App\MainBundle\Entity\ControlStep" }] ]
             
     # settings services
+    sonata.admin.page_type:
+        class: App\MainBundle\Admin\PageTypeAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Settings", label: "Page Type" }
+        arguments:
+            - ~
+            - App\MainBundle\Entity\PageType
+            - ~
+        calls:
+            - [ setTranslationDomain, [AppMainBundle] ]
     sonata.admin.object_type:
         class: App\MainBundle\Admin\ObjectTypeAdmin
         tags:
@@ -134,6 +134,16 @@ services:
         arguments:
             - ~
             - App\MainBundle\Entity\Action
+            - ~
+        calls:
+            - [ setTranslationDomain, [AppMainBundle] ]
+    sonata.admin.action_type:
+        class: App\MainBundle\Admin\ActionTypeAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Settings", label: "Action Type" }
+        arguments:
+            - ~
+            - App\MainBundle\Entity\ActionType
             - ~
         calls:
             - [ setTranslationDomain, [AppMainBundle] ]

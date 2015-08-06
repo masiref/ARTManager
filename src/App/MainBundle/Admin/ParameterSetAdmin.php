@@ -11,24 +11,27 @@ class ParameterSetAdmin extends Admin {
 
     protected function configureFormFields(FormMapper $formMapper) {
         $formMapper
-                ->add('name', 'text', array('label' => 'Name'))
+                ->add('name', 'text', array(
+                    'label' => 'Name'
+                ))
                 ->add('description', 'text', array(
                     'label' => 'Description',
-                    'required' => false));
+                    'required' => false
+        ));
         if (!$this->hasParentFieldDescription()) {
             $formMapper->add('action', 'sonata_type_model', array(
-                'btn_add' => false
-            ));
-            $formMapper->add('objectType', 'sonata_type_model', array(
-                'btn_add' => false
-            ));
-            $formMapper
+                        'btn_add' => false
+                    ))
+                    ->add('objectType', 'sonata_type_model', array(
+                        'btn_add' => false
+                    ))
                     ->add('parameters', 'sonata_type_collection', array(
                         'label' => 'Parameters',
                         'required' => false,
                         'by_reference' => false,
-                        'type_options' => array('delete' => true)
-                            ), array(
+                        'type_options' => array(
+                            'delete' => true
+                        )), array(
                         'edit' => 'inline',
                         'inline' => 'table',
                         'sortable' => 'position',
@@ -41,8 +44,7 @@ class ParameterSetAdmin extends Admin {
                 ->add('name')
                 ->add('description')
                 ->add('action')
-                ->add('objectType')
-        ;
+                ->add('objectType');
     }
 
     protected function configureListFields(ListMapper $listMapper) {
@@ -50,8 +52,7 @@ class ParameterSetAdmin extends Admin {
                 ->addIdentifier('name')
                 ->add('description')
                 ->add('action')
-                ->add('objectType')
-        ;
+                ->add('objectType');
     }
 
 }

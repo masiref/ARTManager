@@ -20,6 +20,8 @@ $(document).ready(function() {
         ]
     });
     
+    $('input, textarea').attr('autocomplete', 'off');
+    
     jQuery.fn.extend({
         disable: function(state) {
             return this.each(function() {

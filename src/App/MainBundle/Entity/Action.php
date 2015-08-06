@@ -68,6 +68,12 @@ class Action implements JsonSerializable {
      */
     protected $pageTypes;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="ActionType")
+     * @ORM\JoinColumn(name="action_type_id", referencedColumnName="id", nullable=true)
+     */
+    protected $actionType;
+
     public function __construct() {
         $this->createdAt = new \DateTime();
         $this->objectTypes = new ArrayCollection();
@@ -236,6 +242,27 @@ class Action implements JsonSerializable {
      */
     public function getPageTypes() {
         return $this->pageTypes;
+    }
+
+    /**
+     * Set actionType
+     *
+     * @param \App\MainBundle\Entity\ActionType $actionType
+     * @return Action
+     */
+    public function setActionType(\App\MainBundle\Entity\ActionType $actionType = null) {
+        $this->actionType = $actionType;
+
+        return $this;
+    }
+
+    /**
+     * Get actionType
+     *
+     * @return \App\MainBundle\Entity\ActionType
+     */
+    public function getActionType() {
+        return $this->actionType;
     }
 
 }

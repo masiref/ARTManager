@@ -115,6 +115,17 @@ class Object implements JsonSerializable {
         return $result;
     }
 
+    public function getAvailableExecuteActions() {
+        $actions = $this->objectType->getActions();
+        $result = array();
+        foreach ($actions as $action) {
+            if ($action->getActionType()->getName() == "Execute") {
+                $result[] = $action;
+            }
+        }
+        return $result;
+    }
+
     /**
      * Get id
      *

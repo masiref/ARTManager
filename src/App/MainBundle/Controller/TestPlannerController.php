@@ -39,7 +39,11 @@ class TestPlannerController extends Controller {
     }
 
     /**
-     * @Route("/application/{id}/tests/tree", name="app_application_get_tests_tree_ajax", requirements={"_method" = "post"}, options={"expose" = true })
+     * @Route("/application/{id}/tests/tree",
+     *      name="app_application_get_tests_tree_ajax",
+     *      requirements={"_method" = "post"},
+     *      options={"expose" = true }
+     * )
      * @Secure(roles="ROLE_SUPER_ADMIN")
      * @ParamConverter("application", class="AppMainBundle:Application")
      */
@@ -97,10 +101,10 @@ class TestPlannerController extends Controller {
 
     /**
      * @Route("/application/{id}/add/test/folder/{parentId}",
-     *          name="app_add_application_test_folder_ajax",
-     *          requirements={"_method" = "post"},
-     *          options={"expose" = true },
-     *          defaults={"parentId" = -1}
+     *      name="app_add_application_test_folder_ajax",
+     *      requirements={"_method" = "post"},
+     *      options={"expose" = true },
+     *      defaults={"parentId" = -1}
      * )
      * @Secure(roles="ROLE_SUPER_ADMIN")
      * @ParamConverter("application", class="AppMainBundle:Application")
@@ -113,8 +117,8 @@ class TestPlannerController extends Controller {
                 $form = $this->createForm(new TestFolderType(), new TestFolder());
                 $form->handleRequest($request);
                 if ($form->isValid()) {
+                    $testFolder = $form->getData();
                     try {
-                        $testFolder = $form->getData();
                         if ($parentId != -1) {
                             $parentTestFolder = $em->getRepository("AppMainBundle:TestFolder")->find($parentId);
                             $parentTestFolder->addTestFolder($testFolder);
@@ -131,6 +135,7 @@ class TestPlannerController extends Controller {
                         $ajaxResponse['testFoldersCount'] = $application->getTestFoldersCount();
                         $ajaxResponse['treeTests'] = $application->getJsonTestsTreeAsArray();
                     } catch (DBALException $e) {
+                        $e->getCode();
                         if ($testFolder->getName() == null || $testFolder->getName() == "") {
                             $ajaxResponse['error'] = "ERROR: Name cannot be empty.";
                         } else {
@@ -150,7 +155,11 @@ class TestPlannerController extends Controller {
     }
 
     /**
-     * @Route("/application/test/folder/{id}", name="app_application_get_test_folder_ajax", requirements={"_method" = "post"}, options={"expose" = true })
+     * @Route("/application/test/folder/{id}",
+     *      name="app_application_get_test_folder_ajax",
+     *      requirements={"_method" = "post"},
+     *      options={"expose" = true }
+     * )
      * @Secure(roles="ROLE_SUPER_ADMIN")
      * @ParamConverter("testFolder", class="AppMainBundle:TestFolder")
      */
@@ -165,7 +174,11 @@ class TestPlannerController extends Controller {
     }
 
     /**
-     * @Route("/application/test/folder/test/{id}", name="app_application_get_test_folder_test_ajax", requirements={"_method" = "post"}, options={"expose" = true })
+     * @Route("/application/test/folder/test/{id}",
+     *      name="app_application_get_test_folder_test_ajax",
+     *      requirements={"_method" = "post"},
+     *      options={"expose" = true }
+     * )
      * @Secure(roles="ROLE_SUPER_ADMIN")
      * @ParamConverter("test", class="AppMainBundle:Test")
      */
@@ -181,9 +194,9 @@ class TestPlannerController extends Controller {
 
     /**
      * @Route("/application/test/folder/{id}/update/name",
-     *          name="app_application_test_folder_update_name_ajax",
-     *          requirements={"_method" = "post"},
-     *          options={"expose" = true }
+     *      name="app_application_test_folder_update_name_ajax",
+     *      requirements={"_method" = "post"},
+     *      options={"expose" = true }
      * )
      * @Secure(roles="ROLE_SUPER_ADMIN")
      */
@@ -222,9 +235,9 @@ class TestPlannerController extends Controller {
 
     /**
      * @Route("/application/test/folder/{id}/update/description",
-     *          name="app_application_test_folder_update_description_ajax",
-     *          requirements={"_method" = "post"},
-     *          options={"expose" = true }
+     *      name="app_application_test_folder_update_description_ajax",
+     *      requirements={"_method" = "post"},
+     *      options={"expose" = true }
      * )
      * @Secure(roles="ROLE_SUPER_ADMIN")
      */
@@ -263,9 +276,9 @@ class TestPlannerController extends Controller {
 
     /**
      * @Route("/application/test/folder/{id}/add/test",
-     *          name="app_add_application_test_folder_test_ajax",
-     *          requirements={"_method" = "post"},
-     *          options={"expose" = true }
+     *      name="app_add_application_test_folder_test_ajax",
+     *      requirements={"_method" = "post"},
+     *      options={"expose" = true }
      * )
      * @Secure(roles="ROLE_SUPER_ADMIN")
      * @ParamConverter("testFolder", class="AppMainBundle:TestFolder")
@@ -278,8 +291,8 @@ class TestPlannerController extends Controller {
                 $form = $this->createForm(new TestType(), new Test());
                 $form->handleRequest($request);
                 if ($form->isValid()) {
+                    $test = $form->getData();
                     try {
-                        $test = $form->getData();
                         $testFolder->addTest($test);
                         $em->persist($testFolder);
                         $testFolder->setSelected(true);
@@ -292,6 +305,7 @@ class TestPlannerController extends Controller {
                         $ajaxResponse['testsCount'] = $application->getTestsCount();
                         $ajaxResponse['treeTests'] = $application->getJsonTestsTreeAsArray();
                     } catch (DBALException $e) {
+                        $e->getCode();
                         if ($test->getName() == null || $test->getName() == "") {
                             $ajaxResponse['error'] = "ERROR: Name cannot be empty.";
                         } else {
@@ -312,9 +326,9 @@ class TestPlannerController extends Controller {
 
     /**
      * @Route("/application/test/folder/test/{id}/update/name",
-     *          name="app_application_test_folder_test_update_name_ajax",
-     *          requirements={"_method" = "post"},
-     *          options={"expose" = true }
+     *      name="app_application_test_folder_test_update_name_ajax",
+     *      requirements={"_method" = "post"},
+     *      options={"expose" = true }
      * )
      * @Secure(roles="ROLE_SUPER_ADMIN")
      */
@@ -353,9 +367,9 @@ class TestPlannerController extends Controller {
 
     /**
      * @Route("/application/test/folder/test/{id}/update/description",
-     *          name="app_application_test_folder_test_update_description_ajax",
-     *          requirements={"_method" = "post"},
-     *          options={"expose" = true }
+     *      name="app_application_test_folder_test_update_description_ajax",
+     *      requirements={"_method" = "post"},
+     *      options={"expose" = true }
      * )
      * @Secure(roles="ROLE_SUPER_ADMIN")
      */
@@ -394,9 +408,9 @@ class TestPlannerController extends Controller {
 
     /**
      * @Route("/application/{id}/test/entities/delete",
-     *          name="app_application_test_entities_delete_ajax",
-     *          requirements={"_method" = "post"},
-     *          options={"expose" = true }
+     *      name="app_application_test_entities_delete_ajax",
+     *      requirements={"_method" = "post"},
+     *      options={"expose" = true }
      * )
      * @Secure(roles="ROLE_SUPER_ADMIN")
      * @ParamConverter("application", class="AppMainBundle:Application")
@@ -404,7 +418,6 @@ class TestPlannerController extends Controller {
     public function deleteEntitiesAction($application, Request $request) {
         if ($request->getMethod() == 'POST' && $request->isXmlHttpRequest()) {
             $objects = $request->get("objects");
-            $selectedNode = $request->get("selectedNode");
             $em = $this->getDoctrine()->getManager();
             foreach ($objects as $object) {
                 $href = $object["href"];

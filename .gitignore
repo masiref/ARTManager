@@ -22,3 +22,6 @@ web/libs
 web/dist
 web/css
 app/dist
+
+# Netbeans
+/nbproject/

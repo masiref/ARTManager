@@ -11,23 +11,24 @@ class TestAdmin extends Admin {
 
     protected function configureFormFields(FormMapper $formMapper) {
         $formMapper
-                ->add('name', 'text', array('label' => 'Name'))
+                ->add('name', 'text', array(
+                    'label' => 'Name'
+                ))
                 ->add('description', 'text', array(
                     'label' => 'Description',
-                    'required' => false));
+                    'required' => false
+        ));
         if (!$this->hasParentFieldDescription()) {
-            $formMapper->add('testFolder', 'sonata_type_model', array(
-                'btn_add' => false
-            ));
             $formMapper
+                    ->add('testFolder', 'sonata_type_model', array(
+                        'btn_add' => false
+                    ))
                     ->add('steps', 'sonata_type_collection', array(
                         'label' => 'Steps',
                         'by_reference' => false,
                         'type_options' => array(
-                            // Prevents the "Delete" option from being displayed
                             'delete' => true
-                        )
-                            ), array(
+                        )), array(
                         'edit' => 'inline',
                         'inline' => 'table',
                         'sortable' => 'position',
@@ -39,16 +40,14 @@ class TestAdmin extends Admin {
         $datagridMapper
                 ->add('name')
                 ->add('description')
-                ->add('testFolder')
-        ;
+                ->add('testFolder');
     }
 
     protected function configureListFields(ListMapper $listMapper) {
         $listMapper
                 ->addIdentifier('name')
                 ->add('description')
-                ->add('testFolder')
-        ;
+                ->add('testFolder');
     }
 
 }

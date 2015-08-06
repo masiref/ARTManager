@@ -11,22 +11,24 @@ class PageTypeAdmin extends Admin {
 
     protected function configureFormFields(FormMapper $formMapper) {
         $formMapper
-                ->add('name', 'text', array('label' => 'Name'))
-                ->add('icon', 'text', array('label' => 'Icon'));
+                ->add('name', 'text', array(
+                    'label' => 'Name'
+                ))
+                ->add('icon', 'text', array(
+                    'label' => 'Icon'
+        ));
     }
 
     protected function configureDatagridFilters(DatagridMapper $datagridMapper) {
         $datagridMapper
                 ->add('name')
-                ->add('icon')
-        ;
+                ->add('icon');
     }
 
     protected function configureListFields(ListMapper $listMapper) {
         $listMapper
                 ->addIdentifier('name')
-                ->add('icon')
-        ;
+                ->add('icon');
     }
 
 }

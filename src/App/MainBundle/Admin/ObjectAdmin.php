@@ -11,19 +11,22 @@ class ObjectAdmin extends Admin {
 
     protected function configureFormFields(FormMapper $formMapper) {
         $formMapper
-                ->add('name', 'text', array('label' => 'Name'))
+                ->add('name', 'text', array(
+                    'label' => 'Name'
+                ))
                 ->add('description', 'text', array(
                     'label' => 'Description',
-                    'required' => false));
+                    'required' => false
+                ))
+                ->add('objectType', 'sonata_type_model', array(
+                    'btn_add' => false
+        ));
         if (!$this->hasParentFieldDescription()) {
             $formMapper->add('page', 'sonata_type_model', array(
                 'btn_add' => false
             ));
-            $formMapper->add('objectType', 'sonata_type_model', array(
-                'btn_add' => false
-            ));
         }
-        $formMapper->add('objectIdentifier', 'sonata_type_model_list', array());
+        $formMapper->add('objectIdentifier', 'sonata_type_model_list');
     }
 
     protected function configureDatagridFilters(DatagridMapper $datagridMapper) {
@@ -31,8 +34,7 @@ class ObjectAdmin extends Admin {
                 ->add('name')
                 ->add('description')
                 ->add('page')
-                ->add('objectType')
-        ;
+                ->add('objectType');
     }
 
     protected function configureListFields(ListMapper $listMapper) {
@@ -40,8 +42,7 @@ class ObjectAdmin extends Admin {
                 ->addIdentifier('name')
                 ->add('description')
                 ->add('page')
-                ->add('objectType')
-        ;
+                ->add('objectType');
     }
 
 }

@@ -34,7 +34,7 @@ class ObjectMapEditorController extends Controller {
                     'method' => 'POST'
                 ))->createView();
         $addObjectFormView = $this->createForm(new ObjectType(), new Object(), array(
-                    //'action' => $this->generateUrl('app_add_application_object_map_page_ajax', array('id' => -1, 'parentId' => -1)),
+                    'action' => $this->generateUrl('app_add_application_object_map_page_object_ajax', array('id' => -1, 'parentId' => -1)),
                     'method' => 'POST'
                 ))->createView();
         return $this->render('AppMainBundle:object-map:editor/index.html.twig', array(
@@ -47,7 +47,11 @@ class ObjectMapEditorController extends Controller {
     }
 
     /**
-     * @Route("/application/object/map/{id}/update/name", name="app_application_object_map_update_name_ajax", requirements={"_method" = "post"}, options={"expose" = true })
+     * @Route("/application/object/map/{id}/update/name",
+     *      name="app_application_object_map_update_name_ajax",
+     *      requirements={"_method" = "post"},
+     *      options={"expose" = true }
+     * )
      * @Secure(roles="ROLE_SUPER_ADMIN")
      */
     public function updateNameAction(Request $request) {
@@ -81,7 +85,11 @@ class ObjectMapEditorController extends Controller {
     }
 
     /**
-     * @Route("/application/object/map/{id}/update/description", name="app_application_object_map_update_description_ajax", requirements={"_method" = "post"}, options={"expose" = true })
+     * @Route("/application/object/map/{id}/update/description",
+     *      name="app_application_object_map_update_description_ajax",
+     *      requirements={"_method" = "post"},
+     *      options={"expose" = true }
+     * )
      * @Secure(roles="ROLE_SUPER_ADMIN")
      */
     public function updateDescriptionAction(Request $request) {
@@ -115,7 +123,11 @@ class ObjectMapEditorController extends Controller {
     }
 
     /**
-     * @Route("/application/object/map/page/{id}", name="app_application_get_object_map_page_ajax", requirements={"_method" = "post"}, options={"expose" = true })
+     * @Route("/application/object/map/page/{id}",
+     *      name="app_application_get_object_map_page_ajax",
+     *      requirements={"_method" = "post"},
+     *      options={"expose" = true }
+     * )
      * @Secure(roles="ROLE_SUPER_ADMIN")
      * @ParamConverter("page", class="AppMainBundle:Page")
      */
@@ -131,10 +143,10 @@ class ObjectMapEditorController extends Controller {
 
     /**
      * @Route("/application/object/map/{id}/add/page/{parentId}",
-     *          name="app_add_application_object_map_page_ajax",
-     *          requirements={"_method" = "post"},
-     *          options={"expose" = true },
-     *          defaults={"parentId" = -1}
+     *      name="app_add_application_object_map_page_ajax",
+     *      requirements={"_method" = "post"},
+     *      options={"expose" = true },
+     *      defaults={"parentId" = -1}
      * )
      * @Secure(roles="ROLE_SUPER_ADMIN")
      * @ParamConverter("objectMap", class="AppMainBundle:ObjectMap")
@@ -147,8 +159,8 @@ class ObjectMapEditorController extends Controller {
                 $form = $this->createForm(new PageType(), new Page());
                 $form->handleRequest($request);
                 if ($form->isValid()) {
+                    $page = $form->getData();
                     try {
-                        $page = $form->getData();
                         $page->setObjectMap($objectMap);
                         if ($parentId != -1) {
                             $parentPage = $em->getRepository("AppMainBundle:Page")->find($parentId);
@@ -166,6 +178,7 @@ class ObjectMapEditorController extends Controller {
                         $ajaxResponse['pagesCount'] = $objectMap->getPagesCount();
                         $ajaxResponse["treeObjectMap"] = $objectMap->getJsonTreeAsArray();
                     } catch (DBALException $e) {
+                        $e->getCode();
                         if ($page->getName() == null || $page->getName() == "") {
                             $ajaxResponse['error'] = "ERROR: Name cannot be empty.";
                         } else {
@@ -186,9 +199,9 @@ class ObjectMapEditorController extends Controller {
 
     /**
      * @Route("/application/object/map/page/{id}/update/name",
-     *          name="app_application_object_map_update_page_name_ajax",
-     *          requirements={"_method" = "post"},
-     *          options={"expose" = true }
+     *      name="app_application_object_map_update_page_name_ajax",
+     *      requirements={"_method" = "post"},
+     *      options={"expose" = true }
      * )
      * @Secure(roles="ROLE_SUPER_ADMIN")
      */
@@ -227,9 +240,9 @@ class ObjectMapEditorController extends Controller {
 
     /**
      * @Route("/application/object/map/page/{id}/update/description",
-     *          name="app_application_object_map_update_page_description_ajax",
-     *          requirements={"_method" = "post"},
-     *          options={"expose" = true }
+     *      name="app_application_object_map_update_page_description_ajax",
+     *      requirements={"_method" = "post"},
+     *      options={"expose" = true }
      * )
      * @Secure(roles="ROLE_SUPER_ADMIN")
      */
@@ -268,9 +281,9 @@ class ObjectMapEditorController extends Controller {
 
     /**
      * @Route("/application/object/map/page/{id}/update/type",
-     *          name="app_application_object_map_update_page_type_ajax",
-     *          requirements={"_method" = "post"},
-     *          options={"expose" = true }
+     *      name="app_application_object_map_update_page_type_ajax",
+     *      requirements={"_method" = "post"},
+     *      options={"expose" = true }
      * )
      * @Secure(roles="ROLE_SUPER_ADMIN")
      */
@@ -335,7 +348,10 @@ class ObjectMapEditorController extends Controller {
     }
 
     /**
-     * @Route("/application/object/map/page/type/all", name="app_application_get_object_map_page_types_ajax", options={"expose" = true })
+     * @Route("/application/object/map/page/type/all",
+     *      name="app_application_get_object_map_page_types_ajax",
+     *      options={"expose" = true }
+     * )
      * @Secure(roles="ROLE_SUPER_ADMIN")
      */
     public function getPageTypesAction(Request $request) {
@@ -353,7 +369,11 @@ class ObjectMapEditorController extends Controller {
     }
 
     /**
-     * @Route("/application/object/map/page/object/{id}", name="app_application_get_object_map_page_object_ajax", requirements={"_method" = "post"}, options={"expose" = true })
+     * @Route("/application/object/map/page/object/{id}",
+     *      name="app_application_get_object_map_page_object_ajax",
+     *      requirements={"_method" = "post"},
+     *      options={"expose" = true }
+     * )
      * @Secure(roles="ROLE_SUPER_ADMIN")
      * @ParamConverter("object", class="AppMainBundle:Object")
      */
@@ -369,9 +389,9 @@ class ObjectMapEditorController extends Controller {
 
     /**
      * @Route("/application/object/map/page/{id}/add/object",
-     *          name="app_add_application_object_map_page_object_ajax",
-     *          requirements={"_method" = "post"},
-     *          options={"expose" = true }
+     *      name="app_add_application_object_map_page_object_ajax",
+     *      requirements={"_method" = "post"},
+     *      options={"expose" = true }
      * )
      * @Secure(roles="ROLE_SUPER_ADMIN")
      * @ParamConverter("page", class="AppMainBundle:Page")
@@ -384,8 +404,8 @@ class ObjectMapEditorController extends Controller {
                 $form = $this->createForm(new ObjectType(), new Object());
                 $form->handleRequest($request);
                 if ($form->isValid()) {
+                    $object = $form->getData();
                     try {
-                        $object = $form->getData();
                         $page->addObject($object);
                         $em->persist($page);
                         $page->setSelected(true);
@@ -398,6 +418,7 @@ class ObjectMapEditorController extends Controller {
                         $ajaxResponse['objectsCount'] = $objectMap->getObjectsCount();
                         $ajaxResponse['treeObjectMap'] = $objectMap->getJsonTreeAsArray();
                     } catch (DBALException $e) {
+                        $e->getCode();
                         if ($object->getName() == null || $object->getName() == "") {
                             $ajaxResponse['error'] = "ERROR: Name cannot be empty.";
                         } else {
@@ -418,9 +439,9 @@ class ObjectMapEditorController extends Controller {
 
     /**
      * @Route("/application/object/map/page/object/{id}/update/name",
-     *          name="app_application_object_map_page_update_object_name_ajax",
-     *          requirements={"_method" = "post"},
-     *          options={"expose" = true }
+     *      name="app_application_object_map_page_update_object_name_ajax",
+     *      requirements={"_method" = "post"},
+     *      options={"expose" = true }
      * )
      * @Secure(roles="ROLE_SUPER_ADMIN")
      */
@@ -459,9 +480,9 @@ class ObjectMapEditorController extends Controller {
 
     /**
      * @Route("/application/object/map/page/object/{id}/update/description",
-     *          name="app_application_object_map_page_update_object_description_ajax",
-     *          requirements={"_method" = "post"},
-     *          options={"expose" = true }
+     *      name="app_application_object_map_page_update_object_description_ajax",
+     *      requirements={"_method" = "post"},
+     *      options={"expose" = true }
      * )
      * @Secure(roles="ROLE_SUPER_ADMIN")
      */
@@ -500,9 +521,9 @@ class ObjectMapEditorController extends Controller {
 
     /**
      * @Route("/application/object/map/page/object/{id}/update/type",
-     *          name="app_application_object_map_page_update_object_type_ajax",
-     *          requirements={"_method" = "post"},
-     *          options={"expose" = true }
+     *      name="app_application_object_map_page_update_object_type_ajax",
+     *      requirements={"_method" = "post"},
+     *      options={"expose" = true }
      * )
      * @Secure(roles="ROLE_SUPER_ADMIN")
      */
@@ -567,7 +588,10 @@ class ObjectMapEditorController extends Controller {
     }
 
     /**
-     * @Route("/application/object/map/page/object/type/all", name="app_application_get_object_map_page_object_types_ajax", options={"expose" = true })
+     * @Route("/application/object/map/page/object/type/all",
+     *      name="app_application_get_object_map_page_object_types_ajax",
+     *      options={"expose" = true }
+     * )
      * @Secure(roles="ROLE_SUPER_ADMIN")
      */
     public function getObjectTypesAction(Request $request) {
@@ -585,7 +609,10 @@ class ObjectMapEditorController extends Controller {
     }
 
     /**
-     * @Route("/application/object/map/page/object/identifier/type/all", name="app_application_get_object_map_page_object_identifier_types_ajax", options={"expose" = true })
+     * @Route("/application/object/map/page/object/identifier/type/all",
+     *      name="app_application_get_object_map_page_object_identifier_types_ajax",
+     *      options={"expose" = true }
+     * )
      * @Secure(roles="ROLE_SUPER_ADMIN")
      */
     public function getObjectIdentifierTypesAction(Request $request) {
@@ -604,9 +631,9 @@ class ObjectMapEditorController extends Controller {
 
     /**
      * @Route("/application/object/map/page/object/{id}/identifier/update/type",
-     *          name="app_application_object_map_page_update_object_identifier_type_ajax",
-     *          requirements={"_method" = "post"},
-     *          options={"expose" = true }
+     *      name="app_application_object_map_page_update_object_identifier_type_ajax",
+     *      requirements={"_method" = "post"},
+     *      options={"expose" = true }
      * )
      * @Secure(roles="ROLE_SUPER_ADMIN")
      */
@@ -655,9 +682,9 @@ class ObjectMapEditorController extends Controller {
 
     /**
      * @Route("/application/object/map/page/object/{id}/identifier/update/value",
-     *          name="app_application_object_map_page_update_object_identifier_value_ajax",
-     *          requirements={"_method" = "post"},
-     *          options={"expose" = true }
+     *      name="app_application_object_map_page_update_object_identifier_value_ajax",
+     *      requirements={"_method" = "post"},
+     *      options={"expose" = true }
      * )
      * @Secure(roles="ROLE_SUPER_ADMIN")
      */
@@ -701,9 +728,9 @@ class ObjectMapEditorController extends Controller {
 
     /**
      * @Route("/application/object/map/{id}/objects/delete",
-     *          name="app_application_object_map_objects_delete_ajax",
-     *          requirements={"_method" = "post"},
-     *          options={"expose" = true }
+     *      name="app_application_object_map_objects_delete_ajax",
+     *      requirements={"_method" = "post"},
+     *      options={"expose" = true }
      * )
      * @Secure(roles="ROLE_SUPER_ADMIN")
      * @ParamConverter("objectMap", class="AppMainBundle:ObjectMap")
@@ -711,7 +738,6 @@ class ObjectMapEditorController extends Controller {
     public function deleteObjectsAction($objectMap, Request $request) {
         if ($request->getMethod() == 'POST' && $request->isXmlHttpRequest()) {
             $objects = $request->get("objects");
-            $selectedNode = $request->get("selectedNode");
             $em = $this->getDoctrine()->getManager();
             foreach ($objects as $object) {
                 $href = $object["href"];

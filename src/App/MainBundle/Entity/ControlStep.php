@@ -59,6 +59,11 @@ class ControlStep extends Step {
     protected $parentStep;
 
     /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    protected $parameterDatas;
+
+    /**
      * Constructor
      */
     public function __construct() {
@@ -256,6 +261,37 @@ class ControlStep extends Step {
      */
     public function getParentStep() {
         return $this->parentStep;
+    }
+
+    /**
+     * Add parameterDatas
+     *
+     * @param \App\MainBundle\Entity\ParameterData $parameterDatas
+     * @return ControlStep
+     */
+    public function addParameterData(\App\MainBundle\Entity\ParameterData $parameterDatas) {
+        $parameterDatas->setStep($this);
+        $this->parameterDatas[] = $parameterDatas;
+
+        return $this;
+    }
+
+    /**
+     * Remove parameterDatas
+     *
+     * @param \App\MainBundle\Entity\ParameterData $parameterDatas
+     */
+    public function removeParameterData(\App\MainBundle\Entity\ParameterData $parameterDatas) {
+        $this->parameterDatas->removeElement($parameterDatas);
+    }
+
+    /**
+     * Get parameterDatas
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getParameterDatas() {
+        return $this->parameterDatas;
     }
 
 }

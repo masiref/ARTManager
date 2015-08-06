@@ -14,21 +14,23 @@ class StepAdmin extends Admin {
     protected function configureFormFields(FormMapper $formMapper) {
         $subject = $this->getSubject();
         $formMapper
-                ->add('name', 'text', array('label' => 'Name'))
-                ->add('description', 'text', array(
-                    'label' => 'Description',
-                    'required' => false))
-                ->add('order', 'integer', array('label' => 'Order'))
+                ->add('order', 'integer', array(
+                    'label' => 'Order'
+                ))
                 ->add('status', 'text', array(
                     'label' => 'Status',
-                    'required' => false));
+                    'required' => false
+        ));
         if (!$this->hasParentFieldDescription()) {
             if ($subject instanceof ExecuteStep) {
-                $formMapper->add('action', 'sonata_type_model', array(
-                    'btn_add' => false
-                ));
                 $formMapper->add('test', 'sonata_type_model', array(
-                    'btn_add' => false
+                            'btn_add' => false
+                        ))
+                        ->add('action', 'sonata_type_model', array(
+                            'btn_add' => false
+                        ))
+                        ->add('object', 'sonata_type_model', array(
+                            'btn_add' => false
                 ));
             } elseif ($subject instanceof ControlStep) {
                 $formMapper->add('parentStep', 'sonata_type_model', array(
@@ -45,8 +47,7 @@ class StepAdmin extends Admin {
                 ->add('order')
                 ->add('status')
                 ->add('test')
-                ->add('parentStep')
-        ;
+                ->add('parentStep');
     }
 
     protected function configureListFields(ListMapper $listMapper) {
@@ -56,8 +57,7 @@ class StepAdmin extends Admin {
                 ->add('order')
                 ->add('status')
                 ->add('test')
-                ->add('parentStep')
-        ;
+                ->add('parentStep');
     }
 
 }

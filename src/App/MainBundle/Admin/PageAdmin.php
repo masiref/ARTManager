@@ -11,36 +11,40 @@ class PageAdmin extends Admin {
 
     protected function configureFormFields(FormMapper $formMapper) {
         $formMapper
-                ->add('name', 'text', array('label' => 'Name'))
+                ->add('name', 'text', array(
+                    'label' => 'Name'
+                ))
                 ->add('description', 'text', array(
                     'label' => 'Description',
-                    'required' => false));
+                    'required' => false
+        ));
         if (!$this->hasParentFieldDescription()) {
-            $formMapper->add('pageType', 'sonata_type_model', array(
-                'btn_add' => false
-            ));
-            $formMapper->add('objectMap', 'sonata_type_model', array(
-                'btn_add' => false
-            ));
-            $formMapper->add('page', 'sonata_type_model', array(
-                'label' => 'Parent',
-                'btn_add' => false
-            ));
             $formMapper
+                    ->add('pageType', 'sonata_type_model', array(
+                        'btn_add' => false
+                    ))
+                    ->add('objectMap', 'sonata_type_model', array(
+                        'btn_add' => false
+                    ))
+                    ->add('page', 'sonata_type_model', array(
+                        'label' => 'Parent',
+                        'btn_add' => false
+                    ))
                     ->add('pages', 'sonata_type_collection', array(
                         'label' => 'Sub Pages',
                         'by_reference' => false,
-                        'type_options' => array('delete' => true)
-                            ), array(
+                        'type_options' => array(
+                            'delete' => true
+                        )), array(
                         'edit' => 'inline',
                         'inline' => 'table',
                         'sortable' => 'position',
-            ));
-            $formMapper
+                    ))
                     ->add('objects', 'sonata_type_collection', array(
                         'by_reference' => false,
-                        'type_options' => array('delete' => true)
-                            ), array(
+                        'type_options' => array(
+                            'delete' => true
+                        )), array(
                         'edit' => 'inline',
                         'inline' => 'table',
                         'sortable' => 'position',
@@ -54,8 +58,7 @@ class PageAdmin extends Admin {
                 ->add('description')
                 ->add('pageType')
                 ->add('objectMap')
-                ->add('page')
-        ;
+                ->add('page');
     }
 
     protected function configureListFields(ListMapper $listMapper) {
@@ -64,8 +67,7 @@ class PageAdmin extends Admin {
                 ->add('description')
                 ->add('pageType')
                 ->add('objectMap')
-                ->add('page')
-        ;
+                ->add('page');
     }
 
 }

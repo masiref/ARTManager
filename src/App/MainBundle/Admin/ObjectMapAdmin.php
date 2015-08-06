@@ -11,21 +11,23 @@ class ObjectMapAdmin extends Admin {
 
     protected function configureFormFields(FormMapper $formMapper) {
         $formMapper
-                ->add('name', 'text', array('label' => 'Name'))
+                ->add('name', 'text', array(
+                    'label' => 'Name'
+                ))
                 ->add('description', 'text', array(
                     'label' => 'Description',
-                    'required' => false));
+                    'required' => false
+        ));
         if (!$this->hasParentFieldDescription()) {
-            $formMapper->add('application', 'sonata_type_model', array(
+            $formMapper
+                    ->add('application', 'sonata_type_model', array(
                         'btn_add' => false
                     ))
                     ->add('pages', 'sonata_type_collection', array(
                         'by_reference' => false,
                         'type_options' => array(
-                            // Prevents the "Delete" option from being displayed
                             'delete' => true
-                        )
-                            ), array(
+                        )), array(
                         'edit' => 'inline',
                         'inline' => 'table',
                         'sortable' => 'position',
@@ -37,16 +39,14 @@ class ObjectMapAdmin extends Admin {
         $datagridMapper
                 ->add('name')
                 ->add('description')
-                ->add('application')
-        ;
+                ->add('application');
     }
 
     protected function configureListFields(ListMapper $listMapper) {
         $listMapper
                 ->addIdentifier('name')
                 ->add('description')
-                ->add('application')
-        ;
+                ->add('application');
     }
 
 }

@@ -2,6 +2,8 @@
 
 namespace App\MainBundle\Form\Type;
 
+use App\MainBundle\Form\EventListener\AddExecuteStepActionFieldEventSubscriber;
+use App\MainBundle\Form\EventListener\AddExecuteStepActionParametersFieldEventSubscriber;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -9,19 +11,27 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class ExecuteStepType extends AbstractType {
 
+    private $test;
     private $page;
+    private $em;
 
-    public function __construct($page) {
-        $this->page = $page;
+    public function __construct($test, $em) {
+        $this->test = $test;
+        $this->page = $test->getActivePage();
+        $this->em = $em;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $page = $this->page;
+        $test = $this->test;
+        $factory = $builder->getFormFactory();
+        $em = $this->em;
 
-        $builder->add('name');
-        $builder->add('description', 'textarea', array(
-            'required' => false
-        ));
+        $addExecuteStepActionFieldEventSubscriber = new AddExecuteStepActionFieldEventSubscriber($factory, $em, $test);
+        $addExecuteStepActionParametersFieldEventSubscriber = new AddExecuteStepActionParametersFieldEventSubscriber($factory, $em, $test);
+        $builder->addEventSubscriber($addExecuteStepActionFieldEventSubscriber);
+        $builder->addEventSubscriber($addExecuteStepActionParametersFieldEventSubscriber);
+
         $builder->add('object', 'entity', array(
             'class' => 'AppMainBundle:Object',
             'property' => 'name',
@@ -32,7 +42,8 @@ class ExecuteStepType extends AbstractType {
                                 ->where('o.page = :page')
                                 ->setParameter('page', $page)
                 ;
-            }
+            },
+            'attr' => array('data-test-id' => $test->getId())
         ));
     }
 

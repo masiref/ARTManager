@@ -4,6 +4,7 @@ namespace App\MainBundle\Entity;
 
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -60,15 +61,22 @@ class ExecuteStep extends Step {
 
     /**
      * @ORM\ManyToOne(targetEntity="Action")
-     * @ORM\JoinColumn(name="action_id", referencedColumnName="id", nullable=true)
+     * @ORM\JoinColumn(name="action_id", referencedColumnName="id", nullable=false)
+     * @Assert\NotNull
      */
     protected $action;
 
     /**
      * @ORM\ManyToOne(targetEntity="Object")
-     * @ORM\JoinColumn(name="object_id", referencedColumnName="id", nullable=true)
+     * @ORM\JoinColumn(name="object_id", referencedColumnName="id", nullable=false)
+     * @Assert\NotNull
      */
     protected $object;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    protected $parameterDatas;
 
     /**
      * Constructor
@@ -76,6 +84,20 @@ class ExecuteStep extends Step {
     public function __construct() {
         parent::__construct();
         $this->controlSteps = new ArrayCollection();
+    }
+
+    public function __toString() {
+        $result = "";
+        if ($this->object != null && $this->action != "") {
+            $result = $this->object->getName() . " " . $this->action;
+            if ($this->parameterDatas->count() > 0) {
+                foreach ($this->parameterDatas as $parameterData) {
+                    $result .= " " . $parameterData;
+                }
+            }
+            return $result;
+        }
+        return "New";
     }
 
     public function getActivePage() {
@@ -314,6 +336,37 @@ class ExecuteStep extends Step {
      */
     public function getObject() {
         return $this->object;
+    }
+
+    /**
+     * Add parameterDatas
+     *
+     * @param \App\MainBundle\Entity\ParameterData $parameterDatas
+     * @return ExecuteStep
+     */
+    public function addParameterData(\App\MainBundle\Entity\ParameterData $parameterDatas) {
+        $parameterDatas->setStep($this);
+        $this->parameterDatas[] = $parameterDatas;
+
+        return $this;
+    }
+
+    /**
+     * Remove parameterDatas
+     *
+     * @param \App\MainBundle\Entity\ParameterData $parameterDatas
+     */
+    public function removeParameterData(\App\MainBundle\Entity\ParameterData $parameterDatas) {
+        $this->parameterDatas->removeElement($parameterDatas);
+    }
+
+    /**
+     * Get parameterDatas
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getParameterDatas() {
+        return $this->parameterDatas;
     }
 
 }

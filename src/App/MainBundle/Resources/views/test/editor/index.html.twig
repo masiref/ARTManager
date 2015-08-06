@@ -57,7 +57,7 @@
         </div>
     </div>
     {% include 'AppMainBundle:test:step/execute/list.html.twig' %}
-    {% include 'AppMainBundle:test:step/execute/new.form.html.twig' %}
+    {% include 'AppMainBundle:test:step/execute/form.html.twig' %}
     {% include 'AppMainBundle:test:step/control/new.form.html.twig' %}
 {% endblock %}
 
@@ -67,21 +67,7 @@
         $(document).ready(function() {
             $("#form_startingPage").change(function() {
                 var id = $(this).val();
-                $.ajax({
-                    type: 'POST',
-                    url: Routing.generate('app_application_test_update_starting_page_ajax', {
-                        id: {{ test.id }}
-                    }),
-                    data: {
-                        pageId: id
-                    }
-                }).done(function(data) {
-                    if (data.error) {
-                        swal("Starting page not updated !", data.error, "error");
-                    } else {
-                        $("#modal-add-execute-step").replaceWith(data.addExecuteStepForm);
-                    }
-                });
+                updateStartingPage({{ test.id }}, id);
             });
         });
     </script>

@@ -36,7 +36,11 @@ class ObjectMapController extends Controller {
     }
 
     /**
-     * @Route("/application/{id}/object/map/tree", name="app_application_get_object_map_tree_ajax", requirements={"_method" = "post"}, options={"expose" = true })
+     * @Route("/application/{id}/object/map/tree",
+     *      name="app_application_get_object_map_tree_ajax",
+     *      requirements={"_method" = "post"},
+     *      options={"expose" = true }
+     * )
      * @Secure(roles="ROLE_SUPER_ADMIN")
      * @ParamConverter("objectMap", class="AppMainBundle:ObjectMap")
      */
@@ -51,7 +55,11 @@ class ObjectMapController extends Controller {
     }
 
     /**
-     * @Route("/application/{id}/object/map/trees", name="app_application_get_object_map_trees_ajax", requirements={"_method" = "post"}, options={"expose" = true })
+     * @Route("/application/{id}/object/map/trees",
+     *      name="app_application_get_object_map_trees_ajax",
+     *      requirements={"_method" = "post"},
+     *      options={"expose" = true }
+     * )
      * @Secure(roles="ROLE_SUPER_ADMIN")
      * @ParamConverter("application", class="AppMainBundle:Application")
      */
@@ -68,7 +76,11 @@ class ObjectMapController extends Controller {
     }
 
     /**
-     * @Route("/application/{id}/object/map/add", name="app_add_application_object_map_ajax", requirements={"_method" = "post"}, options={"expose" = true })
+     * @Route("/application/{id}/object/map/add",
+     *      name="app_add_application_object_map_ajax",
+     *      requirements={"_method" = "post"},
+     *      options={"expose" = true }
+     * )
      * @Secure(roles="ROLE_SUPER_ADMIN")
      * @ParamConverter("application", class="AppMainBundle:Application")
      */
@@ -79,12 +91,12 @@ class ObjectMapController extends Controller {
             $form = $this->createForm(new ObjectMapType(), new ObjectMap());
             $form->handleRequest($request);
             if ($form->isValid()) {
+                $objectMap = $form->getData();
                 try {
-                    $objectMap = $form->getData();
                     $objectMap->setApplication($application);
                     $em->persist($objectMap);
                     $em->flush();
-                    $ajaxResponse['objectMap'] = $this->container->get('serializer')->serialize($objectMap, 'json');
+                    $ajaxResponse['objectMap'] = json_encode($objectMap);
                     $addObjectMapFormView = $this->createForm(new ObjectMapType(), new ObjectMap(), array(
                                 'action' => $this->generateUrl('app_add_application_object_map_ajax', array('id' => -1)),
                                 'method' => 'POST'
@@ -95,6 +107,7 @@ class ObjectMapController extends Controller {
                                 'addObjectMapFormView' => $addObjectMapFormView
                             ))->getContent();
                 } catch (DBALException $e) {
+                    $e->getCode();
                     if ($objectMap->getName() == null || $objectMap->getName() == "") {
                         $ajaxResponse['error'] = "ERROR: Name cannot be empty.";
                     } else {
@@ -111,7 +124,11 @@ class ObjectMapController extends Controller {
     }
 
     /**
-     * @Route("/application/{id}/object/map/delete", name="app_delete_application_object_map_ajax", requirements={"_method" = "post"}, options={"expose" = true })
+     * @Route("/application/{id}/object/map/delete",
+     *      name="app_delete_application_object_map_ajax",
+     *      requirements={"_method" = "post"},
+     *      options={"expose" = true }
+     * )
      * @Secure(roles="ROLE_SUPER_ADMIN")
      * @ParamConverter("objectMap", class="AppMainBundle:ObjectMap")
      */

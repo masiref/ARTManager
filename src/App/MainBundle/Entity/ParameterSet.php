@@ -10,7 +10,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\MainBundle\Entity\ParameterSetRepository")
  * @ORM\Table(name="parameter_set", uniqueConstraints={@ORM\UniqueConstraint(name="IDX_Unique", columns={"name", "action_id", "object_type_id"})})
  * @UniqueEntity(
  *      fields={"name"},
