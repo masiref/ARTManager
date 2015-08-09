@@ -27,15 +27,8 @@ class TestEditorController extends Controller {
      * @ParamConverter("test", class="AppMainBundle:Test")
      */
     public function indexAction(Test $test) {
-        $em = $this->getDoctrine()->getManager();
         $executeStep = new ExecuteStep();
         $executeStep->setTest($test);
-        $addExecuteStepFormView = $this->createForm(new ExecuteStepType($test, $em), $executeStep, array(
-                    'method' => 'POST'
-                ))->createView();
-        $addControlStepFormView = $this->createForm(new ControlStepType(), new ControlStep(), array(
-                    'method' => 'POST'
-                ))->createView();
         $application = $test->getTestFolder()->getRootApplication();
         $builder = $this->createFormBuilder($test);
         $startingPageForm = $builder->add('startingPage', 'entity', array(
@@ -56,8 +49,6 @@ class TestEditorController extends Controller {
         ));
         return $this->render('AppMainBundle:test:editor/index.html.twig', array(
                     'test' => $test,
-                    'addExecuteStepFormView' => $addExecuteStepFormView,
-                    'addControlStepFormView' => $addControlStepFormView,
                     'startingPageFormView' => $startingPageForm->getForm()->createView()
         ));
     }
@@ -85,6 +76,36 @@ class TestEditorController extends Controller {
                 }
             } else {
                 $ajaxResponse['error'] = "This test does not exist.";
+            }
+        }
+        $response = new Response(json_encode($ajaxResponse));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
+    }
+
+    /**
+     * @Route("/application/test/check/step/{id}/control/step",
+     *      name="app_check_application_test_step_control_step_ajax",
+     *      requirements={"_method" = "post"},
+     *      options={"expose" = true }
+     * )
+     * @Secure(roles="ROLE_SUPER_ADMIN")
+     * @ParamConverter("step", class="AppMainBundle:ExecuteStep")
+     */
+    public function checkControlStepAction($step, Request $request) {
+        $ajaxResponse = array();
+        $em = $this->getDoctrine()->getManager();
+        if ($request->getMethod() == 'POST' && $request->isXmlHttpRequest()) {
+            if ($step !== null) {
+                $form = $this->createForm(new ControlStepType($step, $em), new ControlStep());
+                $form->handleRequest($request);
+                if (!$form->isValid()) {
+                    $ajaxResponse['form'] = $this->render('AppMainBundle:test:step/control/form_content.html.twig', array(
+                                'form' => $form->createView()
+                            ))->getContent();
+                }
+            } else {
+                $ajaxResponse['error'] = "This step does not exist.";
             }
         }
         $response = new Response(json_encode($ajaxResponse));
@@ -145,7 +166,7 @@ class TestEditorController extends Controller {
         $em = $this->getDoctrine()->getManager();
         if ($request->getMethod() == 'POST' && $request->isXmlHttpRequest()) {
             if ($step !== null) {
-                $form = $this->createForm(new ControlStepType(), new ControlStep());
+                $form = $this->createForm(new ControlStepType($step, $em), new ControlStep());
                 $form->handleRequest($request);
                 if ($form->isValid()) {
                     $controlStep = $form->getData();
@@ -157,7 +178,9 @@ class TestEditorController extends Controller {
                                 'controlStep' => $controlStep
                             ))->getContent();
                 } else {
-                    $ajaxResponse['error'] = (string) $form->getErrors(true);
+                    $ajaxResponse['form'] = $this->render('AppMainBundle:test:step/control/form_content.html.twig', array(
+                                'form' => $form->createView()
+                            ))->getContent();
                 }
             } else {
                 $ajaxResponse['error'] = "This step does not exist.";
@@ -413,6 +436,80 @@ class TestEditorController extends Controller {
                         ))->getContent();
             } else {
                 $ajaxResponse['form'] = $this->render('AppMainBundle:test:step/execute/form_content.html.twig', array(
+                            'form' => $form->createView()
+                        ))->getContent();
+            }
+        }
+        $response = new Response(json_encode($ajaxResponse));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
+    }
+
+    /**
+     * @Route("/application/test/step/{stepId}/control/step/{id}/form",
+     *      name="app_get_application_test_step_control_step_form_ajax",
+     *      requirements={"_method" = "post"},
+     *      options={"expose" = true },
+     *      defaults={"id" = -1}
+     * )
+     * @Secure(roles="ROLE_SUPER_ADMIN")
+     * @ParamConverter("step", class="AppMainBundle:ExecuteStep", options={"id" = "stepId"})
+     */
+    public function getControlStepFormAction($id, ExecuteStep $step, Request $request) {
+        $ajaxResponse = array();
+        $em = $this->getDoctrine()->getManager();
+        if ($request->getMethod() == 'POST' && $request->isXmlHttpRequest()) {
+            if ($id != -1) {
+                $controlStep = $em->getRepository("AppMainBundle:ControlStep")->find($id);
+                $controlStepFormView = $this->createForm(new ControlStepType($step, $em), $controlStep, array(
+                            'method' => 'POST'
+                        ))->createView();
+                $modalTitleView = $this->render('AppMainBundle:test:step/control/edit.modal-title.html.twig', array(
+                    'controlStep' => $controlStep,
+                    'step' => $step
+                ));
+            } else {
+                $controlStepFormView = $this->createForm(new ControlStepType($step, $em), new ControlStep(), array(
+                            'method' => 'POST'
+                        ))->createView();
+                $modalTitleView = $this->render('AppMainBundle:test:step/control/add.modal-title.html.twig', array(
+                    'step' => $step
+                ));
+            }
+            $ajaxResponse['form'] = $this->render('AppMainBundle:test:step/control/form_content.html.twig', array(
+                        'form' => $controlStepFormView
+                    ))->getContent();
+            $ajaxResponse['modalTitle'] = $modalTitleView->getContent();
+        }
+        $response = new Response(json_encode($ajaxResponse));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
+    }
+
+    /**
+     * @Route("/application/test/update/step/control/step/{id}",
+     *      name="app_update_application_test_step_control_step_ajax",
+     *      requirements={"_method" = "post"},
+     *      options={"expose" = true }
+     * )
+     * @Secure(roles="ROLE_SUPER_ADMIN")
+     * @ParamConverter("step", class="AppMainBundle:ControlStep")
+     */
+    public function updateControlStepAction($controlStep, Request $request) {
+        $ajaxResponse = array();
+        $em = $this->getDoctrine()->getManager();
+        if ($request->getMethod() == 'POST' && $request->isXmlHttpRequest()) {
+            $step = $controlStep->getParentStep();
+            $form = $this->createForm(new ControlStepType($step, $em), $controlStep);
+            $form->handleRequest($request);
+            if ($form->isValid()) {
+                $em->flush();
+                $ajaxResponse['id'] = $controlStep->getId();
+                $ajaxResponse['row'] = $this->render('AppMainBundle:test:step/control/item.html.twig', array(
+                            'controlStep' => $controlStep
+                        ))->getContent();
+            } else {
+                $ajaxResponse['form'] = $this->render('AppMainBundle:test:step/control/form_content.html.twig', array(
                             'form' => $form->createView()
                         ))->getContent();
             }

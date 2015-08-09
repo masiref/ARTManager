@@ -1,8 +1,8 @@
 <div class="row step" id="step-row-{{ step.id }}">
-    <div class="col-md-6 step-left">
+    <div class="col-md-6 step-left" id="step-left-{{ step.id }}">
         {% include 'AppMainBundle:test:step/execute/line.html.twig' with { 'step': step } %}
     </div>
-    <div class="col-md-6 bg-success">
+    <div class="col-md-6" id="step-right-{{ step.id }}">
         {% include 'AppMainBundle:test:step/control/list.html.twig' %}
     </div>
 </div>

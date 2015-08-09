@@ -41,6 +41,7 @@ class ExecuteStepType extends AbstractType {
                 return $er->createQueryBuilder('o')
                                 ->where('o.page = :page')
                                 ->setParameter('page', $page)
+                                ->addOrderBy('o.name')
                 ;
             },
             'attr' => array('data-test-id' => $test->getId())

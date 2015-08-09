@@ -38,27 +38,10 @@
 {% endblock %}
 
 {% block body %}
-    <div class="row test-starting">
-        <div class="col-md-6 col-md-offset-3">
-            <h2 class="text-center">
-                <i class="fontello-icon-to-start"></i> Starting page
-            </h2>
-            <h2 class="text-center">
-                {% include 'AppMainBundle:test:starting-page.html.twig' with { 'page': test.startingPage } %}
-            </h2>
-        </div>
-    </div>
-    <div class="row step-header">
-        <div class="col-md-6">
-            <h1 class="text-center"><i class="fontello-icon-play"></i> Execute</h1>
-        </div>
-        <div class="col-md-6">
-            <h1 class="text-center text-success"><i class="fontello-icon-ok"></i> Control</h1>
-        </div>
-    </div>
+    {% include 'AppMainBundle:test:starting-page.html.twig' with { 'page': test.startingPage } %}
     {% include 'AppMainBundle:test:step/execute/list.html.twig' %}
     {% include 'AppMainBundle:test:step/execute/form.html.twig' %}
-    {% include 'AppMainBundle:test:step/control/new.form.html.twig' %}
+    {% include 'AppMainBundle:test:step/control/form.html.twig' %}
 {% endblock %}
 
 {% block javascripts %}

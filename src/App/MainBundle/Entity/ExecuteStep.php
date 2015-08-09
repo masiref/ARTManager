@@ -101,11 +101,23 @@ class ExecuteStep extends Step {
     }
 
     public function getActivePage() {
-        $lastControlStep = $this->controlSteps->get($this->controlSteps->count() - 1);
-        if ($lastControlStep !== null) {
-            return $lastControlStep->getActivePage();
+        $page = null;
+        $lastControlStep = null;
+        if ($this->controlSteps->count() > 0) {
+            $lastControlStep = $this->controlSteps->get($this->controlSteps->count() - 1);
         }
-        return null;
+        if ($lastControlStep !== null) {
+            $page = $lastControlStep->getActivePage();
+        }
+        $order = $this->order - 1;
+        while ($page == null && $order > 0) {
+            $page = $this->test->getPageAtStepOrder($order);
+            $order -= 1;
+        }
+        if ($page == null) {
+            $page = $this->test->getStartingPage();
+        }
+        return $page;
     }
 
     /**

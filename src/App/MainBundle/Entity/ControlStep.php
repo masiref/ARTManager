@@ -4,12 +4,15 @@ namespace App\MainBundle\Entity;
 
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\MainBundle\Validator\Constraints as AppMainAssert;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="control_step")
+ * @AppMainAssert\ControlStepHasPageOrObject()
  */
 class ControlStep extends Step {
 
@@ -64,6 +67,25 @@ class ControlStep extends Step {
     protected $parameterDatas;
 
     /**
+     * @ORM\ManyToOne(targetEntity="Action")
+     * @ORM\JoinColumn(name="action_id", referencedColumnName="id", nullable=false)
+     * @Assert\NotNull
+     */
+    protected $action;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Object")
+     * @ORM\JoinColumn(name="object_id", referencedColumnName="id", nullable=true)
+     */
+    protected $object;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Page")
+     * @ORM\JoinColumn(name="page_id", referencedColumnName="id", nullable=true)
+     */
+    protected $page;
+
+    /**
      * Constructor
      */
     public function __construct() {
@@ -71,8 +93,40 @@ class ControlStep extends Step {
         $this->controlSteps = new ArrayCollection();
     }
 
+    public function __toString() {
+        $result = "";
+        if (($this->object != null || $this->page != null) && $this->action != "") {
+            if ($this->object != null) {
+                $result = $this->object->getName();
+            } else {
+                $result = $this->page->getName();
+            }
+            $result .= " " . $this->action;
+            if ($this->parameterDatas->count() > 0) {
+                foreach ($this->parameterDatas as $parameterData) {
+                    $result .= " " . $parameterData;
+                }
+            }
+            return $result;
+        }
+        return "New";
+    }
+
     public function getActivePage() {
-        return null;
+        $page = $this->page;
+        $previousControlStep = $this->getPreviousControlStep();
+        while ($page == null && $previousControlStep != null) {
+            $page = $previousControlStep->getPage();
+            $previousControlStep = $previousControlStep->getPreviousControlStep();
+        }
+        return $page;
+    }
+
+    public function getPreviousControlStep() {
+        if ($this->order == 1) {
+            return null;
+        }
+        return $this->parentStep->getControlStepAt($this->order - 1);
     }
 
     /**
@@ -292,6 +346,69 @@ class ControlStep extends Step {
      */
     public function getParameterDatas() {
         return $this->parameterDatas;
+    }
+
+    /**
+     * Set action
+     *
+     * @param \App\MainBundle\Entity\Action $action
+     * @return ControlStep
+     */
+    public function setAction(\App\MainBundle\Entity\Action $action) {
+        $this->action = $action;
+
+        return $this;
+    }
+
+    /**
+     * Get action
+     *
+     * @return \App\MainBundle\Entity\Action
+     */
+    public function getAction() {
+        return $this->action;
+    }
+
+    /**
+     * Set object
+     *
+     * @param \App\MainBundle\Entity\Object $object
+     * @return ControlStep
+     */
+    public function setObject(\App\MainBundle\Entity\Object $object = null) {
+        $this->object = $object;
+
+        return $this;
+    }
+
+    /**
+     * Get object
+     *
+     * @return \App\MainBundle\Entity\Object
+     */
+    public function getObject() {
+        return $this->object;
+    }
+
+    /**
+     * Set page
+     *
+     * @param \App\MainBundle\Entity\Page $page
+     * @return ControlStep
+     */
+    public function setPage(\App\MainBundle\Entity\Page $page = null) {
+        $this->page = $page;
+
+        return $this;
+    }
+
+    /**
+     * Get page
+     *
+     * @return \App\MainBundle\Entity\Page
+     */
+    public function getPage() {
+        return $this->page;
     }
 
 }

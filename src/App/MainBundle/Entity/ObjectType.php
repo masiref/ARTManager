@@ -51,7 +51,7 @@ class ObjectType implements JsonSerializable {
     protected $createdAt;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Action", mappedBy="objectTypes", cascade={"all"}, orphanRemoval=true)
+     * @ORM\ManyToMany(targetEntity="Action", mappedBy="objectTypes")
      */
     protected $actions;
 

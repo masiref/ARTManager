@@ -1,3 +1,4 @@
+/* test folder triggers */
 $( "#modal-add-test-folder" ).modal({
     backdrop: 'static',
     show: false
@@ -12,6 +13,7 @@ $( "#save-test-folder" ).click(function() {
     saveTestFolder(applicationId);
 });
 
+/* test triggers */
 $( "#modal-add-test" ).modal({
     backdrop: 'static',
     show: false
@@ -39,11 +41,13 @@ $( "#save-test" ).click(function() {
     saveTest(testFolderId, testFolderName);
 });
 
+/* hybrid triggers */
 $( "#delete-checked-entities").click(function() {
     var applicationId = $(this).data('application-id');
     deleteEntities(applicationId);
 });
 
+/* test folder methods */
 function refreshTestFolderSubtitle(count) {
     var subtitle = '';
     if (count <= 1) {
@@ -58,22 +62,6 @@ function refreshTestFolderSubtitle(count) {
     }
     subtitle += ' test folder' + (count > 1 ? "s" : "");
     $('#test-folders-count').html(subtitle);
-}
-
-function refreshTestSubtitle(count) {
-    var subtitle = '';
-    if (count <= 1) {
-        subtitle += 'There is ';
-    } else {
-        subtitle += 'There are ';
-    }
-    if (count === 0) {
-        subtitle += 'no ';
-    } else {
-        subtitle += '<span class="badge">' + count + '</span>';
-    }
-    subtitle += ' test' + (count > 1 ? "s" : "");
-    $('#tests-count').html(subtitle);
 }
 
 function saveTestFolder(applicationId) {
@@ -137,6 +125,23 @@ function saveTestFolder(applicationId) {
             $("#modal-add-test-folder").modal('hide');
         }
     });
+}
+
+/* test methods */
+function refreshTestSubtitle(count) {
+    var subtitle = '';
+    if (count <= 1) {
+        subtitle += 'There is ';
+    } else {
+        subtitle += 'There are ';
+    }
+    if (count === 0) {
+        subtitle += 'no ';
+    } else {
+        subtitle += '<span class="badge">' + count + '</span>';
+    }
+    subtitle += ' test' + (count > 1 ? "s" : "");
+    $('#tests-count').html(subtitle);
 }
 
 function refreshTestsTree(id, collapse, checkbox) {
@@ -227,6 +232,84 @@ function showTestsPanel(applicationId) {
     $(testsTreeHtmlId).show();
 }
 
+function setAddTestDataAttributes(id, name, description) {
+    $('#add-test').data('test-folder-id', id);
+    $('#add-test').data('test-folder-name', name);
+    $('#add-test').data('test-folder-description', description);
+}
+
+function clearAddTestDataAttributes() {
+    $('#add-test').removeData('test-folder-id');
+    $('#add-test').removeData('test-folder-name');
+    $('#add-test').removeData('test-folder-description');
+}
+
+function showAddTestForm(id, name, description) {
+    updateAddTestModalTitle(name, description);
+    $('#save-test').data('test-folder-id', id);
+    $('#save-test').data('test-folder-name', name);
+    $("#modal-add-test").modal('show');
+}
+
+function saveTest(testFolderId, testFolderName) {
+    $.ajax({
+        type: 'POST',
+        url: Routing.generate('app_add_application_test_folder_test_ajax', {
+            'id': testFolderId
+        }),
+        data: $("#form-add-test").serialize()
+    }).done(function(data) {
+        if (data.error) {
+            swal("Test not added !", data.error, "error");
+        } else {
+            var id = data.id;
+            var name = data.name;
+            var testsCount = data.testsCount;
+            var applicationId = data.applicationId;
+            var testsTreeHtmlId = "#tree-tests-" + applicationId;
+            hideTestsPanel(applicationId);
+            $(testsTreeHtmlId).treeview({
+                data: data.treeTests,
+                showBorder: false,
+                showCheckbox: true,
+                onNodeSelected: function(event, data) {
+                    showEntityProperties(data);
+                },
+                onNodeUnselected: function(event, data) {
+                    hideEntityPropertiesPanelBodyAndFooter();
+                    clearAddTestDataAttributes();
+                    clearActionsHref();
+                },
+                onNodeChecked: function(event, data) {
+                    checkTreeChildNodes(testsTreeHtmlId, data);
+                    refreshCheckedTestsTreeEntitiesCount(applicationId);
+                },
+                onNodeUnchecked: function(event, data) {
+                    uncheckTreeChildNodes(testsTreeHtmlId, data);
+                    uncheckTreeParentNode(testsTreeHtmlId, data);
+                    refreshCheckedTestsTreeEntitiesCount(applicationId);
+                }             
+            });
+            $(testsTreeHtmlId).treeview('collapseAll', { silent: true });
+            showTestsPanel(applicationId);
+            var selectedNode = $(testsTreeHtmlId).treeview("getSelected")[0];
+            showEntityProperties(selectedNode);
+            $(testsTreeHtmlId).treeview("revealNode", selectedNode);
+            $(testsTreeHtmlId).treeview("expandNode", selectedNode);
+            refreshTestSubtitle(testsCount, applicationId);
+            swal(name + " added to " + testFolderName + " !", "Your test has been added.", "success");
+            $("#form-add-test")[0].reset();
+            $("#modal-add-test").modal('hide');
+        }
+    });
+}
+
+function updateAddTestModalTitle(name, description) {
+    $('#new-test-test-folder-name').html(name);
+    $('#new-test-test-folder-description').html(description);
+}
+
+/* hybrid methods */
 function showEntityProperties(treeNode) {
     if (treeNode) {
         $("#panel-body-entity-properties").show();
@@ -321,86 +404,9 @@ function showEntityProperties(treeNode) {
     }
 }
 
-function setAddTestDataAttributes(id, name, description) {
-    $('#add-test').data('test-folder-id', id);
-    $('#add-test').data('test-folder-name', name);
-    $('#add-test').data('test-folder-description', description);
-}
-
-function clearAddTestDataAttributes() {
-    $('#add-test').removeData('test-folder-id');
-    $('#add-test').removeData('test-folder-name');
-    $('#add-test').removeData('test-folder-description');
-}
-
 function hideEntityPropertiesPanelBodyAndFooter() {
     $('#panel-body-entity-properties').hide();
     $('#panel-footer-entity-properties').hide();
-}
-
-function showAddTestForm(id, name, description) {
-    updateAddTestModalTitle(name, description);
-    $('#save-test').data('test-folder-id', id);
-    $('#save-test').data('test-folder-name', name);
-    $("#modal-add-test").modal('show');
-}
-
-function saveTest(testFolderId, testFolderName) {
-    $.ajax({
-        type: 'POST',
-        url: Routing.generate('app_add_application_test_folder_test_ajax', {
-            'id': testFolderId
-        }),
-        data: $("#form-add-test").serialize()
-    }).done(function(data) {
-        if (data.error) {
-            swal("Test not added !", data.error, "error");
-        } else {
-            var id = data.id;
-            var name = data.name;
-            var testsCount = data.testsCount;
-            var applicationId = data.applicationId;
-            var testsTreeHtmlId = "#tree-tests-" + applicationId;
-            hideTestsPanel(applicationId);
-            $(testsTreeHtmlId).treeview({
-                data: data.treeTests,
-                showBorder: false,
-                showCheckbox: true,
-                onNodeSelected: function(event, data) {
-                    showEntityProperties(data);
-                },
-                onNodeUnselected: function(event, data) {
-                    hideEntityPropertiesPanelBodyAndFooter();
-                    clearAddTestDataAttributes();
-                    clearActionsHref();
-                },
-                onNodeChecked: function(event, data) {
-                    checkTreeChildNodes(testsTreeHtmlId, data);
-                    refreshCheckedTestsTreeEntitiesCount(applicationId);
-                },
-                onNodeUnchecked: function(event, data) {
-                    uncheckTreeChildNodes(testsTreeHtmlId, data);
-                    uncheckTreeParentNode(testsTreeHtmlId, data);
-                    refreshCheckedTestsTreeEntitiesCount(applicationId);
-                }             
-            });
-            $(testsTreeHtmlId).treeview('collapseAll', { silent: true });
-            showTestsPanel(applicationId);
-            var selectedNode = $(testsTreeHtmlId).treeview("getSelected")[0];
-            showEntityProperties(selectedNode);
-            $(testsTreeHtmlId).treeview("revealNode", selectedNode);
-            $(testsTreeHtmlId).treeview("expandNode", selectedNode);
-            refreshTestSubtitle(testsCount, applicationId);
-            swal(name + " added to " + testFolderName + " !", "Your test has been added.", "success");
-            $("#form-add-test")[0].reset();
-            $("#modal-add-test").modal('hide');
-        }
-    });
-}
-
-function updateAddTestModalTitle(name, description) {
-    $('#new-test-test-folder-name').html(name);
-    $('#new-test-test-folder-description').html(description);
 }
 
 function refreshCheckedTestsTreeEntitiesCount(applicationId) {

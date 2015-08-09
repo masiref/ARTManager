@@ -2,9 +2,9 @@
     <a href="#"
        id="delete-control-step-{{ controlStep.id }}"
            data-id="{{ controlStep.id }}"
-           data-name="{{ controlStep.name }}"
            data-order="{{ controlStep.order }}"
            data-step-id="{{ controlStep.parentStep.id }}"
+           data-step-order="{{ controlStep.parentStep.order }}"
            data-toggle="tooltip" data-placement="bottom" title="Delete">
         <i class="fontello-icon-minus-circled"></i>
     </a>
@@ -16,6 +16,15 @@
         </strong>
     </p>
 </div>
-<div class="col-md-10">
-    <p class="control-step-content">{{ controlStep.name }}</p>
+<div class="col-md-9">
+    <p class="control-step-content">{{ controlStep }}</p>
+</div>
+<div class="col-md-1">
+    <a href="#"
+       id="edit-control-step-{{ controlStep.id }}"
+       data-id="{{ controlStep.id }}"
+       data-step-id="{{ controlStep.parentStep.id }}"
+       data-toggle="tooltip" data-placement="bottom" title="Edit">
+        <i class="fontello-icon-edit"></i>
+    </a>
 </div>

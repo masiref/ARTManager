@@ -112,15 +112,15 @@ class Test implements JsonSerializable {
     }
 
     public function getPageAtStepOrder($order) {
+        $step = null;
         foreach ($this->steps as $step) {
             if ($step->getOrder() === $order) {
                 break;
             }
-            $previousStep = $step;
         }
         $page = null;
-        if ($previousStep !== null) {
-            $page = $previousStep->getActivePage();
+        if ($step !== null) {
+            $page = $step->getActivePage();
         }
         if ($page === null) {
             $page = $this->startingPage;

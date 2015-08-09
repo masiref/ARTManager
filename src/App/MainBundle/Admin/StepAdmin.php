@@ -34,7 +34,16 @@ class StepAdmin extends Admin {
                 ));
             } elseif ($subject instanceof ControlStep) {
                 $formMapper->add('parentStep', 'sonata_type_model', array(
-                    'btn_add' => false
+                            'btn_add' => false
+                        ))
+                        ->add('action', 'sonata_type_model', array(
+                            'btn_add' => false
+                        ))
+                        ->add('page', 'sonata_type_model', array(
+                            'btn_add' => false
+                        ))
+                        ->add('object', 'sonata_type_model', array(
+                            'btn_add' => false
                 ));
             }
         }

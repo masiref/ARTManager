@@ -16,4 +16,14 @@ class ParameterSetRepository extends EntityRepository {
         return $query->getOneOrNullResult();
     }
 
+    public function findByPageTypeAndAction($pageType, $action) {
+        $query = $this->createQueryBuilder('ps')
+                ->where('ps.pageType = :pageType')
+                ->andWhere('ps.action = :action')
+                ->setParameter('pageType', $pageType)
+                ->setParameter('action', $action)
+                ->getQuery();
+        return $query->getOneOrNullResult();
+    }
+
 }

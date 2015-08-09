@@ -1,3 +1,5 @@
-<div class="row control-step" id="control-step-row-{{ controlStep.id }}">
+<div
+    class="row control-step {% if controlStep.page %}bg-info{% else %}bg-success{% endif %}"
+    id="control-step-row-{{ controlStep.id }}">
     {% include 'AppMainBundle:test:step/control/line.html.twig' with { 'controlStep': controlStep } %}
 </div>

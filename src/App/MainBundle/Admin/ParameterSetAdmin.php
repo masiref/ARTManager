@@ -44,7 +44,8 @@ class ParameterSetAdmin extends Admin {
                 ->add('name')
                 ->add('description')
                 ->add('action')
-                ->add('objectType');
+                ->add('objectType')
+                ->add('parameters');
     }
 
     protected function configureListFields(ListMapper $listMapper) {
@@ -52,7 +53,8 @@ class ParameterSetAdmin extends Admin {
                 ->addIdentifier('name')
                 ->add('description')
                 ->add('action')
-                ->add('objectType');
+                ->add('objectType')
+                ->add('parameters');
     }
 
 }

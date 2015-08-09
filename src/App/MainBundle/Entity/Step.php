@@ -121,6 +121,15 @@ class Step implements JsonSerializable {
         $this->parameterDatas->clear();
     }
 
+    public function getControlStepAt($order) {
+        foreach ($this->controlSteps as $controlStep) {
+            if ($controlStep->getOrder() == $order) {
+                return $controlStep;
+            }
+        }
+        return null;
+    }
+
     /**
      * Get id
      *

@@ -1,11 +1,10 @@
+/* project triggers */
 $( "#modal-add-project" ).modal({
     backdrop: 'static',
     show: false
 });
 
 $( "#add-project" ).click(function() {
-    var name = $(this).data('name');
-    var description = $(this).data('description');
     $("#modal-add-project").modal('show');
 });
 
@@ -19,6 +18,7 @@ $( "[id^=delete-project-]" ).click(function() {
     deleteProject(id, name);
 });
 
+/* application triggers */
 $( "[id^=modal-add-application-]" ).modal({
     backdrop: 'static',
     show: false
@@ -39,6 +39,7 @@ $( "[id^=delete-application-]" ).click(function() {
     deleteApplication(id, name, projectId, projectName);
 });
 
+/* project methods */
 function refreshProjectSubtitle(count) {
     var subtitle = '';
     if (count <= 1) {
@@ -53,22 +54,6 @@ function refreshProjectSubtitle(count) {
     }
     subtitle += ' project' + (count > 1 ? "s" : "");
     $('#projects-count').html(subtitle);;
-}
-
-function refreshApplicationSubtitle(count, projectId) {
-    var subtitle = '';
-    if (count <= 1) {
-        subtitle += 'There is ';
-    } else {
-        subtitle += 'There are ';
-    }
-    if (count === 0) {
-        subtitle += 'no ';
-    } else {
-        subtitle += '<span class="badge">' + count + '</span>';
-    }
-    subtitle += ' application' + (count > 1 ? "s" : "") + ' in the project';
-    $('#application-count-' + projectId).html(subtitle);
 }
 
 function saveProject() {
@@ -155,6 +140,23 @@ function deleteProject(id, name) {
             }
         });
     });
+}
+
+/* application methods */
+function refreshApplicationSubtitle(count, projectId) {
+    var subtitle = '';
+    if (count <= 1) {
+        subtitle += 'There is ';
+    } else {
+        subtitle += 'There are ';
+    }
+    if (count === 0) {
+        subtitle += 'no ';
+    } else {
+        subtitle += '<span class="badge">' + count + '</span>';
+    }
+    subtitle += ' application' + (count > 1 ? "s" : "") + ' in the project';
+    $('#application-count-' + projectId).html(subtitle);
 }
 
 function showAddApplicationForm(id, name, description) {

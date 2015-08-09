@@ -1,3 +1,4 @@
+/* object map trigger */
 $( "#modal-add-object-map" ).modal({
     backdrop: 'static',
     show: false
@@ -18,12 +19,8 @@ $( "[id^=delete-object-map-]" ).click(function() {
     deleteObjectMap(id, name);
 });
 
+/* page triggers */
 $( "#modal-add-page" ).modal({
-    backdrop: 'static',
-    show: false
-});
-
-$( "#modal-add-object" ).modal({
     backdrop: 'static',
     show: false
 });
@@ -39,6 +36,12 @@ $( "#save-page" ).click(function() {
     var objectMapId = $(this).data('object-map-id');
     var objectMapName = $(this).data('object-map-name');
     savePage(objectMapId, objectMapName);
+});
+
+/* object triggers */
+$( "#modal-add-object" ).modal({
+    backdrop: 'static',
+    show: false
 });
 
 $( "#add-object" ).click(function() {
@@ -63,11 +66,13 @@ $( "#save-object" ).click(function() {
     saveObject(pageId, pageName);
 });
 
+/* hybrid triggers */
 $( "#delete-checked-objects").click(function() {
     var objectMapId = $(this).data('object-map-id');
     deleteObjects(objectMapId);
 });
 
+/* object map methods */
 function refreshObjectMapSubtitle(count) {
     var subtitle = '';
     if (count <= 1) {
@@ -82,38 +87,6 @@ function refreshObjectMapSubtitle(count) {
     }
     subtitle += ' object map' + (count > 1 ? "s" : "");
     $('#object-maps-count').html(subtitle);;
-}
-
-function refreshPageSubtitle(count, objectMapId) {
-    var subtitle = '';
-    if (count <= 1) {
-        subtitle += 'There is ';
-    } else {
-        subtitle += 'There are ';
-    }
-    if (count === 0) {
-        subtitle += 'no ';
-    } else {
-        subtitle += '<span class="badge">' + count + '</span>';
-    }
-    subtitle += ' page' + (count > 1 ? "s" : "") + ' in the object map';
-    $('#page-count-' + objectMapId).html(subtitle);
-}
-
-function refreshObjectSubtitle(count, objectMapId) {
-    var subtitle = '';
-    if (count <= 1) {
-        subtitle += 'There is ';
-    } else {
-        subtitle += 'There are ';
-    }
-    if (count === 0) {
-        subtitle += 'no ';
-    } else {
-        subtitle += '<span class="badge">' + count + '</span>';
-    }
-    subtitle += ' object' + (count > 1 ? "s" : "") + ' in the object map';
-    $('#object-count-' + objectMapId).html(subtitle);
 }
 
 function saveObjectMap(applicationId) {
@@ -190,6 +163,127 @@ function deleteObjectMap(id, name) {
     });
 }
 
+function refreshObjectMap(id, collapse, checkbox) {
+    $.ajax({
+        type: 'POST',
+        url: Routing.generate('app_application_get_object_map_tree_ajax', {
+            'id': id
+        })
+    }).done(function(data) {
+        showObjectMapTree(data, collapse, checkbox);
+        revealObjectMapSelectedNode(id);
+    });
+}
+
+function refreshObjectMaps(applicationId, collapse) {
+    $(document).ready(function() {
+        $.ajax({
+            type: 'POST',
+            url: Routing.generate('app_application_get_object_map_trees_ajax', {
+                'id': applicationId
+            })
+        }).done(function(data) {
+            showObjectMapTrees(data, collapse, false);
+        });
+    });
+}
+
+function hideObjectMapPanel(objectMapId) {
+    var objectMapHtmlId = "#tree-object-map-" + objectMapId;
+    $(objectMapHtmlId + "-loader").addClass("three-quarters-loader");
+    $(objectMapHtmlId).hide();
+}
+
+function showObjectMapPanel(objectMapId) {
+    var objectMapHtmlId = "#tree-object-map-" + objectMapId;
+    $(objectMapHtmlId + "-loader").removeClass("three-quarters-loader");
+    $(objectMapHtmlId).show();
+}
+
+function showObjectMapTrees(data, collapse, checkbox) {
+    jQuery.each(data, function(i, val) {
+        var id = i.substring(i.lastIndexOf("-") + 1);
+        var htmlId = "#" + i;
+        $(htmlId).treeview({
+            data: val,
+            showBorder: false,
+            showCheckbox: checkbox,
+            onNodeSelected: function(event, data) {
+                showObjectProperties(data);
+            },
+            onNodeUnselected: function(event, data) {
+                hideObjectPropertiesPanelBodyAndFooter();
+                clearAddObjectDataAttributes();
+            },
+            onNodeChecked: function(event, data) {
+                checkTreeChildNodes(htmlId, data);
+                refreshCheckedObjectMapObjectsCount(id);
+            },
+            onNodeUnchecked: function(event, data) {
+                uncheckTreeChildNodes(htmlId, data);
+                uncheckTreeParentNode(htmlId, data);
+                refreshCheckedObjectMapObjectsCount(id);
+            }
+        });
+        if (collapse) {
+            $(htmlId).treeview('collapseAll', { silent: true });
+        }
+        revealObjectMapSelectedNode(id);
+        showObjectMapPanel(id);
+    });
+}
+
+function showObjectMapTree(data, collapse, checkbox) {
+    showObjectMapTrees(data, collapse, checkbox);
+}
+
+function showObjectMapTreeWithSelectedPage(pageId) {
+    $.ajax({
+        type: 'POST',
+        url: Routing.generate('app_application_get_object_map_tree_with_selected_page_ajax', {
+            'id': pageId
+        })
+    }).done(function(data) {
+        showObjectMapTree(data, true, true);
+    });
+}
+
+function showObjectMapTreeWithSelectedObject(objectId) {
+    $.ajax({
+        type: 'POST',
+        url: Routing.generate('app_application_get_object_map_tree_with_selected_object_ajax', {
+            'id': objectId
+        })
+    }).done(function(data) {
+        showObjectMapTree(data, true, true);
+    });
+}
+
+function revealObjectMapSelectedNode(objectMapId) {
+    var objectMapHtmlId = "#tree-object-map-" + objectMapId;
+    var selectedNode = $(objectMapHtmlId).treeview("getSelected")[0];
+    if (selectedNode) {
+        $(objectMapHtmlId).treeview("revealNode", selectedNode);
+    }
+}
+
+/* page methods */
+function refreshPageSubtitle(count, objectMapId) {
+    var subtitle = '';
+    if (count <= 1) {
+        subtitle += 'There is ';
+    } else {
+        subtitle += 'There are ';
+    }
+    if (count === 0) {
+        subtitle += 'no ';
+    } else {
+        subtitle += '<span class="badge">' + count + '</span>';
+    }
+    subtitle += ' page' + (count > 1 ? "s" : "") + ' in the object map';
+    $('#page-count-' + objectMapId).html(subtitle);
+}
+
 function showAddPageForm(id, name, description) {
     $('#new-page-object-map-name').html(name);
     $('#save-page').data('object-map-id', id);
@@ -261,6 +355,40 @@ function savePage(objectMapId, objectMapName) {
     });
 }
 
+function showPageTypeBlock() {
+    $('#page-type-block').show();
+}
+
+function hidePageTypeBlock() {
+    $('#page-type-block').hide();
+}
+
+/* object methods */
+function refreshObjectSubtitle(count, objectMapId) {
+    var subtitle = '';
+    if (count <= 1) {
+        subtitle += 'There is ';
+    } else {
+        subtitle += 'There are ';
+    }
+    if (count === 0) {
+        subtitle += 'no ';
+    } else {
+        subtitle += '<span class="badge">' + count + '</span>';
+    }
+    subtitle += ' object' + (count > 1 ? "s" : "") + ' in the object map';
+    $('#object-count-' + objectMapId).html(subtitle);
+}
+
+function showAddObjectForm(id, name, description) {
+    $('#new-object-page-name').html(name);
+    $('#save-object').data('page-id', id);
+    $('#save-object').data('page-name', name);
+    $('#new-object-page-description').html(description);
+    $('#save-object').data('page-description', description);
+    $("#modal-add-object").modal('show');
+}
+
 function saveObject(pageId, pageName) {
     $.ajax({
         type: 'POST',
@@ -313,6 +441,27 @@ function saveObject(pageId, pageName) {
     });
 }
 
+function setAddObjectDataAttributes(id, name, description) {
+    $('#add-object').data('page-id', id);
+    $('#add-object').data('page-name', name);
+    $('#add-object').data('page-description', description);
+}
+
+function clearAddObjectDataAttributes() {
+    $('#add-object').removeData('page-id');
+    $('#add-object').removeData('page-name');
+    $('#add-object').removeData('page-description');
+}
+
+function showObjectTypeBlock() {
+    $('#object-type-block').show();
+}
+
+function hideObjectTypeBlock() {
+    $('#object-type-block').hide();
+}
+
+/* hybrid methods */
 function deleteObjects(objectMapId) {
     var objectMapHtmlId = "#tree-object-map-" + objectMapId;
     swal({
@@ -378,15 +527,6 @@ function deleteObjects(objectMapId) {
             }
         });
     });
-}
-
-function showAddObjectForm(id, name, description) {
-    $('#new-object-page-name').html(name);
-    $('#save-object').data('page-id', id);
-    $('#save-object').data('page-name', name);
-    $('#new-object-page-description').html(description);
-    $('#save-object').data('page-description', description);
-    $("#modal-add-object").modal('show');
 }
 
 function showObjectProperties(treeNode) {
@@ -534,91 +674,9 @@ function showObjectProperties(treeNode) {
     }
 }
 
-function setAddObjectDataAttributes(id, name, description) {
-    $('#add-object').data('page-id', id);
-    $('#add-object').data('page-name', name);
-    $('#add-object').data('page-description', description);
-}
-
-function clearAddObjectDataAttributes() {
-    $('#add-object').removeData('page-id');
-    $('#add-object').removeData('page-name');
-    $('#add-object').removeData('page-description');
-}
-
 function hideObjectPropertiesPanelBodyAndFooter() {
     $('#panel-body-object-properties').hide();
     $('#panel-footer-object-properties').hide();
-}
-
-function refreshObjectMap(id, collapse, checkbox) {
-    $.ajax({
-        type: 'POST',
-        url: Routing.generate('app_application_get_object_map_tree_ajax', {
-            'id': id
-        })
-    }).done(function(data) {
-        showObjectMapTree(data, collapse, checkbox);
-        revealObjectMapSelectedNode(id);
-    });
-}
-
-function refreshObjectMaps(applicationId, collapse) {
-    $(document).ready(function() {
-        $.ajax({
-            type: 'POST',
-            url: Routing.generate('app_application_get_object_map_trees_ajax', {
-                'id': applicationId
-            })
-        }).done(function(data) {
-            showObjectMapTrees(data, collapse, false);
-        });
-    });
-}
-
-function hideObjectMapPanel(objectMapId) {
-    var objectMapHtmlId = "#tree-object-map-" + objectMapId;
-    $(objectMapHtmlId + "-loader").addClass("three-quarters-loader");
-    $(objectMapHtmlId).hide();
-}
-
-function showObjectMapPanel(objectMapId) {
-    var objectMapHtmlId = "#tree-object-map-" + objectMapId;
-    $(objectMapHtmlId + "-loader").removeClass("three-quarters-loader");
-    $(objectMapHtmlId).show();
-}
-
-function showObjectMapTrees(data, collapse, checkbox) {
-    jQuery.each(data, function(i, val) {
-        var id = i.substring(i.lastIndexOf("-") + 1);
-        var htmlId = "#" + i;
-        $(htmlId).treeview({
-            data: val,
-            showBorder: false,
-            showCheckbox: checkbox,
-            onNodeSelected: function(event, data) {
-                showObjectProperties(data);
-            },
-            onNodeUnselected: function(event, data) {
-                hideObjectPropertiesPanelBodyAndFooter();
-                clearAddObjectDataAttributes();
-            },
-            onNodeChecked: function(event, data) {
-                checkTreeChildNodes(htmlId, data);
-                refreshCheckedObjectMapObjectsCount(id);
-            },
-            onNodeUnchecked: function(event, data) {
-                uncheckTreeChildNodes(htmlId, data);
-                uncheckTreeParentNode(htmlId, data);
-                refreshCheckedObjectMapObjectsCount(id);
-            }
-        });
-        if (collapse) {
-            $(htmlId).treeview('collapseAll', { silent: true });
-        }
-        revealObjectMapSelectedNode(id);
-        showObjectMapPanel(id);
-    });
 }
 
 function refreshCheckedObjectMapObjectsCount(objectMapId) {
@@ -630,56 +688,6 @@ function refreshCheckedObjectMapObjectsCount(objectMapId) {
     } else {
         $("#delete-checked-objects").addClass("disabled");
     }
-}
-
-function showObjectMapTree(data, collapse, checkbox) {
-    showObjectMapTrees(data, collapse, checkbox);
-}
-
-function showObjectMapTreeWithSelectedPage(pageId) {
-    $.ajax({
-        type: 'POST',
-        url: Routing.generate('app_application_get_object_map_tree_with_selected_page_ajax', {
-            'id': pageId
-        })
-    }).done(function(data) {
-        showObjectMapTree(data, true, true);
-    });
-}
-
-function showObjectMapTreeWithSelectedObject(objectId) {
-    $.ajax({
-        type: 'POST',
-        url: Routing.generate('app_application_get_object_map_tree_with_selected_object_ajax', {
-            'id': objectId
-        })
-    }).done(function(data) {
-        showObjectMapTree(data, true, true);
-    });
-}
-
-function revealObjectMapSelectedNode(objectMapId) {
-    var objectMapHtmlId = "#tree-object-map-" + objectMapId;
-    var selectedNode = $(objectMapHtmlId).treeview("getSelected")[0];
-    if (selectedNode) {
-        $(objectMapHtmlId).treeview("revealNode", selectedNode);
-    }
-}
-
-function showObjectTypeBlock() {
-    $('#object-type-block').show();
-}
-
-function hideObjectTypeBlock() {
-    $('#object-type-block').hide();
-}
-
-function showPageTypeBlock() {
-    $('#page-type-block').show();
-}
-
-function hidePageTypeBlock() {
-    $('#page-type-block').hide();
 }
 
 function showObjectIdentifierBlock() {

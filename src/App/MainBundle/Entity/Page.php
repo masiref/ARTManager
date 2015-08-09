@@ -8,21 +8,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use JsonSerializable;
 
-//@ORM\UniqueConstraint(name="IDX_Unique_Object_Map", columns={"name", "object_map_id", "page_type_id"}),
-//* @UniqueEntity(
-//*      fields={"name"},
-//*      message="Name already used.",
-//*      groups="page_object_map"
-//* )
-//* @UniqueEntity(
-//*      fields={"objectMap"},
-//*      groups="page_object_map"
-//* )
-//* @UniqueEntity(
-//*      fields={"pageType"},
-//*      groups="page_object_map"
-//* )
-
 /**
  * @ORM\Entity
  * @ORM\Table(name="page", uniqueConstraints={
@@ -201,6 +186,17 @@ class Page implements JsonSerializable {
             return $this->objectMap->getName();
         }
         return $this->page->getParentName() . " > " . $this->page->name;
+    }
+
+    public function getAvailableControlActions() {
+        $actions = $this->pageType->getActions();
+        $result = array();
+        foreach ($actions as $action) {
+            if ($action->getActionType()->getName() == "Control") {
+                $result[] = $action;
+            }
+        }
+        return $result;
     }
 
     /**

@@ -1,2 +1,11 @@
-{% set form = startingPageFormView %}
-{{ form_widget(form.startingPage) }}
+<div class="row test-starting">
+    <div class="col-md-4 col-md-offset-4">
+        <h2 class="text-center">
+            <i class="fontello-icon-to-start"></i> Starting page
+        </h2>
+        <h2 class="text-center">
+            {% set form = startingPageFormView %}
+            {{ form_widget(form.startingPage) }}
+        </h2>
+    </div>
+</div>
