@@ -17,7 +17,8 @@
     </p>
 </div>
 <div class="col-md-9">
-    <p class="control-step-content">{{ controlStep }}</p>
+    {% set sentence = controlStep.sentence(locale) %}
+    <h4>{% if sentence %}{{ sentence|raw }}{% else %}{{ controlStep }}{% endif %}</h4>
 </div>
 <div class="col-md-1">
     <a href="#"

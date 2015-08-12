@@ -167,3 +167,23 @@ services:
             - ~
         calls:
             - [ setTranslationDomain, [AppMainBundle] ]
+    sonata.admin.step_sentence_group:
+        class: App\MainBundle\Admin\StepSentenceGroupAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Settings", label: "Step Sentence Group" }
+        arguments:
+            - ~
+            - App\MainBundle\Entity\StepSentenceGroup
+            - ~
+        calls:
+            - [ setTranslationDomain, [AppMainBundle] ]
+    sonata.admin.step_sentence:
+        class: App\MainBundle\Admin\StepSentenceAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Settings", label: "Step Sentence" }
+        arguments:
+            - ~
+            - App\MainBundle\Entity\StepSentence
+            - ~
+        calls:
+            - [ setTranslationDomain, [AppMainBundle] ]

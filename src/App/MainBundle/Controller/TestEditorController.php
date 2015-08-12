@@ -493,7 +493,7 @@ class TestEditorController extends Controller {
      *      options={"expose" = true }
      * )
      * @Secure(roles="ROLE_SUPER_ADMIN")
-     * @ParamConverter("step", class="AppMainBundle:ControlStep")
+     * @ParamConverter("controlStep", class="AppMainBundle:ControlStep")
      */
     public function updateControlStepAction($controlStep, Request $request) {
         $ajaxResponse = array();

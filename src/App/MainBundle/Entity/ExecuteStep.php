@@ -4,13 +4,15 @@ namespace App\MainBundle\Entity;
 
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="execute_step")
+ * @ORM\HasLifecycleCallbacks()
  */
 class ExecuteStep extends Step {
 
@@ -18,16 +20,6 @@ class ExecuteStep extends Step {
      * @var integer
      */
     protected $id;
-
-    /**
-     * @var string
-     */
-    protected $name;
-
-    /**
-     * @var string
-     */
-    protected $description;
 
     /**
      * @var integer
@@ -74,9 +66,14 @@ class ExecuteStep extends Step {
     protected $object;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var Collection
      */
     protected $parameterDatas;
+
+    /**
+     * @var \App\MainBundle\Entity\StepSentenceGroup
+     */
+    protected $sentenceGroup;
 
     /**
      * Constructor
@@ -101,23 +98,66 @@ class ExecuteStep extends Step {
     }
 
     public function getActivePage() {
-        $page = null;
-        $lastControlStep = null;
-        if ($this->controlSteps->count() > 0) {
-            $lastControlStep = $this->controlSteps->get($this->controlSteps->count() - 1);
-        }
-        if ($lastControlStep !== null) {
-            $page = $lastControlStep->getActivePage();
-        }
-        $order = $this->order - 1;
-        while ($page == null && $order > 0) {
-            $page = $this->test->getPageAtStepOrder($order);
-            $order -= 1;
-        }
-        if ($page == null) {
-            $page = $this->test->getStartingPage();
+        $page = $this->test->getStartingPage();
+        if ($this->order >= 1) {
+            $page = null;
+            $lastControlStep = null;
+            if ($this->controlSteps->count() > 0) {
+                $lastControlStep = $this->controlSteps->get($this->controlSteps->count() - 1);
+            }
+            if ($lastControlStep !== null) {
+                $page = $lastControlStep->getActivePage();
+            }
+            $order = $this->order - 1;
+            while ($page == null && $order > 0) {
+                $page = $this->test->getPageAtStepOrder($order);
+                $order -= 1;
+            }
         }
         return $page;
+    }
+
+    public function getPageAtControlStepOrder($order) {
+        $page = $this->test->getPageAtStepOrder($this->order - 1);
+        if ($order > 0) {
+            $controlStep = null;
+            foreach ($this->controlSteps as $controlStep) {
+                if ($controlStep->getOrder() === $order) {
+                    break;
+                }
+            }
+            if ($controlStep !== null) {
+                $page = $controlStep->getActivePage();
+            }
+        }
+        return $page;
+    }
+
+    /**
+     * @ORM\PreUpdate
+     * @ORM\PrePersist
+     */
+    public function updateSentenceGroup(LifecycleEventArgs $event) {
+        $oldAction = null;
+        $oldObjectType = null;
+        $oldSentenceGroup = $this->sentenceGroup;
+        if ($oldSentenceGroup !== null) {
+            $oldAction = $oldSentenceGroup->getAction();
+            $oldObjectType = $oldSentenceGroup->getObjectType();
+        }
+        $action = $this->action;
+        $objectType = $this->object->getObjectType();
+        if ($oldAction != $action || $oldObjectType != $objectType) {
+            $em = $event->getEntityManager();
+            $sentenceGroup = $em->getRepository("AppMainBundle:StepSentenceGroup")
+                    ->findByObjectTypeAndAction($objectType, $action);
+            $this->sentenceGroup = $sentenceGroup;
+        }
+    }
+
+    public function getSentence($locale) {
+        $result = str_replace("\"%object%\"", $this->object->getHtml(), parent::getSentence($locale));
+        return $result;
     }
 
     /**
@@ -127,48 +167,6 @@ class ExecuteStep extends Step {
      */
     public function getId() {
         return $this->id;
-    }
-
-    /**
-     * Set name
-     *
-     * @param string $name
-     * @return ExecuteStep
-     */
-    public function setName($name) {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    /**
-     * Get name
-     *
-     * @return string
-     */
-    public function getName() {
-        return $this->name;
-    }
-
-    /**
-     * Set description
-     *
-     * @param string $description
-     * @return ExecuteStep
-     */
-    public function setDescription($description) {
-        $this->description = $description;
-
-        return $this;
-    }
-
-    /**
-     * Get description
-     *
-     * @return string
-     */
-    public function getDescription() {
-        return $this->description;
     }
 
     /**
@@ -311,10 +309,10 @@ class ExecuteStep extends Step {
     /**
      * Set action
      *
-     * @param \App\MainBundle\Entity\Action $action
+     * @param Action $action
      * @return ExecuteStep
      */
-    public function setAction(\App\MainBundle\Entity\Action $action = null) {
+    public function setAction(Action $action = null) {
         $this->action = $action;
 
         return $this;
@@ -323,7 +321,7 @@ class ExecuteStep extends Step {
     /**
      * Get action
      *
-     * @return \App\MainBundle\Entity\Action
+     * @return Action
      */
     public function getAction() {
         return $this->action;
@@ -332,10 +330,10 @@ class ExecuteStep extends Step {
     /**
      * Set object
      *
-     * @param \App\MainBundle\Entity\Object $object
+     * @param Object $object
      * @return ExecuteStep
      */
-    public function setObject(\App\MainBundle\Entity\Object $object = null) {
+    public function setObject(Object $object = null) {
         $this->object = $object;
 
         return $this;
@@ -344,7 +342,7 @@ class ExecuteStep extends Step {
     /**
      * Get object
      *
-     * @return \App\MainBundle\Entity\Object
+     * @return Object
      */
     public function getObject() {
         return $this->object;
@@ -353,10 +351,10 @@ class ExecuteStep extends Step {
     /**
      * Add parameterDatas
      *
-     * @param \App\MainBundle\Entity\ParameterData $parameterDatas
+     * @param ParameterData $parameterDatas
      * @return ExecuteStep
      */
-    public function addParameterData(\App\MainBundle\Entity\ParameterData $parameterDatas) {
+    public function addParameterData(ParameterData $parameterDatas) {
         $parameterDatas->setStep($this);
         $this->parameterDatas[] = $parameterDatas;
 
@@ -366,19 +364,40 @@ class ExecuteStep extends Step {
     /**
      * Remove parameterDatas
      *
-     * @param \App\MainBundle\Entity\ParameterData $parameterDatas
+     * @param ParameterData $parameterDatas
      */
-    public function removeParameterData(\App\MainBundle\Entity\ParameterData $parameterDatas) {
+    public function removeParameterData(ParameterData $parameterDatas) {
         $this->parameterDatas->removeElement($parameterDatas);
     }
 
     /**
      * Get parameterDatas
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return Collection
      */
     public function getParameterDatas() {
         return $this->parameterDatas;
+    }
+
+    /**
+     * Set sentenceGroup
+     *
+     * @param \App\MainBundle\Entity\StepSentenceGroup $sentenceGroup
+     * @return ExecuteStep
+     */
+    public function setSentenceGroup(\App\MainBundle\Entity\StepSentenceGroup $sentenceGroup = null) {
+        $this->sentenceGroup = $sentenceGroup;
+
+        return $this;
+    }
+
+    /**
+     * Get sentenceGroup
+     *
+     * @return \App\MainBundle\Entity\StepSentenceGroup
+     */
+    public function getSentenceGroup() {
+        return $this->sentenceGroup;
     }
 
 }

@@ -4,14 +4,13 @@ namespace App\MainBundle\Entity;
 
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use JsonSerializable;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
- * @ORM\Entity(repositoryClass="ParameterSetRepository")
- * @ORM\Table(name="parameter_set", uniqueConstraints={@ORM\UniqueConstraint(name="IDX_Unique", columns={"action_id", "object_type_id"})})
+ * @ORM\Entity(repositoryClass="StepSentenceGroupRepository")
+ * @ORM\Table(name="step_sentence_group", uniqueConstraints={@ORM\UniqueConstraint(name="IDX_Unique", columns={"action_id", "object_type_id"})})
  * @UniqueEntity(
  *      fields={"action"},
  *      message="Action and Object Type already mapped.",
@@ -22,7 +21,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *      groups="parameter_set"
  * )
  */
-class ParameterSet implements JsonSerializable {
+class StepSentenceGroup implements JsonSerializable {
 
     /**
      * @ORM\Column(type="integer")
@@ -49,19 +48,28 @@ class ParameterSet implements JsonSerializable {
     protected $objectType;
 
     /**
-     * @ORM\OneToMany(targetEntity="Parameter", mappedBy="parameterSet", cascade={"all"}, orphanRemoval=true)
-     * @ORM\OrderBy({"order" = "ASC"})
+     * @ORM\ManyToOne(targetEntity="PageType")
+     * @ORM\JoinColumn(name="page_type_id", referencedColumnName="id")
      */
-    protected $parameters;
+    protected $pageType;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="StepSentence", inversedBy="groups")
+     * @ORM\JoinTable(name="group_step_sentence",
+     *      joinColumns={@ORM\JoinColumn(name="group_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="step_sentence_id", referencedColumnName="id")}
+     * )
+     */
+    protected $sentences;
 
     public function __construct() {
         $this->createdAt = new DateTime();
-        $this->parameters = new ArrayCollection();
+        $this->sentences = new ArrayCollection();
     }
 
     public function __toString() {
         if ($this->action != null && $this->objectType != null) {
-            return $this->action . " / " . $this->objectType;
+            return $this->action . " " . $this->objectType;
         }
         return "New";
     }
@@ -148,35 +156,54 @@ class ParameterSet implements JsonSerializable {
     }
 
     /**
-     * Add parameters
+     * Add sentences
      *
-     * @param Parameter $parameters
-     * @return ParameterSet
+     * @param StepSentence $sentences
+     * @return StepSentenceGroup
      */
-    public function addParameter(Parameter $parameters) {
-        $parameters->setOrder($this->parameters->count() + 1);
-        $parameters->setParameterSet($this);
-        $this->parameters[] = $parameters;
+    public function addSentence(StepSentence $sentences) {
+        $this->sentences[] = $sentences;
 
         return $this;
     }
 
     /**
-     * Remove parameters
+     * Remove sentences
      *
-     * @param Parameter $parameters
+     * @param StepSentence $sentences
      */
-    public function removeParameter(Parameter $parameters) {
-        $this->parameters->removeElement($parameters);
+    public function removeSentence(StepSentence $sentences) {
+        $this->sentences->removeElement($sentences);
     }
 
     /**
-     * Get parameters
+     * Get sentences
      *
-     * @return Collection
+     * @return \Doctrine\Common\Collections\Collection
      */
-    public function getParameters() {
-        return $this->parameters;
+    public function getSentences() {
+        return $this->sentences;
+    }
+
+    /**
+     * Set pageType
+     *
+     * @param \App\MainBundle\Entity\PageType $pageType
+     * @return StepSentenceGroup
+     */
+    public function setPageType(\App\MainBundle\Entity\PageType $pageType = null) {
+        $this->pageType = $pageType;
+
+        return $this;
+    }
+
+    /**
+     * Get pageType
+     *
+     * @return \App\MainBundle\Entity\PageType
+     */
+    public function getPageType() {
+        return $this->pageType;
     }
 
 }

@@ -22,8 +22,14 @@ class ExecuteStepType extends AbstractType {
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options) {
+        $step = $builder->getData();
         $page = $this->page;
         $test = $this->test;
+        $order = $step->getOrder();
+        if ($order != 0) {
+            $page = $test->getPageAtStepOrder($order - 1);
+        }
+
         $factory = $builder->getFormFactory();
         $em = $this->em;
 

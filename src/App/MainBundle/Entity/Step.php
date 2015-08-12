@@ -46,16 +46,6 @@ class Step implements JsonSerializable {
     protected $id;
 
     /**
-     * @ORM\Column(type="string", nullable=true)
-     */
-    protected $name;
-
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
-    protected $description;
-
-    /**
      * @ORM\Column(name="_order", type="integer")
      */
     protected $order;
@@ -93,6 +83,12 @@ class Step implements JsonSerializable {
      */
     protected $parameterDatas;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="StepSentenceGroup")
+     * @ORM\JoinColumn(name="sentence_group_id", referencedColumnName="id", nullable=true)
+     */
+    protected $sentenceGroup;
+
     public function __construct() {
         $this->createdAt = new DateTime();
         $this->controlSteps = new ArrayCollection();
@@ -109,8 +105,6 @@ class Step implements JsonSerializable {
     public function jsonSerialize() {
         return array(
             'id' => $this->id,
-            'name' => $this->name,
-            'description' => $this->description,
             'order' => $this->order,
             'status' => $this->status,
             'createdAt' => $this->createdAt->format('d/m/Y H:i:s')
@@ -130,6 +124,23 @@ class Step implements JsonSerializable {
         return null;
     }
 
+    public function getSentence($locale) {
+        $result = "";
+        if ($this->sentenceGroup !== null) {
+            foreach ($this->sentenceGroup->getSentences() as $sentence) {
+                if ($sentence->getLocale() == $locale) {
+                    $result = $sentence->getSentence();
+                }
+            }
+            foreach ($this->parameterDatas as $parameterData) {
+                $parameter = $parameterData->getParameter();
+                $placeholder = "%" . $parameter->getPlaceholder() . "%";
+                $result = str_replace($placeholder, "<b>" . $parameterData->getValue() . "</b>", $result);
+            }
+        }
+        return $result;
+    }
+
     /**
      * Get id
      *
@@ -137,48 +148,6 @@ class Step implements JsonSerializable {
      */
     public function getId() {
         return $this->id;
-    }
-
-    /**
-     * Set name
-     *
-     * @param string $name
-     * @return Step
-     */
-    public function setName($name) {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    /**
-     * Get name
-     *
-     * @return string
-     */
-    public function getName() {
-        return $this->name;
-    }
-
-    /**
-     * Set description
-     *
-     * @param string $description
-     * @return Step
-     */
-    public function setDescription($description) {
-        $this->description = $description;
-
-        return $this;
-    }
-
-    /**
-     * Get description
-     *
-     * @return string
-     */
-    public function getDescription() {
-        return $this->description;
     }
 
     /**
@@ -347,6 +316,27 @@ class Step implements JsonSerializable {
      */
     public function getParameterDatas() {
         return $this->parameterDatas;
+    }
+
+    /**
+     * Set sentenceGroup
+     *
+     * @param \App\MainBundle\Entity\StepSentenceGroup $sentenceGroup
+     * @return Step
+     */
+    public function setSentenceGroup(\App\MainBundle\Entity\StepSentenceGroup $sentenceGroup = null) {
+        $this->sentenceGroup = $sentenceGroup;
+
+        return $this;
+    }
+
+    /**
+     * Get sentenceGroup
+     *
+     * @return \App\MainBundle\Entity\StepSentenceGroup
+     */
+    public function getSentenceGroup() {
+        return $this->sentenceGroup;
     }
 
 }

@@ -22,9 +22,15 @@ class ControlStepType extends AbstractType {
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options) {
+        $controlStep = $builder->getData();
         $page = $this->page;
         $application = $page->getRootObjectMap()->getApplication();
         $step = $this->step;
+        $order = $controlStep->getOrder();
+        if ($order != 0) {
+            $page = $step->getPageAtControlStepOrder($order - 1);
+        }
+
         $factory = $builder->getFormFactory();
         $em = $this->em;
 

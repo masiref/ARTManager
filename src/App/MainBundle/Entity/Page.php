@@ -199,6 +199,10 @@ class Page implements JsonSerializable {
         return $result;
     }
 
+    public function getHtml() {
+        return "<b><i class=\"" . $this->pageType->getIcon() . "\"></i>" . $this->name . "</b>";
+    }
+
     /**
      * Get id
      *

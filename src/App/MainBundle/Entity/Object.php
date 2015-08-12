@@ -137,6 +137,10 @@ class Object implements JsonSerializable {
         return $result;
     }
 
+    public function getHtml() {
+        return "<b><i class=\"" . $this->objectType->getIcon() . "\"></i>" . $this->name . "</b>";
+    }
+
     /**
      * Get id
      *

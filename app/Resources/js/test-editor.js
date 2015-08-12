@@ -109,23 +109,21 @@ function triggerStepEventListeners(id) {
     $( "#delete-execute-step-" + id ).click(function(event) {
         event.preventDefault();
         var id = $(this).data('id');
-        var name = $(this).data('name');
         var order = $(this).data('order');
         var testId = $(this).data('test-id');
-        deleteExecuteStep(id, name, order, testId);
-    });
+        deleteExecuteStep(id, order, testId);
+    }).tooltip();
     $( "#add-control-step-step-" + id).click(function(event) {
         event.preventDefault();
         var id = $(this).data('step-id');
-        var name = $(this).data('step-name');
-        showAddControlStepForm(id, name);
-    });
+        showAddControlStepForm(id);
+    }).tooltip();
     $( "#edit-execute-step-" + id ).click(function(event) {
         event.preventDefault();
         var id = $(this).data('id');
         var testId = $(this).data('test-id');
         showEditStepForm(id, testId);
-    });
+    }).tooltip();
 }
 
 function resetStepFormAndCloseModal() {
@@ -250,7 +248,7 @@ function updateStepAndCloseStepForm(data) {
     var id = data.id;
     var $row = $(data.row);
     $("#step-row-" + id).replaceWith($row);
-    triggerStepEventListeners();
+    triggerStepEventListeners(id);
     resetStepFormAndCloseModal();
     swal("Step updated with success !", "", "success");
 }
@@ -334,14 +332,14 @@ function triggerControlStepEventListeners(id) {
         var stepId = $(this).data('step-id');
         var stepOrder = $(this).data('step-order');
         deleteControlStep(id, order, stepId, stepOrder);
-    });
+    }).tooltip();
 
     $( "#edit-control-step-" + id ).click(function(event) {
         event.preventDefault();
         var id = $(this).data('id');
         var stepId = $(this).data('step-id');
         showEditControlStepForm(id, stepId);
-    });
+    }).tooltip();
 }
 
 function resetControlStepFormAndCloseModal() {

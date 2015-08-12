@@ -2,16 +2,18 @@
 
 namespace App\MainBundle\Entity;
 
+use App\MainBundle\Validator\Constraints as AppMainAssert;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Mapping as ORM;
-use App\MainBundle\Validator\Constraints as AppMainAssert;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="control_step")
+ * @ORM\HasLifecycleCallbacks()
  * @AppMainAssert\ControlStepHasPageOrObject()
  */
 class ControlStep extends Step {
@@ -20,16 +22,6 @@ class ControlStep extends Step {
      * @var integer
      */
     protected $id;
-
-    /**
-     * @var string
-     */
-    protected $name;
-
-    /**
-     * @var string
-     */
-    protected $description;
 
     /**
      * @var integer
@@ -86,6 +78,11 @@ class ControlStep extends Step {
     protected $page;
 
     /**
+     * @var StepSentenceGroup
+     */
+    protected $sentenceGroup;
+
+    /**
      * Constructor
      */
     public function __construct() {
@@ -130,54 +127,52 @@ class ControlStep extends Step {
     }
 
     /**
+     * @ORM\PreUpdate
+     * @ORM\PrePersist
+     */
+    public function updateSentenceGroup(LifecycleEventArgs $event) {
+        $oldAction = null;
+        $oldObjectType = null;
+        $oldSentenceGroup = $this->sentenceGroup;
+        if ($oldSentenceGroup !== null) {
+            $oldAction = $oldSentenceGroup->getAction();
+            $oldObjectType = $oldSentenceGroup->getObjectType();
+            $oldPageType = $oldSentenceGroup->getPageType();
+        }
+        $action = $this->action;
+        $objectType = $this->object ? $this->object->getObjectType() : null;
+        $pageType = $this->page ? $this->page->getPageType() : null;
+        if ($oldAction != $action || $oldObjectType != $objectType || $oldPageType != $pageType) {
+            $em = $event->getEntityManager();
+            if ($objectType) {
+                $sentenceGroup = $em->getRepository("AppMainBundle:StepSentenceGroup")
+                        ->findByObjectTypeAndAction($objectType, $action);
+            } else {
+                $sentenceGroup = $em->getRepository("AppMainBundle:StepSentenceGroup")
+                        ->findByPageTypeAndAction($pageType, $action);
+            }
+            $this->sentenceGroup = $sentenceGroup;
+        }
+    }
+
+    public function getSentence($locale) {
+        $result = parent::getSentence($locale);
+        if ($this->object != null) {
+            $result = str_replace("\"%object%\"", $this->object->getHtml(), $result);
+        }
+        if ($this->page != null) {
+            $result = str_replace("\"%page%\"", $this->page->getHtml(), $result);
+        }
+        return $result;
+    }
+
+    /**
      * Get id
      *
      * @return integer
      */
     public function getId() {
         return $this->id;
-    }
-
-    /**
-     * Set name
-     *
-     * @param string $name
-     * @return ExecuteStep
-     */
-    public function setName($name) {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    /**
-     * Get name
-     *
-     * @return string
-     */
-    public function getName() {
-        return $this->name;
-    }
-
-    /**
-     * Set description
-     *
-     * @param string $description
-     * @return ExecuteStep
-     */
-    public function setDescription($description) {
-        $this->description = $description;
-
-        return $this;
-    }
-
-    /**
-     * Get description
-     *
-     * @return string
-     */
-    public function getDescription() {
-        return $this->description;
     }
 
     /**
@@ -320,10 +315,10 @@ class ControlStep extends Step {
     /**
      * Add parameterDatas
      *
-     * @param \App\MainBundle\Entity\ParameterData $parameterDatas
+     * @param ParameterData $parameterDatas
      * @return ControlStep
      */
-    public function addParameterData(\App\MainBundle\Entity\ParameterData $parameterDatas) {
+    public function addParameterData(ParameterData $parameterDatas) {
         $parameterDatas->setStep($this);
         $this->parameterDatas[] = $parameterDatas;
 
@@ -333,9 +328,9 @@ class ControlStep extends Step {
     /**
      * Remove parameterDatas
      *
-     * @param \App\MainBundle\Entity\ParameterData $parameterDatas
+     * @param ParameterData $parameterDatas
      */
-    public function removeParameterData(\App\MainBundle\Entity\ParameterData $parameterDatas) {
+    public function removeParameterData(ParameterData $parameterDatas) {
         $this->parameterDatas->removeElement($parameterDatas);
     }
 
@@ -351,10 +346,10 @@ class ControlStep extends Step {
     /**
      * Set action
      *
-     * @param \App\MainBundle\Entity\Action $action
+     * @param Action $action
      * @return ControlStep
      */
-    public function setAction(\App\MainBundle\Entity\Action $action) {
+    public function setAction(Action $action) {
         $this->action = $action;
 
         return $this;
@@ -363,7 +358,7 @@ class ControlStep extends Step {
     /**
      * Get action
      *
-     * @return \App\MainBundle\Entity\Action
+     * @return Action
      */
     public function getAction() {
         return $this->action;
@@ -372,10 +367,10 @@ class ControlStep extends Step {
     /**
      * Set object
      *
-     * @param \App\MainBundle\Entity\Object $object
+     * @param Object $object
      * @return ControlStep
      */
-    public function setObject(\App\MainBundle\Entity\Object $object = null) {
+    public function setObject(Object $object = null) {
         $this->object = $object;
 
         return $this;
@@ -384,7 +379,7 @@ class ControlStep extends Step {
     /**
      * Get object
      *
-     * @return \App\MainBundle\Entity\Object
+     * @return Object
      */
     public function getObject() {
         return $this->object;
@@ -393,10 +388,10 @@ class ControlStep extends Step {
     /**
      * Set page
      *
-     * @param \App\MainBundle\Entity\Page $page
+     * @param Page $page
      * @return ControlStep
      */
-    public function setPage(\App\MainBundle\Entity\Page $page = null) {
+    public function setPage(Page $page = null) {
         $this->page = $page;
 
         return $this;
@@ -405,10 +400,31 @@ class ControlStep extends Step {
     /**
      * Get page
      *
-     * @return \App\MainBundle\Entity\Page
+     * @return Page
      */
     public function getPage() {
         return $this->page;
+    }
+
+    /**
+     * Set sentenceGroup
+     *
+     * @param StepSentenceGroup $sentenceGroup
+     * @return ControlStep
+     */
+    public function setSentenceGroup(StepSentenceGroup $sentenceGroup = null) {
+        $this->sentenceGroup = $sentenceGroup;
+
+        return $this;
+    }
+
+    /**
+     * Get sentenceGroup
+     *
+     * @return StepSentenceGroup
+     */
+    public function getSentenceGroup() {
+        return $this->sentenceGroup;
     }
 
 }

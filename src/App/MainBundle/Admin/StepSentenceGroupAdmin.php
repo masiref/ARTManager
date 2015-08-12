@@ -7,25 +7,24 @@ use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 
-class ParameterSetAdmin extends Admin {
+class StepSentenceGroupAdmin extends Admin {
 
     protected function configureFormFields(FormMapper $formMapper) {
         $formMapper->add('action', 'sonata_type_model', array(
                     'btn_add' => false
                 ))
                 ->add('objectType', 'sonata_type_model', array(
-                    'btn_add' => false
+                    'btn_add' => false,
+                    'required' => false
                 ))
-                ->add('parameters', 'sonata_type_collection', array(
-                    'label' => 'Parameters',
-                    'required' => false,
-                    'by_reference' => false,
-                    'type_options' => array(
-                        'delete' => true
-                    )), array(
-                    'edit' => 'inline',
-                    'inline' => 'table',
-                    'sortable' => 'position',
+                ->add('pageType', 'sonata_type_model', array(
+                    'btn_add' => false,
+                    'required' => false
+                ))
+                ->add('sentences', 'sonata_type_model', array(
+                    'multiple' => true,
+                    'compound' => false,
+                    'required' => false
         ));
     }
 
@@ -33,7 +32,8 @@ class ParameterSetAdmin extends Admin {
         $datagridMapper
                 ->add('action')
                 ->add('objectType')
-                ->add('parameters');
+                ->add('pageType')
+                ->add('sentences');
     }
 
     protected function configureListFields(ListMapper $listMapper) {
@@ -41,7 +41,8 @@ class ParameterSetAdmin extends Admin {
                 ->addIdentifier('id')
                 ->add('action')
                 ->add('objectType')
-                ->add('parameters');
+                ->add('pageType')
+                ->add('sentences');
     }
 
 }

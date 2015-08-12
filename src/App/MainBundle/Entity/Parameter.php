@@ -50,6 +50,11 @@ class Parameter implements JsonSerializable {
      */
     protected $parameterSet;
 
+    /**
+     * @ORM\Column(type="string")
+     */
+    protected $placeholder;
+
     public function __construct() {
         $this->createdAt = new DateTime();
     }
@@ -204,6 +209,27 @@ class Parameter implements JsonSerializable {
      */
     public function getMandatory() {
         return $this->mandatory;
+    }
+
+    /**
+     * Set placeholder
+     *
+     * @param string $placeholder
+     * @return Parameter
+     */
+    public function setPlaceholder($placeholder) {
+        $this->placeholder = $placeholder;
+
+        return $this;
+    }
+
+    /**
+     * Get placeholder
+     *
+     * @return string
+     */
+    public function getPlaceholder() {
+        return $this->placeholder;
     }
 
 }

@@ -9,7 +9,9 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 class ParameterDataType extends AbstractType {
 
     public function buildForm(FormBuilderInterface $builder, array $options) {
-        $builder->add('value');
+        $builder->add('value', 'text', array(
+            'label' => "Value"
+        ));
     }
 
     public function getName() {

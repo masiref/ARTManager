@@ -16,10 +16,6 @@ class StepAdmin extends Admin {
         $formMapper
                 ->add('order', 'integer', array(
                     'label' => 'Order'
-                ))
-                ->add('status', 'text', array(
-                    'label' => 'Status',
-                    'required' => false
         ));
         if (!$this->hasParentFieldDescription()) {
             if ($subject instanceof ExecuteStep) {
@@ -51,20 +47,15 @@ class StepAdmin extends Admin {
 
     protected function configureDatagridFilters(DatagridMapper $datagridMapper) {
         $datagridMapper
-                ->add('name')
-                ->add('description')
                 ->add('order')
-                ->add('status')
                 ->add('test')
                 ->add('parentStep');
     }
 
     protected function configureListFields(ListMapper $listMapper) {
         $listMapper
-                ->addIdentifier('name')
-                ->add('description')
+                ->addIdentifier('id')
                 ->add('order')
-                ->add('status')
                 ->add('test')
                 ->add('parentStep');
     }

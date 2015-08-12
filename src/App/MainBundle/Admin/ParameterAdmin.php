@@ -21,7 +21,12 @@ class ParameterAdmin extends Admin {
                 ->add('order', 'number', array(
                     'label' => 'Order'
                 ))
-                ->add('mandatory', 'checkbox');
+                ->add('placeholder', 'text', array(
+                    'label' => 'Placeholder'
+                ))
+                ->add('mandatory', 'checkbox', array(
+                    'required' => false
+        ));
         if (!$this->hasParentFieldDescription()) {
             $formMapper->add('parameterSet', 'sonata_type_model', array(
                 'btn_add' => false
@@ -34,6 +39,7 @@ class ParameterAdmin extends Admin {
                 ->add('name')
                 ->add('description')
                 ->add('order')
+                ->add('placeholder')
                 ->add('mandatory');
     }
 
@@ -42,6 +48,7 @@ class ParameterAdmin extends Admin {
                 ->addIdentifier('name')
                 ->add('description')
                 ->add('order')
+                ->add('placeholder')
                 ->add('mandatory');
     }
 

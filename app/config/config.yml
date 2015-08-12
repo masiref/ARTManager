@@ -26,6 +26,8 @@ framework:
     fragments: null
     http_method_override: true
 twig:
+    globals:
+        locale: "%locale%"
     debug: "%kernel.debug%"
     strict_variables: "%kernel.debug%"
     form:
