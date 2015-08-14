@@ -139,7 +139,7 @@ a {
 }
 
 div.row.step > div.step-left > div, div.row.control-step > div {
-    height: 3em;
+    min-height: 3em;
     line-height: 3em;
 }
 
@@ -156,4 +156,9 @@ div.row.step > div.step-left > div, div.row.control-step > div {
 
 .panel-mypurple {
     @include panel-variant($panel-mypurple-border, $panel-mypurple-text, $panel-mypurple-heading-bg, $panel-mypurple-border);
+}
+
+.sweet-alert {
+    color: #293540;
+    font-family: 'Maven Pro', sans-serif;
 }

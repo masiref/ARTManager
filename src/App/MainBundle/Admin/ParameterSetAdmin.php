@@ -14,7 +14,12 @@ class ParameterSetAdmin extends Admin {
                     'btn_add' => false
                 ))
                 ->add('objectType', 'sonata_type_model', array(
-                    'btn_add' => false
+                    'btn_add' => false,
+                    'required' => false
+                ))
+                ->add('pageType', 'sonata_type_model', array(
+                    'btn_add' => false,
+                    'required' => false
                 ))
                 ->add('parameters', 'sonata_type_collection', array(
                     'label' => 'Parameters',
@@ -33,6 +38,7 @@ class ParameterSetAdmin extends Admin {
         $datagridMapper
                 ->add('action')
                 ->add('objectType')
+                ->add('pageType')
                 ->add('parameters');
     }
 
@@ -41,6 +47,7 @@ class ParameterSetAdmin extends Admin {
                 ->addIdentifier('id')
                 ->add('action')
                 ->add('objectType')
+                ->add('pageType')
                 ->add('parameters');
     }
 

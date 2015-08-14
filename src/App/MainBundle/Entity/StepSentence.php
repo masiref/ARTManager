@@ -28,6 +28,11 @@ class StepSentence implements JsonSerializable {
     protected $sentence;
 
     /**
+     * @ORM\Column(name="mink_sentence", type="string", nullable=true)
+     */
+    protected $minkSentence;
+
+    /**
      * @ORM\Column(type="string")
      * @Assert\NotNull
      */
@@ -164,6 +169,27 @@ class StepSentence implements JsonSerializable {
      */
     public function getGroups() {
         return $this->groups;
+    }
+
+    /**
+     * Set minkSentence
+     *
+     * @param string $minkSentence
+     * @return StepSentence
+     */
+    public function setMinkSentence($minkSentence) {
+        $this->minkSentence = $minkSentence;
+
+        return $this;
+    }
+
+    /**
+     * Get minkSentence
+     *
+     * @return string
+     */
+    public function getMinkSentence() {
+        return $this->minkSentence;
     }
 
 }

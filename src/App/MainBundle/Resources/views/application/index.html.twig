@@ -23,7 +23,7 @@
             <i class="fontello-icon-right-open"></i>{{ application.project }}</a>
     </li>
     <li class="active">
-        <i class="fontello-icon-angle-circled-right"></i>{{ application }}
+        <i class="fontello-icon-angle-circled-right"></i><span id="breadcrumb-active-item">{{ application }}</span>
     </li>
 {% endblock %}
 
@@ -115,11 +115,6 @@
                     </ul>
                 </p>
             </a>
-            {#
-            <a href="#" class="list-group-item">Morbi leo risus</a>
-            <a href="#" class="list-group-item">Porta ac consectetur ac</a>
-            <a href="#" class="list-group-item">Vestibulum at eros</a>
-            #}
         </div>
     </div>
 {% endblock %}
@@ -129,7 +124,9 @@
     <script type="text/javascript">
         $(document).ready(function() {
             $( "#name" ).editable({
-                onblur: 'ignore',
+                success: function(response, newValue) {
+                    $("#breadcrumb-active-item").html(response);
+                },
                 error: function(response, newValue) {
                     swal({
                         title: "{% trans from 'titles' %}Error{% endtrans %}",

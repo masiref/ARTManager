@@ -73,13 +73,8 @@ class ObjectMap implements JsonSerializable {
     }
 
     public function __toString() {
-        $result = "";
-        if ($this->application != null) {
-            $result .= $this->application . "\\";
-        }
         if ($this->name != null && $this->name != "") {
-            $result .= $this->name;
-            return $result;
+            return $this->name;
         }
         return "New";
     }

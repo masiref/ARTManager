@@ -95,13 +95,6 @@ class Step implements JsonSerializable {
         $this->parameterDatas = new ArrayCollection();
     }
 
-    public function __toString() {
-        if ($this->name != null && $this->name != "") {
-            return $this->name;
-        }
-        return "New";
-    }
-
     public function jsonSerialize() {
         return array(
             'id' => $this->id,
@@ -136,6 +129,26 @@ class Step implements JsonSerializable {
                 $parameter = $parameterData->getParameter();
                 $placeholder = "%" . $parameter->getPlaceholder() . "%";
                 $result = str_replace($placeholder, "<b>" . $parameterData->getValue() . "</b>", $result);
+            }
+        }
+        return $result;
+    }
+
+    public function getMinkSentence($locale) {
+        $result = "";
+        if ($this->sentenceGroup != null) {
+            foreach ($this->sentenceGroup->getSentences() as $sentence) {
+                if ($sentence->getLocale() == $locale) {
+                    $result = $sentence->getMinkSentence();
+                    if ($result == null || $result == "") {
+                        $result = $sentence->getSentence();
+                    }
+                }
+            }
+            foreach ($this->parameterDatas as $parameterData) {
+                $parameter = $parameterData->getParameter();
+                $placeholder = "%" . $parameter->getPlaceholder() . "%";
+                $result = str_replace($placeholder, $parameterData->getValue(), $result);
             }
         }
         return $result;

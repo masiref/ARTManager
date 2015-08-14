@@ -11,15 +11,27 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass="ParameterSetRepository")
- * @ORM\Table(name="parameter_set", uniqueConstraints={@ORM\UniqueConstraint(name="IDX_Unique", columns={"action_id", "object_type_id"})})
+ * @ORM\Table(name="parameter_set", uniqueConstraints={
+ *      @ORM\UniqueConstraint(name="IDX_Unique_Object_Type", columns={"action_id", "object_type_id"}),
+ *      @ORM\UniqueConstraint(name="IDX_Unique_Page_Type", columns={"action_id", "page_type_id"})
+ * })
  * @UniqueEntity(
  *      fields={"action"},
  *      message="Action and Object Type already mapped.",
- *      groups="parameter_set"
+ *      groups="parameter_set_object"
  * )
  * @UniqueEntity(
  *      fields={"objectType"},
- *      groups="parameter_set"
+ *      groups="parameter_set_object"
+ * )
+ * @UniqueEntity(
+ *      fields={"action"},
+ *      message="Action and Page Type already mapped.",
+ *      groups="parameter_set_page"
+ * )
+ * @UniqueEntity(
+ *      fields={"objectType"},
+ *      groups="parameter_set_page"
  * )
  */
 class ParameterSet implements JsonSerializable {
@@ -47,6 +59,12 @@ class ParameterSet implements JsonSerializable {
      * @ORM\JoinColumn(name="object_type_id", referencedColumnName="id")
      */
     protected $objectType;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="PageType")
+     * @ORM\JoinColumn(name="page_type_id", referencedColumnName="id")
+     */
+    protected $pageType;
 
     /**
      * @ORM\OneToMany(targetEntity="Parameter", mappedBy="parameterSet", cascade={"all"}, orphanRemoval=true)
@@ -177,6 +195,27 @@ class ParameterSet implements JsonSerializable {
      */
     public function getParameters() {
         return $this->parameters;
+    }
+
+    /**
+     * Set pageType
+     *
+     * @param \App\MainBundle\Entity\PageType $pageType
+     * @return ParameterSet
+     */
+    public function setPageType(\App\MainBundle\Entity\PageType $pageType = null) {
+        $this->pageType = $pageType;
+
+        return $this;
+    }
+
+    /**
+     * Get pageType
+     *
+     * @return \App\MainBundle\Entity\PageType
+     */
+    public function getPageType() {
+        return $this->pageType;
     }
 
 }

@@ -49,7 +49,8 @@ class ProjectController extends Controller {
                 if (count($errors) == 0) {
                     $em->persist($project);
                     $em->flush();
-                    $response = new Response(json_encode($project->getName()));
+                    $name = "" . $project;
+                    $response = new Response(json_encode($name));
                 } else {
                     $message = "";
                     foreach ($errors as $err) {

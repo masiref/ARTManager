@@ -141,6 +141,19 @@ class Object implements JsonSerializable {
         return "<b><i class=\"" . $this->objectType->getIcon() . "\"></i>" . $this->name . "</b>";
     }
 
+    public function getMinkIdentification() {
+        $result = "";
+        $objectIdentifier = $this->objectIdentifier;
+        if ($objectIdentifier != null) {
+            $objectIdentifierType = $objectIdentifier->getObjectIdentifierType();
+            $objectIdentifierTypeName = $objectIdentifierType->getName();
+            $result = $objectIdentifier->getValue();
+        } else {
+            $result = $this->getName();
+        }
+        return $result;
+    }
+
     /**
      * Get id
      *

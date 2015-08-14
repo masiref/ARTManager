@@ -16,7 +16,9 @@
 
 {% block breadcrumb_items %}
     <li><a href="{{ path('homepage') }}"><i class="fontello-icon-right-open"></i>Home</a></li>
-    <li class="active"><i class="fontello-icon-angle-circled-right"></i>{{ project }}</li>
+    <li class="active">
+        <i class="fontello-icon-angle-circled-right"></i><span id="breadcrumb-active-item">{{ project }}</span>
+    </li>
 {% endblock %}
 
 {% block body %}
@@ -80,7 +82,9 @@
     <script type="text/javascript">
         $(document).ready(function() {
             $( "#name" ).editable({
-                onblur: 'ignore',
+                success: function(response, newValue) {
+                    $("#breadcrumb-active-item").html(response);
+                },
                 error: function(response, newValue) {
                     swal({
                         title: "{% trans from 'titles' %}Error{% endtrans %}",

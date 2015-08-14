@@ -10,15 +10,13 @@
     </a>
 </div>
 <div class="col-md-1">
-    <p class="control-step-order">
-        <strong>
-            <span id="control-step-order-{{ controlStep.id }}">{{ controlStep.order }}</span>
-        </strong>
-    </p>
+    <span class="badge">
+        <span id="control-step-order-{{ controlStep.id }}">{{ controlStep.order }}</span>
+    </span>
 </div>
 <div class="col-md-9">
     {% set sentence = controlStep.sentence(locale) %}
-    <h4>{% if sentence %}{{ sentence|raw }}{% else %}{{ controlStep }}{% endif %}</h4>
+    <h5>{% if sentence %}{{ sentence|raw }}{% else %}{{ controlStep }}{% endif %}</h5>
 </div>
 <div class="col-md-1">
     <a href="#"

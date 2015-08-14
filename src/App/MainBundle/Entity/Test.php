@@ -2,11 +2,15 @@
 
 namespace App\MainBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
+use App\MainBundle\Services\GherkinService;
+use App\MainBundle\Services\MinkService;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
 use JsonSerializable;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
@@ -74,7 +78,7 @@ class Test implements JsonSerializable {
     protected $startingPage;
 
     public function __construct() {
-        $this->createdAt = new \DateTime();
+        $this->createdAt = new DateTime();
         $this->steps = new ArrayCollection();
     }
 
@@ -131,6 +135,10 @@ class Test implements JsonSerializable {
         return $this->getPageAtStepOrder($this->steps->count());
     }
 
+    public function getBehatScenario(GherkinService $gherkin) {
+        return $gherkin->generateBehatScenario($this);
+    }
+
     /**
      * Get id
      *
@@ -185,7 +193,7 @@ class Test implements JsonSerializable {
     /**
      * Set createdAt
      *
-     * @param \DateTime $createdAt
+     * @param DateTime $createdAt
      * @return Test
      */
     public function setCreatedAt($createdAt) {
@@ -197,7 +205,7 @@ class Test implements JsonSerializable {
     /**
      * Get createdAt
      *
-     * @return \DateTime
+     * @return DateTime
      */
     public function getCreatedAt() {
         return $this->createdAt;
@@ -214,10 +222,10 @@ class Test implements JsonSerializable {
     /**
      * Set testFolder
      *
-     * @param \App\MainBundle\Entity\TestFolder $testFolder
+     * @param TestFolder $testFolder
      * @return Test
      */
-    public function setTestFolder(\App\MainBundle\Entity\TestFolder $testFolder = null) {
+    public function setTestFolder(TestFolder $testFolder = null) {
         $this->testFolder = $testFolder;
 
         return $this;
@@ -226,7 +234,7 @@ class Test implements JsonSerializable {
     /**
      * Get testFolder
      *
-     * @return \App\MainBundle\Entity\TestFolder
+     * @return TestFolder
      */
     public function getTestFolder() {
         return $this->testFolder;
@@ -235,10 +243,10 @@ class Test implements JsonSerializable {
     /**
      * Add steps
      *
-     * @param \App\MainBundle\Entity\Step $steps
+     * @param Step $steps
      * @return Test
      */
-    public function addStep(\App\MainBundle\Entity\Step $steps) {
+    public function addStep(Step $steps) {
         $steps->setTest($this);
         $steps->setOrder($this->steps->count() + 1);
         $this->steps[] = $steps;
@@ -249,16 +257,16 @@ class Test implements JsonSerializable {
     /**
      * Remove steps
      *
-     * @param \App\MainBundle\Entity\Step $steps
+     * @param Step $steps
      */
-    public function removeStep(\App\MainBundle\Entity\Step $steps) {
+    public function removeStep(Step $steps) {
         $this->steps->removeElement($steps);
     }
 
     /**
      * Get steps
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return Collection
      */
     public function getSteps() {
         return $this->steps;
@@ -267,10 +275,10 @@ class Test implements JsonSerializable {
     /**
      * Set startingPage
      *
-     * @param \App\MainBundle\Entity\Page $startingPage
+     * @param Page $startingPage
      * @return Test
      */
-    public function setStartingPage(\App\MainBundle\Entity\Page $startingPage = null) {
+    public function setStartingPage(Page $startingPage = null) {
         $this->startingPage = $startingPage;
 
         return $this;
@@ -279,7 +287,7 @@ class Test implements JsonSerializable {
     /**
      * Get startingPage
      *
-     * @return \App\MainBundle\Entity\Page
+     * @return Page
      */
     public function getStartingPage() {
         return $this->startingPage;

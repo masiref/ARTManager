@@ -1,2 +1,10 @@
 parameters:
     security.acl.permission.map.class: Sonata\AdminBundle\Security\Acl\Permission\AdminPermissionMap
+
+services:
+    gherkin:
+        class: App\MainBundle\Services\GherkinService
+        arguments: [@service_container]
+    mink:
+        class: App\MainBundle\Services\MinkService
+        arguments: [@service_container]

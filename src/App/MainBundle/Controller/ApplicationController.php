@@ -42,7 +42,8 @@ class ApplicationController extends Controller {
                 if (count($errors) == 0) {
                     $em->persist($application);
                     $em->flush();
-                    $response = new Response(json_encode($application->getName()));
+                    $name = "" . $application;
+                    $response = new Response(json_encode($name));
                 } else {
                     $message = "";
                     foreach ($errors as $err) {

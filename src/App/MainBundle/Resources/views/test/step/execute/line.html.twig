@@ -9,11 +9,13 @@
     </a>
 </div>
 <div class="col-md-1">
-    <p class="step-order"><strong><span id="step-order-{{ step.id }}">{{ step.order }}</span></strong></p>
+    <span class="badge">
+        <span id="step-order-{{ step.id }}">{{ step.order }}</span>
+    </span>
 </div>
 <div class="col-md-9">
     {% set sentence = step.sentence(locale) %}
-    <h4>{% if sentence %}{{ sentence|raw }}{% else %}{{ step }}{% endif %}</h4>
+    <h5>{% if sentence %}{{ sentence|raw }}{% else %}{{ step }}{% endif %}</h5>
 </div>
 <div class="col-md-1">
     <a href="#"

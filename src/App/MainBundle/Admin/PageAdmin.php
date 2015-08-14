@@ -17,6 +17,9 @@ class PageAdmin extends Admin {
                 ->add('description', 'text', array(
                     'label' => 'Description',
                     'required' => false
+                ))
+                ->add('path', 'text', array(
+                    'label' => 'Path'
         ));
         if (!$this->hasParentFieldDescription()) {
             $formMapper
@@ -56,6 +59,7 @@ class PageAdmin extends Admin {
         $datagridMapper
                 ->add('name')
                 ->add('description')
+                ->add('path')
                 ->add('pageType')
                 ->add('objectMap')
                 ->add('page');
@@ -65,6 +69,7 @@ class PageAdmin extends Admin {
         $listMapper
                 ->addIdentifier('name')
                 ->add('description')
+                ->add('path')
                 ->add('pageType')
                 ->add('objectMap')
                 ->add('page');

@@ -17,6 +17,7 @@ class PageType extends AbstractType {
             'class' => 'AppMainBundle:PageType',
             'property' => 'name',
         ));
+        $builder->add('path');
     }
 
     public function getName() {

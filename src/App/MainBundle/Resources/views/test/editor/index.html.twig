@@ -42,6 +42,14 @@
     {% include 'AppMainBundle:test:step/execute/list.html.twig' %}
     {% include 'AppMainBundle:test:step/execute/form.html.twig' %}
     {% include 'AppMainBundle:test:step/control/form.html.twig' %}
+    {% if test.startingPage %}
+        <p>&nbsp;</p>
+        <div class="row">
+            <div class="well">
+                <samp>{{ test.behatScenario(gherkin)|raw|nl2br }}</samp>
+            </div>
+        </div>
+    {% endif %}
 {% endblock %}
 
 {% block javascripts %}

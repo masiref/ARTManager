@@ -36,10 +36,12 @@ class AddControlStepActionParametersFieldEventSubscriber implements EventSubscri
         $step->clearParameterDatas();
         if ($page != null) {
             $parameterSet = $em->getRepository("AppMainBundle:ParameterSet")
-                    ->findByObjectTypeAndAction($page->getPageType(), $action);
+                    ->findByPageTypeAndAction($page->getPageType(), $action);
         } else {
-            $parameterSet = $em->getRepository("AppMainBundle:ParameterSet")
-                    ->findByObjectTypeAndAction($object->getObjectType(), $action);
+            if ($object != null) {
+                $parameterSet = $em->getRepository("AppMainBundle:ParameterSet")
+                        ->findByObjectTypeAndAction($object->getObjectType(), $action);
+            }
         }
         if ($parameterSet !== null) {
             $parameters = $parameterSet->getParameters();

@@ -65,7 +65,8 @@ class ObjectMapEditorController extends Controller {
                 if (count($errors) == 0) {
                     $em->persist($objectMap);
                     $em->flush();
-                    $response = new Response(json_encode($objectMap->getName()));
+                    $name = "" . $objectMap;
+                    $response = new Response(json_encode($name));
                 } else {
                     $message = "";
                     foreach ($errors as $err) {
@@ -160,31 +161,22 @@ class ObjectMapEditorController extends Controller {
                 $form->handleRequest($request);
                 if ($form->isValid()) {
                     $page = $form->getData();
-                    try {
-                        $page->setObjectMap($objectMap);
-                        if ($parentId != -1) {
-                            $parentPage = $em->getRepository("AppMainBundle:Page")->find($parentId);
-                            $parentPage->addPage($page);
-                            $em->persist($parentPage);
-                        } else {
-                            $objectMap->addPage($page);
-                            $em->persist($objectMap);
-                        }
-                        $page->setSelected(true);
-                        $em->flush();
-                        $ajaxResponse['id'] = $page->getId();
-                        $ajaxResponse['name'] = $page->getName();
-                        $ajaxResponse['description'] = $page->getDescription();
-                        $ajaxResponse['pagesCount'] = $objectMap->getPagesCount();
-                        $ajaxResponse["treeObjectMap"] = $objectMap->getJsonTreeAsArray();
-                    } catch (DBALException $e) {
-                        $e->getCode();
-                        if ($page->getName() == null || $page->getName() == "") {
-                            $ajaxResponse['error'] = "ERROR: Name cannot be empty.";
-                        } else {
-                            $ajaxResponse['error'] = "ERROR: Name already used.";
-                        }
+                    $page->setObjectMap($objectMap);
+                    if ($parentId != -1) {
+                        $parentPage = $em->getRepository("AppMainBundle:Page")->find($parentId);
+                        $parentPage->addPage($page);
+                        $em->persist($parentPage);
+                    } else {
+                        $objectMap->addPage($page);
+                        $em->persist($objectMap);
                     }
+                    $page->setSelected(true);
+                    $em->flush();
+                    $ajaxResponse['id'] = $page->getId();
+                    $ajaxResponse['name'] = $page->getName();
+                    $ajaxResponse['description'] = $page->getDescription();
+                    $ajaxResponse['pagesCount'] = $objectMap->getPagesCount();
+                    $ajaxResponse["treeObjectMap"] = $objectMap->getJsonTreeAsArray();
                 } else {
                     $ajaxResponse['error'] = (string) $form->getErrors(true);
                 }
@@ -759,6 +751,46 @@ class ObjectMapEditorController extends Controller {
             $ajaxResponse['pagesCount'] = $objectMap->getPagesCount();
             $ajaxResponse['treeObjectMap'] = $objectMap->getJsonTreeAsArray();
             $response = new Response(json_encode($ajaxResponse));
+        }
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
+    }
+
+    /**
+     * @Route("/application/object/map/page/{id}/update/path",
+     *      name="app_application_object_map_update_page_path_ajax",
+     *      requirements={"_method" = "post"},
+     *      options={"expose" = true }
+     * )
+     * @Secure(roles="ROLE_SUPER_ADMIN")
+     */
+    public function updatePagePathAction(Request $request) {
+        if ($request->getMethod() == 'POST' && $request->isXmlHttpRequest()) {
+            $em = $this->getDoctrine()->getManager();
+            $page = $em->getRepository('AppMainBundle:Page')->find($request->get("pk"));
+            if ($page != null) {
+                $page->setPath($request->get("value"));
+                $validator = $this->get('validator');
+                $errors = $validator->validate($page);
+                if (count($errors) == 0) {
+                    $em->persist($page);
+                    $em->flush();
+                    $response = new Response(json_encode(array(
+                                "pageId" => $page->getId()
+                    )));
+                } else {
+                    $message = "";
+                    foreach ($errors as $err) {
+                        if ($message !== "") {
+                            $message .= "\n";
+                        }
+                        $message .= $err->getMessage();
+                    }
+                    $response = new Response($message, 400);
+                }
+            } else {
+                $response = new Response("Unknown page", 400);
+            }
         }
         $response->headers->set('Content-Type', 'application/json');
         return $response;

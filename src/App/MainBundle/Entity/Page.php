@@ -97,6 +97,11 @@ class Page implements JsonSerializable {
      */
     protected $testsStartingWith;
 
+    /**
+     * @ORM\Column(type="string")
+     */
+    protected $path;
+
     public function __construct() {
         $this->createdAt = new \DateTime();
         $this->pages = new ArrayCollection();
@@ -106,12 +111,6 @@ class Page implements JsonSerializable {
 
     public function __toString() {
         $result = "";
-        if ($this->objectMap != null) {
-            $result .= $this->objectMap . "\\";
-        }
-        if ($this->page != null) {
-            $result = $this->page . "\\";
-        }
         if ($this->name != null && $this->name != "") {
             $result .= $this->name;
             return $result;
@@ -126,7 +125,8 @@ class Page implements JsonSerializable {
             'description' => $this->description,
             'createdAt' => $this->createdAt->format('d/m/Y \a\t H:i:s'),
             'objectMap' => $this->objectMap,
-            'pageType' => $this->pageType
+            'pageType' => $this->pageType,
+            'path' => $this->path
         );
     }
 
@@ -201,6 +201,19 @@ class Page implements JsonSerializable {
 
     public function getHtml() {
         return "<b><i class=\"" . $this->pageType->getIcon() . "\"></i>" . $this->name . "</b>";
+    }
+
+    public function getMinkIdentification() {
+        $result = "";
+        $pageType = $this->pageType;
+        if ($pageType->getName() == "Standard") {
+            $result = $this->getPath();
+        } else {
+            if ($pageType->getName() == "Modal") {
+                $result = $this->getName();
+            }
+        }
+        return $result;
     }
 
     /**
@@ -437,6 +450,27 @@ class Page implements JsonSerializable {
      */
     public function getTestsStartingWith() {
         return $this->testsStartingWith;
+    }
+
+    /**
+     * Set path
+     *
+     * @param string $path
+     * @return Page
+     */
+    public function setPath($path) {
+        $this->path = $path;
+
+        return $this;
+    }
+
+    /**
+     * Get path
+     *
+     * @return string
+     */
+    public function getPath() {
+        return $this->path;
     }
 
 }

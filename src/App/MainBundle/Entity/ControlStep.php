@@ -166,6 +166,17 @@ class ControlStep extends Step {
         return $result;
     }
 
+    public function getMinkSentence($locale) {
+        $result = parent::getMinkSentence($locale);
+        if ($this->object != null) {
+            $result = str_replace("%object%", $this->object->getMinkIdentification(), $result);
+        }
+        if ($this->page != null) {
+            $result = str_replace("%page%", $this->page->getMinkIdentification(), $result);
+        }
+        return $result;
+    }
+
     /**
      * Get id
      *

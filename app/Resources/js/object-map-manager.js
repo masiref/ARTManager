@@ -363,6 +363,14 @@ function hidePageTypeBlock() {
     $('#page-type-block').hide();
 }
 
+function showPagePathBlock() {
+    $('#page-path-block').show();
+}
+
+function hidePagePathBlock() {
+    $('#page-path-block').hide();
+}
+
 /* object methods */
 function refreshObjectSubtitle(count, objectMapId) {
     var subtitle = '';
@@ -541,6 +549,7 @@ function showObjectProperties(treeNode) {
         switch(type) {
             case "page":
                 showPageTypeBlock();
+                showPagePathBlock();
                 hideObjectTypeBlock();
                 hideObjectIdentifierBlock();
                 $.ajax({
@@ -554,6 +563,7 @@ function showObjectProperties(treeNode) {
                     var name = page.name;
                     var description = page.description;
                     var pageType = page.pageType;
+                    var path = page.path;
                     var createdAt = page.createdAt;
                     $('#object-icon').removeClass().addClass(pageType.icon);
                     $('#object-name').editable('option', 'pk', id);
@@ -580,15 +590,25 @@ function showObjectProperties(treeNode) {
                             'id': id
                         })
                     );
+                    $('#page-path').editable('option', 'pk', id);
+                    $('#page-path').editable(
+                        'option',
+                        'url',
+                        Routing.generate('app_application_object_map_update_page_path_ajax', {
+                            'id': id
+                        })
+                    );
                     $('#object-name').editable('setValue', name, false);
                     $('#object-description').editable('setValue', description, false);
                     $('#page-type').editable('setValue', pageType.id, false);
+                    $('#page-path').editable('setValue', path, false);
                     $('#object-creation-date').html(createdAt);
                     setAddObjectDataAttributes(id, name, description);
                 });
                 break;
             case "object":
                 hidePageTypeBlock();
+                hidePagePathBlock();
                 showObjectTypeBlock();
                 showObjectIdentifierBlock();
                 $.ajax({

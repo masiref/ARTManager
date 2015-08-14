@@ -28,6 +28,8 @@ framework:
 twig:
     globals:
         locale: "%locale%"
+        gherkin: "@gherkin"
+        mink: "@mink"
     debug: "%kernel.debug%"
     strict_variables: "%kernel.debug%"
     form:

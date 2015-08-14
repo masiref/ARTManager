@@ -31,7 +31,7 @@
             <i class="fontello-icon-right-open"></i>Object maps</a>
     </li>
     <li class="active">
-        <i class="fontello-icon-angle-circled-right"></i>{{ objectMap }}
+        <i class="fontello-icon-angle-circled-right"></i><span id="breadcrumb-active-item">{{ objectMap }}</span>
     </li>
 {% endblock %}
 
@@ -47,6 +47,9 @@
     <script type="text/javascript">
         $(document).ready(function() {
             $( "#name" ).editable({
+                success: function(response, newValue) {
+                    $("#breadcrumb-active-item").html(response);
+                },
                 error: function(response, newValue) {
                     swal({
                         title: "{% trans from 'titles' %}Error{% endtrans %}",
@@ -127,6 +130,10 @@
                         confirmButtonText: "{% trans from 'labels' %}OK{% endtrans %}"
                     }); 
                 }
+            });
+            $( "#page-path" ).editable({
+                emptytext: 'Add path',
+                defaultValue: ''
             });
             refreshObjectMap({{ objectMap.id }}, true, true);
         });

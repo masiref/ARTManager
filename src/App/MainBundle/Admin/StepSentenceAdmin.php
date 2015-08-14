@@ -14,6 +14,10 @@ class StepSentenceAdmin extends Admin {
                 ->add('sentence', 'text', array(
                     'label' => 'Sentence'
                 ))
+                ->add('minkSentence', 'text', array(
+                    'label' => 'Mink Sentence',
+                    'required' => false
+                ))
                 ->add('locale', 'text', array(
                     'label' => 'Locale'
         ));
@@ -22,12 +26,14 @@ class StepSentenceAdmin extends Admin {
     protected function configureDatagridFilters(DatagridMapper $datagridMapper) {
         $datagridMapper
                 ->add('sentence')
+                ->add('minkSentence')
                 ->add('locale');
     }
 
     protected function configureListFields(ListMapper $listMapper) {
         $listMapper
                 ->addIdentifier('sentence')
+                ->add('minkSentence')
                 ->add('locale');
     }
 

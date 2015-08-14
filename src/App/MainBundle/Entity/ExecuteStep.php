@@ -98,9 +98,8 @@ class ExecuteStep extends Step {
     }
 
     public function getActivePage() {
-        $page = $this->test->getStartingPage();
+        $page = null;
         if ($this->order >= 1) {
-            $page = null;
             $lastControlStep = null;
             if ($this->controlSteps->count() > 0) {
                 $lastControlStep = $this->controlSteps->get($this->controlSteps->count() - 1);
@@ -114,11 +113,14 @@ class ExecuteStep extends Step {
                 $order -= 1;
             }
         }
+        if ($page === null) {
+            $page = $this->test->getStartingPage();
+        }
         return $page;
     }
 
     public function getPageAtControlStepOrder($order) {
-        $page = $this->test->getPageAtStepOrder($this->order - 1);
+        $page = null;
         if ($order > 0) {
             $controlStep = null;
             foreach ($this->controlSteps as $controlStep) {
@@ -129,6 +131,9 @@ class ExecuteStep extends Step {
             if ($controlStep !== null) {
                 $page = $controlStep->getActivePage();
             }
+        }
+        if ($page === null) {
+            $page = $this->test->getPageAtStepOrder($this->order - 1);
         }
         return $page;
     }
@@ -157,6 +162,11 @@ class ExecuteStep extends Step {
 
     public function getSentence($locale) {
         $result = str_replace("\"%object%\"", $this->object->getHtml(), parent::getSentence($locale));
+        return $result;
+    }
+
+    public function getMinkSentence($locale) {
+        $result = str_replace("%object%", $this->object->getMinkIdentification(), parent::getMinkSentence($locale));
         return $result;
     }
 
