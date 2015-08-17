@@ -70,7 +70,7 @@ $( "[id^=edit-control-step-]" ).click(function() {
 });
 
 /* test methods */
-function updateStartingPage(testId, pageId) {
+function updateStartingPage(testId, pageId, pageName) {
     $.ajax({
         type: 'POST',
         url: Routing.generate('app_application_test_update_starting_page_ajax', {
@@ -82,6 +82,8 @@ function updateStartingPage(testId, pageId) {
     }).done(function(data) {
         if (data.error) {
             swal("Starting page not updated !", data.error, "error");
+        } else {
+            $("#starting-page-name").html(pageName);
         }
     });
 }

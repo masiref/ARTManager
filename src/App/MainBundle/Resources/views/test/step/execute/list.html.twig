@@ -1,26 +1,39 @@
-<div class="row step-header">
-    <div class="col-md-6">
-        <h1 class="text-center"><i class="fontello-icon-play"></i> Execute</h1>
-    </div>
-    <div class="col-md-6">
-        <h1 class="text-center text-success"><i class="fontello-icon-ok"></i> Control</h1>
+<div class="row test-scenario">
+    <div class="col-md-12">
+        <h1 class="text-center">
+            <strong>
+                <a href="#scenario-collapse" data-toggle="collapse" aria-expanded="false" aria-controls="scenario-collapse">
+                    <i class="fontello-icon-ellipsis-vert"></i></a>
+                Scenario
+            </strong>
+        </h1>
     </div>
 </div>
+<div class="collapse" id="scenario-collapse">
+    <div class="row step-header">
+        <div class="col-md-6">
+            <h1 class="text-center"><i class="fontello-icon-play"></i> Execute</h1>
+        </div>
+        <div class="col-md-6">
+            <h1 class="text-center text-success"><i class="fontello-icon-ok"></i> Control</h1>
+        </div>
+    </div>
 
-{% for step in test.steps %}
-    {% include 'AppMainBundle:test:step/execute/item.html.twig' with { 'step': step } %}
-{% endfor %}
+    {% for step in test.steps %}
+        {% include 'AppMainBundle:test:step/execute/item.html.twig' with { 'step': step } %}
+    {% endfor %}
 
-<div class="row step" id="step-footer">
-    <div class="col-md-6 step-left">
-        <div class="col-md-12">
-            <a href="#" id="add-execute-step"
-               data-test-id="{{ test.id }}"
-               data-toggle="tooltip"
-               data-placement="right"
-               title="Add a new step">
-                <i class="fontello-icon-plus-circled"></i>
-            </a>
+    <div class="row step" id="step-footer">
+        <div class="col-md-6 step-left">
+            <div class="col-md-12">
+                <a href="#" id="add-execute-step"
+                   data-test-id="{{ test.id }}"
+                   data-toggle="tooltip"
+                   data-placement="right"
+                   title="Add a new step">
+                    <i class="fontello-icon-plus-circled"></i>
+                </a>
+            </div>
         </div>
     </div>
 </div>

@@ -95,6 +95,16 @@ services:
         calls:
             - [ setTranslationDomain, [AppMainBundle] ]
             - [ setSubClasses, [{ "Execute Step": "App\MainBundle\Entity\ExecuteStep", "Control Step": "App\MainBundle\Entity\ControlStep" }] ]
+    sonata.admin.prerequisite:
+        class: App\MainBundle\Admin\PrerequisiteAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Tests", label: "Prerequisite" }
+        arguments:
+            - ~
+            - App\MainBundle\Entity\Prerequisite
+            - ~
+        calls:
+            - [ setTranslationDomain, [AppMainBundle] ]
             
     # settings services
     sonata.admin.page_type:

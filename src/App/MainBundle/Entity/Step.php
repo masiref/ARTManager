@@ -88,6 +88,7 @@ class Step implements JsonSerializable {
      * @ORM\JoinColumn(name="sentence_group_id", referencedColumnName="id", nullable=true)
      */
     protected $sentenceGroup;
+    protected $minkSentence;
 
     public function __construct() {
         $this->createdAt = new DateTime();
@@ -117,7 +118,7 @@ class Step implements JsonSerializable {
         return null;
     }
 
-    public function getSentence($locale) {
+    public function getSentence($locale = 'en') {
         $result = "";
         if ($this->sentenceGroup !== null) {
             foreach ($this->sentenceGroup->getSentences() as $sentence) {
@@ -134,7 +135,7 @@ class Step implements JsonSerializable {
         return $result;
     }
 
-    public function getMinkSentence($locale) {
+    public function getMinkSentence($locale = 'en') {
         $result = "";
         if ($this->sentenceGroup != null) {
             foreach ($this->sentenceGroup->getSentences() as $sentence) {
@@ -350,6 +351,10 @@ class Step implements JsonSerializable {
      */
     public function getSentenceGroup() {
         return $this->sentenceGroup;
+    }
+
+    function setMinkSentence($minkSentence) {
+        $this->minkSentence = $minkSentence;
     }
 
 }

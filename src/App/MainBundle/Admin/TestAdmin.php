@@ -10,6 +10,7 @@ use Sonata\AdminBundle\Form\FormMapper;
 class TestAdmin extends Admin {
 
     protected function configureFormFields(FormMapper $formMapper) {
+        $subject = $this->getSubject();
         $formMapper
                 ->add('name', 'text', array(
                     'label' => 'Name'
@@ -32,6 +33,16 @@ class TestAdmin extends Admin {
                         'edit' => 'inline',
                         'inline' => 'table',
                         'sortable' => 'position',
+                    ))
+                    ->add('prerequisites', 'sonata_type_collection', array(
+                        'label' => 'Prerequisites',
+                        'by_reference' => false,
+                        'type_options' => array(
+                            'delete' => true
+                        )), array(
+                        'edit' => 'inline',
+                        'inline' => 'table',
+                        'sortable' => 'position',
             ));
         }
     }
@@ -40,14 +51,16 @@ class TestAdmin extends Admin {
         $datagridMapper
                 ->add('name')
                 ->add('description')
-                ->add('testFolder');
+                ->add('testFolder')
+                ->add('prerequisites');
     }
 
     protected function configureListFields(ListMapper $listMapper) {
         $listMapper
                 ->addIdentifier('name')
                 ->add('description')
-                ->add('testFolder');
+                ->add('testFolder')
+                ->add('prerequisites');
     }
 
 }

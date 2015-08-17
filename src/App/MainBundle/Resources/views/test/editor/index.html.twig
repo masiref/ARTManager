@@ -38,18 +38,19 @@
 {% endblock %}
 
 {% block body %}
-    {% include 'AppMainBundle:test:starting-page.html.twig' with { 'page': test.startingPage } %}
+    {# include 'AppMainBundle:test:editor/prerequisites.html.twig' #}
+    {% include 'AppMainBundle:test:editor/starting-page.html.twig' with { 'page': test.startingPage } %}
     {% include 'AppMainBundle:test:step/execute/list.html.twig' %}
     {% include 'AppMainBundle:test:step/execute/form.html.twig' %}
     {% include 'AppMainBundle:test:step/control/form.html.twig' %}
-    {% if test.startingPage %}
+    {# if test.startingPage %}
         <p>&nbsp;</p>
         <div class="row">
-            <div class="well">
+            <div class="well col-md-6 col-md-offset-3">
                 <samp>{{ test.behatScenario(gherkin)|raw|nl2br }}</samp>
             </div>
         </div>
-    {% endif %}
+    {% endif #}
 {% endblock %}
 
 {% block javascripts %}
@@ -58,7 +59,8 @@
         $(document).ready(function() {
             $("#form_startingPage").change(function() {
                 var id = $(this).val();
-                updateStartingPage({{ test.id }}, id);
+                var text = $(this).find("option:selected").text();
+                updateStartingPage({{ test.id }}, id, text);
             });
         });
     </script>

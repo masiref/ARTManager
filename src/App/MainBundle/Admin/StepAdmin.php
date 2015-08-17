@@ -16,6 +16,9 @@ class StepAdmin extends Admin {
         $formMapper
                 ->add('order', 'integer', array(
                     'label' => 'Order'
+                ))
+                ->add('minkSentence', 'text', array(
+                    'label' => 'Sentence'
         ));
         if (!$this->hasParentFieldDescription()) {
             if ($subject instanceof ExecuteStep) {

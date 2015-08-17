@@ -160,12 +160,12 @@ class ExecuteStep extends Step {
         }
     }
 
-    public function getSentence($locale) {
+    public function getSentence($locale = 'en') {
         $result = str_replace("\"%object%\"", $this->object->getHtml(), parent::getSentence($locale));
         return $result;
     }
 
-    public function getMinkSentence($locale) {
+    public function getMinkSentence($locale = 'en') {
         $result = str_replace("%object%", $this->object->getMinkIdentification(), parent::getMinkSentence($locale));
         return $result;
     }

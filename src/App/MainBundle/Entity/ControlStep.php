@@ -155,7 +155,7 @@ class ControlStep extends Step {
         }
     }
 
-    public function getSentence($locale) {
+    public function getSentence($locale = 'en') {
         $result = parent::getSentence($locale);
         if ($this->object != null) {
             $result = str_replace("\"%object%\"", $this->object->getHtml(), $result);
@@ -166,7 +166,7 @@ class ControlStep extends Step {
         return $result;
     }
 
-    public function getMinkSentence($locale) {
+    public function getMinkSentence($locale = 'en') {
         $result = parent::getMinkSentence($locale);
         if ($this->object != null) {
             $result = str_replace("%object%", $this->object->getMinkIdentification(), $result);

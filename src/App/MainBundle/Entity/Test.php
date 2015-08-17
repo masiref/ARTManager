@@ -3,7 +3,6 @@
 namespace App\MainBundle\Entity;
 
 use App\MainBundle\Services\GherkinService;
-use App\MainBundle\Services\MinkService;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -77,9 +76,16 @@ class Test implements JsonSerializable {
      */
     protected $startingPage;
 
+    /**
+     * @ORM\OneToMany(targetEntity="Prerequisite", mappedBy="parentTest", cascade={"all"}, orphanRemoval=true)
+     * @ORM\OrderBy({"order" = "ASC"})
+     */
+    protected $prerequisites;
+
     public function __construct() {
         $this->createdAt = new DateTime();
         $this->steps = new ArrayCollection();
+        $this->prerequisites = new ArrayCollection();
     }
 
     public function __toString() {
@@ -291,6 +297,38 @@ class Test implements JsonSerializable {
      */
     public function getStartingPage() {
         return $this->startingPage;
+    }
+
+    /**
+     * Add prerequisites
+     *
+     * @param \App\MainBundle\Entity\Prerequisite $prerequisites
+     * @return Test
+     */
+    public function addPrerequisite(\App\MainBundle\Entity\Prerequisite $prerequisites) {
+        $prerequisites->setParentTest($this);
+        $prerequisites->setOrder($this->prerequisites->count() + 1);
+        $this->prerequisites[] = $prerequisites;
+
+        return $this;
+    }
+
+    /**
+     * Remove prerequisites
+     *
+     * @param \App\MainBundle\Entity\Prerequisite $prerequisites
+     */
+    public function removePrerequisite(\App\MainBundle\Entity\Prerequisite $prerequisites) {
+        $this->prerequisites->removeElement($prerequisites);
+    }
+
+    /**
+     * Get prerequisites
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getPrerequisites() {
+        return $this->prerequisites;
     }
 
 }
