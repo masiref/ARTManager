@@ -145,6 +145,18 @@ class Test implements JsonSerializable {
         return $gherkin->generateBehatScenario($this);
     }
 
+    public function getParentName() {
+        return $this->testFolder->getParentName();
+    }
+
+    public function getPrerequisitesTestsId() {
+        $tests = array();
+        foreach ($this->prerequisites as $prerequisite) {
+            $tests[] = $prerequisite->getTest()->getId();
+        }
+        return $tests;
+    }
+
     /**
      * Get id
      *

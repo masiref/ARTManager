@@ -22,8 +22,8 @@ class GherkinService {
     }
 
     public function generateBehatScenario(Test $test) {
-        $scenario = new BehatScenario($test);
-        return $scenario->generate($this, $this->mink);
+        $scenario = new BehatScenario($test, $this, $this->mink);
+        return $scenario->generate();
     }
 
     public function getScenarioKeyword() {

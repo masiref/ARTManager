@@ -1,13 +1,21 @@
 <div class="row test-starting">
     <div class="col-md-12">
         <h1 class="text-center">
-            <strong>
+            <span class="pull-left">
                 <a href="#starting-page-collapse" data-toggle="collapse" aria-expanded="false" aria-controls="starting-page-collapse">
-                    <i class="fontello-icon-to-start"></i></a>
-                Starting page :
+                    <i class="fontello-icon-down-open starting-page-collapse-toggle-icon"></i></a>
+            </span>
+            <strong>
+                <i class="fontello-icon-to-start"></i> Starting page
             </strong>
-            <span id="starting-page-name">
-                {% if test.startingPage %}{{ test.startingPage }}{% endif %}
+            <small>
+                <span id="starting-page-name">
+                    {% if test.startingPage %}{{ test.startingPage }}{% endif %}
+                </span>
+            </small>
+            <span class="pull-right">
+                <a href="#starting-page-collapse" data-toggle="collapse" aria-expanded="false" aria-controls="starting-page-collapse">
+                    <i class="fontello-icon-down-open starting-page-collapse-toggle-icon"></i></a>
             </span>
         </h1>
     </div>

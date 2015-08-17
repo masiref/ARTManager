@@ -170,6 +170,13 @@ class TestFolder implements JsonSerializable {
         return $application;
     }
 
+    public function getParentName() {
+        if ($this->testFolder === null) {
+            return $this->name;
+        }
+        return $this->testFolder->getParentName() . " > " . $this->name;
+    }
+
     /**
      * Get id
      *

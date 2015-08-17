@@ -69,6 +69,28 @@ $( "[id^=edit-control-step-]" ).click(function() {
     showEditControlStepForm(id, stepId);
 });
 
+/* prerequisite triggers */
+$( "#modal-prerequisite" ).modal({
+    backdrop: 'static',
+    show: false
+});
+
+$("#add-prerequisite").click(function() {
+    var id = $(this).data('id');
+    showAddPrerequisiteForm(id);
+});
+
+$( "#save-prerequisite" ).click(function() {
+    var testId = $(this).data('test-id');
+    savePrerequisite(testId);
+});
+
+$( "[id^=delete-prerequisite-]" ).click(function() {
+    var id = $(this).data('id');
+    var name = $(this).data('name');
+    deletePrerequisite(id, name);
+});
+
 /* test methods */
 function updateStartingPage(testId, pageId, pageName) {
     $.ajax({
@@ -86,6 +108,16 @@ function updateStartingPage(testId, pageId, pageName) {
             $("#starting-page-name").html(pageName);
         }
     });
+}
+
+function enableStartingPageSelection() {
+    $("#form_startingPage").show();
+    $("#starting-page-collapse-toggle-icon").show();
+}
+
+function disableStartingPageSelection() {
+    $("#form_startingPage").hide();
+    $(".starting-page-collapse-toggle-icon").hide();
 }
 
 /* execute step methods */
@@ -442,8 +474,9 @@ function saveControlStep(stepId) {
         }),
         data: $("#form-control-step").serialize()
     }).done(function(data) {
-        if (data.error) {
-            swal("Step not added !", data.error, "error");
+        if (data.form) {
+            $("#form-control-step").replaceWith($(data.form));
+            triggerControlStepFormEventListeners();
         } else {
             showControlStepAndCloseControlStepForm(data, stepId);
         }
@@ -467,8 +500,9 @@ function updateControlStep(id) {
         }),
         data: $("#form-control-step").serialize()
     }).done(function(data) {
-        if (data.error) {
-            swal("Step not added !", data.error, "error");
+        if (data.form) {
+            $("#form-control-step").replaceWith($(data.form));
+            triggerControlStepFormEventListeners();
         } else {
             updateControlStepAndCloseControlStepForm(data, id);
         }
@@ -527,6 +561,135 @@ function updateControlStepsOrders(stepId) {
         jQuery.each(data, function(id, order) {
             $("#control-step-order-" + id).html(order);
             $("#delete-control-step-" + id).data("order", order);
+        });
+    });
+}
+
+/* prerequisite methods */
+function showPrerequisiteFormModal(form) {
+    $("#modal-prerequisite-body").html(form);
+    $("#modal-prerequisite").modal('show');
+}
+
+function showAddPrerequisiteForm(id) {
+    $.ajax({
+        type: 'POST',
+        url: Routing.generate('app_get_application_test_prerequisite_form_ajax', {
+            'id': id
+        })
+    }).done(function(data) {
+        $('#save-prerequisite').data('test-id', id);
+        showPrerequisiteFormModal(data.form);
+    });
+}
+
+function triggerPrerequisiteEventListeners(id) {
+    $( "#delete-prerequisite-" + id ).click(function(event) {
+        event.preventDefault();
+        var id = $(this).data('id');
+        var name = $(this).data('name');
+        deletePrerequisite(id, name);
+    }).tooltip();
+}
+
+function resetPrerequisiteFormAndCloseModal() {
+    $("#form-prerequisite")[0].reset();
+    $("#prerequisite_test").val($("#prerequisite_test option:first").val());
+    $("#modal-prerequisite").modal('hide');
+}
+
+function savePrerequisite(testId) {
+    $.ajax({
+        type: 'POST',
+        url: Routing.generate('app_add_application_test_prerequisite_ajax', {
+            'id': testId
+        }),
+        data: $("#form-prerequisite").serialize()
+    }).done(function(data) {
+        if (data.form) {
+            $("#form-prerequisite").replaceWith($(data.form));
+        } else {
+            showPrerequisiteAndClosePrerequisiteForm(data);
+            updatePrerequisitesCount();
+            if (data.resetStartingPage) {
+                $("#starting-page-name").text("");
+                $("#form_startingPage").val($("#form_startingPage option:first").val());
+            } else {
+            $("#starting-page-name").html(data.startingPage.name);
+                disableStartingPageSelection();
+            }
+        }
+    });
+}
+
+function showPrerequisiteAndClosePrerequisiteForm(data) {
+    var id = data.id;
+    var li = data.li;
+    $(li).insertBefore($('#add-prerequisite').parent());
+    triggerPrerequisiteEventListeners(id);
+    resetPrerequisiteFormAndCloseModal();
+    swal("Prerequisite added with success !", "", "success");
+}
+
+function deletePrerequisite(id, name) {
+    swal({
+        title: "Delete prerequisite " + name + " ?",
+        text: "You will not be able to recover this prerequisite !",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#DD6B55",
+        confirmButtonText: "Yes, delete it !",
+        closeOnConfirm: false
+    },
+    function(){
+        $.ajax({
+            type: 'POST',
+            url: Routing.generate('app_delete_application_test_prerequisite_ajax', {
+                'id': id
+            })
+        }).done(function(data) {
+            if (data.error) {
+                swal("Prerequisite " + name + " not deleted !", data.error, "error");
+            } else {
+                $('#item-prerequisite-' + id).css('visibility', 'hidden').animate({
+                    height: 0,
+                    width: 0
+                }, 300, function () {
+                    $(this).remove();
+                    updatePrerequisitesCount();
+                    updatePrerequisitesOrders(data.testId);
+                    if (data.startingPage) {
+                        $("#starting-page-name").html(data.startingPage.name);
+                    } else {
+                        if (data.resetStartingPage) {
+                            $("#starting-page-name").text("");
+                            $("#form_startingPage").val($("#form_startingPage option:first").val());
+                        }
+                    }
+                });
+                swal("Step deleted with success !", "", "success");
+            }
+        });
+    });
+}
+
+function updatePrerequisitesCount() {
+    var count = $("[id^=item-prerequisite-]").length;
+    $("#prerequisites-count").html(count);
+    if (count === 0) {
+        enableStartingPageSelection();
+    }
+}
+
+function updatePrerequisitesOrders(testId) {
+    $.ajax({
+        type: 'POST',
+        url: Routing.generate('app_get_application_test_prerequisites_orders_ajax', {
+            'id': testId
+        })
+    }).done(function(data) {
+        jQuery.each(data, function(id, order) {
+            $("#prerequisite-order-" + id).html(order);
         });
     });
 }

@@ -38,19 +38,14 @@
 {% endblock %}
 
 {% block body %}
-    {# include 'AppMainBundle:test:editor/prerequisites.html.twig' #}
+    {% include 'AppMainBundle:test:prerequisite/list.html.twig' %}
+    {% include 'AppMainBundle:test:prerequisite/form.html.twig' %}
     {% include 'AppMainBundle:test:editor/starting-page.html.twig' with { 'page': test.startingPage } %}
     {% include 'AppMainBundle:test:step/execute/list.html.twig' %}
+    {% include 'AppMainBundle:test:editor/behat.html.twig' %}
+    
     {% include 'AppMainBundle:test:step/execute/form.html.twig' %}
     {% include 'AppMainBundle:test:step/control/form.html.twig' %}
-    {# if test.startingPage %}
-        <p>&nbsp;</p>
-        <div class="row">
-            <div class="well col-md-6 col-md-offset-3">
-                <samp>{{ test.behatScenario(gherkin)|raw|nl2br }}</samp>
-            </div>
-        </div>
-    {% endif #}
 {% endblock %}
 
 {% block javascripts %}
@@ -62,6 +57,37 @@
                 var text = $(this).find("option:selected").text();
                 updateStartingPage({{ test.id }}, id, text);
             });
+            
+            $("#prerequisites-collapse").on('shown.bs.collapse', function() {
+                $(".prerequisites-collapse-toggle-icon").removeClass("fontello-icon-down-open")
+                        .addClass("fontello-icon-up-open");
+            });
+            $("#prerequisites-collapse").on('hidden.bs.collapse', function() {
+                $(".prerequisites-collapse-toggle-icon").removeClass("fontello-icon-up-open")
+                        .addClass("fontello-icon-down-open");
+            });
+            
+            $("#starting-page-collapse").on('shown.bs.collapse', function() {
+                $(".starting-page-collapse-toggle-icon").removeClass("fontello-icon-down-open")
+                        .addClass("fontello-icon-up-open");
+            });
+            $("#starting-page-collapse").on('hidden.bs.collapse', function() {
+                $(".starting-page-collapse-toggle-icon").removeClass("fontello-icon-up-open")
+                        .addClass("fontello-icon-down-open");
+            });
+            
+            $("#scenario-collapse").on('shown.bs.collapse', function() {
+                $(".scenario-collapse-toggle-icon").removeClass("fontello-icon-down-open")
+                        .addClass("fontello-icon-up-open");
+            });
+            $("#scenario-collapse").on('hidden.bs.collapse', function() {
+                $(".scenario-collapse-toggle-icon").removeClass("fontello-icon-up-open")
+                        .addClass("fontello-icon-down-open");
+            });
+            
+            {% if test.prerequisites|length > 0 %}
+                disableStartingPageSelection();
+            {% endif %}
         });
     </script>
 {% endblock %}

@@ -1,0 +1,14 @@
+{% if test.startingPage %}
+    <div class="row test-behat">
+        <div class="col-md-12">
+            <h1 class="text-center">
+                <strong>
+                    <i class="fontello-icon-gauge"></i> Behat Scenario
+                </strong>
+            </h1>
+        </div>
+        <div class="well col-md-6 col-md-offset-3">
+            <samp>{{ test.behatScenario(gherkin)|raw|nl2br }}</samp>
+        </div>
+    </div>
+{% endif %}

@@ -89,6 +89,7 @@ module.exports = function (grunt) {
                         app + '/libs/datatables/css/datatables.bootstrap.css',
                         app + '/libs/bootstrap3-editable/css/bootstrap-editable.css',
                         app + '/libs/bootstrap-treeview/src/css/bootstrap-treeview.css',
+                        app + '/libs/gridster/dist/jquery.gridster.css',
                         app + '/css/**/*.css'
                     ]
                 }
@@ -118,6 +119,7 @@ module.exports = function (grunt) {
                     app + '/libs/datatables/js/datatables.bootstrap.js',
                     app + '/libs/bootstrap3-editable/js/bootstrap-editable.js',
                     app + '/libs/bootstrap-treeview/src/js/bootstrap-treeview.js',
+                    app + '/libs/gridster/dist/jquery.gridster.js',
                     '.tmp/js/**/*.js',
                     app + '/js/**/*.js'
                     ]

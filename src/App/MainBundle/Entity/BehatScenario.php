@@ -8,23 +8,60 @@ use App\MainBundle\Services\MinkService;
 class BehatScenario {
 
     private $test;
+    private $gherkin;
+    private $mink;
+    private $locale;
 
-    public function __construct(Test $test) {
+    public function __construct(Test $test, GherkinService $gherkin, MinkService $mink) {
         $this->test = $test;
+        $this->gherkin = $gherkin;
+        $this->mink = $mink;
+        $this->locale = $gherkin->getLocale();
     }
 
-    public function generate(GherkinService $gherkin, MinkService $mink) {
-        $locale = $gherkin->getLocale();
+    public function generate() {
+        $gherkin = $this->gherkin;
+        $mink = $this->mink;
 
         // scenario node
         $content = $gherkin->getScenarioKeyword() . ": " . $this->test->getName() . PHP_EOL;
 
         $prefix = "  ";
 
+        // prerequisites
+        $prerequisites = $this->test->getPrerequisites();
+        if ($prerequisites->count() > 0) {
+            $content .= $prefix . "# ==== prerequisites ================" . PHP_EOL;
+        }
+        foreach ($prerequisites as $key => $prerequisite) {
+            $test = $prerequisite->getTest();
+            $content .= $prefix . "# " . $test . PHP_EOL;
+            if ($key == 0) {
+                $content .= $prefix . $gherkin->getGivenKeyword() . " " . $mink->getIAmOnPageStep($test->getStartingPage()) . PHP_EOL;
+            }
+            $scenario = new BehatScenario($test, $gherkin, $mink);
+            $steps = $scenario->generateSteps();
+            $content .= $steps;
+        }
+
         // initial state node
-        $content .= $prefix . $gherkin->getGivenKeyword() . " " . $mink->getIAmOnPageStep($this->test->getStartingPage()) . PHP_EOL;
+        if ($prerequisites->count() == 0) {
+            $content .= $prefix . $gherkin->getGivenKeyword() . " " . $mink->getIAmOnPageStep($this->test->getStartingPage()) . PHP_EOL;
+        } else {
+            $content .= $prefix . "# ==== prerequisites ================" . PHP_EOL;
+        }
 
         // steps nodes
+        return $content . $this->generateSteps();
+    }
+
+    private function generateSteps() {
+        $gherkin = $this->gherkin;
+        $locale = $this->locale;
+
+        $prefix = "  ";
+
+        $content = "";
         $previousStepHasControlSteps = false;
         foreach ($this->test->getSteps() as $i => $step) {
             $stepPrefix = ($previousStepHasControlSteps || $i == 0 ? $gherkin->getWhenKeyword() : $gherkin->getAndKeyword()) . " ";

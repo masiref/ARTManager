@@ -1,0 +1,34 @@
+<div class="row test-prerequisites">
+    <div class="col-md-12">
+        <h1 class="text-center">
+            <span class="pull-left">
+                <a href="#prerequisites-collapse" data-toggle="collapse" aria-expanded="false" aria-controls="prerequisites-collapse">
+                    <i class="fontello-icon-down-open prerequisites-collapse-toggle-icon"></i></a>
+            </span>
+            <strong>
+                <i class="fontello-icon-back-in-time"></i> Prerequisites
+            </strong>
+            <span class="badge" id="prerequisites-count">{{ test.prerequisites|length }}</span>
+            <span class="pull-right">
+                <a href="#prerequisites-collapse" data-toggle="collapse" aria-expanded="false" aria-controls="prerequisites-collapse">
+                    <i class="fontello-icon-down-open prerequisites-collapse-toggle-icon"></i></a>
+            </span>
+        </h1>
+    </div>
+    <div class="col-md-12">
+        <div class="collapse" id="prerequisites-collapse">
+            <ul class="list-unstyled text-center">
+                {% for prerequisite in test.prerequisites %}
+                    {% include "AppMainBundle:test:prerequisite/item.html.twig" with { 'prerequisite': prerequisite } %}
+                {% endfor %}
+                <li>
+                    <a href="#" id="add-prerequisite"
+                       data-id="{{ test.id }}"
+                       data-toggle="tooltip" data-placement="bottom" title="Add a prerequisite">
+                        <i class="fontello-icon-plus-circled"></i>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
