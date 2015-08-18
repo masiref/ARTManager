@@ -84,12 +84,12 @@ module.exports = function (grunt) {
                 files: {
                     'web/built/min.css': [
                         '.tmp/css/**/*.css',
+                        app + '/libs/jquery-ui/themes/base/sortable.css',
                         app + '/libs/Fontello/fontello-codes.css',
                         app + '/libs/datatables/css/jquery.datatables.css',
                         app + '/libs/datatables/css/datatables.bootstrap.css',
                         app + '/libs/bootstrap3-editable/css/bootstrap-editable.css',
                         app + '/libs/bootstrap-treeview/src/css/bootstrap-treeview.css',
-                        app + '/libs/gridster/dist/jquery.gridster.css',
                         app + '/css/**/*.css'
                     ]
                 }
@@ -112,6 +112,7 @@ module.exports = function (grunt) {
                 files: {
                     'web/built/app.min.js':[
                     app + '/libs/jquery/jquery.js',
+                    app + '/libs/jquery-ui/jquery-ui.js',
                     app + '/libs/bootstrap/assets/javascripts/bootstrap.js',
                     app + '/libs/sweetalert/lib/sweet-alert.js',
                     app + '/libs/datatables/js/jquery.datatables.js',
@@ -119,7 +120,6 @@ module.exports = function (grunt) {
                     app + '/libs/datatables/js/datatables.bootstrap.js',
                     app + '/libs/bootstrap3-editable/js/bootstrap-editable.js',
                     app + '/libs/bootstrap-treeview/src/js/bootstrap-treeview.js',
-                    app + '/libs/gridster/dist/jquery.gridster.js',
                     '.tmp/js/**/*.js',
                     app + '/js/**/*.js'
                     ]

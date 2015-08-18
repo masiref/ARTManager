@@ -24,10 +24,12 @@
             <h1 class="text-center text-success"><i class="fontello-icon-ok"></i> Control</h1>
         </div>
     </div>
-
-    {% for step in test.steps %}
-        {% include 'AppMainBundle:test:step/execute/item.html.twig' with { 'step': step } %}
-    {% endfor %}
+    
+    <div id="step-rows">
+        {% for step in test.steps %}
+            {% include 'AppMainBundle:test:step/execute/item.html.twig' with { 'step': step } %}
+        {% endfor %}
+    </div>
 
     <div class="row step" id="step-footer">
         <div class="col-md-6 step-left">

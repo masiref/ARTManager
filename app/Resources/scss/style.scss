@@ -142,6 +142,10 @@ a {
     text-align: center;
 }
 
+.row.step {
+    background-color: #fff;
+}
+
 div.row.step > div.step-left > div, div.row.control-step > div {
     min-height: 3em;
     line-height: 3em;

@@ -6,35 +6,13 @@ use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use JsonSerializable;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity
  * @ORM\InheritanceType("JOINED")
  * @ORM\DiscriminatorColumn(name="discriminator", type="string")
  * @ORM\DiscriminatorMap({"execute" = "ExecuteStep", "control" = "ControlStep"})
- * @ORM\Table(name="step", uniqueConstraints={
- *      @ORM\UniqueConstraint(name="IDX_Unique_Test", columns={"_order", "test_id"}),
- *      @ORM\UniqueConstraint(name="IDX_Unique_Step", columns={"_order", "parent_step_id"})
- * })
- * @UniqueEntity(
- *      fields={"order"},
- *      message="Order already used.",
- *      groups="step_test"
- * )
- * @UniqueEntity(
- *      fields={"test"},
- *      groups="step_test"
- * )
- * @UniqueEntity(
- *      fields={"order"},
- *      message="Order already used.",
- *      groups="step_step"
- * )
- * @UniqueEntity(
- *      fields={"parentStep"},
- *      groups="step_step"
- * )
+ * @ORM\Table(name="step")
  */
 class Step implements JsonSerializable {
 

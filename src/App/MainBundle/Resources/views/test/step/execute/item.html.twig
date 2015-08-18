@@ -1,4 +1,4 @@
-<div class="row step" id="step-row-{{ step.id }}">
+<div class="row step" id="step-row-{{ step.id }}" data-id="{{ step.id }}">
     <div class="col-md-6 step-left" id="step-left-{{ step.id }}">
         {% include 'AppMainBundle:test:step/execute/line.html.twig' with { 'step': step } %}
     </div>

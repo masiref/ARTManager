@@ -697,4 +697,64 @@ class TestEditorController extends Controller {
         return $response;
     }
 
+    /**
+     * @Route("/application/test/step/orders/update",
+     *      name="app_update_application_test_execute_step_orders_ajax",
+     *      requirements={"_method" = "post"},
+     *      options={"expose" = true }
+     * )
+     * @Secure(roles="ROLE_SUPER_ADMIN")
+     */
+    public function updateExecuteStepsOrdersAction(Request $request) {
+        $ajaxResponse = array();
+        $em = $this->getDoctrine()->getManager();
+        if ($request->getMethod() == 'POST' && $request->isXmlHttpRequest()) {
+            $stepsAndOrders = array();
+            $steps = explode(",", $request->get('steps'));
+            $order = 1;
+            foreach ($steps as $stepId) {
+                $step = $em->getRepository("AppMainBundle:ExecuteStep")->find($stepId);
+                $step->setOrder($order);
+                $em->persist($step);
+                $stepsAndOrders[$stepId] = $order;
+                $order += 1;
+            }
+            $em->flush();
+            $ajaxResponse["stepsAndOrders"] = $stepsAndOrders;
+        }
+        $response = new Response(json_encode($ajaxResponse));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
+    }
+
+    /**
+     * @Route("/application/test/step/control/step/orders/update",
+     *      name="app_update_application_test_step_control_step_orders_ajax",
+     *      requirements={"_method" = "post"},
+     *      options={"expose" = true }
+     * )
+     * @Secure(roles="ROLE_SUPER_ADMIN")
+     */
+    public function updateControlStepsOrdersAction(Request $request) {
+        $ajaxResponse = array();
+        $em = $this->getDoctrine()->getManager();
+        if ($request->getMethod() == 'POST' && $request->isXmlHttpRequest()) {
+            $stepsAndOrders = array();
+            $steps = explode(",", $request->get('steps'));
+            $order = 1;
+            foreach ($steps as $stepId) {
+                $step = $em->getRepository("AppMainBundle:ControlStep")->find($stepId);
+                $step->setOrder($order);
+                $em->persist($step);
+                $stepsAndOrders[$stepId] = $order;
+                $order += 1;
+            }
+            $em->flush();
+            $ajaxResponse["stepsAndOrders"] = $stepsAndOrders;
+        }
+        $response = new Response(json_encode($ajaxResponse));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
+    }
+
 }

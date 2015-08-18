@@ -1,6 +1,9 @@
-{% for controlStep in step.controlSteps %}
-    {% include 'AppMainBundle:test:step/control/item.html.twig' with { 'controlStep': controlStep } %}
-{% endfor %}
+<div id="control-step-rows-{{ step.id }}">
+    {% for controlStep in step.controlSteps %}
+        {% include 'AppMainBundle:test:step/control/item.html.twig' with { 'controlStep': controlStep } %}
+    {% endfor %}
+</div>
+
 <div class="row control-step" id="control-step-footer-{{ step.id }}">
     <div class="col-md-12">
         <a href="#" id="add-control-step-step-{{ step.id }}"

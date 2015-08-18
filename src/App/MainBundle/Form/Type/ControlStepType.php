@@ -79,7 +79,7 @@ class ControlStepType extends AbstractType {
     public function setDefaultOptions(OptionsResolverInterface $resolver) {
         $resolver->setDefaults(array(
             'data_class' => 'App\MainBundle\Entity\ControlStep',
-            'validation_group' => array('step_test', 'step_step'),
+            'validation_group' => array(),
             'cascade_validation' => true
         ));
     }

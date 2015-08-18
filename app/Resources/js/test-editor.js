@@ -106,7 +106,7 @@ function updateStartingPage(testId, pageId, pageName) {
             swal("Starting page not updated !", data.error, "error");
         } else {
             $("#starting-page-name").html(pageName);
-            updateBehatScenario(testId);
+            refreshBehatScenario(testId);
         }
     });
 }
@@ -249,7 +249,7 @@ function saveStep(testId) {
             triggerStepFormEventListeners();
         } else {
             showStepAndCloseStepForm(data);
-            updateBehatScenario(testId);
+            refreshBehatScenario(testId);
         }
     });
 }
@@ -257,7 +257,7 @@ function saveStep(testId) {
 function showStepAndCloseStepForm(data) {
     var id = data.id;
     var row = data.row;
-    $(row).insertBefore($('#step-footer'));
+    $(row).appendTo($('#step-rows'));
     triggerStepEventListeners(id);
     resetStepFormAndCloseModal();
     swal("Step saved with success !", "", "success");
@@ -276,7 +276,7 @@ function updateStep(id) {
             triggerStepFormEventListeners();
         } else {
             updateStepAndCloseStepForm(data);
-            updateBehatScenario(data.testId);
+            refreshBehatScenario(data.testId);
         }
     });
 }
@@ -315,8 +315,8 @@ function deleteExecuteStep(id, order, testId) {
                     width: 0
                 }, 300, function () {
                     $(this).remove();
-                    updateExecuteStepsOrders(testId);
-                    updateBehatScenario(testId);
+                    refreshExecuteStepsOrders(testId);
+                    refreshBehatScenario(testId);
                 });
                 swal("Step deleted with success !", "", "success");
             }
@@ -324,7 +324,7 @@ function deleteExecuteStep(id, order, testId) {
     });
 }
 
-function updateExecuteStepsOrders(testId) {
+function refreshExecuteStepsOrders(testId) {
     $.ajax({
         type: 'POST',
         url: Routing.generate('app_get_application_test_execute_step_orders_ajax', {
@@ -334,7 +334,25 @@ function updateExecuteStepsOrders(testId) {
         jQuery.each(data, function(id, order) {
             $("#step-order-" + id).html(order);
             $("#delete-execute-step-" + id).data("order", order);
+            $("#step-right-" + id).find("[id^=delete-control-step-]").data("step-order", order);
         });
+    });
+}
+
+function updateExecuteStepsOrders(testId, steps) {
+    $.ajax({
+        url: Routing.generate('app_update_application_test_execute_step_orders_ajax'),
+        method: 'POST',
+        data: {
+            'steps': steps
+        }
+    }).done(function(data) {
+        jQuery.each(data.stepsAndOrders, function(id, order) {
+            $("#step-order-" + id).html(order);
+            $("#delete-execute-step-" + id).data("order", order);
+            $("#step-right-" + id).find("[id^=delete-control-step-]").data("step-order", order);
+        });
+        refreshBehatScenario(testId);
     });
 }
 
@@ -483,7 +501,7 @@ function saveControlStep(stepId) {
             triggerControlStepFormEventListeners();
         } else {
             showControlStepAndCloseControlStepForm(data, stepId);
-            updateBehatScenario(data.testId);
+            refreshBehatScenario(data.testId);
         }
     });
 }
@@ -491,7 +509,10 @@ function saveControlStep(stepId) {
 function showControlStepAndCloseControlStepForm(data, stepId) {
     var id = data.id;
     var row = data.row;
-    $(row).insertBefore($('#control-step-footer-' + stepId));
+    $(row).appendTo($('#control-step-rows-' + stepId));
+    $(row).sortable({
+        connectWith: "#control-step-rows-" + stepId
+    });
     triggerControlStepEventListeners(id);
     resetControlStepFormAndCloseModal();
     swal("Step added with success !", "", "success");
@@ -510,7 +531,7 @@ function updateControlStep(id) {
             triggerControlStepFormEventListeners();
         } else {
             updateControlStepAndCloseControlStepForm(data, id);
-            updateBehatScenario(data.testId);
+            refreshBehatScenario(data.testId);
         }
     });
 }
@@ -549,8 +570,8 @@ function deleteControlStep(id, order, stepId, stepOrder) {
                     width: 0
                 }, 300, function () {
                     $(this).remove();
-                    updateControlStepsOrders(stepId);
-                    updateBehatScenario(data.testId);
+                    refreshControlStepsOrders(stepId);
+                    refreshBehatScenario(data.testId);
                 });
                 swal("Step deleted with success !", "", "success");
             }
@@ -558,7 +579,7 @@ function deleteControlStep(id, order, stepId, stepOrder) {
     });
 }
 
-function updateControlStepsOrders(stepId) {
+function refreshControlStepsOrders(stepId) {
     $.ajax({
         type: 'POST',
         url: Routing.generate('app_get_application_test_step_control_step_orders_ajax', {
@@ -569,6 +590,22 @@ function updateControlStepsOrders(stepId) {
             $("#control-step-order-" + id).html(order);
             $("#delete-control-step-" + id).data("order", order);
         });
+    });
+}
+
+function updateControlStepsOrders(testId, steps) {
+    $.ajax({
+        url: Routing.generate('app_update_application_test_step_control_step_orders_ajax'),
+        method: 'POST',
+        data: {
+            'steps': steps
+        }
+    }).done(function(data) {
+        jQuery.each(data.stepsAndOrders, function(id, order) {
+            $("#control-step-order-" + id).html(order);
+            $("#delete-control-step-" + id).data("order", order);
+        });
+        refreshBehatScenario(testId);
     });
 }
 
@@ -625,7 +662,7 @@ function savePrerequisite(testId) {
             $("#starting-page-name").html(data.startingPage.name);
                 disableStartingPageSelection();
             }
-            updateBehatScenario(testId);
+            refreshBehatScenario(testId);
         }
     });
 }
@@ -675,7 +712,7 @@ function deletePrerequisite(id, name) {
                             $("#form_startingPage").val($("#form_startingPage option:first").val());
                         }
                     }
-                    updateBehatScenario(testId);
+                    refreshBehatScenario(testId);
                 });
                 swal("Prerequisite deleted with success !", "", "success");
             }
@@ -704,7 +741,40 @@ function updatePrerequisitesOrders(testId) {
     });
 }
 
-function updateBehatScenario(testId) {
+/* hybrid methods */
+function triggerCollapsibleElementsEventListeners() {
+    $("#prerequisites-collapse").on('shown.bs.collapse', function() {
+        $(".prerequisites-collapse-toggle-icon").removeClass("fontello-icon-down-open")
+                .addClass("fontello-icon-up-open");
+    });
+
+    $("#prerequisites-collapse").on('hidden.bs.collapse', function() {
+        $(".prerequisites-collapse-toggle-icon").removeClass("fontello-icon-up-open")
+                .addClass("fontello-icon-down-open");
+    });
+
+    $("#starting-page-collapse").on('shown.bs.collapse', function() {
+        $(".starting-page-collapse-toggle-icon").removeClass("fontello-icon-down-open")
+                .addClass("fontello-icon-up-open");
+    });
+
+    $("#starting-page-collapse").on('hidden.bs.collapse', function() {
+        $(".starting-page-collapse-toggle-icon").removeClass("fontello-icon-up-open")
+                .addClass("fontello-icon-down-open");
+    });
+
+    $("#scenario-collapse").on('shown.bs.collapse', function() {
+        $(".scenario-collapse-toggle-icon").removeClass("fontello-icon-down-open")
+                .addClass("fontello-icon-up-open");
+    });
+
+    $("#scenario-collapse").on('hidden.bs.collapse', function() {
+        $(".scenario-collapse-toggle-icon").removeClass("fontello-icon-up-open")
+                .addClass("fontello-icon-down-open");
+    });
+}
+
+function refreshBehatScenario(testId) {
     $.ajax({
         type: 'POST',
         url: Routing.generate('app_get_application_test_behat_scenario_ajax', {

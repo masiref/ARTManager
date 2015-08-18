@@ -58,36 +58,27 @@
                 updateStartingPage({{ test.id }}, id, text);
             });
             
-            $("#prerequisites-collapse").on('shown.bs.collapse', function() {
-                $(".prerequisites-collapse-toggle-icon").removeClass("fontello-icon-down-open")
-                        .addClass("fontello-icon-up-open");
-            });
-            $("#prerequisites-collapse").on('hidden.bs.collapse', function() {
-                $(".prerequisites-collapse-toggle-icon").removeClass("fontello-icon-up-open")
-                        .addClass("fontello-icon-down-open");
-            });
-            
-            $("#starting-page-collapse").on('shown.bs.collapse', function() {
-                $(".starting-page-collapse-toggle-icon").removeClass("fontello-icon-down-open")
-                        .addClass("fontello-icon-up-open");
-            });
-            $("#starting-page-collapse").on('hidden.bs.collapse', function() {
-                $(".starting-page-collapse-toggle-icon").removeClass("fontello-icon-up-open")
-                        .addClass("fontello-icon-down-open");
-            });
-            
-            $("#scenario-collapse").on('shown.bs.collapse', function() {
-                $(".scenario-collapse-toggle-icon").removeClass("fontello-icon-down-open")
-                        .addClass("fontello-icon-up-open");
-            });
-            $("#scenario-collapse").on('hidden.bs.collapse', function() {
-                $(".scenario-collapse-toggle-icon").removeClass("fontello-icon-up-open")
-                        .addClass("fontello-icon-down-open");
-            });
+            triggerCollapsibleElementsEventListeners();
             
             {% if test.prerequisites|length > 0 %}
                 disableStartingPageSelection();
             {% endif %}
+                
+            $("#step-rows").sortable({
+                update: function(event, ui) {
+                    var steps = $(this).sortable('toArray', { 'attribute': 'data-id' }).toString();
+                    var testId = "{{ test.id }}";
+                    updateExecuteStepsOrders(testId, steps);
+                }
+            }).disableSelection();
+            
+            $("[id^=control-step-rows-]").sortable({
+                update: function(event, ui) {
+                    var steps = $(this).sortable('toArray', { 'attribute': 'data-id' }).toString();
+                    var testId = "{{ test.id }}";
+                    updateControlStepsOrders(testId, steps);
+                }
+            }).disableSelection();
         });
     </script>
 {% endblock %}
