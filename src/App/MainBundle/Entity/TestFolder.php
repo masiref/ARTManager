@@ -338,6 +338,7 @@ class TestFolder implements JsonSerializable {
      */
     public function addTest(\App\MainBundle\Entity\Test $tests) {
         $tests->setTestFolder($this);
+        $tests->setApplication($this->getRootApplication());
         $this->tests[] = $tests;
 
         return $this;

@@ -82,6 +82,12 @@ class Test implements JsonSerializable {
      */
     protected $prerequisites;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="Application") 
+     * @ORM\JoinColumn(name="application_id", referencedColumnName="id")
+     */
+    protected $application;
+
     public function __construct() {
         $this->createdAt = new DateTime();
         $this->steps = new ArrayCollection();
@@ -341,6 +347,27 @@ class Test implements JsonSerializable {
      */
     public function getPrerequisites() {
         return $this->prerequisites;
+    }
+
+    /**
+     * Set application
+     *
+     * @param \App\MainBundle\Entity\Application $application
+     * @return Test
+     */
+    public function setApplication(\App\MainBundle\Entity\Application $application = null) {
+        $this->application = $application;
+
+        return $this;
+    }
+
+    /**
+     * Get application
+     *
+     * @return \App\MainBundle\Entity\Application
+     */
+    public function getApplication() {
+        return $this->application;
     }
 
 }

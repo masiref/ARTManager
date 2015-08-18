@@ -106,13 +106,14 @@ function updateStartingPage(testId, pageId, pageName) {
             swal("Starting page not updated !", data.error, "error");
         } else {
             $("#starting-page-name").html(pageName);
+            updateBehatScenario(testId);
         }
     });
 }
 
 function enableStartingPageSelection() {
     $("#form_startingPage").show();
-    $("#starting-page-collapse-toggle-icon").show();
+    $(".starting-page-collapse-toggle-icon").show();
 }
 
 function disableStartingPageSelection() {
@@ -248,6 +249,7 @@ function saveStep(testId) {
             triggerStepFormEventListeners();
         } else {
             showStepAndCloseStepForm(data);
+            updateBehatScenario(testId);
         }
     });
 }
@@ -274,6 +276,7 @@ function updateStep(id) {
             triggerStepFormEventListeners();
         } else {
             updateStepAndCloseStepForm(data);
+            updateBehatScenario(data.testId);
         }
     });
 }
@@ -313,6 +316,7 @@ function deleteExecuteStep(id, order, testId) {
                 }, 300, function () {
                     $(this).remove();
                     updateExecuteStepsOrders(testId);
+                    updateBehatScenario(testId);
                 });
                 swal("Step deleted with success !", "", "success");
             }
@@ -479,6 +483,7 @@ function saveControlStep(stepId) {
             triggerControlStepFormEventListeners();
         } else {
             showControlStepAndCloseControlStepForm(data, stepId);
+            updateBehatScenario(data.testId);
         }
     });
 }
@@ -505,6 +510,7 @@ function updateControlStep(id) {
             triggerControlStepFormEventListeners();
         } else {
             updateControlStepAndCloseControlStepForm(data, id);
+            updateBehatScenario(data.testId);
         }
     });
 }
@@ -544,6 +550,7 @@ function deleteControlStep(id, order, stepId, stepOrder) {
                 }, 300, function () {
                     $(this).remove();
                     updateControlStepsOrders(stepId);
+                    updateBehatScenario(data.testId);
                 });
                 swal("Step deleted with success !", "", "success");
             }
@@ -618,6 +625,7 @@ function savePrerequisite(testId) {
             $("#starting-page-name").html(data.startingPage.name);
                 disableStartingPageSelection();
             }
+            updateBehatScenario(testId);
         }
     });
 }
@@ -651,13 +659,14 @@ function deletePrerequisite(id, name) {
             if (data.error) {
                 swal("Prerequisite " + name + " not deleted !", data.error, "error");
             } else {
+                var testId = data.testId;
                 $('#item-prerequisite-' + id).css('visibility', 'hidden').animate({
                     height: 0,
                     width: 0
                 }, 300, function () {
                     $(this).remove();
                     updatePrerequisitesCount();
-                    updatePrerequisitesOrders(data.testId);
+                    updatePrerequisitesOrders(testId);
                     if (data.startingPage) {
                         $("#starting-page-name").html(data.startingPage.name);
                     } else {
@@ -666,8 +675,9 @@ function deletePrerequisite(id, name) {
                             $("#form_startingPage").val($("#form_startingPage option:first").val());
                         }
                     }
+                    updateBehatScenario(testId);
                 });
-                swal("Step deleted with success !", "", "success");
+                swal("Prerequisite deleted with success !", "", "success");
             }
         });
     });
@@ -691,5 +701,16 @@ function updatePrerequisitesOrders(testId) {
         jQuery.each(data, function(id, order) {
             $("#prerequisite-order-" + id).html(order);
         });
+    });
+}
+
+function updateBehatScenario(testId) {
+    $.ajax({
+        type: 'POST',
+        url: Routing.generate('app_get_application_test_behat_scenario_ajax', {
+            'id': testId
+        })
+    }).done(function(data) {
+        $("#behat-scenario").html(data.scenario);
     });
 }

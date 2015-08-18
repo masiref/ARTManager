@@ -29,8 +29,7 @@ class PrerequisiteType extends AbstractType {
             'empty_value' => 'Select a test',
             'query_builder' => function(EntityRepository $er) use ($application, $test) {
                 $qb = $er->createQueryBuilder('t')
-                        ->join('t.testFolder', 'tf')
-                        ->join('tf.application', 'a')
+                        ->join('t.application', 'a')
                         ->where('t != :test')
                         ->andWhere('a = :application')
                         ->setParameter('test', $test)

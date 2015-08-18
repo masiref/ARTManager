@@ -28,31 +28,34 @@ class BehatScenario {
 
         $prefix = "  ";
 
-        // prerequisites
-        $prerequisites = $this->test->getPrerequisites();
-        if ($prerequisites->count() > 0) {
-            $content .= $prefix . "# ==== prerequisites ================" . PHP_EOL;
-        }
-        foreach ($prerequisites as $key => $prerequisite) {
-            $test = $prerequisite->getTest();
-            $content .= $prefix . "# " . $test . PHP_EOL;
-            if ($key == 0) {
-                $content .= $prefix . $gherkin->getGivenKeyword() . " " . $mink->getIAmOnPageStep($test->getStartingPage()) . PHP_EOL;
+        if ($this->test->getStartingPage() != null) {
+            // prerequisites
+            $prerequisites = $this->test->getPrerequisites();
+            if ($prerequisites->count() > 0) {
+                $content .= $prefix . "# ==== prerequisites ================" . PHP_EOL;
             }
-            $scenario = new BehatScenario($test, $gherkin, $mink);
-            $steps = $scenario->generateSteps();
-            $content .= $steps;
-        }
+            foreach ($prerequisites as $key => $prerequisite) {
+                $test = $prerequisite->getTest();
+                $content .= $prefix . "# " . $test . PHP_EOL;
+                if ($key == 0) {
+                    $content .= $prefix . $gherkin->getGivenKeyword() . " " . $mink->getIAmOnPageStep($test->getStartingPage()) . PHP_EOL;
+                }
+                $scenario = new BehatScenario($test, $gherkin, $mink);
+                $steps = $scenario->generateSteps();
+                $content .= $steps;
+            }
 
-        // initial state node
-        if ($prerequisites->count() == 0) {
-            $content .= $prefix . $gherkin->getGivenKeyword() . " " . $mink->getIAmOnPageStep($this->test->getStartingPage()) . PHP_EOL;
-        } else {
-            $content .= $prefix . "# ==== prerequisites ================" . PHP_EOL;
-        }
+            // initial state node
+            if ($prerequisites->count() == 0) {
+                $content .= $prefix . $gherkin->getGivenKeyword() . " " . $mink->getIAmOnPageStep($this->test->getStartingPage()) . PHP_EOL;
+            } else {
+                $content .= $prefix . "# ==== prerequisites ================" . PHP_EOL;
+            }
 
-        // steps nodes
-        return $content . $this->generateSteps();
+            // steps nodes
+            return $content . $this->generateSteps();
+        }
+        return $content;
     }
 
     private function generateSteps() {

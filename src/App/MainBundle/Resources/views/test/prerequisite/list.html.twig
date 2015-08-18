@@ -6,7 +6,7 @@
                     <i class="fontello-icon-down-open prerequisites-collapse-toggle-icon"></i></a>
             </span>
             <strong>
-                <i class="fontello-icon-back-in-time"></i> Prerequisites
+                <i class="fontello-icon-back-in-time"></i> Background
             </strong>
             <span class="badge" id="prerequisites-count">{{ test.prerequisites|length }}</span>
             <span class="pull-right">
@@ -22,6 +22,7 @@
                     {% include "AppMainBundle:test:prerequisite/item.html.twig" with { 'prerequisite': prerequisite } %}
                 {% endfor %}
                 <li>
+                    <br>
                     <a href="#" id="add-prerequisite"
                        data-id="{{ test.id }}"
                        data-toggle="tooltip" data-placement="bottom" title="Add a prerequisite">

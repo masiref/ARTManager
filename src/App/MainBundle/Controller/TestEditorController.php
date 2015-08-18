@@ -192,6 +192,7 @@ class TestEditorController extends Controller {
                     $ajaxResponse['row'] = $this->render('AppMainBundle:test:step/control/item.html.twig', array(
                                 'controlStep' => $controlStep
                             ))->getContent();
+                    $ajaxResponse['testId'] = $step->getTest()->getId();
                 } else {
                     $ajaxResponse['form'] = $this->render('AppMainBundle:test:step/control/form_content.html.twig', array(
                                 'form' => $form->createView()
@@ -296,6 +297,7 @@ class TestEditorController extends Controller {
                 }
                 $em->persist($parentStep);
                 $em->flush();
+                $ajaxResponse['testId'] = $parentStep->getTest()->getId();
             } else {
                 $ajaxResponse['error'] = "This step does not exist.";
             }
@@ -441,6 +443,7 @@ class TestEditorController extends Controller {
                 $ajaxResponse['row'] = $this->render('AppMainBundle:test:step/execute/item.html.twig', array(
                             'step' => $step
                         ))->getContent();
+                $ajaxResponse['testId'] = $test->getId();
             } else {
                 $ajaxResponse['form'] = $this->render('AppMainBundle:test:step/execute/form_content.html.twig', array(
                             'form' => $form->createView()
@@ -515,6 +518,7 @@ class TestEditorController extends Controller {
                 $ajaxResponse['row'] = $this->render('AppMainBundle:test:step/control/item.html.twig', array(
                             'controlStep' => $controlStep
                         ))->getContent();
+                $ajaxResponse['testId'] = $step->getTest()->getId();
             } else {
                 $ajaxResponse['form'] = $this->render('AppMainBundle:test:step/control/form_content.html.twig', array(
                             'form' => $form->createView()
@@ -612,6 +616,7 @@ class TestEditorController extends Controller {
         if ($request->getMethod() == 'POST' && $request->isXmlHttpRequest()) {
             if ($prerequisite !== null) {
                 $parentTest = $prerequisite->getParentTest();
+                $ajaxResponse['testId'] = $parentTest->getId();
                 $changeTestStartingPage = $prerequisite->getOrder() == $parentTest->getPrerequisites()->count();
                 $em->remove($prerequisite);
                 $em->flush();
@@ -622,22 +627,22 @@ class TestEditorController extends Controller {
                         $existingPrerequisite->setOrder($order - 1);
                     }
                 }
+                $page = null;
                 if ($changeTestStartingPage) {
                     if ($prerequisites->count() > 0) {
                         $page = $prerequisites->get($prerequisites->count() - 1)->getTest()->getActivePage();
-                        $parentTest->setStartingPage($page);
-                        if ($page != null) {
-                            $ajaxResponse['startingPage'] = $page;
-                        } else {
-                            $ajaxResponse['resetStartingPage'] = true;
-                        }
                     }
-                    $em->persist($parentTest);
-                    $em->flush();
-                    $ajaxResponse['testId'] = $parentTest->getId();
-                } else {
-                    $ajaxResponse['error'] = "This prerequisite does not exist.";
                 }
+                $parentTest->setStartingPage($page);
+                if ($page != null) {
+                    $ajaxResponse['startingPage'] = $page;
+                } else {
+                    $ajaxResponse['resetStartingPage'] = true;
+                }
+                $em->persist($parentTest);
+                $em->flush();
+            } else {
+                $ajaxResponse['error'] = "This prerequisite does not exist.";
             }
         }
         $response = new Response(json_encode($ajaxResponse));
@@ -654,7 +659,7 @@ class TestEditorController extends Controller {
      * @Secure(roles="ROLE_SUPER_ADMIN")
      * @ParamConverter("test", class="AppMainBundle:Test")
      */
-    public function getPrerequisitesOrders(Test $test, Request $request) {
+    public function getPrerequisitesOrdersAction(Test $test, Request $request) {
         $ajaxResponse = array();
         if ($request->getMethod() == 'POST' && $request->isXmlHttpRequest()) {
             if ($test !== null) {
@@ -662,6 +667,29 @@ class TestEditorController extends Controller {
                 foreach ($prerequisites as $prerequisite) {
                     $ajaxResponse[$prerequisite->getId()] = $prerequisite->getOrder();
                 }
+            }
+        }
+        $response = new Response(json_encode($ajaxResponse));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
+    }
+
+    /**
+     * @Route("/application/test/{id}/behat/scenario",
+     *      name="app_get_application_test_behat_scenario_ajax",
+     *      requirements={"_method" = "post"},
+     *      options={"expose" = true }
+     * )
+     * @Secure(roles="ROLE_SUPER_ADMIN")
+     * @ParamConverter("test", class="AppMainBundle:Test")
+     */
+    public function getBehatScenarioAction(Test $test, Request $request) {
+        $ajaxResponse = array();
+        if ($request->getMethod() == 'POST' && $request->isXmlHttpRequest()) {
+            if ($test !== null) {
+                $ajaxResponse["scenario"] = $this->render('AppMainBundle:test:editor/behat_content.html.twig', array(
+                            'test' => $test
+                        ))->getContent();
             }
         }
         $response = new Response(json_encode($ajaxResponse));

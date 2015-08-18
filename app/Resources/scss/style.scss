@@ -154,6 +154,10 @@ div.row.step > div.step-left > div, div.row.control-step > div {
 
 @include list-group-item-variant(mypurple, $state-mypurple-bg, $state-mypurple-text);
 
+.bg-mypurple {
+    background-color: $state-mypurple-bg;
+}
+
 .text-mypurple {
     color: $state-mypurple-text;
 }
