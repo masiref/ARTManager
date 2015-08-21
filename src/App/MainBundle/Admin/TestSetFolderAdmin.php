@@ -7,7 +7,7 @@ use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 
-class TestAdmin extends Admin {
+class TestSetFolderAdmin extends Admin {
 
     protected function configureFormFields(FormMapper $formMapper) {
         $formMapper
@@ -20,11 +20,17 @@ class TestAdmin extends Admin {
         ));
         if (!$this->hasParentFieldDescription()) {
             $formMapper
-                    ->add('testFolder', 'sonata_type_model', array(
-                        'btn_add' => false
+                    ->add('application', 'sonata_type_model', array(
+                        'btn_add' => false,
+                        'required' => false
                     ))
-                    ->add('steps', 'sonata_type_collection', array(
-                        'label' => 'Steps',
+                    ->add('testSetFolder', 'sonata_type_model', array(
+                        'label' => 'Parent',
+                        'btn_add' => false,
+                        'required' => false
+                    ))
+                    ->add('testSetFolders', 'sonata_type_collection', array(
+                        'label' => 'Sub Folders',
                         'by_reference' => false,
                         'type_options' => array(
                             'delete' => true
@@ -33,8 +39,8 @@ class TestAdmin extends Admin {
                         'inline' => 'table',
                         'sortable' => 'position',
                     ))
-                    ->add('prerequisites', 'sonata_type_collection', array(
-                        'label' => 'Prerequisites',
+                    ->add('testSets', 'sonata_type_collection', array(
+                        'label' => 'Test Sets',
                         'by_reference' => false,
                         'type_options' => array(
                             'delete' => true
@@ -50,16 +56,16 @@ class TestAdmin extends Admin {
         $datagridMapper
                 ->add('name')
                 ->add('description')
-                ->add('testFolder')
-                ->add('prerequisites');
+                ->add('application')
+                ->add('testSetFolder');
     }
 
     protected function configureListFields(ListMapper $listMapper) {
         $listMapper
                 ->addIdentifier('name')
                 ->add('description')
-                ->add('testFolder')
-                ->add('prerequisites');
+                ->add('application')
+                ->add('testSetFolder');
     }
 
 }

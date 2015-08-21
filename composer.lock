@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "98fdb4462409bf166ce6ac66b04e40d0",
+    "hash": "c2832dd5ec584f59a29d895138de1ee7",
     "packages": [
         {
             "name": "behat/transliterator",
@@ -958,7 +958,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSUserBundle/zipball/0bc55e06415462dafe5a6b4b733e91f8f67a7f8d",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSUserBundle/zipball/c1cfdf9a3df9fc72822a3c67b78f611817e7352e",
                 "reference": "6d6d636c2dbab0b58be01c51889b8a08e1af3d4d",
                 "shasum": ""
             },
@@ -2095,17 +2095,17 @@
         },
         {
             "name": "knplabs/knp-time-bundle",
-            "version": "dev-master",
+            "version": "v1.3",
             "target-dir": "Knp/Bundle/TimeBundle",
             "source": {
                 "type": "git",
                 "url": "https://github.com/KnpLabs/KnpTimeBundle.git",
-                "reference": "a4333eb04570012aec9168446b0df5ef5fb48e9f"
+                "reference": "abf7c17ab817d9b991445f56297c44b2217f6a5d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/KnpLabs/KnpTimeBundle/zipball/a4333eb04570012aec9168446b0df5ef5fb48e9f",
-                "reference": "a4333eb04570012aec9168446b0df5ef5fb48e9f",
+                "url": "https://api.github.com/repos/KnpLabs/KnpTimeBundle/zipball/abf7c17ab817d9b991445f56297c44b2217f6a5d",
+                "reference": "abf7c17ab817d9b991445f56297c44b2217f6a5d",
                 "shasum": ""
             },
             "require": {
@@ -2150,7 +2150,7 @@
                 "knplabs",
                 "time"
             ],
-            "time": "2015-06-16 18:51:36"
+            "time": "2013-12-12 12:04:14"
         },
         {
             "name": "kriswallsmith/buzz",
@@ -2803,7 +2803,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sonata-project/SonataAdminBundle/zipball/af81bb2cc6827e2cd49c7aaeecc1808276298478",
+                "url": "https://api.github.com/repos/sonata-project/SonataAdminBundle/zipball/e4c515ed648a1d67f66f82fd56f01a11cc22d75d",
                 "reference": "4e8dd310cb5eb4064087b4b6df2b72015548fb7c",
                 "shasum": ""
             },
@@ -3011,7 +3011,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sonata-project/SonataCoreBundle/zipball/d5e0aea3998d6e94de01c475db972dca67786c28",
+                "url": "https://api.github.com/repos/sonata-project/SonataCoreBundle/zipball/69217cd11f1771137d3a3d7bfd4c115ed82919f0",
                 "reference": "329ca0bb9cc413a649b3ab4d73077c4da74f1c13",
                 "shasum": ""
             },
@@ -3199,7 +3199,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sonata-project/SonataEasyExtendsBundle/zipball/ae15e73adf9425058de99e596c3041cdf582d822",
+                "url": "https://api.github.com/repos/sonata-project/SonataEasyExtendsBundle/zipball/3ca362fddc33f0ed8479c7129916913859fc3979",
                 "reference": "55deba66bd34397812a3d749b8796a56eabea831",
                 "shasum": ""
             },
@@ -4275,7 +4275,6 @@
         "sonata-project/easy-extends-bundle": 20,
         "sonata-project/intl-bundle": 20,
         "knplabs/knp-paginator-bundle": 20,
-        "knplabs/knp-time-bundle": 20,
         "knplabs/doctrine-behaviors": 20,
         "stof/doctrine-extensions-bundle": 20
     },

@@ -60,7 +60,7 @@ function refreshTestFolderSubtitle(count) {
     } else {
         subtitle += '<span class="badge">' + count + '</span>';
     }
-    subtitle += ' test folder' + (count > 1 ? "s" : "");
+    subtitle += ' folder' + (count > 1 ? "s" : "");
     $('#test-folders-count').html(subtitle);
 }
 
@@ -450,6 +450,9 @@ function deleteEntities(applicationId) {
                 var testsCount = data.testsCount;
                 var applicationId = data.applicationId;
                 hideTestsPanel(applicationId);
+                hideEntityPropertiesPanelBodyAndFooter();
+                clearAddTestDataAttributes();
+                clearActionsHref();
                 $(testsTreeHtmlId).treeview({
                     data: data.treeTests,
                     showBorder: false,

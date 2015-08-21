@@ -71,7 +71,9 @@
                 </p>
                 {% include "AppMainBundle:application:list.html.twig" with { 'project' : project } %}
             </div>
-            <div class="panel-footer text-right"><i class="fontello-icon-calendar"></i> Created on {{ project.createdAt|date('d/m/Y \\a\\t H:i:s') }}</div>
+            <div class="panel-footer text-right">
+                <i class="fontello-icon-calendar"></i> Created {{ project.createdAt|ago }}
+            </div>
         </div>
     </div>          
     {% include "AppMainBundle:application:new.form.html.twig" %}

@@ -1,6 +1,6 @@
 <div class="col-md-4" style="position: relative;">
     <div class="col-md-4" style="position: fixed;">
-        <div class="panel panel-info" id="panel-test-properties">
+        <div class="panel panel-info" id="panel-test-set-properties">
             <div class="panel-heading">
                 <strong>
                     <i class="fontello-icon-list-bullet"></i> Entity Properties
@@ -8,7 +8,7 @@
                 <span class="pull-right">
                     <a href="#" data-toggle="tooltip"
                        data-placement="top"
-                       title="Select a folder or a test in the tree to edit its properties">
+                       title="Select a folder or a test set in the tree to edit its properties">
                        <i class="fontello-icon-info-circled"></i>
                     </a>
                 </span>
@@ -37,6 +37,29 @@
                             </small>
                         </p>
                     </blockquote>
+                </div>
+                <div id="panel-body-content-entity-status">
+                    <p>
+                        <i class="fontello-icon-rocket"></i> Status : <i id="status-icon"></i>
+                        <ul class="list-group">
+                            <li class="list-group-item list-group-item-success">
+                                <span class="badge">12</span>
+                                Passed test(s)
+                            </li>
+                            <li class="list-group-item list-group-item-danger">
+                                <span class="badge">0</span>
+                                Failed test(s)
+                            </li>
+                            <li class="list-group-item list-group-item-warning">
+                                <span class="badge">0</span>
+                                Not completed test(s)
+                            </li>
+                            <li class="list-group-item list-group-item-info">
+                                <span class="badge">0</span>
+                                Not runned test(s)
+                            </li>
+                        </ul>
+                    </p>
                 </div>
                 <div id="panel-body-content-entity-actions">
                     <a id="edit-entity" class="btn btn-success"><i class="fontello-icon-edit"></i> Edit</a>

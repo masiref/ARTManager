@@ -29,7 +29,7 @@
             </span>
         </div>
     </div>
-    {% include 'AppMainBundle:project:new.form.html.twig' %}
     {% include 'AppMainBundle:project:list.html.twig' with { 'projects': projects } %}
+    {% include 'AppMainBundle:project:new.form.html.twig' %}
     {% include "AppMainBundle:application:new.form.html.twig" %}
 {% endblock %}

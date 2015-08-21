@@ -145,8 +145,6 @@ class Object implements JsonSerializable {
         $result = "";
         $objectIdentifier = $this->objectIdentifier;
         if ($objectIdentifier != null) {
-            $objectIdentifierType = $objectIdentifier->getObjectIdentifierType();
-            $objectIdentifierTypeName = $objectIdentifierType->getName();
             $result = $objectIdentifier->getValue();
         } else {
             $result = $this->getName();

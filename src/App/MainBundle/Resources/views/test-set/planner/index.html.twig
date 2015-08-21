@@ -1,0 +1,86 @@
+{% extends 'base.html.twig' %}
+
+{% block jumbotronTitle %}
+    <span class="text-mygreen">
+        <i class="fontello-icon-beaker"></i><strong>Test</strong> Lab
+    </span>
+{% endblock %}
+
+{% block jumbotronBody %}
+    <p class="text-center">
+        <a href="{{ path('app_index_application', { 'id': application.id }) }}">
+            <i class="fontello-icon-left-circled"></i>Return to <strong>{{ application.name }}</strong> application
+        </a>
+    </p>
+{% endblock %}
+
+{% block breadcrumb_items %}
+    <li>
+        <a href="{{ path('homepage') }}"><i class="fontello-icon-right-open"></i>Home</a>
+    </li>
+    <li>
+        <a href="{{ path('app_index_project', { 'id': application.project.id }) }}">
+            <i class="fontello-icon-right-open"></i>{{ application.project }}</a>
+    </li>
+    <li>
+        <a href="{{ path('app_index_application', { 'id': application.id }) }}">
+            <i class="fontello-icon-right-open"></i>{{ application }}</a>
+    </li>
+    <li class="active">
+        <i class="fontello-icon-angle-circled-right"></i>Test Lab
+    </li>
+{% endblock %}
+
+{% block body %}
+    {% include 'AppMainBundle:test-set:planner/tree.html.twig' with { 'application': application } %}
+    {% include 'AppMainBundle:test-set:planner/entity-properties.html.twig' %}
+    {% include 'AppMainBundle:test-set:folder/new.form.html.twig' %}
+    {% include 'AppMainBundle:test-set:new.form.html.twig' %}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $( "#entity-name" ).editable({
+                error: function(response, newValue) {
+                    swal({
+                        title: "{% trans from 'titles' %}Error{% endtrans %}",
+                        text: response.responseText,
+                        type: "error",
+                        confirmButtonText: "{% trans from 'labels' %}OK{% endtrans %}"
+                    }); 
+                },
+                success: function(response, newValue) {
+                    hideTestSetsPanel({{ application.id }});
+                    switch(response.entityType) {
+                        case "folder":
+                            showTestSetsTreeWithSelectedFolder(response.testSetFolderId);
+                            $('#add-test-set').data('test-set-folder-name', newValue);
+                            break;
+                        case "test-set":
+                            showTestSetsTreeWithSelectedTestSet(response.testSetId);
+                            break;
+                    }
+                }
+            });
+            $( "#entity-description" ).editable({
+                emptytext: 'Add description',
+                defaultValue: '',
+                success: function(response, newValue) {
+                    hideTestSetsPanel({{ application.id }});
+                    switch(response.entityType) {
+                        case "folder":
+                            showTestSetsTreeWithSelectedFolder(response.testSetFolderId);
+                            $('#add-test-set').data('test-set-folder-name', newValue);
+                            break;
+                        case "test-set":
+                            showTestSetsTreeWithSelectedTestSet(response.testSetId);
+                            break;
+                    }
+                }
+            });
+            refreshTestSetsTree({{ application.id }}, true, true);
+        });
+    </script>
+{% endblock %}

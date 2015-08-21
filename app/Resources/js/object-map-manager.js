@@ -564,7 +564,7 @@ function showObjectProperties(treeNode) {
                     var description = page.description;
                     var pageType = page.pageType;
                     var path = page.path;
-                    var createdAt = page.createdAt;
+                    //var createdAt = page.createdAt;
                     $('#object-icon').removeClass().addClass(pageType.icon);
                     $('#object-name').editable('option', 'pk', id);
                     $('#object-name').editable(
@@ -602,7 +602,7 @@ function showObjectProperties(treeNode) {
                     $('#object-description').editable('setValue', description, false);
                     $('#page-type').editable('setValue', pageType.id, false);
                     $('#page-path').editable('setValue', path, false);
-                    $('#object-creation-date').html(createdAt);
+                    //$('#object-creation-date').html(createdAt);
                     setAddObjectDataAttributes(id, name, description);
                 });
                 break;
@@ -621,7 +621,7 @@ function showObjectProperties(treeNode) {
                     var object = data.object;
                     var name = object.name;
                     var description = object.description;
-                    var createdAt = object.createdAt;
+                    //var createdAt = object.createdAt;
                     var objectType = object.objectType;
                     var objectIdentifier = object.objectIdentifier;
                     var objectIdentifierType = null;
@@ -683,7 +683,7 @@ function showObjectProperties(treeNode) {
                         $('#object-identifier-type').editable('setValue', '', false);
                         $('#object-identifier-value').editable('setValue', '', false);
                     }
-                    $('#object-creation-date').html(createdAt);
+                    //$('#object-creation-date').html(createdAt);
                 });
                 break;
             default:

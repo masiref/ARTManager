@@ -31,6 +31,7 @@ class AppKernel extends Kernel {
             new Sonata\EasyExtendsBundle\SonataEasyExtendsBundle(),
             //new SimpleThings\EntityAudit\SimpleThingsEntityAuditBundle(),
             new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
+            new Knp\Bundle\TimeBundle\KnpTimeBundle(),
             new Application\Sonata\UserBundle\ApplicationSonataUserBundle(),
             new Application\Sonata\MediaBundle\ApplicationSonataMediaBundle(),
             new App\MainBundle\AppMainBundle(),

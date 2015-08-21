@@ -48,22 +48,9 @@
                 </span>
             </p>
         </div>
-        {#
-        <div class="panel-footer">
-            <strong>&nbsp;</strong>
-            <span class="pull-right">
-                <ul class="list-unstyled list-inline">
-                    <li><i class="fontello-icon-th-large"></i> Page</li>
-                    {% for objectType in objectTypes %}
-                        <li><i class="{{ objectType.icon }}"></i> {{ objectType.name }}</li>
-                    {% endfor %}
-                </ul>
-            </span>
-        </div>
-        #}
     </div>
-    {% include 'AppMainBundle:object-map:new.form.html.twig' %}
     {% include 'AppMainBundle:object-map:list.html.twig' with { 'objectMaps': objectMaps } %}
+    {% include 'AppMainBundle:object-map:new.form.html.twig' %}
 {% endblock %}
 
 {% block javascripts %}

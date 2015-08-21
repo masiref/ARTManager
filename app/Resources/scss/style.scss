@@ -9,6 +9,14 @@ $panel-mypurple-text:           $state-mypurple-text !default;
 $panel-mypurple-border:         $state-mypurple-border !default;
 $panel-mypurple-heading-bg:     $state-mypurple-bg !default;
 
+$state-mygreen-bg:             #D9FFA8;
+$state-mygreen-text:           #459436;
+$state-mygreen-border:         darken(adjust-hue($state-mygreen-bg, -10), 5%) !default;
+
+$panel-mygreen-text:           $state-mygreen-text !default;
+$panel-mygreen-border:         $state-mygreen-border !default;
+$panel-mygreen-heading-bg:     $state-mygreen-bg !default;
+
 body {
     color: #293540;
     font-family: 'Maven Pro', sans-serif;
@@ -157,17 +165,27 @@ div.row.step > div.step-left > div, div.row.control-step > div {
 }
 
 @include list-group-item-variant(mypurple, $state-mypurple-bg, $state-mypurple-text);
+@include list-group-item-variant(mygreen, $state-mygreen-bg, $state-mygreen-text);
 
 .bg-mypurple {
     background-color: $state-mypurple-bg;
+}
+.bg-mygreen {
+    background-color: $state-mygreen-bg;
 }
 
 .text-mypurple {
     color: $state-mypurple-text;
 }
+.text-mygreen {
+    color: $state-mygreen-text;
+}
 
 .panel-mypurple {
     @include panel-variant($panel-mypurple-border, $panel-mypurple-text, $panel-mypurple-heading-bg, $panel-mypurple-border);
+}
+.panel-mygreen {
+    @include panel-variant($panel-mygreen-border, $panel-mygreen-text, $panel-mygreen-heading-bg, $panel-mygreen-border);
 }
 
 .sweet-alert {

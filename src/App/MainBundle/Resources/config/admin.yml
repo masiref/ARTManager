@@ -105,6 +105,26 @@ services:
             - ~
         calls:
             - [ setTranslationDomain, [AppMainBundle] ]
+    sonata.admin.test_set_folder:
+        class: App\MainBundle\Admin\TestSetFolderAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Tests", label: "Test Set Folder" }
+        arguments:
+            - ~
+            - App\MainBundle\Entity\TestSetFolder
+            - ~
+        calls:
+            - [ setTranslationDomain, [AppMainBundle] ]
+    sonata.admin.test_set:
+        class: App\MainBundle\Admin\TestSetAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Tests", label: "Test Set" }
+        arguments:
+            - ~
+            - App\MainBundle\Entity\TestSet
+            - ~
+        calls:
+            - [ setTranslationDomain, [AppMainBundle] ]
             
     # settings services
     sonata.admin.page_type:
@@ -194,6 +214,16 @@ services:
         arguments:
             - ~
             - App\MainBundle\Entity\StepSentence
+            - ~
+        calls:
+            - [ setTranslationDomain, [AppMainBundle] ]
+    sonata.admin.status:
+        class: App\MainBundle\Admin\StatusAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Settings", label: "Status" }
+        arguments:
+            - ~
+            - App\MainBundle\Entity\Status
             - ~
         calls:
             - [ setTranslationDomain, [AppMainBundle] ]

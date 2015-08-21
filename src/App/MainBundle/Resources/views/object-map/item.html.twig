@@ -6,7 +6,6 @@
                 <a data-parent="#object-maps" data-toggle="collapse"
                    href="#collapse-object-map-{{ objectMap.id }}">
                     <i class="fontello-icon-sitemap"></i><strong>{{ objectMap.name }}</strong>
-                    - Created on {{ objectMap.createdAt|date('d/m/Y \\a\\t H:i:s') }}
                 </a>
                 <span class="pull-right">
                     <a href="{{ path('app_editor_application_object_map', { 'id': objectMap.id }) }}"
@@ -40,6 +39,9 @@
                 </div>
                 <div id="tree-object-map-{{ objectMap.id }}"></div>
                 {% include "AppMainBundle:object-map:new.form.html.twig" %}
+            </div>
+            <div class="panel-footer text-right">
+                <i class="fontello-icon-calendar"></i> Created {{ objectMap.createdAt|ago }}
             </div>
         </div>
     </div>

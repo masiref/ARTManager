@@ -78,10 +78,17 @@ class Application implements JsonSerializable {
      */
     protected $project;
 
+    /**
+     * @ORM\OneToMany(targetEntity="TestSetFolder", mappedBy="application", cascade={"all"}, orphanRemoval=true)
+     * @ORM\OrderBy({"name" = "ASC"})
+     */
+    protected $testSetFolders;
+
     public function __construct() {
         $this->createdAt = new \DateTime();
         $this->objectMaps = new ArrayCollection();
         $this->testFolders = new ArrayCollection();
+        $this->testSetFolders = new ArrayCollection();
     }
 
     public function __toString() {
@@ -138,6 +145,30 @@ class Application implements JsonSerializable {
         $result = array();
         foreach ($this->testFolders as $testFolder) {
             $result[] = $testFolder->getJsonTreeAsArray();
+        }
+        return $result;
+    }
+
+    public function getTestSetFoldersCount() {
+        $count = $this->testSetFolders->count();
+        foreach ($this->testSetFolders as $testSetFolder) {
+            $count += $testSetFolder->getTestSetFoldersCount();
+        }
+        return $count;
+    }
+
+    public function getTestSetsCount() {
+        $count = 0;
+        foreach ($this->testSetFolders as $testSetFolder) {
+            $count += $testSetFolder->getTestSetsCount();
+        }
+        return $count;
+    }
+
+    public function getJsonTestSetsTreeAsArray() {
+        $result = array();
+        foreach ($this->testSetFolders as $testSetFolder) {
+            $result[] = $testSetFolder->getJsonTreeAsArray();
         }
         return $result;
     }
@@ -316,6 +347,37 @@ class Application implements JsonSerializable {
      */
     public function getTestFolders() {
         return $this->testFolders;
+    }
+
+    /**
+     * Add testSetFolders
+     *
+     * @param \App\MainBundle\Entity\TestSetFolder $testSetFolders
+     * @return Application
+     */
+    public function addTestSetFolder(\App\MainBundle\Entity\TestSetFolder $testSetFolders) {
+        $testSetFolders->setApplication($this);
+        $this->testSetFolders[] = $testSetFolders;
+
+        return $this;
+    }
+
+    /**
+     * Remove testSetFolders
+     *
+     * @param \App\MainBundle\Entity\TestSetFolder $testSetFolders
+     */
+    public function removeTestSetFolder(\App\MainBundle\Entity\TestSetFolder $testSetFolders) {
+        $this->testSetFolders->removeElement($testSetFolders);
+    }
+
+    /**
+     * Get testSetFolders
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getTestSetFolders() {
+        return $this->testSetFolders;
     }
 
 }
