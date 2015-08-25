@@ -116,8 +116,6 @@ module.exports = function (grunt) {
                     app + '/libs/bootstrap/assets/javascripts/bootstrap.js',
                     app + '/libs/sweetalert/lib/sweet-alert.js',
                     app + '/libs/datatables/js/jquery.datatables.js',
-                    app + '/libs/datatables/js/plugins/fnAddTr.js',
-                    app + '/libs/datatables/js/plugins/jquery.dataTables.rowReordering.js',
                     app + '/libs/datatables/js/datatables.bootstrap.js',
                     app + '/libs/bootstrap3-editable/js/bootstrap-editable.js',
                     app + '/libs/bootstrap-treeview/src/js/bootstrap-treeview.js',

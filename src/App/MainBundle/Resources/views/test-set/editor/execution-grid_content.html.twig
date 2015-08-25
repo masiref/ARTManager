@@ -1,6 +1,6 @@
 <div id="execution-grid">
     <table id="execution-grid-{{ testSet.id }}"
-            class="table table-hover table-condensed table-striped table-responsive row-reordering">
+            class="table table-hover table-condensed table-striped table-responsive">
         <thead>
             <tr>
                 <th>Order</th>
@@ -12,7 +12,10 @@
         </thead>
         <tbody>
             {% for testInstance in testSet.testInstances %}
-                {% include "AppMainBundle:test:instance/item.html.twig" with { 'testInstance' : testInstance } %}
+                {% include "AppMainBundle:test:instance/item.html.twig" with { 
+                    'testInstance' : testInstance,
+                    'position' : loop.index
+                } %}
             {% endfor %}
         </tbody>
     </table>

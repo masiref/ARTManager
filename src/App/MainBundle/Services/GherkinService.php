@@ -2,8 +2,10 @@
 
 namespace App\MainBundle\Services;
 
+use App\MainBundle\Entity\BehatFeature;
 use App\MainBundle\Entity\BehatScenario;
 use App\MainBundle\Entity\Test;
+use App\MainBundle\Entity\TestSet;
 use Behat\Gherkin\Keywords\CucumberKeywords;
 use Symfony\Component\DependencyInjection\Container;
 
@@ -24,6 +26,15 @@ class GherkinService {
     public function generateBehatScenario(Test $test) {
         $scenario = new BehatScenario($test, $this, $this->mink);
         return $scenario->generate();
+    }
+
+    public function generateBehatFeature(TestSet $testSet) {
+        $feature = new BehatFeature($testSet, $this, $this->mink);
+        return $feature->generate();
+    }
+
+    public function getFeatureKeyword() {
+        return explode("|", $this->keywords->getFeatureKeywords())[0];
     }
 
     public function getScenarioKeyword() {

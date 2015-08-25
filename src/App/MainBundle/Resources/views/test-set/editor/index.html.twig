@@ -39,6 +39,7 @@
 
 {% block body %}
     {% include 'AppMainBundle:test-set:editor/execution-grid.html.twig' %}
+    {% include 'AppMainBundle:test-set:editor/behat.html.twig' %}
     {% include 'AppMainBundle:test:instance/new.form.html.twig' %}
 {% endblock %}
 
@@ -47,6 +48,17 @@
     <script type="text/javascript">
         $(document).ready(function() {
             triggerTestSetCollapsibleElementsEventListeners();
+            $('#execution-grid-{{ testSet.id }}').dataTable({
+                "searching": false,
+                "paging": false,
+                "info": false
+            }).rowReordering({
+                sURL: Routing.generate('app_update_application_test_set_test_instance_orders_ajax'),
+                sRequestType: "POST",
+                callback: function () { 
+                    refreshBehatFeature({{ testSet.id }});
+                }
+            });
             refreshTestsTree({{ application.id }}, true, true);
         });
     </script>

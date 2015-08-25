@@ -16,9 +16,8 @@ $( "#save-test-instances").click(function() {
 
 $("[id^=delete-test-instance-]").click(function() {
     var id = $(this).data('id');
-    var order = $(this).data('order');
     var name = $(this).data('test-name');
-    deleteTestInstance(id, order, name);
+    deleteTestInstance(id, name);
 });
 
 /* execution grid methods */
@@ -27,7 +26,13 @@ function triggerExecutionGridEventListeners(id) {
         "searching": false,
         "paging": false,
         "info": false
-    }).rowReordering();
+    }).rowReordering({
+        sURL: Routing.generate('app_update_application_test_set_test_instance_orders_ajax'),
+        sRequestType: "POST",
+        callback: function() {
+            refreshBehatFeature(id);
+        }
+    });
 
     $("[id^=delete-test-instance-]").click(function(event) {
         event.preventDefault();
@@ -70,15 +75,16 @@ function addSelectedTestsInstancesToTestSet(testSetId, applicationId) {
             var count = data.count;
             refreshExecutionGrid(data.executionGrid);
             triggerExecutionGridEventListeners(testSetId);
+            refreshBehatFeature(testSetId);
             swal("Selected test instances added !", "You have added " + count + " test instance" + (count > 1 ? "s" : ""), "success");
             $("#modal-add-test-instance").modal('hide');
         }
     });
 }
 
-function deleteTestInstance(id, order, name) {
+function deleteTestInstance(id, name) {
     swal({
-        title: "Delete test instance #" + order + " " + name + " ?",
+        title: "Delete test instance " + name + " ?",
         text: "You will not be able to recover it !",
         type: "warning",
         showCancelButton: true,
@@ -97,6 +103,7 @@ function deleteTestInstance(id, order, name) {
             } else {
                 refreshExecutionGrid(data.executionGrid);
                 triggerExecutionGridEventListeners(data.testSetId);
+                refreshBehatFeature(data.testSetId);
                 swal("Test instance deleted !", "", "success");
             }
         });
@@ -113,5 +120,16 @@ function triggerTestSetCollapsibleElementsEventListeners() {
     $("#execution-grid-collapse").on('hidden.bs.collapse', function() {
         $(".execution-grid-collapse-toggle-icon").removeClass("fontello-icon-up-open")
                 .addClass("fontello-icon-down-open");
+    });
+}
+
+function refreshBehatFeature(testSetId) {
+    $.ajax({
+        type: 'POST',
+        url: Routing.generate('app_get_application_test_set_behat_feature_ajax', {
+            'id': testSetId
+        })
+    }).done(function(data) {
+        $("#behat-feature").html(data.feature);
     });
 }

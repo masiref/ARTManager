@@ -2,8 +2,10 @@
 
 namespace App\MainBundle\Entity;
 
+use App\MainBundle\Services\GherkinService;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use JsonSerializable;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -181,6 +183,10 @@ class TestSet implements JsonSerializable {
         return $this->getTestInstancesFilteredByStatus("Not Runned");
     }
 
+    public function getBehatFeature(GherkinService $gherkin) {
+        return $gherkin->generateBehatFeature($this);
+    }
+
     /**
      * Get id
      *
@@ -327,10 +333,10 @@ class TestSet implements JsonSerializable {
     /**
      * Add testInstances
      *
-     * @param \App\MainBundle\Entity\TestInstance $testInstances
+     * @param TestInstance $testInstances
      * @return TestSet
      */
-    public function addTestInstance(\App\MainBundle\Entity\TestInstance $testInstances) {
+    public function addTestInstance(TestInstance $testInstances) {
         $testInstances->setTestSet($this);
         $testInstances->setOrder($this->testInstances->count() + 1);
         $this->testInstances[] = $testInstances;
@@ -341,16 +347,16 @@ class TestSet implements JsonSerializable {
     /**
      * Remove testInstances
      *
-     * @param \App\MainBundle\Entity\TestInstance $testInstances
+     * @param TestInstance $testInstances
      */
-    public function removeTestInstance(\App\MainBundle\Entity\TestInstance $testInstances) {
+    public function removeTestInstance(TestInstance $testInstances) {
         $this->testInstances->removeElement($testInstances);
     }
 
     /**
      * Get testInstances
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return Collection
      */
     public function getTestInstances() {
         return $this->testInstances;
