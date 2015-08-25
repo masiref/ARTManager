@@ -320,7 +320,6 @@ function showTestSetEntityProperties(treeNode) {
         switch(type) {
             case "folder":
                 hideEntityActions();
-                hideEntityStatus();
                 $('#entity-icon').removeClass().addClass("fontello-icon-folder");
                 $.ajax({
                     type: 'POST',
@@ -333,6 +332,7 @@ function showTestSetEntityProperties(treeNode) {
                     var name = folder.name;
                     var description = folder.description;
                     var createdAt = folder.createdAt;
+                    var chart = folder.chart;
                     $('#entity-name').editable('option', 'pk', id);
                     $('#entity-name').editable(
                         'option',
@@ -353,16 +353,16 @@ function showTestSetEntityProperties(treeNode) {
                     $('#entity-description').editable('setValue', description, false);
                     $('#entity-creation-date').html(createdAt);
                     setAddTestSetDataAttributes(id, name, description);
+                    refreshEntityChart(chart);
                 });
                 break;
             case "test-set":
                 showEntityActions();
-                showEntityStatus();
-                /*$('#edit-entity').attr("href",
+                $('#edit-entity').attr("href",
                     Routing.generate('app_index_application_test_set_editor', {
                         'id': id
                     })
-                );*/
+                );
                 $('#entity-icon').removeClass().addClass('fontello-icon-beaker');
                 $.ajax({
                     type: 'POST',
@@ -371,11 +371,12 @@ function showTestSetEntityProperties(treeNode) {
                     })
                 }).done(function(data) {
                     $("#entity-properties-loader").hide();
-                    var test = data.testSet;
-                    var name = test.name;
-                    var description = test.description;
-                    var createdAt = test.createdAt;
-                    var status = test.status;
+                    var testSet = data.testSet;
+                    var name = testSet.name;
+                    var description = testSet.description;
+                    var createdAt = testSet.createdAt;
+                    //var status = testSet.status;
+                    var chart = testSet.chart;
                     $('#entity-name').editable('option', 'pk', id);
                     $('#entity-name').editable(
                         'option',
@@ -395,8 +396,9 @@ function showTestSetEntityProperties(treeNode) {
                     $('#entity-name').editable('setValue', name, false);
                     $('#entity-description').editable('setValue', description, false);
                     $('#entity-creation-date').html(createdAt);
-                    $('#status-icon').removeClass();
-                    $('#status-icon').addClass(status.icon + " " + status.context);
+                    /*$('#status-icon').removeClass();
+                    $('#status-icon').addClass(status.icon + " " + status.context);*/
+                    refreshEntityChart(chart);
                 });
                 break;
             default:
@@ -511,4 +513,13 @@ function showEntityStatus() {
 
 function clearActionsHref() {
     $("#edit-entity").removeAttr("href");
+}
+
+function refreshEntityChart(data) {
+    var chartContext = $("#entity-chart").get(0).getContext("2d");
+    new Chart(chartContext).Doughnut(data, {
+        scaleFontSize: 8,
+        tooltipFontSize: 10,
+        percentageInnerCutout : 70
+    });
 }

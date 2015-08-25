@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block jumbotronTitle %}
+    <span class="text-mygreen">
+        <i class="fontello-icon-beaker"></i><strong>Test Set</strong> Editor
+    </span>
+{% endblock %}
+
+{% set application = testSet.testSetFolder.rootApplication %}
+
+{% block jumbotronBody %}
+    <p class="text-center">
+        <a href="{{ path('app_index_application_test_set_planner', { 'id': application.id }) }}">
+            <i class="fontello-icon-left-circled"></i>Return to <strong>{{ application.name }}</strong> Test Lab
+        </a>
+    </p>
+{% endblock %}
+
+{% block breadcrumb_items %}
+    <li>
+        <a href="{{ path('homepage') }}"><i class="fontello-icon-right-open"></i>Home</a>
+    </li>
+    <li>
+        <a href="{{ path('app_index_project', { 'id': application.project.id }) }}">
+            <i class="fontello-icon-right-open"></i>{{ application.project }}</a>
+    </li>
+    <li>
+        <a href="{{ path('app_index_application', { 'id': application.id }) }}">
+            <i class="fontello-icon-right-open"></i>{{ application }}</a>
+    </li>
+    <li>
+        <a href="{{ path('app_index_application_test_set_planner', { 'id': application.id }) }}">
+            <i class="fontello-icon-right-open"></i>Test Lab</a>
+    </li>
+    <li class="active">
+        <i class="fontello-icon-angle-circled-right"></i>{{ testSet }}
+    </li>
+{% endblock %}
+
+{% block body %}
+    {% include 'AppMainBundle:test-set:editor/execution-grid.html.twig' %}
+    {% include 'AppMainBundle:test:instance/new.form.html.twig' %}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript">
+        $(document).ready(function() {
+            triggerTestSetCollapsibleElementsEventListeners();
+            refreshTestsTree({{ application.id }}, true, true);
+        });
+    </script>
+{% endblock %}

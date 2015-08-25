@@ -1,0 +1,22 @@
+<tr id="row-test-instance-{{ testInstance.id }}">
+    <td id="cell-test-instance-{{ testInstance.id }}-order">
+        {{ testInstance.order }}
+    </td>
+    <td id="cell-test-instance-{{ testInstance.id }}-test-name">
+        {{ testInstance.test }}
+    </td>
+    <td id="cell-test-instance-{{ testInstance.id }}-status">
+        {{ testInstance.status.html|raw }}
+    </td>
+    <td id="cell-test-instance-{{ testInstance.id }}-last-runned-at">
+        {% if testInstance.lastRunnedAt %}{{ testInstance.lastRunnedAt|ago }}{% endif %}
+    </td>
+    <td id="cell-test-instance-{{ testInstance.id }}-delete-anchor">
+        <a href="#" id="delete-test-instance-{{ testInstance.id }}"
+           data-id="{{ testInstance.id }}" 
+           data-order="{{ testInstance.order }}"
+           data-test-name="{{ testInstance.test }}"
+           data-toggle="tooltip" data-placement="right" title="Delete">
+            <i class="fontello-icon-minus-circled"></i></a>
+    </td>
+</tr>

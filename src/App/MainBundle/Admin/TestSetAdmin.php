@@ -22,6 +22,16 @@ class TestSetAdmin extends Admin {
             $formMapper
                     ->add('testSetFolder', 'sonata_type_model', array(
                         'btn_add' => false
+                    ))
+                    ->add('testInstances', 'sonata_type_collection', array(
+                        'label' => 'Test Instances',
+                        'by_reference' => false,
+                        'type_options' => array(
+                            'delete' => true
+                        )), array(
+                        'edit' => 'inline',
+                        'inline' => 'table',
+                        'sortable' => 'position',
             ));
         }
     }

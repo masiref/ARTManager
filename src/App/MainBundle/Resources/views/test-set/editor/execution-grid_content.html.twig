@@ -1,0 +1,32 @@
+<div id="execution-grid">
+    <table id="execution-grid-{{ testSet.id }}"
+            class="table table-hover table-condensed table-striped table-responsive row-reordering">
+        <thead>
+            <tr>
+                <th>Order</th>
+                <th>Test name</th>
+                <th>Status</th>
+                <th>Executed</th>
+                <th>&nbsp;</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for testInstance in testSet.testInstances %}
+                {% include "AppMainBundle:test:instance/item.html.twig" with { 'testInstance' : testInstance } %}
+            {% endfor %}
+        </tbody>
+    </table>
+    <p class="text-center">
+        <span id="test-instances-count-{{ testSet.id }}">
+            {% if testSet.testInstances|length <= 1 %}There is {% else %}There are{% endif %}
+            {% if testSet.testInstances|length == 0 %}no {% else %}<span class="badge">{{ testSet.testInstances|length }}</span>{% endif %}
+            test instance{% if testSet.testInstances|length > 1 %}s{% endif %} in the execution grid
+        </span>
+    </p>
+    <p class="text-center">
+        <a href="#" id="add-test-instance"
+           data-toggle="tooltip" data-placement="bottom" title="Add a new test instance">
+           <i class="fontello-icon-plus-circled"></i><i class="fontello-icon-tint"></i>
+        </a>
+    </p>
+</div>

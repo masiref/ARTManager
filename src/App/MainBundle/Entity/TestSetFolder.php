@@ -115,7 +115,8 @@ class TestSetFolder implements JsonSerializable {
             'name' => $this->name,
             'description' => $this->description,
             'createdAt' => $this->createdAt->format('d/m/Y \a\t H:i:s'),
-            'application' => $this->application
+            'application' => $this->application,
+            'chart' => $this->getChartAsArray()
         );
     }
 
@@ -175,6 +176,63 @@ class TestSetFolder implements JsonSerializable {
             return $this->name;
         }
         return $this->testSetFolder->getParentName() . " > " . $this->name;
+    }
+
+    public function getChartAsArray() {
+        $result = array(
+            array(
+                'value' => count($this->getPassedTestInstances()),
+                'color' => '#3C763D',
+                'highlight' => '#DFF0D8',
+                'label' => 'Passed'
+            ),
+            array(
+                'value' => count($this->getFailedTestInstances()),
+                'color' => '#A94442',
+                'highlight' => '#F2DEDE',
+                'label' => 'Failed'
+            ),
+            array(
+                'value' => count($this->getNotCompletedTestInstances()),
+                'color' => '#8A6D3B',
+                'highlight' => '#FCF8E3',
+                'label' => 'Not Completed'
+            ),
+            array(
+                'value' => count($this->getNotRunnedTestInstances()),
+                'color' => '#31708F',
+                'highlight' => '#D9EDF7',
+                'label' => 'Not Runned'
+            )
+        );
+        return $result;
+    }
+
+    public function getTestInstancesFilteredByStatus($status) {
+        $result = array();
+        foreach ($this->testSets as $testSet) {
+            $result = array_merge($result, $testSet->getTestInstancesFilteredByStatus($status));
+        }
+        foreach ($this->testSetFolders as $testSetFolder) {
+            $result = array_merge($result, $testSetFolder->getTestInstancesFilteredByStatus($status));
+        }
+        return $result;
+    }
+
+    public function getPassedTestInstances() {
+        return $this->getTestInstancesFilteredByStatus("Passed");
+    }
+
+    public function getFailedTestInstances() {
+        return $this->getTestInstancesFilteredByStatus("Failed");
+    }
+
+    public function getNotCompletedTestInstances() {
+        return $this->getTestInstancesFilteredByStatus("Not Completed");
+    }
+
+    public function getNotRunnedTestInstances() {
+        return $this->getTestInstancesFilteredByStatus("Not Runned");
     }
 
     /**

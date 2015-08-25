@@ -1,0 +1,22 @@
+<div class="row test-set-execution-grid">
+    <div class="col-md-12">
+        <h1 class="text-center">
+            <span class="pull-left">
+                <a href="#execution-grid-collapse" data-toggle="collapse" aria-expanded="false" aria-controls="execution-grid-collapse">
+                    <i class="fontello-icon-down-open execution-grid-collapse-toggle-icon"></i></a>
+            </span>
+            <strong>
+                <i class="fontello-icon-table"></i> Execution Grid
+            </strong>
+            <span class="pull-right">
+                <a href="#execution-grid-collapse" data-toggle="collapse" aria-expanded="false" aria-controls="execution-grid-collapse">
+                    <i class="fontello-icon-down-open execution-grid-collapse-toggle-icon"></i></a>
+            </span>
+        </h1>
+    </div>
+</div>
+<div class="collapse in" id="execution-grid-collapse">
+    <div class="row">
+        {% include "AppMainBundle:test-set:editor/execution-grid_content.html.twig" %}
+    </div>
+</div>

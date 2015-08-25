@@ -3,6 +3,7 @@
 namespace App\MainBundle\Entity;
 
 use DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use JsonSerializable;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -73,8 +74,15 @@ class TestSet implements JsonSerializable {
      */
     protected $status;
 
+    /**
+     * @ORM\OneToMany(targetEntity="TestInstance", mappedBy="testSet", cascade={"all"}, orphanRemoval=true)
+     * @ORM\OrderBy({"order" = "ASC"})
+     */
+    protected $testInstances;
+
     public function __construct() {
         $this->createdAt = new DateTime();
+        $this->testInstances = new ArrayCollection();
     }
 
     public function __toString() {
@@ -97,7 +105,8 @@ class TestSet implements JsonSerializable {
             'createdAt' => $this->createdAt->format('d/m/Y H:i:s'),
             'testSetFolder' => $this->testSetFolder,
             'application' => $this->application,
-            'status' => $this->status
+            'status' => $this->status,
+            'chart' => $this->getChartAsArray()
         );
     }
 
@@ -114,6 +123,62 @@ class TestSet implements JsonSerializable {
 
     public function getParentName() {
         return $this->testSetFolder->getParentName();
+    }
+
+    public function getChartAsArray() {
+        $result = array(
+            array(
+                'value' => count($this->getPassedTestInstances()),
+                'color' => '#3C763D',
+                'highlight' => '#DFF0D8',
+                'label' => 'Passed'
+            ),
+            array(
+                'value' => count($this->getFailedTestInstances()),
+                'color' => '#A94442',
+                'highlight' => '#F2DEDE',
+                'label' => 'Failed'
+            ),
+            array(
+                'value' => count($this->getNotCompletedTestInstances()),
+                'color' => '#8A6D3B',
+                'highlight' => '#FCF8E3',
+                'label' => 'Not Completed'
+            ),
+            array(
+                'value' => count($this->getNotRunnedTestInstances()),
+                'color' => '#31708F',
+                'highlight' => '#D9EDF7',
+                'label' => 'Not Runned'
+            )
+        );
+        return $result;
+    }
+
+    public function getTestInstancesFilteredByStatus($status) {
+        $result = array();
+        foreach ($this->testInstances as $instance) {
+            if ($instance->getStatus()->getName() == $status) {
+                $result[] = $instance;
+            }
+        }
+        return $result;
+    }
+
+    public function getPassedTestInstances() {
+        return $this->getTestInstancesFilteredByStatus("Passed");
+    }
+
+    public function getFailedTestInstances() {
+        return $this->getTestInstancesFilteredByStatus("Failed");
+    }
+
+    public function getNotCompletedTestInstances() {
+        return $this->getTestInstancesFilteredByStatus("Not Completed");
+    }
+
+    public function getNotRunnedTestInstances() {
+        return $this->getTestInstancesFilteredByStatus("Not Runned");
     }
 
     /**
@@ -191,10 +256,10 @@ class TestSet implements JsonSerializable {
     /**
      * Set testSetFolder
      *
-     * @param \App\MainBundle\Entity\TestSetFolder $testSetFolder
+     * @param TestSetFolder $testSetFolder
      * @return TestSet
      */
-    public function setTestSetFolder(\App\MainBundle\Entity\TestSetFolder $testSetFolder = null) {
+    public function setTestSetFolder(TestSetFolder $testSetFolder = null) {
         $this->testSetFolder = $testSetFolder;
 
         return $this;
@@ -203,7 +268,7 @@ class TestSet implements JsonSerializable {
     /**
      * Get testSetFolder
      *
-     * @return \App\MainBundle\Entity\TestSetFolder
+     * @return TestSetFolder
      */
     public function getTestSetFolder() {
         return $this->testSetFolder;
@@ -212,10 +277,10 @@ class TestSet implements JsonSerializable {
     /**
      * Set application
      *
-     * @param \App\MainBundle\Entity\Application $application
+     * @param Application $application
      * @return TestSet
      */
-    public function setApplication(\App\MainBundle\Entity\Application $application = null) {
+    public function setApplication(Application $application = null) {
         $this->application = $application;
 
         return $this;
@@ -224,7 +289,7 @@ class TestSet implements JsonSerializable {
     /**
      * Get application
      *
-     * @return \App\MainBundle\Entity\Application
+     * @return Application
      */
     public function getApplication() {
         return $this->application;
@@ -241,10 +306,10 @@ class TestSet implements JsonSerializable {
     /**
      * Set status
      *
-     * @param \App\MainBundle\Entity\Status $status
+     * @param Status $status
      * @return TestSet
      */
-    public function setStatus(\App\MainBundle\Entity\Status $status = null) {
+    public function setStatus(Status $status = null) {
         $this->status = $status;
 
         return $this;
@@ -253,10 +318,42 @@ class TestSet implements JsonSerializable {
     /**
      * Get status
      *
-     * @return \App\MainBundle\Entity\Status
+     * @return Status
      */
     public function getStatus() {
         return $this->status;
+    }
+
+    /**
+     * Add testInstances
+     *
+     * @param \App\MainBundle\Entity\TestInstance $testInstances
+     * @return TestSet
+     */
+    public function addTestInstance(\App\MainBundle\Entity\TestInstance $testInstances) {
+        $testInstances->setTestSet($this);
+        $testInstances->setOrder($this->testInstances->count() + 1);
+        $this->testInstances[] = $testInstances;
+
+        return $this;
+    }
+
+    /**
+     * Remove testInstances
+     *
+     * @param \App\MainBundle\Entity\TestInstance $testInstances
+     */
+    public function removeTestInstance(\App\MainBundle\Entity\TestInstance $testInstances) {
+        $this->testInstances->removeElement($testInstances);
+    }
+
+    /**
+     * Get testInstances
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getTestInstances() {
+        return $this->testInstances;
     }
 
 }

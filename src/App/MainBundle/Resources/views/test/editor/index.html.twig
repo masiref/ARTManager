@@ -11,7 +11,7 @@
 {% block jumbotronBody %}
     <p class="text-center">
         <a href="{{ path('app_index_application_test_planner', { 'id': application.id }) }}">
-            <i class="fontello-icon-left-circled"></i>Return to <strong>{{ application.name }}</strong> test plan
+            <i class="fontello-icon-left-circled"></i>Return to <strong>{{ application.name }}</strong> Test Plan
         </a>
     </p>
 {% endblock %}
@@ -30,7 +30,7 @@
     </li>
     <li>
         <a href="{{ path('app_index_application_test_planner', { 'id': application.id }) }}">
-            <i class="fontello-icon-right-open"></i>Test plan</a>
+            <i class="fontello-icon-right-open"></i>Test Plan</a>
     </li>
     <li class="active">
         <i class="fontello-icon-angle-circled-right"></i>{{ test }}
@@ -58,7 +58,7 @@
                 updateStartingPage({{ test.id }}, id, text);
             });
             
-            triggerCollapsibleElementsEventListeners();
+            triggerTestCollapsibleElementsEventListeners();
             
             {% if test.prerequisites|length > 0 %}
                 disableStartingPageSelection();

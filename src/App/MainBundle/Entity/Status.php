@@ -9,7 +9,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="StatusRepository")
  * @ORM\Table(name="status", uniqueConstraints={@ORM\UniqueConstraint(name="IDX_Unique", columns={"name"})})
  * @UniqueEntity(
  *      fields={"name"},
@@ -76,6 +76,10 @@ class Status implements JsonSerializable {
             'context' => $this->context,
             'createdAt' => $this->createdAt->format('d/m/Y H:i:s')
         );
+    }
+
+    public function getHtml() {
+        return "<span class=\"" . $this->context . "\"><i class=\"" . $this->icon . "\"></i>" . $this->name . "</span>";
     }
 
     /**

@@ -742,7 +742,7 @@ function updatePrerequisitesOrders(testId) {
 }
 
 /* hybrid methods */
-function triggerCollapsibleElementsEventListeners() {
+function triggerTestCollapsibleElementsEventListeners() {
     $("#prerequisites-collapse").on('shown.bs.collapse', function() {
         $(".prerequisites-collapse-toggle-icon").removeClass("fontello-icon-down-open")
                 .addClass("fontello-icon-up-open");

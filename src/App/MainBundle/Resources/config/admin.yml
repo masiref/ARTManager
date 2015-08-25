@@ -125,6 +125,16 @@ services:
             - ~
         calls:
             - [ setTranslationDomain, [AppMainBundle] ]
+    sonata.admin.test_instance:
+        class: App\MainBundle\Admin\TestInstanceAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Tests", label: "Test Instance" }
+        arguments:
+            - ~
+            - App\MainBundle\Entity\TestInstance
+            - ~
+        calls:
+            - [ setTranslationDomain, [AppMainBundle] ]
             
     # settings services
     sonata.admin.page_type:

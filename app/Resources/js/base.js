@@ -20,6 +20,12 @@ $(document).ready(function() {
         ]
     });
     
+    $('.row-reordering').dataTable({
+        "searching": false,
+        "paging": false,
+        "info": false
+    }).rowReordering();
+    
     $('input, textarea').attr('autocomplete', 'off');
     
     jQuery.fn.extend({
