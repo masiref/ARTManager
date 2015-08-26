@@ -30,7 +30,7 @@ class Prerequisite {
 
     /**
      * @ORM\ManyToOne(targetEntity="Test")
-     * @ORM\JoinColumn(name="test_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="test_id", referencedColumnName="id", onDelete="SET NULL")
      */
     protected $test;
 

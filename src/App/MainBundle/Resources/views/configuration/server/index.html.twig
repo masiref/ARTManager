@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+{% set page_ = "configuration" %}
+
+{% block jumbotronTitle %}
+    <span class="text-myblue">
+        <i class="fontello-icon-desktop"></i><strong>Server</strong> Manager
+    </span>
+{% endblock %}
+
+{% block jumbotronBody %}
+    <p class="text-center">
+        <a href="{{ path('configuration') }}">
+            <i class="fontello-icon-left-circled"></i>Return to <strong>configuration</strong>
+        </a>
+    </p>
+{% endblock %}
+
+{% block breadcrumb_items %}
+    <li>
+        <a href="{{ path('configuration') }}"><i class="fontello-icon-right-open"></i>Configuration</a>
+    </li>
+    <li class="active">
+        <i class="fontello-icon-angle-circled-right"></i><span id="breadcrumb-active-item">Servers</span>
+    </li>
+{% endblock %}
+
+{% block body %}
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <span id="servers-count">
+                {% if servers|length <= 1 %}There is {% else %}There are{% endif %}
+                {% if servers|length == 0 %}no {% else %}<span class="badge">{{ servers|length }}</span>{% endif %}
+                server{% if servers|length > 1 %}s{% endif %}
+            </span>
+            <span class="pull-right">
+                <a href="#" id="add-server"
+                   data-toggle="tooltip" data-placement="left" title="Add a new server">
+                    <i class="fontello-icon-plus-circled"></i><i class="fontello-icon-desktop"></i>
+                </a>
+            </span>
+        </div>
+    </div>
+    {% include 'AppMainBundle:configuration:server/list.html.twig' with { 'servers': servers } %}
+    {% include 'AppMainBundle:configuration:server/new.form.html.twig' %}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript">
+        $(document).ready(function() {
+        });
+    </script>
+{% endblock %}

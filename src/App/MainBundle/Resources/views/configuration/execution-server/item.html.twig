@@ -1,0 +1,40 @@
+{% set context = 'myorange' %}
+<div class="col-md-6">
+    <div class="panel panel-{{ context }}" id="panel-execution-server-{{ executionServer.id }}">
+        <div class="panel-heading">
+            <i class="fontello-icon-gauge"></i> <strong>{{ executionServer.name }}</strong>
+            <span class="pull-right">
+                <a href="{{ path('app_index_configuration_execution_server', { 'id': executionServer.id }) }}"
+                   id="open-execution-server-{{ executionServer.id }}"
+                   data-toggle="tooltip" data-placement="top" title="Open">
+                   <i class="fontello-icon-folder-open"></i></a>
+                <a href="#" id="delete-execution-server-{{ executionServer.id }}" data-id="{{ executionServer.id }}"
+                   data-name="{{ executionServer.name }}"
+                   data-toggle="tooltip" data-placement="right" title="Delete">
+                   <i class="fontello-icon-trash"></i></a>
+            </span>
+        </div>
+        <div class="panel-body" id="panel-body-{{ executionServer.id }}">
+            {% if executionServer.description %}
+                <blockquote>
+                    <p><small>{{ executionServer.description }}</small></p>
+                </blockquote>
+            {% endif %}
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="list-group-item">
+                        <h4><i class="fontello-icon-desktop"></i> Server</h4>
+                        <p>{{ executionServer.server }}</p>
+                    </div>
+                    <div class="list-group-item">
+                        <h4><i class="fontello-icon-address"></i>ART Runner Path</h4>
+                        <p>{{ executionServer.artRunnerPath }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel-footer text-right">
+            <i class="fontello-icon-calendar"></i> Created {{ executionServer.createdAt|ago }}
+        </div>
+    </div>
+</div>

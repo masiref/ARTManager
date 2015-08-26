@@ -1,0 +1,122 @@
+{% extends 'base.html.twig' %}
+{% set page_ = "configuration" %}
+
+{% block jumbotronTitle %}
+    <span class="text-myorange">
+        <i class="fontello-icon-gauge"></i><strong>Execution Server</strong> Manager
+    </span>
+{% endblock %}
+
+{% block jumbotronBody %}
+    <p class="text-center">
+        <a href="{{ path('app_configuration_execution_servers') }}">
+            <i class="fontello-icon-left-circled"></i>Return to <strong>execution server list</strong>
+        </a>
+    </p>
+{% endblock %}
+
+{% block breadcrumb_items %}
+    <li>
+        <a href="{{ path('configuration') }}"><i class="fontello-icon-right-open"></i>Configuration</a>
+    </li>
+    <li>
+        <a href="{{ path('app_configuration_execution_servers') }}"><i class="fontello-icon-right-open"></i>Execution Servers</a>
+    </li>
+    <li class="active">
+        <i class="fontello-icon-angle-circled-right"></i><span id="breadcrumb-active-item">{{ executionServer }}</span>
+    </li>
+{% endblock %}
+
+{% block body %}
+    {% set context = 'myorange' %}
+    <div class="col-md-7">
+        <div class="panel panel-{{ context }}" id="panel-execution-server-{{ executionServer.id }}">
+            <div class="panel-heading">
+                <strong>
+                    <i class="fontello-icon-desktop"></i>
+                    <a href="#" id="name"
+                       data-type="text"
+                       data-pk="{{ executionServer.id }}"
+                       data-url="{{ path('app_configuration_execution_server_update_name_ajax', { 'id': executionServer.id }) }}"
+                       data-title="Update name">{{ executionServer.name }}</a>
+                </strong>
+                <span class="pull-right">
+                    <a href="#" id="delete-execution-server-{{ executionServer.id }}" data-id="{{ executionServer.id }}"
+                       data-name="{{ executionServer.name }}"
+                       data-toggle="tooltip" data-placement="right" title="Delete">
+                       <i class="fontello-icon-trash"></i></a>
+                </span>
+            </div>
+            <div class="panel-body" id="panel-body-{{ executionServer.id }}">
+                <blockquote>
+                    <p>
+                        <small>
+                            <a href="#" id="description"
+                               data-type="textarea"
+                               data-pk="{{ executionServer.id }}"
+                               data-url="{{ path('app_configuration_execution_server_update_description_ajax', { 'id': executionServer.id }) }}"
+                               data-title="Update description">{{ executionServer.description }}</a>
+                        </small>
+                    </p>
+                </blockquote>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="list-group-item">
+                            <h4><i class="fontello-icon-desktop"></i> Server</h4>
+                            <p>
+                                <a href="#" id="server"
+                                   data-type="select"
+                                   data-pk="{{ executionServer.id }}"
+                                   data-url="{{ path('app_configuration_execution_server_update_server_ajax', { 'id': executionServer.id }) }}"
+                                   data-title="Change server"
+                                   data-source="{{ path('app_get_configuration_servers_ajax') }}">{{ executionServer.server }}</a>
+                            </p>
+                        </div>
+                        <div class="list-group-item">
+                            <h4><i class="fontello-icon-address"></i>ART Runner Path</h4>
+                            <p>
+                                <a href="#" id="art-runner-path"
+                                   data-type="text"
+                                   data-pk="{{ executionServer.id }}"
+                                   data-url="{{ path('app_configuration_execution_server_update_art_runner_path_ajax', { 'id': executionServer.id }) }}"
+                                   data-title="Update ART Runner path">{{ executionServer.artRunnerPath }}</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-footer text-right">
+                <i class="fontello-icon-calendar"></i> Created {{ executionServer.createdAt|ago }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $( "#name" ).editable({
+                success: function(response, newValue) {
+                    $("#breadcrumb-active-item").html(response);
+                },
+                error: function(response, newValue) {
+                    swal({
+                        title: "{% trans from 'titles' %}Error{% endtrans %}",
+                        text: response.responseText,
+                        type: "error",
+                        confirmButtonText: "{% trans from 'labels' %}OK{% endtrans %}"
+                    }); 
+                }
+            });
+            $( "#description" ).editable({
+                emptytext: 'Add description'
+            });
+            $( "#server" ).editable({
+                value: {{ executionServer.server.id }},
+                emptytext: 'Select a server'
+            });
+            $( "#art-runner-path" ).editable();
+        });
+    </script>
+{% endblock %}

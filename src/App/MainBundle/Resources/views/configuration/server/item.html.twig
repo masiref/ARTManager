@@ -1,0 +1,56 @@
+{% set context = 'myblue' %}
+<div class="col-md-6">
+    <div class="panel panel-{{ context }}" id="panel-server-{{ server.id }}">
+        <div class="panel-heading">
+            <i class="fontello-icon-desktop"></i> <strong>{{ server.name }}</strong>
+            <span class="pull-right">
+                <a href="{{ path('app_index_configuration_server', { 'id': server.id }) }}"
+                   id="open-server-{{ server.id }}"
+                   data-toggle="tooltip" data-placement="top" title="Open">
+                   <i class="fontello-icon-folder-open"></i></a>
+                <a href="#" id="delete-server-{{ server.id }}" data-id="{{ server.id }}"
+                   data-name="{{ server.name }}"
+                   data-toggle="tooltip" data-placement="right" title="Delete">
+                   <i class="fontello-icon-trash"></i></a>
+            </span>
+        </div>
+        <div class="panel-body" id="panel-body-{{ server.id }}">
+            {% if server.description %}
+                <blockquote>
+                    <p><small>{{ server.description }}</small></p>
+                </blockquote>
+            {% endif %}
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="list-group-item">
+                        <h4><i class="fontello-icon-address"></i>Host</h4>
+                        <p>{{ server.host }}</p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="list-group-item">
+                        <h4><i class="fontello-icon-lifebuoy"></i>Port</h4>
+                        <p>{{ server.port }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="list-group-item">
+                        <h4><i class="fontello-icon-user"></i>Username</h4>
+                        <p>{{ server.username }}</p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="list-group-item">
+                        <h4><i class="fontello-icon-key"></i>Password</h4>
+                        <p>{{ server.password }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel-footer text-right">
+            <i class="fontello-icon-calendar"></i> Created {{ server.createdAt|ago }}
+        </div>
+    </div>
+</div>

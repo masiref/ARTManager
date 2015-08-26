@@ -1,4 +1,26 @@
 services:
+    # configuration services
+    sonata.admin.server:
+        class: App\MainBundle\Admin\ServerAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Configuration", label: "Server" }
+        arguments:
+            - ~
+            - App\MainBundle\Entity\Server
+            - ~
+        calls:
+            - [ setTranslationDomain, [AppMainBundle] ]
+    sonata.admin.execution_server:
+        class: App\MainBundle\Admin\ExecutionServerAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Configuration", label: "Execution Server" }
+        arguments:
+            - ~
+            - App\MainBundle\Entity\ExecutionServer
+            - ~
+        calls:
+            - [ setTranslationDomain, [AppMainBundle] ]
+    
     # general services
     sonata.admin.project:
         class: App\MainBundle\Admin\ProjectAdmin
@@ -234,6 +256,16 @@ services:
         arguments:
             - ~
             - App\MainBundle\Entity\Status
+            - ~
+        calls:
+            - [ setTranslationDomain, [AppMainBundle] ]
+    sonata.admin.execution_server_type:
+        class: App\MainBundle\Admin\ExecutionServerTypeAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Settings", label: "Execution Server Type" }
+        arguments:
+            - ~
+            - App\MainBundle\Entity\ExecutionServerType
             - ~
         calls:
             - [ setTranslationDomain, [AppMainBundle] ]

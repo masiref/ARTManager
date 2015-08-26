@@ -7,12 +7,12 @@
                 <target>Toggle navigation</target>
             </trans-unit>
             <trans-unit id="2">
-                <source>Project name</source>
-                <target>Project name</target>
-            </trans-unit>
-            <trans-unit id="3">
                 <source>Home</source>
                 <target>Home</target>
+            </trans-unit>
+            <trans-unit id="3">
+                <source>Configuration</source>
+                <target>Configuration</target>
             </trans-unit>
         </body>
     </file>

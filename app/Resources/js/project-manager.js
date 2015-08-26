@@ -68,7 +68,6 @@ function saveProject() {
             var project = JSON.parse(data.project);
             var id = project.id;
             var name = project.name;
-            var description = project.description;
             var panel = data.panel;
             $("#projects-row").prepend(panel);
             $('#delete-project-' + id).click(function(event) {
@@ -130,10 +129,10 @@ function deleteProject(id, name) {
                     height: 0,
                     width: 0
                 }, 300, function () {
-                    container = $(this).parent();
+                    var container = $(this).parent();
                     $(this).remove();
                     container.remove();
-                    projectsCount = $("[id^=panel-project-]").length;
+                    var projectsCount = $("[id^=panel-project-]").length;
                     refreshProjectSubtitle(projectsCount);
                 });
                 swal(name + " deleted !", "Your project has been deleted.", "success");

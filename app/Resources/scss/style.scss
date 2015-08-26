@@ -4,7 +4,6 @@
 $state-mypurple-bg:             #D6ADC2;
 $state-mypurple-text:           #401122;
 $state-mypurple-border:         darken(adjust-hue($state-mypurple-bg, -10), 5%) !default;
-
 $panel-mypurple-text:           $state-mypurple-text !default;
 $panel-mypurple-border:         $state-mypurple-border !default;
 $panel-mypurple-heading-bg:     $state-mypurple-bg !default;
@@ -12,10 +11,24 @@ $panel-mypurple-heading-bg:     $state-mypurple-bg !default;
 $state-mygreen-bg:             #D9FFA8;
 $state-mygreen-text:           #459436;
 $state-mygreen-border:         darken(adjust-hue($state-mygreen-bg, -10), 5%) !default;
-
 $panel-mygreen-text:           $state-mygreen-text !default;
 $panel-mygreen-border:         $state-mygreen-border !default;
 $panel-mygreen-heading-bg:     $state-mygreen-bg !default;
+
+$state-myblue-bg:              #E1EBF5;
+$state-myblue-text:            #024772;
+$state-myblue-border:          darken(adjust-hue($state-myblue-bg, -10), 5%) !default;
+$panel-myblue-text:            $state-myblue-text !default;
+$panel-myblue-border:          $state-myblue-border !default;
+$panel-myblue-heading-bg:      $state-myblue-bg !default;
+
+$state-myorange-bg:              #F9E4B3;
+$state-myorange-text:            #FF6313;
+$state-myorange-border:          darken(adjust-hue($state-myorange-bg, -10), 5%) !default;
+$panel-myorange-text:            $state-myorange-text !default;
+$panel-myorange-border:          $state-myorange-border !default;
+$panel-myorange-heading-bg:      $state-myorange-bg !default;
+
 
 body {
     color: #293540;
@@ -165,27 +178,47 @@ div.row.step > div.step-left > div, div.row.control-step > div {
 }
 
 @include list-group-item-variant(mypurple, $state-mypurple-bg, $state-mypurple-text);
-@include list-group-item-variant(mygreen, $state-mygreen-bg, $state-mygreen-text);
-
 .bg-mypurple {
     background-color: $state-mypurple-bg;
 }
-.bg-mygreen {
-    background-color: $state-mygreen-bg;
-}
-
 .text-mypurple {
     color: $state-mypurple-text;
+}
+.panel-mypurple {
+    @include panel-variant($panel-mypurple-border, $panel-mypurple-text, $panel-mypurple-heading-bg, $panel-mypurple-border);
+}
+
+@include list-group-item-variant(mygreen, $state-mygreen-bg, $state-mygreen-text);
+.bg-mygreen {
+    background-color: $state-mygreen-bg;
 }
 .text-mygreen {
     color: $state-mygreen-text;
 }
-
-.panel-mypurple {
-    @include panel-variant($panel-mypurple-border, $panel-mypurple-text, $panel-mypurple-heading-bg, $panel-mypurple-border);
-}
 .panel-mygreen {
     @include panel-variant($panel-mygreen-border, $panel-mygreen-text, $panel-mygreen-heading-bg, $panel-mygreen-border);
+}
+
+@include list-group-item-variant(myblue, $state-myblue-bg, $state-myblue-text);
+.bg-myblue {
+    background-color: $state-myblue-bg;
+}
+.text-myblue {
+    color: $state-myblue-text;
+}
+.panel-myblue {
+    @include panel-variant($panel-myblue-border, $panel-myblue-text, $panel-myblue-heading-bg, $panel-myblue-border);
+}
+
+@include list-group-item-variant(myorange, $state-myorange-bg, $state-myorange-text);
+.bg-myorange {
+    background-color: $state-myorange-bg;
+}
+.text-myorange {
+    color: $state-myorange-text;
+}
+.panel-myorange {
+    @include panel-variant($panel-myorange-border, $panel-myorange-text, $panel-myorange-heading-bg, $panel-myorange-border);
 }
 
 .sweet-alert {

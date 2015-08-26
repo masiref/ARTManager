@@ -1,0 +1,5 @@
+<div class="row" id="execution-servers-row">
+    {% for executionServer in executionServers %}
+        {% include "AppMainBundle:configuration:execution-server/item.html.twig" with { 'executionServer' : executionServer } %}
+    {% endfor %}
+</div>

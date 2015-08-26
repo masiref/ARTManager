@@ -1,0 +1,5 @@
+<div class="row" id="servers-row">
+    {% for server in servers %}
+        {% include "AppMainBundle:configuration:server/item.html.twig" with { 'server' : server } %}
+    {% endfor %}
+</div>

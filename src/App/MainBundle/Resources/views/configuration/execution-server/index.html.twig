@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+{% set page_ = "configuration" %}
+
+{% block jumbotronTitle %}
+    <span class="text-myorange">
+        <i class="fontello-icon-gauge"></i><strong>Execution Server</strong> Manager
+    </span>
+{% endblock %}
+
+{% block jumbotronBody %}
+    <p class="text-center">
+        <a href="{{ path('configuration') }}">
+            <i class="fontello-icon-left-circled"></i>Return to <strong>configuration</strong>
+        </a>
+    </p>
+{% endblock %}
+
+{% block breadcrumb_items %}
+    <li>
+        <a href="{{ path('configuration') }}"><i class="fontello-icon-right-open"></i>Configuration</a>
+    </li>
+    <li class="active">
+        <i class="fontello-icon-angle-circled-right"></i><span id="breadcrumb-active-item">Execution Servers</span>
+    </li>
+{% endblock %}
+
+{% block body %}
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <span id="execution-servers-count">
+                {% if executionServers|length <= 1 %}There is {% else %}There are{% endif %}
+                {% if executionServers|length == 0 %}no {% else %}<span class="badge">{{ executionServers|length }}</span>{% endif %}
+                execution server{% if executionServers|length > 1 %}s{% endif %}
+            </span>
+            <span class="pull-right">
+                <a href="#" id="add-execution-server"
+                   data-toggle="tooltip" data-placement="left" title="Add a new execution server">
+                    <i class="fontello-icon-plus-circled"></i><i class="fontello-icon-gauge"></i>
+                </a>
+            </span>
+        </div>
+    </div>
+    {% include 'AppMainBundle:configuration:execution-server/list.html.twig' with { 'executionServers': executionServers } %}
+    {% include 'AppMainBundle:configuration:execution-server/new.form.html.twig' %}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript">
+        $(document).ready(function() {
+        });
+    </script>
+{% endblock %}

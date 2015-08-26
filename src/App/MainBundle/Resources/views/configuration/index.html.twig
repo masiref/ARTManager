@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+{% set page_ = "configuration" %}
+
+{% block jumbotronTitle %}
+    <i class="fontello-icon-wrench"></i><strong>Configuration</strong>
+{% endblock %}
+
+{% block jumbotronBody %}
+    <p class="text-center">
+        <a href="{{ path('homepage') }}">
+            <i class="fontello-icon-left-circled"></i>Return to <strong>project list</strong>
+        </a>
+    </p>
+{% endblock %}
+
+{% block breadcrumb_items %}
+    <li class="active"><i class="fontello-icon-angle-circled-right"></i>Configuration</li>
+{% endblock %}
+
+{% block body %}
+    <div class="col-md-6 col-md-offset-3">
+        <div class="list-group">
+            <a href="{{ path('app_configuration_servers') }}"
+               class="list-group-item list-group-item-myblue">
+                <h4 class="list-group-item-heading"><i class="fontello-icon-desktop"></i> <strong>Server</strong> Management</h4>
+                <p class="list-group-item-text">
+                    <p>Configure yous servers</p>
+                    <ul class="list-unstyled text-right">
+                        <li>
+                            {% if servers|length <= 1 %}There is {% else %}There are{% endif %}
+                            {% if servers|length == 0 %}no {% else %}<span class="badge">{{ servers|length }}</span>{% endif %}
+                            server{% if servers|length > 1 %}s{% endif %}
+                        </li>
+                    </ul>
+                </p>
+            </a>
+            <a href="{{ path('app_configuration_execution_servers') }}"
+               class="list-group-item list-group-item-myorange">
+                <h4 class="list-group-item-heading">
+                    <i class="fontello-icon-gauge"></i> <strong>Execution Server</strong> Management
+                </h4>
+                <p class="list-group-item-text">
+                    <p>Configure your execution servers</p>
+                    <ul class="list-unstyled text-right">
+                        <li>
+                            {% if executionServers|length <= 1 %}There is {% else %}There are{% endif %}
+                            {% if executionServers|length == 0 %}no {% else %}<span class="badge">{{ executionServers|length }}</span>{% endif %}
+                            execution server{% if executionServers|length > 1 %}s{% endif %}
+                        </li>
+                    </ul>
+                </p>
+            </a>
+        </div>
+    </div>
+{% endblock %}

@@ -7,12 +7,12 @@
                 <target>Activer</target>
             </trans-unit>
             <trans-unit id="2">
-                <source>Project name</source>
-                <target>Nom du projet</target>
-            </trans-unit>
-            <trans-unit id="3">
                 <source>Home</source>
                 <target>Accueil</target>
+            </trans-unit>
+            <trans-unit id="3">
+                <source>Configuration</source>
+                <target>Configuration</target>
             </trans-unit>
         </body>
     </file>

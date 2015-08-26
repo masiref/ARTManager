@@ -1,5 +1,5 @@
 {% trans_default_domain "navbar" %}
-{% set page = page|default('') %}
+{% set page_ = page_|default('') %}
 
 <nav class="navbar navbar-default navbar-fixed-top">
     <div class="container">
@@ -16,7 +16,30 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li {% if page == "homepage" %}class="active"{% endif %}><a href="{{ path('homepage') }}"><i class="fontello-icon-home"></i>{% trans %}Home{% endtrans %}</a></li>
+                {% if page_ != "" %}
+                    <li {% if page_ == "homepage" %}class="active"{% endif %}>
+                        <a href="{{ path('homepage') }}"><i class="fontello-icon-home"></i>{% trans %}Home{% endtrans %}</a>
+                    </li>
+                    <li class="dropdown {% if page_ == "configuration" %}active{% endif %}">
+                        <a href="#" class="dropdown-toggle"
+                           data-toggle="dropdown"
+                           role="button"
+                           aria-haspopup="true"
+                           aria-expanded="false">
+                            <i class="fontello-icon-wrench"></i>{% trans %}Configuration{% endtrans %} <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li>
+                                <a href="{{ path('app_configuration_servers') }}">
+                                    <i class="fontello-icon-desktop"></i> Server Management</a>
+                            </li>
+                            <li>
+                                <a href="{{ path('app_configuration_execution_servers') }}">
+                                    <i class="fontello-icon-gauge"></i> Execution Server Management</a>
+                            </li>
+                        </ul>
+                    </li>
+                {% endif %}
                 {#
                 <li><a href="#about">About</a></li>
                 <li><a href="#contact">Contact</a></li>
