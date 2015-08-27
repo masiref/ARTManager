@@ -18,6 +18,18 @@ $( "[id^=delete-server-]" ).click(function() {
     deleteServer(id, name);
 });
 
+$( "[id^=check-connection-server-]").click(function() {
+    var id = $(this).data('id');
+    $.ajax({
+        type: 'POST',
+        url: Routing.generate('app_index_configuration_server_check_connection_ajax', {
+            'id': id
+        })
+    }).done(function(data) {
+        swal("Result", data.result, "info");
+    });
+});
+
 /* server methods */
 function refreshServerSubtitle(count) {
     var subtitle = '';

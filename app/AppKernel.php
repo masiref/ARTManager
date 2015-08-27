@@ -32,6 +32,7 @@ class AppKernel extends Kernel {
             //new SimpleThings\EntityAudit\SimpleThingsEntityAuditBundle(),
             new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
             new Knp\Bundle\TimeBundle\KnpTimeBundle(),
+            new Cocur\Slugify\Bridge\Symfony\CocurSlugifyBundle(),
             new Application\Sonata\UserBundle\ApplicationSonataUserBundle(),
             new Application\Sonata\MediaBundle\ApplicationSonataMediaBundle(),
             new App\MainBundle\AppMainBundle(),

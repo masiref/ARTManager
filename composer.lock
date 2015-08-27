@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "c2832dd5ec584f59a29d895138de1ee7",
+    "hash": "478632ce7e315aa291d4d4003270dc60",
     "packages": [
         {
             "name": "behat/transliterator",
@@ -1091,6 +1091,60 @@
                 "uploadable"
             ],
             "time": "2015-02-24 21:41:37"
+        },
+        {
+            "name": "herzult/php-ssh",
+            "version": "v1.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Herzult/php-ssh.git",
+                "reference": "d569d15483a5f9218700313cd21c50090aa93351"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Herzult/php-ssh/zipball/d569d15483a5f9218700313cd21c50090aa93351",
+                "reference": "d569d15483a5f9218700313cd21c50090aa93351",
+                "shasum": ""
+            },
+            "require": {
+                "ext-ssh2": "*",
+                "php": ">=5.3.2"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "3.7.*",
+                "symfony/filesystem": "~2.4"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Ssh": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "The contributors",
+                    "homepage": "http://github.com/Herzult/php-ssh/contributors"
+                },
+                {
+                    "name": "Antoine Hérault",
+                    "homepage": "https://github.com/Herzult"
+                }
+            ],
+            "description": "Provides an object-oriented wrapper for the php ssh2 extension.",
+            "keywords": [
+                "ssh",
+                "ssh2"
+            ],
+            "time": "2015-03-17 22:03:22"
         },
         {
             "name": "imagine/imagine",
@@ -2803,7 +2857,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sonata-project/SonataAdminBundle/zipball/e4c515ed648a1d67f66f82fd56f01a11cc22d75d",
+                "url": "https://api.github.com/repos/sonata-project/SonataAdminBundle/zipball/8ce1a1b605e6b897e5403aa2003d40a05eca2f69",
                 "reference": "4e8dd310cb5eb4064087b4b6df2b72015548fb7c",
                 "shasum": ""
             },
@@ -3011,7 +3065,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sonata-project/SonataCoreBundle/zipball/69217cd11f1771137d3a3d7bfd4c115ed82919f0",
+                "url": "https://api.github.com/repos/sonata-project/SonataCoreBundle/zipball/a1ebe8f5914614df6f7eecb002b94c6795ab538c",
                 "reference": "329ca0bb9cc413a649b3ab4d73077c4da74f1c13",
                 "shasum": ""
             },
@@ -3371,7 +3425,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sonata-project/SonataIntlBundle/zipball/b0d6748f36474fe6e2f2923507b77bdae4c38a8e",
+                "url": "https://api.github.com/repos/sonata-project/SonataIntlBundle/zipball/c50bda8f661aee2336aab1b9f61db9a93e5bf1cb",
                 "reference": "b0d6748f36474fe6e2f2923507b77bdae4c38a8e",
                 "shasum": ""
             },

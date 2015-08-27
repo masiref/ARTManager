@@ -2,6 +2,7 @@
 
 namespace App\MainBundle\Controller;
 
+use App\MainBundle\Entity\ExecutionServer;
 use App\MainBundle\Entity\TestInstance;
 use App\MainBundle\Entity\TestSet;
 use JMS\SecurityExtraBundle\Annotation\Secure;
@@ -22,7 +23,6 @@ class TestSetEditorController extends Controller {
      * @ParamConverter("testSet", class="AppMainBundle:TestSet")
      */
     public function indexAction(TestSet $testSet) {
-
         return $this->render('AppMainBundle:test-set:editor/index.html.twig', array(
                     'testSet' => $testSet
         ));
@@ -164,6 +164,27 @@ class TestSetEditorController extends Controller {
                             'testSet' => $testSet
                         ))->getContent();
             }
+        }
+        $response = new Response(json_encode($ajaxResponse));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
+    }
+
+    /**
+     * @Route("/application/test/set/{id}/run/{executionServerId}",
+     *      name="app_get_application_test_set_behat_feature_ajax",
+     *      requirements={"_method" = "post"},
+     *      options={"expose" = true }
+     * )
+     * @Secure(roles="ROLE_SUPER_ADMIN")
+     * @ParamConverter("testSet", class="AppMainBundle:TestSet")
+     * @ParamConverter("executionServer", class="AppMainBundle:ExecutionServer", options={"id" = "executionServerId"})
+     */
+    public function runAction(TestSet $testSet, ExecutionServer $executionServer, Request $request) {
+        $ajaxResponse = array();
+        if ($request->getMethod() == 'POST' && $request->isXmlHttpRequest()) {
+            $filename = $this->get('test_set_execution')->copyFeatureFileOnExecutionServer($testSet, $executionServer);
+            $ajaxResponse['filename'] = $filename;
         }
         $response = new Response(json_encode($ajaxResponse));
         $response->headers->set('Content-Type', 'application/json');

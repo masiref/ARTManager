@@ -99,6 +99,9 @@ class Page implements JsonSerializable {
 
     /**
      * @ORM\Column(type="string")
+     * @Assert\NotBlank(
+     *      message = "Path cannot be empty."
+     * )
      */
     protected $path;
 

@@ -1,8 +1,8 @@
 @import 'app/Resources/libs/bootstrap/assets/stylesheets/bootstrap';
 @import 'app/Resources/libs/sweetalert/lib/sweet-alert';
 
-$state-mypurple-bg:             #D6ADC2;
-$state-mypurple-text:           #401122;
+$state-mypurple-bg:             #F3C6D9;
+$state-mypurple-text:           #572348;
 $state-mypurple-border:         darken(adjust-hue($state-mypurple-bg, -10), 5%) !default;
 $panel-mypurple-text:           $state-mypurple-text !default;
 $panel-mypurple-border:         $state-mypurple-border !default;

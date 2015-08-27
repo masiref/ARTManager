@@ -40,12 +40,6 @@
                        data-url="{{ path('app_configuration_server_update_name_ajax', { 'id': server.id }) }}"
                        data-title="Update name">{{ server.name }}</a>
                 </strong>
-                <span class="pull-right">
-                    <a href="#" id="delete-server-{{ server.id }}" data-id="{{ server.id }}"
-                       data-name="{{ server.name }}"
-                       data-toggle="tooltip" data-placement="right" title="Delete">
-                       <i class="fontello-icon-trash"></i></a>
-                </span>
             </div>
             <div class="panel-body" id="panel-body-{{ server.id }}">
                 <blockquote>
@@ -117,6 +111,17 @@
             </div>
         </div>
     </div>
+    <div class="col-md-5">
+        <div class="list-group">
+            <a href="#" class="list-group-item list-group-item-myblue" id="check-connection-server-{{ server.id }}"
+               data-id="{{ server.id }}">
+                <h4 class="list-group-item-heading">
+                    <i class="fontello-icon-light-up"></i> <strong>Check connection</strong>
+                </h4>
+                <p class="list-group-item-text">
+                    <p>Check the connection to the server</p>
+                </p>
+            </a>
 {% endblock %}
 
 {% block javascripts %}

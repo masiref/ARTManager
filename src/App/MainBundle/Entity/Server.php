@@ -3,8 +3,13 @@
 namespace App\MainBundle\Entity;
 
 use DateTime;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Exception;
 use JsonSerializable;
+use Ssh\Authentication\Password;
+use Ssh\Configuration;
+use Ssh\Session;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -74,6 +79,7 @@ class Server implements JsonSerializable {
      * @ORM\OrderBy({"name" = "ASC"})
      */
     protected $executionServers;
+    protected $session;
 
     public function __construct() {
         $this->createdAt = new DateTime();
@@ -104,6 +110,31 @@ class Server implements JsonSerializable {
             'value' => $this->id,
             'text' => $this->name . " on " . $this->host
         );
+    }
+
+    /**
+     * Get ssh session
+     *
+     * @return Session
+     */
+    public function getSession() {
+        if ($this->session === null) {
+            $configuration = new Configuration($this->host);
+            $authentication = new Password($this->username, $this->password);
+            $this->session = new Session($configuration, $authentication);
+        }
+        return $this->session;
+    }
+
+    public function checkConnection() {
+        try {
+            $this->getSession()->getExec()->run("pwd");
+            $result = true;
+        } catch (Exception $e) {
+            $e->getMessage();
+            $result = false;
+        }
+        return $result;
     }
 
     /**
@@ -265,10 +296,10 @@ class Server implements JsonSerializable {
     /**
      * Add executionServers
      *
-     * @param \App\MainBundle\Entity\ExecutionServer $executionServers
+     * @param ExecutionServer $executionServers
      * @return Server
      */
-    public function addExecutionServer(\App\MainBundle\Entity\ExecutionServer $executionServers) {
+    public function addExecutionServer(ExecutionServer $executionServers) {
         $executionServers->setServer($this);
         $this->executionServers[] = $executionServers;
 
@@ -278,16 +309,16 @@ class Server implements JsonSerializable {
     /**
      * Remove executionServers
      *
-     * @param \App\MainBundle\Entity\ExecutionServer $executionServers
+     * @param ExecutionServer $executionServers
      */
-    public function removeExecutionServer(\App\MainBundle\Entity\ExecutionServer $executionServers) {
+    public function removeExecutionServer(ExecutionServer $executionServers) {
         $this->executionServers->removeElement($executionServers);
     }
 
     /**
      * Get executionServers
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return Collection
      */
     public function getExecutionServers() {
         return $this->executionServers;

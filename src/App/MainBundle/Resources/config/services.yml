@@ -8,3 +8,6 @@ services:
     mink:
         class: App\MainBundle\Services\MinkService
         arguments: [@service_container]
+    test_set_execution:
+        class: App\MainBundle\Services\TestSetExecutionService
+        arguments: [@gherkin, @slugify]

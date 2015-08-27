@@ -252,4 +252,23 @@ class ServerController extends Controller {
         return $response;
     }
 
+    /**
+     * @Route("/configuration/server/{id}/check/connection",
+     *      name="app_index_configuration_server_check_connection_ajax",
+     *      requirements={"_method" = "post"},
+     *      options={"expose" = true }
+     * )
+     * @Secure(roles="ROLE_SUPER_ADMIN")
+     * @ParamConverter("server", class="AppMainBundle:Server")
+     */
+    public function checkConnectionAction(Server $server, Request $request) {
+        $ajaxResponse = array();
+        if ($request->getMethod() == 'POST' && $request->isXmlHttpRequest()) {
+            $ajaxResponse['result'] = $server->checkConnection() ? "Successfully connected !" : "Connection failed !";
+        }
+        $response = new Response(json_encode($ajaxResponse));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
+    }
+
 }

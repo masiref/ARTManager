@@ -40,12 +40,6 @@
                        data-url="{{ path('app_configuration_execution_server_update_name_ajax', { 'id': executionServer.id }) }}"
                        data-title="Update name">{{ executionServer.name }}</a>
                 </strong>
-                <span class="pull-right">
-                    <a href="#" id="delete-execution-server-{{ executionServer.id }}" data-id="{{ executionServer.id }}"
-                       data-name="{{ executionServer.name }}"
-                       data-toggle="tooltip" data-placement="right" title="Delete">
-                       <i class="fontello-icon-trash"></i></a>
-                </span>
             </div>
             <div class="panel-body" id="panel-body-{{ executionServer.id }}">
                 <blockquote>
