@@ -172,7 +172,7 @@ class TestSetEditorController extends Controller {
 
     /**
      * @Route("/application/test/set/{id}/run/{executionServerId}",
-     *      name="app_get_application_test_set_behat_feature_ajax",
+     *      name="app_application_test_set_run_ajax",
      *      requirements={"_method" = "post"},
      *      options={"expose" = true }
      * )

@@ -20,6 +20,16 @@ $("[id^=delete-test-instance-]").click(function() {
     deleteTestInstance(id, name);
 });
 
+/* test set triggers */
+$( "#modal-run-test-set" ).modal({
+    backdrop: 'static',
+    show: false
+});
+
+$( "#run-test-set" ).click(function() {
+    showRunTestSetModal();
+});
+
 /* execution grid methods */
 function triggerExecutionGridEventListeners(id) {
     $('#execution-grid-' + id).dataTable({
@@ -108,6 +118,11 @@ function deleteTestInstance(id, name) {
             }
         });
     });
+}
+
+/* test set methods */
+function showRunTestSetModal() {
+    $("#modal-run-test-set").modal('show');
 }
 
 /* hybrid methods */

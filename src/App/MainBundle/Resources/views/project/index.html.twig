@@ -35,12 +35,6 @@
                        data-url="{{ path('app_project_update_name_ajax', { 'id': project.id }) }}"
                        data-title="Update name">{{ project.name }}</a>
                 </strong>
-                <span class="pull-right">
-                    <a href="#" id="delete-project-{{ project.id }}" data-id="{{ project.id }}"
-                       data-name="{{ project.name }}"
-                       data-toggle="tooltip" data-placement="right" title="Delete">
-                       <i class="fontello-icon-trash"></i></a>
-                </span>
             </div>
             <div class="panel-body" id="panel-body-{{ project.id }}">
                 <blockquote>

@@ -5,7 +5,6 @@ namespace App\MainBundle\Controller;
 use App\MainBundle\Entity\ControlStep;
 use App\MainBundle\Entity\ExecuteStep;
 use App\MainBundle\Entity\Prerequisite;
-use App\MainBundle\Entity\Step;
 use App\MainBundle\Entity\Test;
 use App\MainBundle\Form\Type\ControlStepType;
 use App\MainBundle\Form\Type\ExecuteStepType;

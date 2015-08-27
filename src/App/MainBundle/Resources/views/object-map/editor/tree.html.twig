@@ -10,12 +10,6 @@
                    data-url="{{ path('app_application_object_map_update_name_ajax', { 'id': objectMap.id }) }}"
                    data-title="Update name">{{ objectMap.name }}</a>
             </strong>
-            <span class="pull-right">
-                <a href="#" id="delete-object-map-{{ objectMap.id }}" data-id="{{ objectMap.id }}"
-                   data-name="{{ objectMap.name }}"
-                   data-toggle="tooltip" data-placement="right" title="Delete">
-                   <i class="fontello-icon-trash"></i></a>
-            </span>
         </div>
         <div class="panel-body" id="panel-body-{{ objectMap.id }}">
             <blockquote>

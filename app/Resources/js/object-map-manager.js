@@ -100,7 +100,7 @@ function saveObjectMap(applicationId) {
         if (data.error) {
             swal("Object map not added !", data.error, "error");
         } else {
-            var objectMap = JSON.parse(data.objectMap);
+            var objectMap = data.objectMap;
             var id = objectMap.id;
             var name = objectMap.name;
             var panel = data.panel;

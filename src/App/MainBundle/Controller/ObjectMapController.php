@@ -96,7 +96,7 @@ class ObjectMapController extends Controller {
                     $objectMap->setApplication($application);
                     $em->persist($objectMap);
                     $em->flush();
-                    $ajaxResponse['objectMap'] = json_encode($objectMap);
+                    $ajaxResponse['objectMap'] = $objectMap;
                     $addObjectMapFormView = $this->createForm(new ObjectMapType(), new ObjectMap(), array(
                                 'action' => $this->generateUrl('app_add_application_object_map_ajax', array('id' => -1)),
                                 'method' => 'POST'
