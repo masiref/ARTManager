@@ -77,7 +77,7 @@ class TestEditorController extends Controller {
      * @Secure(roles="ROLE_SUPER_ADMIN")
      * @ParamConverter("test", class="AppMainBundle:Test")
      */
-    public function checkExecuteStepAction($test, Request $request) {
+    public function checkExecuteStepAction(Test $test, Request $request) {
         $ajaxResponse = array();
         $em = $this->getDoctrine()->getManager();
         if ($request->getMethod() == 'POST' && $request->isXmlHttpRequest()) {
@@ -107,7 +107,7 @@ class TestEditorController extends Controller {
      * @Secure(roles="ROLE_SUPER_ADMIN")
      * @ParamConverter("step", class="AppMainBundle:ExecuteStep")
      */
-    public function checkControlStepAction($step, Request $request) {
+    public function checkControlStepAction(ExecuteStep $step, Request $request) {
         $ajaxResponse = array();
         $em = $this->getDoctrine()->getManager();
         if ($request->getMethod() == 'POST' && $request->isXmlHttpRequest()) {
@@ -137,7 +137,7 @@ class TestEditorController extends Controller {
      * @Secure(roles="ROLE_SUPER_ADMIN")
      * @ParamConverter("test", class="AppMainBundle:Test")
      */
-    public function addExecuteStepAction($test, Request $request) {
+    public function addExecuteStepAction(Test $test, Request $request) {
         $ajaxResponse = array();
         $em = $this->getDoctrine()->getManager();
         if ($request->getMethod() == 'POST' && $request->isXmlHttpRequest()) {
@@ -174,9 +174,9 @@ class TestEditorController extends Controller {
      *      options={"expose" = true }
      * )
      * @Secure(roles="ROLE_SUPER_ADMIN")
-     * @ParamConverter("step", class="AppMainBundle:Step")
+     * @ParamConverter("step", class="AppMainBundle:ExecuteStep")
      */
-    public function addControlStepAction(Step $step, Request $request) {
+    public function addControlStepAction(ExecuteStep $step, Request $request) {
         $ajaxResponse = array();
         $em = $this->getDoctrine()->getManager();
         if ($request->getMethod() == 'POST' && $request->isXmlHttpRequest()) {
@@ -214,9 +214,9 @@ class TestEditorController extends Controller {
      *      options={"expose" = true }
      * )
      * @Secure(roles="ROLE_SUPER_ADMIN")
-     * @ParamConverter("step", class="AppMainBundle:Step")
+     * @ParamConverter("step", class="AppMainBundle:ExecuteStep")
      */
-    public function deleteExecuteStepAction(Step $step, Request $request) {
+    public function deleteExecuteStepAction(ExecuteStep $step, Request $request) {
         $ajaxResponse = array();
         $em = $this->getDoctrine()->getManager();
         if ($request->getMethod() == 'POST' && $request->isXmlHttpRequest()) {
@@ -278,9 +278,9 @@ class TestEditorController extends Controller {
      *      options={"expose" = true }
      * )
      * @Secure(roles="ROLE_SUPER_ADMIN")
-     * @ParamConverter("step", class="AppMainBundle:Step")
+     * @ParamConverter("step", class="AppMainBundle:ControlStep")
      */
-    public function deleteControlStepAction(Step $step, Request $request) {
+    public function deleteControlStepAction(ControlStep $step, Request $request) {
         $ajaxResponse = array();
         $em = $this->getDoctrine()->getManager();
         if ($request->getMethod() == 'POST' && $request->isXmlHttpRequest()) {
@@ -314,9 +314,9 @@ class TestEditorController extends Controller {
      *      options={"expose" = true }
      * )
      * @Secure(roles="ROLE_SUPER_ADMIN")
-     * @ParamConverter("step", class="AppMainBundle:Step")
+     * @ParamConverter("step", class="AppMainBundle:ExecuteStep")
      */
-    public function getControlStepsOrders(Step $step, Request $request) {
+    public function getControlStepsOrders(ExecuteStep $step, Request $request) {
         $ajaxResponse = array();
         if ($request->getMethod() == 'POST' && $request->isXmlHttpRequest()) {
             if ($step !== null) {
@@ -430,7 +430,7 @@ class TestEditorController extends Controller {
      * @Secure(roles="ROLE_SUPER_ADMIN")
      * @ParamConverter("step", class="AppMainBundle:ExecuteStep")
      */
-    public function updateExecuteStepAction($step, Request $request) {
+    public function updateExecuteStepAction(ExecuteStep $step, Request $request) {
         $ajaxResponse = array();
         $em = $this->getDoctrine()->getManager();
         if ($request->getMethod() == 'POST' && $request->isXmlHttpRequest()) {
@@ -505,7 +505,7 @@ class TestEditorController extends Controller {
      * @Secure(roles="ROLE_SUPER_ADMIN")
      * @ParamConverter("controlStep", class="AppMainBundle:ControlStep")
      */
-    public function updateControlStepAction($controlStep, Request $request) {
+    public function updateControlStepAction(ControlStep $controlStep, Request $request) {
         $ajaxResponse = array();
         $em = $this->getDoctrine()->getManager();
         if ($request->getMethod() == 'POST' && $request->isXmlHttpRequest()) {
@@ -564,7 +564,7 @@ class TestEditorController extends Controller {
      * @Secure(roles="ROLE_SUPER_ADMIN")
      * @ParamConverter("test", class="AppMainBundle:Test")
      */
-    public function addPrerequisiteAction($test, Request $request) {
+    public function addPrerequisiteAction(Test $test, Request $request) {
         $ajaxResponse = array();
         $em = $this->getDoctrine()->getManager();
         if ($request->getMethod() == 'POST' && $request->isXmlHttpRequest()) {

@@ -109,7 +109,7 @@ class TestPlannerController extends Controller {
      * @Secure(roles="ROLE_SUPER_ADMIN")
      * @ParamConverter("application", class="AppMainBundle:Application")
      */
-    public function addTestFolderAction($application, $parentId, Request $request) {
+    public function addTestFolderAction(Application $application, $parentId, Request $request) {
         $ajaxResponse = array();
         $em = $this->getDoctrine()->getManager();
         if ($request->getMethod() == 'POST' && $request->isXmlHttpRequest()) {
@@ -283,7 +283,7 @@ class TestPlannerController extends Controller {
      * @Secure(roles="ROLE_SUPER_ADMIN")
      * @ParamConverter("testFolder", class="AppMainBundle:TestFolder")
      */
-    public function addTestAction($testFolder, Request $request) {
+    public function addTestAction(TestFolder $testFolder, Request $request) {
         $ajaxResponse = array();
         $em = $this->getDoctrine()->getManager();
         if ($request->getMethod() == 'POST' && $request->isXmlHttpRequest()) {
@@ -415,7 +415,7 @@ class TestPlannerController extends Controller {
      * @Secure(roles="ROLE_SUPER_ADMIN")
      * @ParamConverter("application", class="AppMainBundle:Application")
      */
-    public function deleteEntitiesAction($application, Request $request) {
+    public function deleteEntitiesAction(Application $application, Request $request) {
         if ($request->getMethod() == 'POST' && $request->isXmlHttpRequest()) {
             $objects = $request->get("objects");
             $em = $this->getDoctrine()->getManager();

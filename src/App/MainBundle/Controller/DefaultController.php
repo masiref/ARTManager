@@ -2,16 +2,17 @@
 
 namespace App\MainBundle\Controller;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use JMS\SecurityExtraBundle\Annotation\Secure;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use App\MainBundle\Form\Type\ApplicationType;
-use App\MainBundle\Form\Type\ProjectType;
 use App\MainBundle\Entity\Application;
 use App\MainBundle\Entity\Project;
+use App\MainBundle\Form\Type\ApplicationType;
+use App\MainBundle\Form\Type\ProjectType;
+use Doctrine\DBAL\DBALException;
+use JMS\SecurityExtraBundle\Annotation\Secure;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class DefaultController extends Controller {
 
@@ -84,7 +85,7 @@ class DefaultController extends Controller {
      * @Secure(roles="ROLE_SUPER_ADMIN")
      * @ParamConverter("project", class="AppMainBundle:Project")
      */
-    public function deleteProjectAction($project, Request $request) {
+    public function deleteProjectAction(Project $project, Request $request) {
         $ajaxResponse = array();
         $em = $this->getDoctrine()->getManager();
         if ($request->getMethod() == 'POST' && $request->isXmlHttpRequest()) {
@@ -109,7 +110,7 @@ class DefaultController extends Controller {
      * @Secure(roles="ROLE_SUPER_ADMIN")
      * @ParamConverter("project", class="AppMainBundle:Project")
      */
-    public function addApplicationAction($project, Request $request) {
+    public function addApplicationAction(Project $project, Request $request) {
         $ajaxResponse = array();
         $em = $this->getDoctrine()->getManager();
         if ($request->getMethod() == 'POST' && $request->isXmlHttpRequest()) {
@@ -130,7 +131,7 @@ class DefaultController extends Controller {
                                     'project' => $project,
                                     'application' => $application
                                 ))->getContent();
-                    } catch (\Doctrine\DBAL\DBALException $e) {
+                    } catch (DBALException $e) {
                         $e->getCode();
                         if ($application->getName() == null || $application->getName() == "") {
                             $ajaxResponse['error'] = "ERROR: Name cannot be empty.";
@@ -159,7 +160,7 @@ class DefaultController extends Controller {
      * @Secure(roles="ROLE_SUPER_ADMIN")
      * @ParamConverter("application", class="AppMainBundle:Application")
      */
-    public function deleteApplicationAction($application, Request $request) {
+    public function deleteApplicationAction(Application $application, Request $request) {
         $ajaxResponse = array();
         $em = $this->getDoctrine()->getManager();
         if ($request->getMethod() == 'POST' && $request->isXmlHttpRequest()) {

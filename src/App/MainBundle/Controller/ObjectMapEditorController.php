@@ -152,7 +152,7 @@ class ObjectMapEditorController extends Controller {
      * @Secure(roles="ROLE_SUPER_ADMIN")
      * @ParamConverter("objectMap", class="AppMainBundle:ObjectMap")
      */
-    public function addPageAction($objectMap, $parentId, Request $request) {
+    public function addPageAction(ObjectMap $objectMap, $parentId, Request $request) {
         $ajaxResponse = array();
         $em = $this->getDoctrine()->getManager();
         if ($request->getMethod() == 'POST' && $request->isXmlHttpRequest()) {
@@ -388,7 +388,7 @@ class ObjectMapEditorController extends Controller {
      * @Secure(roles="ROLE_SUPER_ADMIN")
      * @ParamConverter("page", class="AppMainBundle:Page")
      */
-    public function addObjectAction($page, Request $request) {
+    public function addObjectAction(Page $page, Request $request) {
         $ajaxResponse = array();
         $em = $this->getDoctrine()->getManager();
         if ($request->getMethod() == 'POST' && $request->isXmlHttpRequest()) {
@@ -727,7 +727,7 @@ class ObjectMapEditorController extends Controller {
      * @Secure(roles="ROLE_SUPER_ADMIN")
      * @ParamConverter("objectMap", class="AppMainBundle:ObjectMap")
      */
-    public function deleteObjectsAction($objectMap, Request $request) {
+    public function deleteObjectsAction(ObjectMap $objectMap, Request $request) {
         if ($request->getMethod() == 'POST' && $request->isXmlHttpRequest()) {
             $objects = $request->get("objects");
             $em = $this->getDoctrine()->getManager();

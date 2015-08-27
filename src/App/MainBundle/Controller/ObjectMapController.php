@@ -132,7 +132,7 @@ class ObjectMapController extends Controller {
      * @Secure(roles="ROLE_SUPER_ADMIN")
      * @ParamConverter("objectMap", class="AppMainBundle:ObjectMap")
      */
-    public function deleteObjectMapAction($objectMap, Request $request) {
+    public function deleteObjectMapAction(ObjectMap $objectMap, Request $request) {
         $ajaxResponse = array();
         $em = $this->getDoctrine()->getManager();
         if ($request->getMethod() == 'POST' && $request->isXmlHttpRequest()) {
