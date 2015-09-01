@@ -375,7 +375,6 @@ function showTestSetEntityProperties(treeNode) {
                     var name = testSet.name;
                     var description = testSet.description;
                     var createdAt = testSet.createdAt;
-                    //var status = testSet.status;
                     var chart = testSet.chart;
                     $('#entity-name').editable('option', 'pk', id);
                     $('#entity-name').editable(
@@ -396,8 +395,6 @@ function showTestSetEntityProperties(treeNode) {
                     $('#entity-name').editable('setValue', name, false);
                     $('#entity-description').editable('setValue', description, false);
                     $('#entity-creation-date').html(createdAt);
-                    /*$('#status-icon').removeClass();
-                    $('#status-icon').addClass(status.icon + " " + status.context);*/
                     refreshEntityChart(chart);
                 });
                 break;
@@ -482,10 +479,6 @@ function deleteEntities(applicationId) {
                 });
                 $(testSetsTreeHtmlId).treeview('collapseAll', { silent: true });
                 showTestSetsPanel(applicationId);
-                /*var selectedNode = $(testSetsTreeHtmlId).treeview("getSelected")[0];
-                //showObjectProperties(selectedNode);
-                $(testSetsTreeHtmlId).treeview("revealNode", selectedNode);
-                $(testSetsTreeHtmlId).treeview("expandNode", selectedNode);*/
                 refreshTestSetSubtitle(testSetsCount, applicationId);
                 refreshTestSetFolderSubtitle(testSetFoldersCount, applicationId);
                 refreshCheckedTestSetsTreeEntitiesCount(applicationId);

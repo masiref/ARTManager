@@ -136,12 +136,8 @@ class ObjectMapController extends Controller {
         $ajaxResponse = array();
         $em = $this->getDoctrine()->getManager();
         if ($request->getMethod() == 'POST' && $request->isXmlHttpRequest()) {
-            if ($objectMap !== null) {
-                $em->remove($objectMap);
-                $em->flush();
-            } else {
-                $response['error'] = "This object map does not exist.";
-            }
+            $em->remove($objectMap);
+            $em->flush();
         }
         $response = new Response(json_encode($ajaxResponse));
         $response->headers->set('Content-Type', 'application/json');

@@ -477,10 +477,6 @@ function deleteEntities(applicationId) {
                 });
                 $(testsTreeHtmlId).treeview('collapseAll', { silent: true });
                 showTestsPanel(applicationId);
-                /*var selectedNode = $(testsTreeHtmlId).treeview("getSelected")[0];
-                //showObjectProperties(selectedNode);
-                $(testsTreeHtmlId).treeview("revealNode", selectedNode);
-                $(testsTreeHtmlId).treeview("expandNode", selectedNode);*/
                 refreshTestSubtitle(testsCount, applicationId);
                 refreshTestFolderSubtitle(testFoldersCount, applicationId);
                 refreshCheckedTestsTreeEntitiesCount(applicationId);

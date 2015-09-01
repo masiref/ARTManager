@@ -524,10 +524,6 @@ function deleteObjects(objectMapId) {
                 $(objectMapHtmlId).treeview('collapseAll', { silent: true });
                 showObjectMapPanel(objectMapId);
                 hideObjectPropertiesPanelBodyAndFooter();
-                /*var selectedNode = $(objectMapHtmlId).treeview("getSelected")[0];
-                showObjectProperties(selectedNode);
-                $(objectMapHtmlId).treeview("revealNode", selectedNode);
-                $(objectMapHtmlId).treeview("expandNode", selectedNode);*/
                 refreshObjectSubtitle(objectsCount, objectMapId);
                 refreshPageSubtitle(pagesCount, objectMapId);
                 refreshCheckedObjectMapObjectsCount(objectMapId);
@@ -621,7 +617,6 @@ function showObjectProperties(treeNode) {
                     var object = data.object;
                     var name = object.name;
                     var description = object.description;
-                    //var createdAt = object.createdAt;
                     var objectType = object.objectType;
                     var objectIdentifier = object.objectIdentifier;
                     var objectIdentifierType = null;
@@ -683,7 +678,6 @@ function showObjectProperties(treeNode) {
                         $('#object-identifier-type').editable('setValue', '', false);
                         $('#object-identifier-value').editable('setValue', '', false);
                     }
-                    //$('#object-creation-date').html(createdAt);
                 });
                 break;
             default:

@@ -40,34 +40,32 @@
             <script src="{{ asset('built/app.min.js') }}"></script>
             <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
             <script src="{{ path('fos_js_routing_js', {'callback': 'fos.Router.setData'}) }}"></script>
-            {# if app.session.flashBag.peekAll()|length #}
-                <script type="text/javascript">
-                    $(document).ready(function() {
-                        {% for type, messages in app.session.flashBag.all %}
-                            {% for message in messages %}
-                                swal({
-                                    title: "
-                                        {% if type == 'error' %}{% trans from 'titles' %}Error{% endtrans %}{% endif %}
-                                        {% if type == 'info' %}{% trans from 'titles' %}Info{% endtrans %}{% endif %}
-                                        {% if type == 'success' %}{% trans from 'titles' %}Success{% endtrans %}{% endif %}
-                                    ",
-                                    text: "{{ message|trans({}, 'FOSUserBundle') }}",
-                                    type: "{{ type }}",
-                                    confirmButtonText: "{% trans from 'labels' %}OK{% endtrans %}"
-                                });    
-                            {% endfor %}
-                        {% endfor %}
-                        {% if error %}
+            <script type="text/javascript">
+                $(document).ready(function() {
+                    {% for type, messages in app.session.flashBag.all %}
+                        {% for message in messages %}
                             swal({
-                                title: "{% trans from 'titles' %}Error{% endtrans %}",
-                                text: "{{ error|trans({}, 'FOSUserBundle') }}",
-                                type: "error",
+                                title: "
+                                    {% if type == 'error' %}{% trans from 'titles' %}Error{% endtrans %}{% endif %}
+                                    {% if type == 'info' %}{% trans from 'titles' %}Info{% endtrans %}{% endif %}
+                                    {% if type == 'success' %}{% trans from 'titles' %}Success{% endtrans %}{% endif %}
+                                ",
+                                text: "{{ message|trans({}, 'FOSUserBundle') }}",
+                                type: "{{ type }}",
                                 confirmButtonText: "{% trans from 'labels' %}OK{% endtrans %}"
-                            });
-                        {% endif %}
-                    });
-                </script>
-            {# endif #}
+                            });    
+                        {% endfor %}
+                    {% endfor %}
+                    {% if error %}
+                        swal({
+                            title: "{% trans from 'titles' %}Error{% endtrans %}",
+                            text: "{{ error|trans({}, 'FOSUserBundle') }}",
+                            type: "error",
+                            confirmButtonText: "{% trans from 'labels' %}OK{% endtrans %}"
+                        });
+                    {% endif %}
+                });
+            </script>
         {% endblock %}
     </body>
 </html>

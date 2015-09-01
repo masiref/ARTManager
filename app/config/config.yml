@@ -5,6 +5,7 @@ imports:
     - { resource: services.yml }
     - { resource: @AppMainBundle/Resources/config/admin.yml }
     - { resource: @AppMainBundle/Resources/config/services.yml }
+    - { resource: gearman.yml }
 framework:
     secret: "%secret%"
     router:

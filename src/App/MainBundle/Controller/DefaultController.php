@@ -58,7 +58,7 @@ class DefaultController extends Controller {
                 $project = $form->getData();
                 $em->persist($project);
                 $em->flush();
-                $ajaxResponse['project'] = $this->container->get('serializer')->serialize($project, 'json');
+                $ajaxResponse['project'] = $project;
                 $addApplicationFormView = $this->createForm(new ApplicationType(), new Application(), array(
                             'action' => $this->generateUrl('app_add_application_ajax', array('id' => -1)),
                             'method' => 'POST'
@@ -89,12 +89,8 @@ class DefaultController extends Controller {
         $ajaxResponse = array();
         $em = $this->getDoctrine()->getManager();
         if ($request->getMethod() == 'POST' && $request->isXmlHttpRequest()) {
-            if ($project !== null) {
-                $em->remove($project);
-                $em->flush();
-            } else {
-                $ajaxResponse['error'] = "This project does not exist.";
-            }
+            $em->remove($project);
+            $em->flush();
         }
         $response = new Response(json_encode($ajaxResponse));
         $response->headers->set('Content-Type', 'application/json');
@@ -114,36 +110,31 @@ class DefaultController extends Controller {
         $ajaxResponse = array();
         $em = $this->getDoctrine()->getManager();
         if ($request->getMethod() == 'POST' && $request->isXmlHttpRequest()) {
-            if ($project !== null) {
-                // recuperer les donnees du formulaire
-                $form = $this->createForm(new ApplicationType(), new Application());
-                $form->handleRequest($request);
-                if ($form->isValid()) {
-                    $application = $form->getData();
-                    try {
-                        $application->setProject($project);
-                        $em->persist($application);
-                        $em->flush();
-                        $ajaxResponse['id'] = $application->getId();
-                        $ajaxResponse['name'] = $application->getName();
-                        $ajaxResponse['description'] = $application->getDescription();
-                        $ajaxResponse['row'] = $this->render('AppMainBundle:application:item.html.twig', array(
-                                    'project' => $project,
-                                    'application' => $application
-                                ))->getContent();
-                    } catch (DBALException $e) {
-                        $e->getCode();
-                        if ($application->getName() == null || $application->getName() == "") {
-                            $ajaxResponse['error'] = "ERROR: Name cannot be empty.";
-                        } else {
-                            $ajaxResponse['error'] = "ERROR: Name already used.";
-                        }
+            $form = $this->createForm(new ApplicationType(), new Application());
+            $form->handleRequest($request);
+            if ($form->isValid()) {
+                $application = $form->getData();
+                try {
+                    $application->setProject($project);
+                    $em->persist($application);
+                    $em->flush();
+                    $ajaxResponse['id'] = $application->getId();
+                    $ajaxResponse['name'] = $application->getName();
+                    $ajaxResponse['description'] = $application->getDescription();
+                    $ajaxResponse['row'] = $this->render('AppMainBundle:application:item.html.twig', array(
+                                'project' => $project,
+                                'application' => $application
+                            ))->getContent();
+                } catch (DBALException $e) {
+                    $e->getCode();
+                    if ($application->getName() == null || $application->getName() == "") {
+                        $ajaxResponse['error'] = "ERROR: Name cannot be empty.";
+                    } else {
+                        $ajaxResponse['error'] = "ERROR: Name already used.";
                     }
-                } else {
-                    $ajaxResponse['error'] = (string) $form->getErrors(true);
                 }
             } else {
-                $ajaxResponse['error'] = "This project does not exist.";
+                $ajaxResponse['error'] = (string) $form->getErrors(true);
             }
         }
         $response = new Response(json_encode($ajaxResponse));
@@ -164,12 +155,8 @@ class DefaultController extends Controller {
         $ajaxResponse = array();
         $em = $this->getDoctrine()->getManager();
         if ($request->getMethod() == 'POST' && $request->isXmlHttpRequest()) {
-            if ($application !== null) {
-                $em->remove($application);
-                $em->flush();
-            } else {
-                $response['error'] = "This application does not exist.";
-            }
+            $em->remove($application);
+            $em->flush();
         }
         $response = new Response(json_encode($ajaxResponse));
         $response->headers->set('Content-Type', 'application/json');

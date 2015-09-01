@@ -65,7 +65,7 @@ function saveProject() {
         if (data.error) {
             swal("Project not added !", data.error, "error");
         } else {
-            var project = JSON.parse(data.project);
+            var project = data.project;
             var id = project.id;
             var name = project.name;
             var panel = data.panel;

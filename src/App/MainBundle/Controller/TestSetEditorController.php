@@ -159,11 +159,9 @@ class TestSetEditorController extends Controller {
     public function getBehatFeatureAction(TestSet $testSet, Request $request) {
         $ajaxResponse = array();
         if ($request->getMethod() == 'POST' && $request->isXmlHttpRequest()) {
-            if ($testSet !== null) {
-                $ajaxResponse["feature"] = $this->render('AppMainBundle:test-set:editor/behat_content.html.twig', array(
-                            'testSet' => $testSet
-                        ))->getContent();
-            }
+            $ajaxResponse["feature"] = $this->render('AppMainBundle:test-set:editor/behat_content.html.twig', array(
+                        'testSet' => $testSet
+                    ))->getContent();
         }
         $response = new Response(json_encode($ajaxResponse));
         $response->headers->set('Content-Type', 'application/json');

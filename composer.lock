@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "478632ce7e315aa291d4d4003270dc60",
+    "hash": "729132d1bb250adebc0d1d0aef02a386",
     "packages": [
         {
             "name": "behat/transliterator",
@@ -2306,6 +2306,68 @@
             "time": "2015-03-01 12:03:08"
         },
         {
+            "name": "mmoreram/gearman-bundle",
+            "version": "v3.0.1",
+            "target-dir": "Mmoreram/GearmanBundle",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mmoreram/GearmanBundle.git",
+                "reference": "8c33412152cf5e3262fe2817e5b1427e34970c45"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mmoreram/GearmanBundle/zipball/8c33412152cf5e3262fe2817e5b1427e34970c45",
+                "reference": "8c33412152cf5e3262fe2817e5b1427e34970c45",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/common": "~2.2",
+                "doctrine/doctrine-cache-bundle": "~1.0",
+                "ext-gearman": "*",
+                "php": ">=5.3.3",
+                "symfony/config": "~2.1",
+                "symfony/console": "~2.1",
+                "symfony/dependency-injection": "~2.1",
+                "symfony/finder": "~2.1",
+                "symfony/framework-bundle": "~2.4",
+                "symfony/http-kernel": "~2.1"
+            },
+            "replace": {
+                "mmoreramerino/gearman-bundle": "dev-master"
+            },
+            "type": "symfony-bundle",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "4.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Mmoreram\\GearmanBundle": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Marc Morera",
+                    "email": "yuhu@mmoreram.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://github.com/mmoreram/GearmanBundle/contributors"
+                }
+            ],
+            "description": "Adds gearman support to your Symfony2 project",
+            "homepage": "https://github.com/mmoreram/GearmanBundle",
+            "keywords": [
+                "gearman"
+            ],
+            "time": "2014-11-24 11:18:15"
+        },
+        {
             "name": "monolog/monolog",
             "version": "1.15.0",
             "source": {
@@ -3065,7 +3127,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sonata-project/SonataCoreBundle/zipball/a1ebe8f5914614df6f7eecb002b94c6795ab538c",
+                "url": "https://api.github.com/repos/sonata-project/SonataCoreBundle/zipball/740faff31ceda763a9887bc05141c3040d2ec2cf",
                 "reference": "329ca0bb9cc413a649b3ab4d73077c4da74f1c13",
                 "shasum": ""
             },

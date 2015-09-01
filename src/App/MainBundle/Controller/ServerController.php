@@ -264,6 +264,9 @@ class ServerController extends Controller {
     public function checkConnectionAction(Server $server, Request $request) {
         $ajaxResponse = array();
         if ($request->getMethod() == 'POST' && $request->isXmlHttpRequest()) {
+            /* $gearman = $this->get('gearman');
+              $result = $gearman->doBackgroundJob('AppMainBundleWorkersTestSetExecutionWorker~testA', json_encode(array('value1')));
+              $ajaxResponse['result'] = $gearman->getJobStatus($result)->isFinished(); */
             $ajaxResponse['result'] = $server->checkConnection() ? "Successfully connected !" : "Connection failed !";
         }
         $response = new Response(json_encode($ajaxResponse));

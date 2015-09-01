@@ -39,7 +39,8 @@
         "stof/doctrine-extensions-bundle": "~1.1@dev",
         "friendsofsymfony/jsrouting-bundle": "~1.5",
         "herzult/php-ssh": "~1.0",
-        "cocur/slugify": "^1.2"
+        "cocur/slugify": "^1.2",
+        "mmoreram/gearman-bundle": "^3.0"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3"

@@ -99,12 +99,8 @@ class ConfigurationController extends Controller {
         $ajaxResponse = array();
         $em = $this->getDoctrine()->getManager();
         if ($request->getMethod() == 'POST' && $request->isXmlHttpRequest()) {
-            if ($server !== null) {
-                $em->remove($server);
-                $em->flush();
-            } else {
-                $ajaxResponse['error'] = "This server does not exist.";
-            }
+            $em->remove($server);
+            $em->flush();
         }
         $response = new Response(json_encode($ajaxResponse));
         $response->headers->set('Content-Type', 'application/json');
@@ -177,12 +173,8 @@ class ConfigurationController extends Controller {
         $ajaxResponse = array();
         $em = $this->getDoctrine()->getManager();
         if ($request->getMethod() == 'POST' && $request->isXmlHttpRequest()) {
-            if ($executionServer !== null) {
-                $em->remove($executionServer);
-                $em->flush();
-            } else {
-                $ajaxResponse['error'] = "This execution server does not exist.";
-            }
+            $em->remove($executionServer);
+            $em->flush();
         }
         $response = new Response(json_encode($ajaxResponse));
         $response->headers->set('Content-Type', 'application/json');
