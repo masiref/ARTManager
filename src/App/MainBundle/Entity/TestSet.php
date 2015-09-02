@@ -82,9 +82,16 @@ class TestSet implements JsonSerializable {
      */
     protected $testInstances;
 
+    /**
+     * @ORM\OneToMany(targetEntity="TestSetRun", mappedBy="testSet", cascade={"all"}, orphanRemoval=true)
+     * @ORM\OrderBy({"createdAt" = "DESC"})
+     */
+    protected $runs;
+
     public function __construct() {
         $this->createdAt = new DateTime();
         $this->testInstances = new ArrayCollection();
+        $this->runs = new ArrayCollection();
     }
 
     public function __toString() {
@@ -360,6 +367,43 @@ class TestSet implements JsonSerializable {
      */
     public function getTestInstances() {
         return $this->testInstances;
+    }
+
+    /**
+     * Add runs
+     *
+     * @param \App\MainBundle\Entity\TestSetRun $runs
+     * @return TestSet
+     */
+    public function addRun(\App\MainBundle\Entity\TestSetRun $runs) {
+        $runs->setTestSet($this);
+        $this->runs[] = $runs;
+
+        foreach ($this->testInstances as $testInstance) {
+            $testRun = new TestRun();
+            $testRun->setTestSetRun($runs);
+            $testInstance->addRun($testRun);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Remove runs
+     *
+     * @param \App\MainBundle\Entity\TestSetRun $runs
+     */
+    public function removeRun(\App\MainBundle\Entity\TestSetRun $runs) {
+        $this->runs->removeElement($runs);
+    }
+
+    /**
+     * Get runs
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getRuns() {
+        return $this->runs;
     }
 
 }

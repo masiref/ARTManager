@@ -3,6 +3,7 @@
 namespace App\MainBundle\Entity;
 
 use DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use JsonSerializable;
 
@@ -52,14 +53,22 @@ class TestInstance implements JsonSerializable {
      */
     protected $status;
 
+    /**
+     * @ORM\OneToMany(targetEntity="TestRun", mappedBy="testInstance", cascade={"all"}, orphanRemoval=true)
+     * @ORM\OrderBy({"createdAt" = "DESC"})
+     */
+    protected $runs;
+
     public function __construct() {
         $this->createdAt = new DateTime();
+        $this->runs = new ArrayCollection();
     }
 
     public function __toString() {
         $result = $this->order;
         if ($this->test != null) {
             $result .= " - " . $this->test . "\\";
+            return $result;
         }
         return "New";
     }
@@ -149,10 +158,10 @@ class TestInstance implements JsonSerializable {
     /**
      * Set test
      *
-     * @param \App\MainBundle\Entity\Test $test
+     * @param Test $test
      * @return TestInstance
      */
-    public function setTest(\App\MainBundle\Entity\Test $test = null) {
+    public function setTest(Test $test = null) {
         $this->test = $test;
 
         return $this;
@@ -161,7 +170,7 @@ class TestInstance implements JsonSerializable {
     /**
      * Get test
      *
-     * @return \App\MainBundle\Entity\Test
+     * @return Test
      */
     public function getTest() {
         return $this->test;
@@ -170,10 +179,10 @@ class TestInstance implements JsonSerializable {
     /**
      * Set testSet
      *
-     * @param \App\MainBundle\Entity\TestSet $testSet
+     * @param TestSet $testSet
      * @return TestInstance
      */
-    public function setTestSet(\App\MainBundle\Entity\TestSet $testSet = null) {
+    public function setTestSet(TestSet $testSet = null) {
         $this->testSet = $testSet;
 
         return $this;
@@ -182,7 +191,7 @@ class TestInstance implements JsonSerializable {
     /**
      * Get testSet
      *
-     * @return \App\MainBundle\Entity\TestSet
+     * @return TestSet
      */
     public function getTestSet() {
         return $this->testSet;
@@ -191,10 +200,10 @@ class TestInstance implements JsonSerializable {
     /**
      * Set status
      *
-     * @param \App\MainBundle\Entity\Status $status
+     * @param Status $status
      * @return TestInstance
      */
-    public function setStatus(\App\MainBundle\Entity\Status $status = null) {
+    public function setStatus(Status $status = null) {
         $this->status = $status;
 
         return $this;
@@ -203,10 +212,41 @@ class TestInstance implements JsonSerializable {
     /**
      * Get status
      *
-     * @return \App\MainBundle\Entity\Status
+     * @return Status
      */
     public function getStatus() {
         return $this->status;
+    }
+
+    /**
+     * Add runs
+     *
+     * @param \App\MainBundle\Entity\TestRun $runs
+     * @return TestInstance
+     */
+    public function addRun(\App\MainBundle\Entity\TestRun $runs) {
+        $runs->setTestInstance($this);
+        $this->runs[] = $runs;
+
+        return $this;
+    }
+
+    /**
+     * Remove runs
+     *
+     * @param \App\MainBundle\Entity\TestRun $runs
+     */
+    public function removeRun(\App\MainBundle\Entity\TestRun $runs) {
+        $this->runs->removeElement($runs);
+    }
+
+    /**
+     * Get runs
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getRuns() {
+        return $this->runs;
     }
 
 }

@@ -30,6 +30,11 @@ $( "#run-test-set" ).click(function() {
     showRunTestSetModal();
 });
 
+$( "#save-test-set-run").click(function() {
+    var testSetId = $(this).data('test-set-id');
+    saveTestSetRun(testSetId);
+});
+
 /* execution grid methods */
 function triggerExecutionGridEventListeners(id) {
     $('#execution-grid-' + id).dataTable({
@@ -123,6 +128,22 @@ function deleteTestInstance(id, name) {
 /* test set methods */
 function showRunTestSetModal() {
     $("#modal-run-test-set").modal('show');
+}
+
+function saveTestSetRun(testSetId) {
+    $.ajax({
+        type: 'POST',
+        url: Routing.generate('app_application_test_set_run_ajax', {
+            'id': testSetId
+        }),
+        data: $("#form-add-test-set-run").serialize()
+    }).done(function(data) {
+        if (data.error) {
+            swal("Run not added !", data.error, "error");
+        } else {
+            swal("Run added !", "Job handle: " + data.handle, "success");
+        }
+    });
 }
 
 /* hybrid methods */

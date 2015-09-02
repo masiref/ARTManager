@@ -5,6 +5,8 @@ namespace App\MainBundle\Controller;
 use App\MainBundle\Entity\ExecutionServer;
 use App\MainBundle\Entity\TestInstance;
 use App\MainBundle\Entity\TestSet;
+use App\MainBundle\Entity\TestSetRun;
+use App\MainBundle\Form\Type\TestSetRunType;
 use JMS\SecurityExtraBundle\Annotation\Secure;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -23,8 +25,12 @@ class TestSetEditorController extends Controller {
      * @ParamConverter("testSet", class="AppMainBundle:TestSet")
      */
     public function indexAction(TestSet $testSet) {
+        $addTestSetRunFormView = $this->createForm(new TestSetRunType(), new TestSetRun(), array(
+                    'method' => 'POST'
+                ))->createView();
         return $this->render('AppMainBundle:test-set:editor/index.html.twig', array(
-                    'testSet' => $testSet
+                    'testSet' => $testSet,
+                    'addTestSetRunFormView' => $addTestSetRunFormView
         ));
     }
 
@@ -169,20 +175,36 @@ class TestSetEditorController extends Controller {
     }
 
     /**
-     * @Route("/application/test/set/{id}/run/{executionServerId}",
+     * @Route("/application/test/set/{id}/run",
      *      name="app_application_test_set_run_ajax",
      *      requirements={"_method" = "post"},
      *      options={"expose" = true }
      * )
      * @Secure(roles="ROLE_SUPER_ADMIN")
      * @ParamConverter("testSet", class="AppMainBundle:TestSet")
-     * @ParamConverter("executionServer", class="AppMainBundle:ExecutionServer", options={"id" = "executionServerId"})
      */
-    public function runAction(TestSet $testSet, ExecutionServer $executionServer, Request $request) {
+    public function runAction(TestSet $testSet, Request $request) {
         $ajaxResponse = array();
+        $em = $this->getDoctrine()->getManager();
         if ($request->getMethod() == 'POST' && $request->isXmlHttpRequest()) {
-            $filename = $this->get('test_set_execution')->copyFeatureFileOnExecutionServer($testSet, $executionServer);
-            $ajaxResponse['filename'] = $filename;
+            $form = $this->createForm(new TestSetRunType(), new TestSetRun());
+            $form->handleRequest($request);
+            if ($form->isValid()) {
+                $testSetRun = $form->getData();
+                $testSet->addRun($testSetRun);
+                $em->persist($testSet);
+                $em->flush();
+                $gearman = $this->get('gearman');
+                $result = $gearman->doBackgroundJob('AppMainBundleServicesTestSetExecutionService~execute', json_encode(array(
+                    'testSetId' => $testSet->getId(),
+                    'executionServerId' => $testSetRun->getExecutionServer()->getId(),
+                    'testSetRunId' => $testSetRun->getId(),
+                    'testSetRunSlug' => $testSetRun->getSlug()
+                )));
+                $ajaxResponse['handle'] = $result;
+            } else {
+                $ajaxResponse['error'] = (string) $form->getErrors(true);
+            }
         }
         $response = new Response(json_encode($ajaxResponse));
         $response->headers->set('Content-Type', 'application/json');

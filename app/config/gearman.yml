@@ -19,7 +19,6 @@ gearman:
          # If any include is defined, Only these namespaces will be parsed
          # Otherwise, full Bundle will be parsed
          include:
-            - Workers
             - Services
             - Form/EventListener
 

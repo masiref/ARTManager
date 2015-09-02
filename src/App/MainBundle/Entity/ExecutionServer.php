@@ -140,6 +140,9 @@ class ExecutionServer implements JsonSerializable {
      * @return ExecutionServer
      */
     public function setArtRunnerPath($artRunnerPath) {
+        if (substr($artRunnerPath, -1) !== DIRECTORY_SEPARATOR) {
+            $artRunnerPath .= DIRECTORY_SEPARATOR;
+        }
         $this->artRunnerPath = $artRunnerPath;
 
         return $this;

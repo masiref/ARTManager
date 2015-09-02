@@ -10,4 +10,4 @@ services:
         arguments: [@service_container]
     test_set_execution:
         class: App\MainBundle\Services\TestSetExecutionService
-        arguments: [@gherkin, @slugify]
+        arguments: [@doctrine.orm.entity_manager, @gherkin, @slugify]
