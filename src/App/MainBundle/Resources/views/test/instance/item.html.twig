@@ -6,10 +6,15 @@
         {{ testInstance.test }}
     </td>
     <td id="cell-test-instance-{{ testInstance.id }}-status">
-        {{ testInstance.status.html|raw }}
+        {% set lastRun = testInstance.lastRun %}
+        {% if lastRun %}
+            {{ lastRun.status.html|raw }}
+        {% endif %}
     </td>
-    <td id="cell-test-instance-{{ testInstance.id }}-last-runned-at">
-        {% if testInstance.lastRunnedAt %}{{ testInstance.lastRunnedAt|ago }}{% endif %}
+    <td id="cell-test-instance-{{ testInstance.id }}-last-runned">
+        {% if lastRun %}
+            {{ lastRun.createdAt|ago }}
+        {% endif %}
     </td>
     <td id="cell-test-instance-{{ testInstance.id }}-delete-anchor">
         <a href="#" id="delete-test-instance-{{ testInstance.id }}"

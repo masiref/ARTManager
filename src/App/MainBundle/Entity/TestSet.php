@@ -167,8 +167,11 @@ class TestSet implements JsonSerializable {
     public function getTestInstancesFilteredByStatus($status) {
         $result = array();
         foreach ($this->testInstances as $instance) {
-            if ($instance->getStatus()->getName() == $status) {
-                $result[] = $instance;
+            $lastRun = $instance->getLastRun();
+            if ($lastRun != null) {
+                if ($lastRun->getStatus()->getName() == $status) {
+                    $result[] = $instance;
+                }
             }
         }
         return $result;

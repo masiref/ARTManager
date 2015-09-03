@@ -3,7 +3,6 @@
 namespace App\MainBundle\Entity;
 
 use Cocur\Slugify\Slugify;
-use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use JsonSerializable;
 
@@ -49,9 +48,13 @@ class TestRun implements JsonSerializable {
     protected $testSetRun;
 
     public function __construct() {
-        $this->createdAt = DateTime::createFromFormat("U.u", microtime(true));
+        $this->createdAt = new \DateTime();
+        $t = microtime(true);
+        $micro = sprintf("%06d", ($t - floor($t)) * 1000000);
         $slugify = new Slugify();
-        $this->slug = $slugify->slugify($this->id . $this->createdAt->format('d-m-Y H:i:s.u'));
+        $this->slug = $slugify->slugify(
+                $this->createdAt->format('d-m-Y H:i:s')
+                . "-" . $micro);
     }
 
     public function __toString() {

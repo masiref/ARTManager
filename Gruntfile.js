@@ -90,6 +90,7 @@ module.exports = function (grunt) {
                         app + '/libs/datatables/css/datatables.bootstrap.css',
                         app + '/libs/bootstrap3-editable/css/bootstrap-editable.css',
                         app + '/libs/bootstrap-treeview/src/css/bootstrap-treeview.css',
+                        app + '/libs/jasny-bootstrap/dist/css/jasny-bootstrap.css',
                         app + '/css/**/*.css'
                     ]
                 }
@@ -120,6 +121,7 @@ module.exports = function (grunt) {
                     app + '/libs/bootstrap3-editable/js/bootstrap-editable.js',
                     app + '/libs/bootstrap-treeview/src/js/bootstrap-treeview.js',
                     app + '/libs/Chart.js/Chart.js',
+                    app + '/libs/jasny-bootstrap/dist/js/jasny-bootstrap.js',
                     '.tmp/js/**/*.js',
                     app + '/js/**/*.js'
                     ]

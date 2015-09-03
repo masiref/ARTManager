@@ -2,7 +2,6 @@
 
 namespace App\MainBundle\Controller;
 
-use App\MainBundle\Entity\ExecutionServer;
 use App\MainBundle\Entity\TestInstance;
 use App\MainBundle\Entity\TestSet;
 use App\MainBundle\Entity\TestSetRun;
@@ -59,7 +58,6 @@ class TestSetEditorController extends Controller {
                         $test = $em->getRepository('AppMainBundle:Test')->find($id);
                         $testInstance = new TestInstance();
                         $testInstance->setTest($test);
-                        $testInstance->setStatus($em->getRepository("AppMainBundle:Status")->findDefaultTestInstanceStatus());
                         $testSet->addTestInstance($testInstance);
                     }
                 }
@@ -201,6 +199,9 @@ class TestSetEditorController extends Controller {
                     'testSetRunId' => $testSetRun->getId(),
                     'testSetRunSlug' => $testSetRun->getSlug()
                 )));
+                $testSetRun->setGearmanJobHandle($result);
+                $em->persist($testSetRun);
+                $em->flush();
                 $ajaxResponse['handle'] = $result;
             } else {
                 $ajaxResponse['error'] = (string) $form->getErrors(true);

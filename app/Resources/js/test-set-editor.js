@@ -141,7 +141,9 @@ function saveTestSetRun(testSetId) {
         if (data.error) {
             swal("Run not added !", data.error, "error");
         } else {
-            swal("Run added !", "Job handle: " + data.handle, "success");
+            swal("Run added !", "Your run has been added to the queue. You can follow its execution in the sidebar.", "success");
+            $("#form-add-test-set-run")[0].reset();
+            $("#modal-run-test-set").modal('hide');
         }
     });
 }

@@ -14,9 +14,6 @@ class TestInstanceAdmin extends Admin {
                 ->add('order', 'integer', array(
                     'label' => 'Order'
                 ))
-                ->add('status', 'sonata_type_model', array(
-                    'btn_add' => false
-                ))
                 ->add('test', 'sonata_type_model', array(
                     'btn_add' => false
         ));
@@ -31,7 +28,6 @@ class TestInstanceAdmin extends Admin {
     protected function configureDatagridFilters(DatagridMapper $datagridMapper) {
         $datagridMapper
                 ->add('order')
-                ->add('status')
                 ->add('test')
                 ->add('testSet');
     }
@@ -40,7 +36,6 @@ class TestInstanceAdmin extends Admin {
         $listMapper
                 ->addIdentifier('id')
                 ->add('order')
-                ->add('status')
                 ->add('test')
                 ->add('testSet');
     }

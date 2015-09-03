@@ -3,7 +3,6 @@
 namespace App\MainBundle\Entity;
 
 use Cocur\Slugify\Slugify;
-use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -56,10 +55,21 @@ class TestSetRun implements JsonSerializable {
      */
     protected $testRuns;
 
+    /**
+     * @ORM\Column(name="gearman_job_handle", type="string", nullable=true)
+     */
+    protected $gearmanJobHandle;
+
     public function __construct() {
-        $this->createdAt = DateTime::createFromFormat("U.u", microtime(true));
+        $this->createdAt = new \DateTime();
+        $t = microtime(true);
+        $micro = sprintf("%06d", ($t - floor($t)) * 1000000);
         $slugify = new Slugify();
-        $this->slug = $slugify->slugify($this->createdAt->format('d-m-Y H:i:s.u'));
+        $this->slug = $slugify->slugify(
+                $this->createdAt->format('d-m-Y H:i:s')
+                . "-" . $this->testSet
+                . "-" . $micro
+        );
         $this->testRuns = new ArrayCollection();
     }
 
@@ -162,6 +172,9 @@ class TestSetRun implements JsonSerializable {
      */
     public function setStatus(Status $status = null) {
         $this->status = $status;
+        foreach ($this->testRuns as $testRun) {
+            $testRun->setStatus($status);
+        }
 
         return $this;
     }
@@ -225,6 +238,27 @@ class TestSetRun implements JsonSerializable {
      */
     public function getTestRuns() {
         return $this->testRuns;
+    }
+
+    /**
+     * Set gearmanJobHandle
+     *
+     * @param string $gearmanJobHandle
+     * @return TestSetRun
+     */
+    public function setGearmanJobHandle($gearmanJobHandle) {
+        $this->gearmanJobHandle = $gearmanJobHandle;
+
+        return $this;
+    }
+
+    /**
+     * Get gearmanJobHandle
+     *
+     * @return string
+     */
+    public function getGearmanJobHandle() {
+        return $this->gearmanJobHandle;
     }
 
 }

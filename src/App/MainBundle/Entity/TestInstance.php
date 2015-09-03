@@ -31,11 +31,6 @@ class TestInstance implements JsonSerializable {
     protected $createdAt;
 
     /**
-     * @ORM\Column(name="last_runned_at", type="datetime", nullable=true)
-     */
-    protected $lastRunnedAt;
-
-    /**
      * @ORM\ManyToOne(targetEntity="Test")
      * @ORM\JoinColumn(name="test_id", referencedColumnName="id")
      */
@@ -46,12 +41,6 @@ class TestInstance implements JsonSerializable {
      * @ORM\JoinColumn(name="test_set_id", referencedColumnName="id")
      */
     protected $testSet;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="Status")
-     * @ORM\JoinColumn(name="status_id", referencedColumnName="id", nullable=true)
-     */
-    protected $status;
 
     /**
      * @ORM\OneToMany(targetEntity="TestRun", mappedBy="testInstance", cascade={"all"}, orphanRemoval=true)
@@ -77,10 +66,15 @@ class TestInstance implements JsonSerializable {
         return array(
             'id' => $this->id,
             'order' => $this->order,
-            'status' => $this->status,
-            'createdAt' => $this->createdAt->format('d/m/Y H:i:s'),
-            'lastRunnedAt' => $this->lastRunnedAt->format('d/m/Y H:i:s')
+            'createdAt' => $this->createdAt->format('d/m/Y H:i:s')
         );
+    }
+
+    public function getLastRun() {
+        if ($this->runs->count() > 0) {
+            return $this->runs->get(0);
+        }
+        return null;
     }
 
     /**
@@ -135,27 +129,6 @@ class TestInstance implements JsonSerializable {
     }
 
     /**
-     * Set lastRunnedAt
-     *
-     * @param \DateTime $lastRunnedAt
-     * @return TestInstance
-     */
-    public function setLastRunnedAt($lastRunnedAt) {
-        $this->lastRunnedAt = $lastRunnedAt;
-
-        return $this;
-    }
-
-    /**
-     * Get lastRunnedAt
-     *
-     * @return \DateTime
-     */
-    public function getLastRunnedAt() {
-        return $this->lastRunnedAt;
-    }
-
-    /**
      * Set test
      *
      * @param Test $test
@@ -195,27 +168,6 @@ class TestInstance implements JsonSerializable {
      */
     public function getTestSet() {
         return $this->testSet;
-    }
-
-    /**
-     * Set status
-     *
-     * @param Status $status
-     * @return TestInstance
-     */
-    public function setStatus(Status $status = null) {
-        $this->status = $status;
-
-        return $this;
-    }
-
-    /**
-     * Get status
-     *
-     * @return Status
-     */
-    public function getStatus() {
-        return $this->status;
     }
 
     /**

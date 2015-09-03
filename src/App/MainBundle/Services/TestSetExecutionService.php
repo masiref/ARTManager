@@ -5,8 +5,10 @@ namespace App\MainBundle\Services;
 use App\MainBundle\Entity\Application;
 use App\MainBundle\Entity\ExecutionServer;
 use App\MainBundle\Entity\TestSet;
+use App\MainBundle\Entity\TestSetRun;
 use Cocur\Slugify\Slugify;
 use Doctrine\ORM\EntityManager;
+use Exception;
 use Mmoreram\GearmanBundle\Command\Util\GearmanOutputAwareInterface;
 use Mmoreram\GearmanBundle\Driver\Gearman\Job;
 use Mmoreram\GearmanBundle\Driver\Gearman\Work;
@@ -50,6 +52,7 @@ class TestSetExecutionService implements GearmanOutputAwareInterface {
         $testSetRunSlug = $parameters["testSetRunSlug"];
 
         $testSet = $em->getRepository("AppMainBundle:TestSet")->find($testSetId);
+        $testSetRun = $em->getRepository("AppMainBundle:TestSetRun")->find($testSetRunId);
         if ($testSet !== null) {
             $executionServer = $em->getRepository("AppMainBundle:ExecutionServer")->find($executionServerId);
             if ($executionServer !== null) {
@@ -58,23 +61,26 @@ class TestSetExecutionService implements GearmanOutputAwareInterface {
                 $application = $testSet->getApplication();
                 $reportFolderPath = $reportsPath . $testSetRunId . "-" . $testSetRunSlug;
 
-                $this->prepareExecution($testSet, $executionServer, $reportFolderPath);
-                $this->launchExecution($application, $executionServer, $reportFolderPath);
+                $this->output->writeln(">>> preparing execution");
+                $this->createReportFolder($executionServer, $reportFolderPath);
+                $this->output->writeln($reportFolderPath . " created on " . $executionServer->getServer());
+
+                $featureFilePath = $this->copyFeatureFile($testSet, $executionServer);
+                $this->output->writeln($featureFilePath . " copied on " . $executionServer->getServer());
+
+                $this->output->writeln(">>> launching execution");
+                $passed = $this->launchExecution($application, $executionServer, $reportFolderPath);
+
+                $this->output->writeln(">>> cleaning execution");
+                $this->cleanExecution($executionServer, $featureFilePath);
+
+                $this->output->writeln(">>> updating execution status");
+                $this->updateTestSetRunStatus($testSetRun, $passed);
 
                 return true;
             }
         }
         return false;
-    }
-
-    public function prepareExecution(TestSet $testSet, ExecutionServer $executionServer, $reportFolderPath) {
-        $filename = $this->copyFeatureFile($testSet, $executionServer);
-        $this->output->writeln($filename . " copied on remote server " . $executionServer->getServer());
-        sleep(5);
-
-        $this->createReportFolder($executionServer, $reportFolderPath);
-        $this->output->writeln($reportFolderPath . " created on " . $executionServer->getServer());
-        sleep(5);
     }
 
     private function copyFeatureFile(TestSet $testSet, ExecutionServer $executionServer) {
@@ -106,14 +112,37 @@ class TestSetExecutionService implements GearmanOutputAwareInterface {
         $artRunnerPath = $executionServer->getArtRunnerPath();
         $session = $server->getSession();
         $exec = $session->getExec();
+        $this->output->writeln("cd " . $artRunnerPath
+                . " && ./launcher -u " . $application->getUrl() . " -r " . $reportFolderPath . " -l " . $this->locale);
+        try {
+            $exec->run(
+                    "cd " . $artRunnerPath
+                    . " && ./launcher -u " . $application->getUrl() . " -r " . $reportFolderPath . " -l " . $this->locale
+            );
+        } catch (Exception $e) {
+            $e->getMessage();
+            return false;
+        }
+        return true;
+    }
 
-        $this->output->writeln("behat launched on remote server " . $executionServer->getServer());
-        $result = $exec->run(
-                "cd " . $artRunnerPath
-                . " && ./launcher -u " . $application->getUrl() . " -r " . $reportFolderPath . " -l " . $this->locale
-        );
-        $this->output->writeln($result);
-        return $result;
+    private function cleanExecution(ExecutionServer $executionServer, $featureFilePath) {
+        $server = $executionServer->getServer();
+        $session = $server->getSession();
+        $sftp = $session->getSftp();
+        $sftp->unlink($featureFilePath);
+    }
+
+    private function updateTestSetRunStatus(TestSetRun $testSetRun, $passed) {
+        $em = $this->em;
+        if ($passed) {
+            $status = $em->getRepository("AppMainBundle:Status")->findOneByName("Passed");
+        } else {
+            $status = $em->getRepository("AppMainBundle:Status")->findOneByName("Failed");
+        }
+        $testSetRun->setStatus($status);
+        $em->persist($testSetRun);
+        $em->flush();
     }
 
     public function setOutput(OutputInterface $output) {

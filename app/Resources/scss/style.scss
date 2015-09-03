@@ -105,6 +105,11 @@ a {
     color: #79BDE0;
 }
 
+.navmenu-inverse {
+    background-color: #293540;
+    border-color: #E7E7E7;
+}
+
 .breadcrumb {
     background-color: #fff;
 }
@@ -242,4 +247,13 @@ div.row.step > div.step-left > div, div.row.control-step > div {
 
 .footer > .container .text-muted {
     margin: 20px 0px;
+}
+
+#sidebar {
+    padding: 10px;
+    width: 500px;
+}
+
+#sidebar > h2 {
+    color: #fff;
 }
