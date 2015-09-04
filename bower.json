@@ -1,6 +1,6 @@
 {
-  "name": "project",
-  "version": "0.0.1",
+  "name": "art-m",
+  "version": "1.0.0",
   "ignore": [
     "**/.*",
     "node_modules",

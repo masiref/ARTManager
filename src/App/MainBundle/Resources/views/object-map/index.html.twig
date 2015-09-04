@@ -35,19 +35,17 @@
 {% block body %}
     <div class="panel panel-default">
         <div class="panel-body">
-            <p>
-                <span id="object-maps-count">
-                    {% if objectMaps|length <= 1 %}There is {% else %}There are{% endif %}
-                    {% if objectMaps|length == 0 %}no {% else %}<span class="badge">{{ objectMaps|length }}</span>{% endif %}
-                    object map{% if objectMaps|length > 1 %}s{% endif %}
-                </span>
-                <span class="pull-right">
-                    <a href="#" id="add-object-map"
-                       data-toggle="tooltip" data-placement="left" title="Add a new object map">
-                        <i class="fontello-icon-plus-circled"></i><i class="fontello-icon-sitemap"></i>
-                    </a>
-                </span>
-            </p>
+            <span id="object-maps-count">
+                {% if objectMaps|length <= 1 %}There is {% else %}There are{% endif %}
+                {% if objectMaps|length == 0 %}no {% else %}<span class="badge">{{ objectMaps|length }}</span>{% endif %}
+                object map{% if objectMaps|length > 1 %}s{% endif %}
+            </span>
+            <span class="pull-right">
+                <a href="#" id="add-object-map"
+                   data-toggle="tooltip" data-placement="left" title="Add a new object map">
+                    <i class="fontello-icon-plus-circled"></i><i class="fontello-icon-sitemap"></i>
+                </a>
+            </span>
         </div>
     </div>
     {% include 'AppMainBundle:object-map:list.html.twig' with { 'objectMaps': objectMaps } %}
