@@ -3,7 +3,6 @@
 namespace App\MainBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use JMS\SecurityExtraBundle\Annotation\Secure;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use App\MainBundle\Entity\Project;
@@ -12,7 +11,7 @@ use App\MainBundle\Entity\Application;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class ProjectController extends Controller {
+class ProjectController extends BaseController {
 
     /**
      * @Route("/project/{id}", name="app_index_project")

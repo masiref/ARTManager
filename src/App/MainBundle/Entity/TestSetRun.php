@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 use JsonSerializable;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="TestSetRunRepository")
  * @ORM\Table(name="test_set_run")
  */
 class TestSetRun implements JsonSerializable {

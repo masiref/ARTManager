@@ -9,11 +9,10 @@ use App\MainBundle\Form\Type\TestSetRunType;
 use JMS\SecurityExtraBundle\Annotation\Secure;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class TestSetEditorController extends Controller {
+class TestSetEditorController extends BaseController {
 
     /**
      * @Route("/application/test/set/{id}/editor",
@@ -199,10 +198,13 @@ class TestSetEditorController extends Controller {
                     'testSetRunId' => $testSetRun->getId(),
                     'testSetRunSlug' => $testSetRun->getSlug()
                 )));
+                $testSetRun->setStatus($em->getRepository("AppMainBundle:Status")->findDefaultTestSetRunStatus());
                 $testSetRun->setGearmanJobHandle($result);
                 $em->persist($testSetRun);
                 $em->flush();
-                $ajaxResponse['handle'] = $result;
+                $ajaxResponse['executionGrid'] = $this->render('AppMainBundle:test-set:editor/execution-grid_content.html.twig', array(
+                            'testSet' => $testSet
+                        ))->getContent();
             } else {
                 $ajaxResponse['error'] = (string) $form->getErrors(true);
             }

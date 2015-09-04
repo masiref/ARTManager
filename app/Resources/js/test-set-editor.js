@@ -141,7 +141,15 @@ function saveTestSetRun(testSetId) {
         if (data.error) {
             swal("Run not added !", data.error, "error");
         } else {
-            swal("Run added !", "Your run has been added to the queue. You can follow its execution in the sidebar.", "success");
+            swal({
+                title: "Run added !",
+                text: "Your run has been added to the queue. You can follow its execution in the sidebar.",
+                type: "success"
+            }, function() {
+                refreshPlannedTestSetRuns();
+                refreshExecutionGrid(data.executionGrid);
+                $('#sidebar').offcanvas();
+            });
             $("#form-add-test-set-run")[0].reset();
             $("#modal-run-test-set").modal('hide');
         }
@@ -169,5 +177,14 @@ function refreshBehatFeature(testSetId) {
         })
     }).done(function(data) {
         $("#behat-feature").html(data.feature);
+    });
+}
+
+function refreshPlannedTestSetRuns() {
+    $.ajax({
+        type: 'POST',
+        url: Routing.generate('application_refresh_sidebar')
+    }).done(function(data) {
+        $("#sidebar-content").html(data.sidebar);
     });
 }

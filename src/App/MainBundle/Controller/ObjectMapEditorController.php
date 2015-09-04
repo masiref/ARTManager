@@ -13,11 +13,10 @@ use Doctrine\DBAL\DBALException;
 use JMS\SecurityExtraBundle\Annotation\Secure;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class ObjectMapEditorController extends Controller {
+class ObjectMapEditorController extends BaseController {
 
     /**
      * @Route("/application/object/map/{id}/editor", name="app_editor_application_object_map")

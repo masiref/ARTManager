@@ -6,11 +6,10 @@ use App\MainBundle\Entity\ExecutionServer;
 use JMS\SecurityExtraBundle\Annotation\Secure;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class ExecutionServerController extends Controller {
+class ExecutionServerController extends BaseController {
 
     /**
      * @Route("/configuration/execution/server/{id}", name="app_index_configuration_execution_server")

@@ -6,11 +6,10 @@ use App\MainBundle\Entity\Server;
 use JMS\SecurityExtraBundle\Annotation\Secure;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class ServerController extends Controller {
+class ServerController extends BaseController {
 
     /**
      * @Route("/configuration/server/{id}", name="app_index_configuration_server")

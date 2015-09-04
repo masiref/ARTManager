@@ -1,0 +1,32 @@
+<div class="panel panel-myorange">
+    <div class="panel-heading">
+        <i class="fontello-icon-cog"></i>{{ application.project }}
+        <i class="fontello-icon-right-open"></i>
+        <i class="fontello-icon-leaf"></i>{{ application }}
+    </div>
+    <div class="list-group">
+        <div class="list-group-item">
+            {% for testSetId, testSetTestSetRuns in testSets %}
+                <p class="list-group-item-heading">
+                    <strong>
+                        <i class="fontello-icon-beaker"></i>{{ testSetTestSetRuns.testSet }}
+                    </strong>
+                </p>
+                <p class="list-group-item-text">
+                    <ul class="list-group">
+                        {% for testSetRun in testSetTestSetRuns.testSetRuns %}
+                            <li class="list-group-item">
+                                Requested {{ testSetRun.createdAt|ago }}
+                                {% if testSetRun.status %}
+                                    <span class="pull-right">
+                                        {{ testSetRun.status.html|raw }}
+                                    </span>
+                                {% endif %}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </p>
+            {% endfor %}
+        </div>
+    </div>
+</div>

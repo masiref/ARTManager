@@ -11,11 +11,10 @@ use Doctrine\DBAL\DBALException;
 use JMS\SecurityExtraBundle\Annotation\Secure;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class TestSetPlannerController extends Controller {
+class TestSetPlannerController extends BaseController {
 
     /**
      * @Route("/application/{id}/test/set/planner", name="app_index_application_test_set_planner")

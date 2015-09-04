@@ -7,12 +7,12 @@
     </td>
     <td id="cell-test-instance-{{ testInstance.id }}-status">
         {% set lastRun = testInstance.lastRun %}
-        {% if lastRun %}
+        {% if lastRun and lastRun.status %}
             {{ lastRun.status.html|raw }}
         {% endif %}
     </td>
     <td id="cell-test-instance-{{ testInstance.id }}-last-runned">
-        {% if lastRun %}
+        {% if lastRun and lastRun.status %}
             {{ lastRun.createdAt|ago }}
         {% endif %}
     </td>

@@ -9,11 +9,10 @@ use App\MainBundle\Form\Type\ServerType;
 use JMS\SecurityExtraBundle\Annotation\Secure;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class ConfigurationController extends Controller {
+class ConfigurationController extends BaseController {
 
     /**
      * @Route("/configuration", name="configuration", options={"expose" = true })

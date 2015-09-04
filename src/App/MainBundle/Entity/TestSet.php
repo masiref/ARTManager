@@ -169,7 +169,8 @@ class TestSet implements JsonSerializable {
         foreach ($this->testInstances as $instance) {
             $lastRun = $instance->getLastRun();
             if ($lastRun != null) {
-                if ($lastRun->getStatus()->getName() == $status) {
+                $lastRunStatus = $lastRun->getStatus();
+                if ($lastRunStatus != null && $lastRunStatus->getName() == $status) {
                     $result[] = $instance;
                 }
             }
@@ -384,8 +385,8 @@ class TestSet implements JsonSerializable {
 
         foreach ($this->testInstances as $testInstance) {
             $testRun = new TestRun();
-            $testRun->setTestSetRun($runs);
-            $testInstance->addRun($testRun);
+            $testRun->setTestInstance($testInstance);
+            $runs->addTestRun($testRun);
         }
 
         return $this;

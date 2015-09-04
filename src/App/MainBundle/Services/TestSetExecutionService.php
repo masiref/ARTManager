@@ -4,6 +4,7 @@ namespace App\MainBundle\Services;
 
 use App\MainBundle\Entity\Application;
 use App\MainBundle\Entity\ExecutionServer;
+use App\MainBundle\Entity\Status;
 use App\MainBundle\Entity\TestSet;
 use App\MainBundle\Entity\TestSetRun;
 use Cocur\Slugify\Slugify;
@@ -52,6 +53,7 @@ class TestSetExecutionService implements GearmanOutputAwareInterface {
         $testSetRunSlug = $parameters["testSetRunSlug"];
 
         $testSet = $em->getRepository("AppMainBundle:TestSet")->find($testSetId);
+        $this->output->writeln("test set run id => " . $testSetRunId);
         $testSetRun = $em->getRepository("AppMainBundle:TestSetRun")->find($testSetRunId);
         if ($testSet !== null) {
             $executionServer = $em->getRepository("AppMainBundle:ExecutionServer")->find($executionServerId);
@@ -60,6 +62,9 @@ class TestSetExecutionService implements GearmanOutputAwareInterface {
                 $reportsPath = $artRunnerPath . "reports" . DIRECTORY_SEPARATOR;
                 $application = $testSet->getApplication();
                 $reportFolderPath = $reportsPath . $testSetRunId . "-" . $testSetRunSlug;
+
+                $this->output->writeln(">>> updating execution status (running)");
+                $this->updateTestSetRunStatus($testSetRun, $em->getRepository("AppMainBundle:Status")->findRunningTestSetRunStatus());
 
                 $this->output->writeln(">>> preparing execution");
                 $this->createReportFolder($executionServer, $reportFolderPath);
@@ -74,8 +79,8 @@ class TestSetExecutionService implements GearmanOutputAwareInterface {
                 $this->output->writeln(">>> cleaning execution");
                 $this->cleanExecution($executionServer, $featureFilePath);
 
-                $this->output->writeln(">>> updating execution status");
-                $this->updateTestSetRunStatus($testSetRun, $passed);
+                $this->output->writeln(">>> updating execution status (passed or failed)");
+                $this->updateFinishedTestSetRunStatus($testSetRun, $passed);
 
                 return true;
             }
@@ -115,7 +120,7 @@ class TestSetExecutionService implements GearmanOutputAwareInterface {
         $this->output->writeln("cd " . $artRunnerPath
                 . " && ./launcher -u " . $application->getUrl() . " -r " . $reportFolderPath . " -l " . $this->locale);
         try {
-            $exec->run(
+            $output = $exec->run(
                     "cd " . $artRunnerPath
                     . " && ./launcher -u " . $application->getUrl() . " -r " . $reportFolderPath . " -l " . $this->locale
             );
@@ -123,6 +128,7 @@ class TestSetExecutionService implements GearmanOutputAwareInterface {
             $e->getMessage();
             return false;
         }
+        $this->output->writeln("return code => " . $output);
         return true;
     }
 
@@ -133,13 +139,18 @@ class TestSetExecutionService implements GearmanOutputAwareInterface {
         $sftp->unlink($featureFilePath);
     }
 
-    private function updateTestSetRunStatus(TestSetRun $testSetRun, $passed) {
+    private function updateFinishedTestSetRunStatus(TestSetRun $testSetRun, $passed) {
         $em = $this->em;
         if ($passed) {
-            $status = $em->getRepository("AppMainBundle:Status")->findOneByName("Passed");
+            $status = $em->getRepository("AppMainBundle:Status")->findPassedTestSetRunStatus();
         } else {
-            $status = $em->getRepository("AppMainBundle:Status")->findOneByName("Failed");
+            $status = $em->getRepository("AppMainBundle:Status")->findFailedTestSetRunStatus();
         }
+        $this->updateTestSetRunStatus($testSetRun, $status);
+    }
+
+    private function updateTestSetRunStatus(TestSetRun $testSetRun, Status $status) {
+        $em = $this->em;
         $testSetRun->setStatus($status);
         $em->persist($testSetRun);
         $em->flush();
