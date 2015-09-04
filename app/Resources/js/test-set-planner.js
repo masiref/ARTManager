@@ -42,9 +42,9 @@ $( "#save-test-set" ).click(function() {
 });
 
 /* hybrid triggers */
-$( "#delete-checked-entities").click(function() {
+$( "#delete-checked-test-set-entities").click(function() {
     var applicationId = $(this).data('application-id');
-    deleteEntities(applicationId);
+    deleteTestSetEntities(applicationId);
 });
 
 /* test set folder methods */
@@ -416,13 +416,13 @@ function refreshCheckedTestSetsTreeEntitiesCount(applicationId) {
     var checkedEntitiesCount = checkedEntities.length;
     $("#checked-entities-count").html(checkedEntitiesCount);
     if (checkedEntitiesCount > 0) {
-        $("#delete-checked-entities").removeClass("disabled");
+        $("#delete-checked-test-set-entities").removeClass("disabled");
     } else {
-        $("#delete-checked-entities").addClass("disabled");
+        $("#delete-checked-test-set-entities").addClass("disabled");
     }
 }
 
-function deleteEntities(applicationId) {
+function deleteTestSetEntities(applicationId) {
     var testSetsTreeHtmlId = "#tree-test-sets-" + applicationId;
     swal({
         title: "Delete selected entities ?",
