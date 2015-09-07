@@ -56,6 +56,12 @@ class TestSetRun implements JsonSerializable {
     protected $testRuns;
 
     /**
+     * @ORM\ManyToOne(targetEntity="Application\Sonata\UserBundle\Entity\User")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     */
+    protected $user;
+
+    /**
      * @ORM\Column(name="gearman_job_handle", type="string", nullable=true)
      */
     protected $gearmanJobHandle;
@@ -259,6 +265,27 @@ class TestSetRun implements JsonSerializable {
      */
     public function getGearmanJobHandle() {
         return $this->gearmanJobHandle;
+    }
+
+    /**
+     * Set user
+     *
+     * @param \Application\Sonata\UserBundle\Entity\User $user
+     * @return TestSetRun
+     */
+    public function setUser(\Application\Sonata\UserBundle\Entity\User $user = null) {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \Application\Sonata\UserBundle\Entity\User
+     */
+    public function getUser() {
+        return $this->user;
     }
 
 }

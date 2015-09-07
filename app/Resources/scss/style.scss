@@ -105,11 +105,6 @@ a {
     color: #79BDE0;
 }
 
-.navmenu-inverse {
-    background-color: #293540;
-    border-color: #E7E7E7;
-}
-
 .breadcrumb {
     background-color: #fff;
 }
@@ -151,7 +146,7 @@ a {
     float: none;
 }
 
-.test-prerequisites, .test-starting, .test-scenario, .test-behat, .test-set-execution-grid {
+.test-prerequisites, .test-starting, .test-scenario, .test-set-execution-grid {
     border-bottom: 1px dashed #ccc;
 }
 
@@ -252,8 +247,15 @@ div.row.step > div.step-left > div, div.row.control-step > div {
 #sidebar {
     padding: 10px;
     width: 500px;
+    background-color: #293540;
+    border: none;
 }
 
 #sidebar > h2, h3 {
     color: #fff;
+}
+
+#sidebar-toggle {
+    display: block;
+    float: left;
 }

@@ -149,16 +149,16 @@ class TestSet implements JsonSerializable {
                 'label' => 'Failed'
             ),
             array(
-                'value' => count($this->getNotCompletedTestInstances()),
+                'value' => count($this->getQueuedTestInstances()),
                 'color' => '#8A6D3B',
                 'highlight' => '#FCF8E3',
-                'label' => 'Not Completed'
+                'label' => 'Queued'
             ),
             array(
-                'value' => count($this->getNotRunnedTestInstances()),
+                'value' => count($this->getRunningTestInstances()),
                 'color' => '#31708F',
                 'highlight' => '#D9EDF7',
-                'label' => 'Not Runned'
+                'label' => 'Running'
             )
         );
         return $result;
@@ -186,12 +186,12 @@ class TestSet implements JsonSerializable {
         return $this->getTestInstancesFilteredByStatus("Failed");
     }
 
-    public function getNotCompletedTestInstances() {
-        return $this->getTestInstancesFilteredByStatus("Not Completed");
+    public function getQueuedTestInstances() {
+        return $this->getTestInstancesFilteredByStatus("Queued");
     }
 
-    public function getNotRunnedTestInstances() {
-        return $this->getTestInstancesFilteredByStatus("Not Runned");
+    public function getRunningTestInstances() {
+        return $this->getTestInstancesFilteredByStatus("Running");
     }
 
     public function getBehatFeature(GherkinService $gherkin) {

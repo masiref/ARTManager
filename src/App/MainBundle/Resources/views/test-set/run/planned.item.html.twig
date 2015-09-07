@@ -17,6 +17,12 @@
                         {% for testSetRun in testSetTestSetRuns.testSetRuns %}
                             <li class="list-group-item">
                                 Requested {{ testSetRun.createdAt|ago }}
+                                {% if testSetRun.user %}
+                                    by
+                                    <strong>
+                                        {% if testSetRun.user == app.user %}you{% else %}{{ testSetRun.user.username }}{% endif %}
+                                    </strong>
+                                {% endif %}
                                 {% if testSetRun.status %}
                                     <span class="pull-right">
                                         {{ testSetRun.status.html|raw }}

@@ -188,6 +188,7 @@ class TestSetEditorController extends BaseController {
             $form->handleRequest($request);
             if ($form->isValid()) {
                 $testSetRun = $form->getData();
+                $testSetRun->setUser($this->getUser());
                 $testSet->addRun($testSetRun);
                 $em->persist($testSet);
                 $em->flush();

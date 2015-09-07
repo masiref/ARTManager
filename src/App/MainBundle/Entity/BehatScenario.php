@@ -49,7 +49,7 @@ class BehatScenario {
             if ($prerequisites->count() == 0) {
                 $content .= $prefix . $gherkin->getGivenKeyword() . " " . $mink->getIAmOnPageStep($this->test->getStartingPage()) . PHP_EOL;
             } else {
-                $content .= $prefix . "# ==== prerequisites ================" . PHP_EOL;
+                $content .= $prefix . "# ==== end prerequisites ============" . PHP_EOL;
             }
 
             // steps nodes
