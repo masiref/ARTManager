@@ -4,6 +4,11 @@ $( "#modal-add-test-instance" ).modal({
     show: false
 });
 
+$( "#modal-details-test-instance" ).modal({
+    backdrop: 'static',
+    show: false
+});
+
 $( "#add-test-instance" ).click(function() {
     showAddTestInstanceFormModal();
 });
@@ -18,6 +23,12 @@ $("[id^=delete-test-instance-]").click(function() {
     var id = $(this).data('id');
     var name = $(this).data('test-name');
     deleteTestInstance(id, name);
+});
+
+$( "[id^=details-test-instance-]" ).click(function() {
+    var name = $(this).data('test-name');
+    var description = $(this).data('test-description');
+    showDetailsTestInstanceFormModal(name, description);
 });
 
 /* test set triggers */
@@ -70,6 +81,11 @@ function refreshExecutionGrid(data) {
 /* test instance methods */
 function showAddTestInstanceFormModal() {
     $("#modal-add-test-instance").modal('show');
+}
+function showDetailsTestInstanceFormModal(name, description) {
+    $("#test-instance-test-name").html(name);
+    $("#test-instance-test-description").html(description);
+    $("#modal-details-test-instance").modal('show');
 }
 
 function addSelectedTestsInstancesToTestSet(testSetId, applicationId) {

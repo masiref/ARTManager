@@ -19,6 +19,19 @@ $( "#modal-add-test-set" ).modal({
     show: false
 });
 
+$( "#modal-run-test-sets" ).modal({
+    backdrop: 'static',
+    show: false
+});
+
+$("#run-checked-test-set-entities").click(function() {
+    $( "#modal-run-test-sets" ).modal('show');
+});
+
+$("#run-entity").click(function() {
+    $( "#modal-run-test-sets" ).modal('show');
+});
+
 $( "#add-test-set" ).click(function() {
     var id = $(this).data('test-set-folder-id');
     if (id) {
@@ -319,7 +332,7 @@ function showTestSetEntityProperties(treeNode) {
         $('#entity-icon').removeClass("fontello-icon-puzzle");
         switch(type) {
             case "folder":
-                hideEntityActions();
+                hideEditEntityAction();
                 $('#entity-icon').removeClass().addClass("fontello-icon-folder");
                 $.ajax({
                     type: 'POST',
@@ -357,7 +370,7 @@ function showTestSetEntityProperties(treeNode) {
                 });
                 break;
             case "test-set":
-                showEntityActions();
+                showEditEntityAction();
                 $('#edit-entity').attr("href",
                     Routing.generate('app_index_application_test_set_editor', {
                         'id': id
@@ -414,10 +427,12 @@ function hideEntityPropertiesPanelBodyAndFooter() {
 function refreshCheckedTestSetsTreeEntitiesCount(applicationId) {
     var checkedEntities = $("#tree-test-sets-" + applicationId).treeview('getChecked');
     var checkedEntitiesCount = checkedEntities.length;
-    $("#checked-entities-count").html(checkedEntitiesCount);
+    $("[id^=checked-entities-count-]").html(checkedEntitiesCount);
     if (checkedEntitiesCount > 0) {
+        $("#run-checked-test-set-entities").removeClass("disabled");
         $("#delete-checked-test-set-entities").removeClass("disabled");
     } else {
+        $("#run-checked-test-set-entities").addClass("disabled");
         $("#delete-checked-test-set-entities").addClass("disabled");
     }
 }
@@ -488,12 +503,12 @@ function deleteTestSetEntities(applicationId) {
     });
 }
 
-function hideEntityActions() {
-    $("#panel-body-content-entity-actions").hide();
+function hideEditEntityAction() {
+    $("#edit-entity").hide();
 }
 
-function showEntityActions() {
-    $("#panel-body-content-entity-actions").show();
+function showEditEntityAction() {
+    $("#edit-entity").show();
 }
 
 function hideEntityStatus() {
