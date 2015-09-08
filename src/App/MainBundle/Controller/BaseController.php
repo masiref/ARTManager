@@ -13,7 +13,15 @@ abstract class BaseController extends Controller {
     public function render($view, array $parameters = array(), Response $response = null) {
         $em = $this->getDoctrine()->getManager();
         $plannedTestSetRuns = $em->getRepository("AppMainBundle:TestSetRun")->findPlannedOrderByCreatedAt();
-        $parameters['testSetRunsByApplicationTestSet'] = $this->getTestSetRunsByApplicationTestSet($plannedTestSetRuns);
+        $parameters['plannedTestSetRuns'] = array(
+            "count" => count($plannedTestSetRuns),
+            "byApplicationTestSet" => $this->getTestSetRunsByApplicationTestSet($plannedTestSetRuns)
+        );
+        $recentTestSetRuns = $em->getRepository("AppMainBundle:TestSetRun")->findRecentOrderByCreatedAt();
+        $parameters['recentTestSetRuns'] = array(
+            "count" => count($recentTestSetRuns),
+            "byApplicationTestSet" => $this->getTestSetRunsByApplicationTestSet($recentTestSetRuns)
+        );
         return parent::render($view, $parameters, $response);
     }
 
@@ -53,7 +61,11 @@ abstract class BaseController extends Controller {
         if ($request->getMethod() == 'POST' && $request->isXmlHttpRequest()) {
             $plannedTestSetRuns = $em->getRepository("AppMainBundle:TestSetRun")->findPlannedOrderByCreatedAt();
             $testSetRunsByApplicationTestSet = $this->getTestSetRunsByApplicationTestSet($plannedTestSetRuns);
-            $ajaxResponse['sidebar'] = $this->render('AppMainBundle:test-set:run/planned.list.html.twig', array(
+            $ajaxResponse['sidebar'] = $this->render('AppMainBundle:test-set:run/section.html.twig', array(
+                        'title' => "Active",
+                        'icon' => "flash",
+                        'context' => "success",
+                        'count' => count($plannedTestSetRuns),
                         'testSetRunsByApplicationTestSet' => $testSetRunsByApplicationTestSet
                     ))->getContent();
         }

@@ -1,4 +1,4 @@
-<div class="panel panel-myorange">
+<div class="panel panel-{{ context}}">
     <div class="panel-heading">
         <i class="fontello-icon-cog"></i>{{ application.project }}
         <i class="fontello-icon-right-open"></i>
@@ -8,9 +8,11 @@
         <div class="list-group-item">
             {% for testSetId, testSetTestSetRuns in testSets %}
                 <p class="list-group-item-heading">
-                    <strong>
-                        <i class="fontello-icon-beaker"></i>{{ testSetTestSetRuns.testSet }}
-                    </strong>
+                    <a href="{{ path('app_index_application_test_set_editor', { 'id': testSetId }) }}">
+                        <strong>
+                            <i class="fontello-icon-beaker"></i>{{ testSetTestSetRuns.testSet }}
+                        </strong>
+                    </a>
                 </p>
                 <p class="list-group-item-text">
                     <ul class="list-group">

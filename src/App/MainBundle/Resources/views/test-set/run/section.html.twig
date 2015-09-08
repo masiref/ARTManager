@@ -1,0 +1,14 @@
+<h3 class="text-center">
+    <span class="label label-{{ context }}">
+        <i class="fontello-icon-{{ icon }}"></i>{{ title }} <span class="badge">{{ count }}</span>
+    </span>
+</h3>
+{% for applicationId, applicationTestSets in testSetRunsByApplicationTestSet %}
+    {% include "AppMainBundle:test-set:run/section.item.html.twig"
+        with {
+            'application': applicationTestSets.application,
+            'testSets': applicationTestSets.testSets,
+            'context': context
+        } 
+    %}
+{% endfor %}

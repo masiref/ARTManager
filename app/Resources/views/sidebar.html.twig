@@ -4,8 +4,24 @@
             <i id="sidebar-title-icon" class="fontello-icon-hourglass"></i>Planned Test Set Runs
         </h2>
         <div id="sidebar-content">
-            {% include "AppMainBundle:test-set:run/planned.list.html.twig"
-                with { 'testSetRunsByApplicationTestSet': testSetRunsByApplicationTestSet } %}
+            {% include "AppMainBundle:test-set:run/section.html.twig"
+                with {
+                    'title': "Active",
+                    'icon': "flash",
+                    'context': "success",
+                    'count': plannedTestSetRuns.count,
+                    'testSetRunsByApplicationTestSet': plannedTestSetRuns.byApplicationTestSet 
+                }
+            %}
+            {% include "AppMainBundle:test-set:run/section.html.twig"
+                with {
+                    'title': "Recent",
+                    'icon': "back-in-time",
+                    'context': "info",
+                    'count': recentTestSetRuns.count,
+                    'testSetRunsByApplicationTestSet': recentTestSetRuns.byApplicationTestSet 
+                }
+            %}
         </div>
     </div>
 
