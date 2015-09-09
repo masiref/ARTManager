@@ -8,7 +8,6 @@
             <link href="{{ asset('built/min.css') }}" rel="stylesheet" />
             <link href='http://fonts.googleapis.com/css?family=Titillium+Web:400,900' rel='stylesheet' type='text/css'>
             <link href='http://fonts.googleapis.com/css?family=Maven+Pro' rel='stylesheet' type='text/css'>
-            <link href="http://css-spinners.com/css/spinner/three-quarters.css" rel="stylesheet" type="text/css">
         {% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     </head>
@@ -46,25 +45,19 @@
                 $(document).ready(function() {
                     {% for type, messages in app.session.flashBag.all %}
                         {% for message in messages %}
-                            swal({
-                                title: "
-                                    {% if type == 'error' %}{% trans from 'titles' %}Error{% endtrans %}{% endif %}
-                                    {% if type == 'info' %}{% trans from 'titles' %}Info{% endtrans %}{% endif %}
-                                    {% if type == 'success' %}{% trans from 'titles' %}Success{% endtrans %}{% endif %}
-                                ",
-                                text: "{{ message|trans({}, 'FOSUserBundle') }}",
-                                type: "{{ type }}",
-                                confirmButtonText: "{% trans from 'labels' %}OK{% endtrans %}"
-                            });    
+                            {% if type == 'error' %}
+                                Base.showErrorMessage("{{ message|trans({}, 'FOSUserBundle') }}");
+                            {% endif %}
+                            {% if type == 'info' %}
+                                Base.showInfoMessage("{{ message|trans({}, 'FOSUserBundle') }}");
+                            {% endif %}
+                            {% if type == 'success' %}
+                                Base.showSuccessMessage("{{ message|trans({}, 'FOSUserBundle') }}");
+                            {% endif %}    
                         {% endfor %}
                     {% endfor %}
                     {% if error %}
-                        swal({
-                            title: "{% trans from 'titles' %}Error{% endtrans %}",
-                            text: "{{ error|trans({}, 'FOSUserBundle') }}",
-                            type: "error",
-                            confirmButtonText: "{% trans from 'labels' %}OK{% endtrans %}"
-                        });
+                        Base.showErrorMessage("{{ error|trans({}, 'FOSUserBundle') }}");
                     {% endif %}
                 });
             </script>

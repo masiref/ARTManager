@@ -56,7 +56,8 @@
     {{ parent() }}
     <script type="text/javascript">
         $(document).ready(function() {
-            refreshObjectMaps({{ application.id }}, true, false);
+            ObjectMapManager.init();
+            ObjectMapManager.refreshAll({{ application.id }}, true, false);
         });
     </script>
 {% endblock %}

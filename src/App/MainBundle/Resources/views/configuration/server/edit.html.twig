@@ -128,26 +128,8 @@
     {{ parent() }}
     <script type="text/javascript">
         $(document).ready(function() {
-            $( "#name" ).editable({
-                success: function(response, newValue) {
-                    $("#breadcrumb-active-item").html(response);
-                },
-                error: function(response, newValue) {
-                    swal({
-                        title: "{% trans from 'titles' %}Error{% endtrans %}",
-                        text: response.responseText,
-                        type: "error",
-                        confirmButtonText: "{% trans from 'labels' %}OK{% endtrans %}"
-                    }); 
-                }
-            });
-            $( "#description" ).editable({
-                emptytext: 'Add description'
-            });
-            $( "#host" ).editable();
-            $( "#port" ).editable();
-            $( "#username" ).editable();
-            $( "#password" ).editable();
+            ServerManager.init();
+            ServerManager.initEditableData();
         });
     </script>
 {% endblock %}

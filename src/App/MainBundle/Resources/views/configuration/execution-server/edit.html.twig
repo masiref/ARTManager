@@ -90,27 +90,7 @@
     {{ parent() }}
     <script type="text/javascript">
         $(document).ready(function() {
-            $( "#name" ).editable({
-                success: function(response, newValue) {
-                    $("#breadcrumb-active-item").html(response);
-                },
-                error: function(response, newValue) {
-                    swal({
-                        title: "{% trans from 'titles' %}Error{% endtrans %}",
-                        text: response.responseText,
-                        type: "error",
-                        confirmButtonText: "{% trans from 'labels' %}OK{% endtrans %}"
-                    }); 
-                }
-            });
-            $( "#description" ).editable({
-                emptytext: 'Add description'
-            });
-            $( "#server" ).editable({
-                value: {{ executionServer.server.id }},
-                emptytext: 'Select a server'
-            });
-            $( "#art-runner-path" ).editable();
+            ExecutionServerManager.initEditableData({{ executionServer.server.id }});
         });
     </script>
 {% endblock %}

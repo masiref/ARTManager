@@ -118,7 +118,8 @@ class ServerController extends BaseController {
                 if (count($errors) == 0) {
                     $em->persist($server);
                     $em->flush();
-                    $response = new Response(json_encode($server->getHost()));
+                    $name = "" . $server;
+                    $response = new Response(json_encode($name));
                 } else {
                     $message = "";
                     foreach ($errors as $err) {
