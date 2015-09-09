@@ -62,7 +62,7 @@ var ObjectMapManager = {
                 }
             }
         });
-        $( "#object-description" ).editable({
+        $("#object-description").editable({
             emptytext: 'Add description',
             defaultValue: '',
             success: function(response, newValue) {

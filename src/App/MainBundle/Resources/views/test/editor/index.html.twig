@@ -53,33 +53,8 @@
     {{ parent() }}
     <script type="text/javascript">
         $(document).ready(function() {
-            $("#form_startingPage").change(function() {
-                var id = $(this).val();
-                var text = $(this).find("option:selected").text();
-                updateStartingPage({{ test.id }}, id, text);
-            });
-            
-            triggerTestCollapsibleElementsEventListeners();
-            
-            {% if test.prerequisites|length > 0 %}
-                disableStartingPageSelection();
-            {% endif %}
-                
-            $("#step-rows").sortable({
-                update: function(event, ui) {
-                    var steps = $(this).sortable('toArray', { 'attribute': 'data-id' }).toString();
-                    var testId = "{{ test.id }}";
-                    updateExecuteStepsOrders(testId, steps);
-                }
-            }).disableSelection();
-            
-            $("[id^=control-step-rows-]").sortable({
-                update: function(event, ui) {
-                    var steps = $(this).sortable('toArray', { 'attribute': 'data-id' }).toString();
-                    var testId = "{{ test.id }}";
-                    updateControlStepsOrders(testId, steps);
-                }
-            }).disableSelection();
+            TestEditor.init();
+            TestEditor.initItem({{ test.id }}, {{ test.prerequisites|length }});
         });
     </script>
 {% endblock %}
