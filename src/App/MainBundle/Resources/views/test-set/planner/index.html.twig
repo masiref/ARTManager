@@ -44,45 +44,11 @@
     {{ parent() }}
     <script type="text/javascript">
         $(document).ready(function() {
-            $( "#entity-name" ).editable({
-                error: function(response, newValue) {
-                    swal({
-                        title: "{% trans from 'titles' %}Error{% endtrans %}",
-                        text: response.responseText,
-                        type: "error",
-                        confirmButtonText: "{% trans from 'labels' %}OK{% endtrans %}"
-                    }); 
-                },
-                success: function(response, newValue) {
-                    hideTestSetsPanel({{ application.id }});
-                    switch(response.entityType) {
-                        case "folder":
-                            showTestSetsTreeWithSelectedFolder(response.testSetFolderId);
-                            $('#add-test-set').data('test-set-folder-name', newValue);
-                            break;
-                        case "test-set":
-                            showTestSetsTreeWithSelectedTestSet(response.testSetId);
-                            break;
-                    }
-                }
-            });
-            $( "#entity-description" ).editable({
-                emptytext: 'Add description',
-                defaultValue: '',
-                success: function(response, newValue) {
-                    hideTestSetsPanel({{ application.id }});
-                    switch(response.entityType) {
-                        case "folder":
-                            showTestSetsTreeWithSelectedFolder(response.testSetFolderId);
-                            $('#add-test-set').data('test-set-folder-name', newValue);
-                            break;
-                        case "test-set":
-                            showTestSetsTreeWithSelectedTestSet(response.testSetId);
-                            break;
-                    }
-                }
-            });
-            refreshTestSetsTree({{ application.id }}, true, true);
+            TestSetPlanner.init();
+            TestSetPlanner.initEditableData({{ application.id }});
+            TestSetFolderManager.init();
+            TestSetManager.init();
+            TestSetPlanner.refresh({{ application.id }}, true, true);
         });
     </script>
 {% endblock %}

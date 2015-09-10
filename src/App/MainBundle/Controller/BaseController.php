@@ -60,13 +60,20 @@ abstract class BaseController extends Controller {
         $em = $this->getDoctrine()->getManager();
         if ($request->getMethod() == 'POST' && $request->isXmlHttpRequest()) {
             $plannedTestSetRuns = $em->getRepository("AppMainBundle:TestSetRun")->findPlannedOrderByCreatedAt();
-            $testSetRunsByApplicationTestSet = $this->getTestSetRunsByApplicationTestSet($plannedTestSetRuns);
+            $recentTestSetRuns = $em->getRepository("AppMainBundle:TestSetRun")->findRecentOrderByCreatedAt();
             $ajaxResponse['sidebar'] = $this->render('AppMainBundle:test-set:run/section.html.twig', array(
                         'title' => "Active",
                         'icon' => "flash",
                         'context' => "success",
                         'count' => count($plannedTestSetRuns),
-                        'testSetRunsByApplicationTestSet' => $testSetRunsByApplicationTestSet
+                        'testSetRunsByApplicationTestSet' => $this->getTestSetRunsByApplicationTestSet($plannedTestSetRuns)
+                    ))->getContent();
+            $ajaxResponse['sidebar'] .= $this->render('AppMainBundle:test-set:run/section.html.twig', array(
+                        'title' => "Recent",
+                        'icon' => "back-in-time",
+                        'context' => "info",
+                        'count' => count($recentTestSetRuns),
+                        'testSetRunsByApplicationTestSet' => $this->getTestSetRunsByApplicationTestSet($recentTestSetRuns)
                     ))->getContent();
         }
         $response = new Response(json_encode($ajaxResponse));

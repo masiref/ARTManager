@@ -50,19 +50,10 @@
     {{ parent() }}
     <script type="text/javascript">
         $(document).ready(function() {
-            triggerTestSetCollapsibleElementsEventListeners();
-            $('#execution-grid-{{ testSet.id }}').dataTable({
-                "searching": false,
-                "paging": false,
-                "info": false
-            }).rowReordering({
-                sURL: Routing.generate('app_update_application_test_set_test_instance_orders_ajax'),
-                sRequestType: "POST",
-                callback: function () { 
-                    refreshBehatFeature({{ testSet.id }});
-                }
-            });
-            refreshTestsTree({{ application.id }}, true, true);
+            TestSetEditor.init();
+            TestSetEditor.initItem({{ testSet.id }});
+            TestInstanceManager.init();
+            TestPlanner.refresh({{ application.id }}, true, true);
         });
     </script>
 {% endblock %}

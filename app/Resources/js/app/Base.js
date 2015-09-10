@@ -30,6 +30,10 @@ $(document).ready(function() {
             });
         }
     });
+    
+    $("#refresh-sidebar").click(function() {
+        Base.refreshSidebar(false);
+    });
 });
 
 var Base = {
@@ -56,5 +60,19 @@ var Base = {
             type: "info",
             confirmButtonText: "OK"
         }); 
+    },
+    openSidebar: function() {
+        $('#sidebar').offcanvas();
+    },
+    refreshSidebar: function(open) {
+        $.ajax({
+            type: 'POST',
+            url: Routing.generate('application_refresh_sidebar')
+        }).done(function(data) {
+            $("#sidebar-content").html(data.sidebar);
+            if (open) {
+                Base.openSidebar();
+            }
+        });
     }
 };

@@ -1,16 +1,16 @@
 var TestManager = {
     init: function() {
-        $( "#modal-add-test" ).modal({
+        $("#modal-add-test").modal({
             backdrop: 'static',
             show: false
         });
-        $( "#add-test" ).click(function() {
+        $("#add-test").click(function() {
             var folderId = $(this).data('test-folder-id');
             var folderName = $(this).data('test-folder-name');
             var folderDescription = $(this).data('test-folder-description');
             TestManager.openAddFormModal(folderId, folderName, folderDescription);
         });
-        $( "#save-test" ).click(function() {
+        $("#save-test").click(function() {
             var folderId = $(this).data('test-folder-id');
             var folderName = $(this).data('test-folder-name');
             TestManager.save(folderId, folderName);
