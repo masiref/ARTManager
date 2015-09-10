@@ -39,5 +39,11 @@ var TreeManager = {
     },
     collapse: function(cssSelector) {
         $(cssSelector).treeview('collapseAll', { silent: true });
+    },
+    getIdFromNodeHref: function(href) {
+        return href.substring(href.lastIndexOf("-") + 1);
+    },
+    getTypeFromNodeHref: function(href) {
+        return href.substring(href.indexOf("-") + 1, href.lastIndexOf("-"));
     }
 };

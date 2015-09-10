@@ -43,45 +43,11 @@
     {{ parent() }}
     <script type="text/javascript">
         $(document).ready(function() {
-            $( "#entity-name" ).editable({
-                error: function(response, newValue) {
-                    swal({
-                        title: "{% trans from 'titles' %}Error{% endtrans %}",
-                        text: response.responseText,
-                        type: "error",
-                        confirmButtonText: "{% trans from 'labels' %}OK{% endtrans %}"
-                    }); 
-                },
-                success: function(response, newValue) {
-                    hideTestsPanel({{ application.id }});
-                    switch(response.entityType) {
-                        case "folder":
-                            showTestsTreeWithSelectedFolder(response.testFolderId);
-                            $('#add-test').data('test-folder-name', newValue);
-                            break;
-                        case "test":
-                            showTestsTreeWithSelectedTest(response.testId);
-                            break;
-                    }
-                }
-            });
-            $( "#entity-description" ).editable({
-                emptytext: 'Add description',
-                defaultValue: '',
-                success: function(response, newValue) {
-                    hideTestsPanel({{ application.id }});
-                    switch(response.entityType) {
-                        case "folder":
-                            showTestsTreeWithSelectedFolder(response.testFolderId);
-                            $('#add-test').data('test-folder-description', newValue);
-                            break;
-                        case "test":
-                            showTestsTreeWithSelectedTest(response.testId);
-                            break;
-                    }
-                }
-            });
-            refreshTestsTree({{ application.id }}, true, true);
+            TestPlanner.init();
+            TestPlanner.initEditableData({{ application.id }});
+            TestFolderManager.init();
+            TestManager.init();
+            TestPlanner.refresh({{ application.id }}, true, true);
         });
     </script>
 {% endblock %}

@@ -4,16 +4,13 @@ var ObjectMapManager = {
             backdrop: 'static',
             show: false
         });
-
         $("#add-object-map").click(function() {
             ObjectMapManager.openAddFormModal();
         });
-
         $("#save-object-map").click(function() {
             var applicationId = $(this).data('application-id');
             ObjectMapManager.save(applicationId);
         });
-
         $("[id^=delete-object-map-]").click(function() {
             var id = $(this).data('id');
             var name = $(this).data('name');
@@ -227,8 +224,8 @@ var ObjectMapManager = {
             ObjectMapManager.showObjectPropertiesPanel();
             ObjectMapManager.showObjectPropertiesLoader();
             var href = node.href;
-            var id = ObjectMapManager.getIdFromNodeHref(href);
-            var type = ObjectMapManager.getTypeFromNodeHref(href);
+            var id = TreeManager.getIdFromNodeHref(href);
+            var type = TreeManager.getTypeFromNodeHref(href);
             $('#object-icon').removeClass();
             switch(type) {
                 case "page":
@@ -288,10 +285,10 @@ var ObjectMapManager = {
                     var objectsCount = data.objectsCount;
                     var pagesCount = data.pagesCount;
                     ObjectMapManager.hideTree(id);
+                    ObjectMapManager.hideObjectPropertiesPanel();
                     ObjectMapManager.tree(id, treeCssSelector, data.treeObjectMap, true);
                     TreeManager.collapse(treeCssSelector);
                     ObjectMapManager.showTree(id);
-                    ObjectMapManager.hideObjectPropertiesPanel();
                     ObjectMapManager.refreshObjectMapPageSummary(id, pagesCount);
                     ObjectMapManager.refreshObjectMapObjectSummary(id, objectsCount);
                     ObjectMapManager.refreshCheckedObjectCount(id);
@@ -363,10 +360,10 @@ var ObjectMapManager = {
         return "#tree-object-map-" + id;
     },
     showTreeLoader: function(id) {
-        $("#tree-object-map-" + id + "-loader").addClass("three-quarters-loader");
+        $(ObjectMapManager.getTreeCssSelector(id) + "-loader").addClass("three-quarters-loader");
     },
     hideTreeLoader: function(id) {
-        $("#tree-object-map-" + id + "-loader").removeClass("three-quarters-loader");
+        $(ObjectMapManager.getTreeCssSelector(id) + "-loader").removeClass("three-quarters-loader");
     },
     showTree: function(id) {
         var treeCssSelector = ObjectMapManager.getTreeCssSelector(id);
@@ -377,11 +374,5 @@ var ObjectMapManager = {
         var treeCssSelector = ObjectMapManager.getTreeCssSelector(id);
         ObjectMapManager.showTreeLoader(id);
         $(treeCssSelector).hide();
-    },
-    getIdFromNodeHref: function(href) {
-        return href.substring(href.lastIndexOf("-") + 1);
-    },
-    getTypeFromNodeHref: function(href) {
-        return href.substring(href.indexOf("-") + 1, href.lastIndexOf("-"));
     }
 };

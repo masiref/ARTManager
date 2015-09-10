@@ -47,7 +47,7 @@ var ProjectManager = {
         });
     },
     initEditableData: function() {
-        $( "#name" ).editable({
+        $("#name").editable({
             success: function(response, newValue) {
                 $("#breadcrumb-active-item").html(response);
             },
@@ -55,7 +55,7 @@ var ProjectManager = {
                 Base.showErrorMessage(response.responseText);
             }
         });
-        $( "#description" ).editable({
+        $("#description").editable({
             emptytext: 'Add description'
         });
     },

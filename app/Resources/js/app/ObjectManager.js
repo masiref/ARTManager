@@ -107,9 +107,9 @@ var ObjectManager = {
     openAddFormModal: function(pageId, pageName, pageDescription) {
         if (pageId) {
             $('#new-object-page-name').html(pageName);
+            $('#new-object-page-description').html(pageDescription);
             $('#save-object').data('page-id', pageId);
             $('#save-object').data('page-name', pageName);
-            $('#new-object-page-description').html(pageDescription);
             $('#save-object').data('page-description', pageDescription);
             $("#modal-add-object").modal('show');
         } else {

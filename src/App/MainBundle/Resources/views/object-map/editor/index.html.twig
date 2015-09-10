@@ -49,10 +49,10 @@
         $(document).ready(function() {
             ObjectMapManager.init();
             ObjectMapManager.initEditableData({{ objectMap.id }});
-            ObjectManager.init();
-            ObjectManager.initEditableData({{ objectMap.id }});
             PageManager.init();
             PageManager.initEditableData({{ objectMap.id }});
+            ObjectManager.init();
+            ObjectManager.initEditableData({{ objectMap.id }});
             ObjectMapManager.refresh({{ objectMap.id }}, true, true);
         });
     </script>
