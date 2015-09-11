@@ -32,7 +32,7 @@ var ControlStepManager = {
         });
     },
     initItem: function(id) {
-        $( "#delete-control-step-" + id).click(function(event) {
+        $("#delete-control-step-" + id).click(function(event) {
             event.preventDefault();
             var id = $(this).data('id');
             var order = $(this).data('order');
@@ -41,7 +41,7 @@ var ControlStepManager = {
             ControlStepManager.delete(id, order, stepId, stepOrder);
         }).tooltip();
 
-        $( "#edit-control-step-" + id ).click(function(event) {
+        $("#edit-control-step-" + id).click(function(event) {
             event.preventDefault();
             var id = $(this).data('id');
             var stepId = $(this).data('step-id');
@@ -50,8 +50,8 @@ var ControlStepManager = {
     },
     resetForm: function() {
         $("#form-control-step")[0].reset();
-        $( "#control_step_action" ).parent().remove();
-        $( "#control_step_parameterDatas" ).parent().remove();
+        $("#control_step_action").parent().remove();
+        $("#control_step_parameterDatas").parent().remove();
         $("#control_step_object").val($("#execute_step_object option:first").val());
     },
     openAddFormModal: function(stepId) {
@@ -192,22 +192,22 @@ var ControlStepManager = {
         });
     },
     triggerFormEventListeners: function() {
-        $( "#control_step_page" ).change(function() {
+        $("#control_step_page").change(function() {
             var stepId = $(this).data('step-id');
             ControlStepManager.updateFormAfterPageObjectSelection(stepId);
         });
-        $( "#control_step_object" ).change(function() {
+        $("#control_step_object").change(function() {
             var stepId = $(this).data('step-id');
             ControlStepManager.updateFormAfterPageObjectSelection(stepId);
         });
-        $( "#control_step_action" ).change(function() {
+        $("#control_step_action").change(function() {
             var stepId = $(this).data('step-id');
             ControlStepManager.updateFormAfterActionSelection(stepId);
         });
     },
     updateFormAfterPageObjectSelection: function(stepId) {
-        $( "#control_step_action" ).parent().remove();
-        $( "#control_step_parameterDatas" ).parent().remove();
+        $("#control_step_action").parent().remove();
+        $("#control_step_parameterDatas").parent().remove();
         $.ajax({
             type: 'POST',
             url: Routing.generate('app_check_application_test_step_control_step_ajax', {
@@ -220,7 +220,7 @@ var ControlStepManager = {
         });
     },
     updateFormAfterActionSelection: function(stepId) {
-        $( "#control_step_parameterDatas" ).parent().remove();
+        $("#control_step_parameterDatas").parent().remove();
         $.ajax({
             type: 'POST',
             url: Routing.generate('app_check_application_test_step_control_step_ajax', {

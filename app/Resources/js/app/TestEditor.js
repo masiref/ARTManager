@@ -14,27 +14,22 @@ var TestEditor = {
             $(".prerequisites-collapse-toggle-icon").removeClass("fontello-icon-down-open")
                     .addClass("fontello-icon-up-open");
         });
-
         $("#prerequisites-collapse").on('hidden.bs.collapse', function() {
             $(".prerequisites-collapse-toggle-icon").removeClass("fontello-icon-up-open")
                     .addClass("fontello-icon-down-open");
         });
-
         $("#starting-page-collapse").on('shown.bs.collapse', function() {
             $(".starting-page-collapse-toggle-icon").removeClass("fontello-icon-down-open")
                     .addClass("fontello-icon-up-open");
         });
-
         $("#starting-page-collapse").on('hidden.bs.collapse', function() {
             $(".starting-page-collapse-toggle-icon").removeClass("fontello-icon-up-open")
                     .addClass("fontello-icon-down-open");
         });
-
         $("#scenario-collapse").on('shown.bs.collapse', function() {
             $(".scenario-collapse-toggle-icon").removeClass("fontello-icon-down-open")
                     .addClass("fontello-icon-up-open");
         });
-
         $("#scenario-collapse").on('hidden.bs.collapse', function() {
             $(".scenario-collapse-toggle-icon").removeClass("fontello-icon-up-open")
                     .addClass("fontello-icon-down-open");

@@ -31,7 +31,7 @@ var ExecuteStepManager = {
         });
     },
     initItem: function(id) {
-        $("#delete-execute-step-" + id ).click(function(event) {
+        $("#delete-execute-step-" + id).click(function(event) {
             event.preventDefault();
             var id = $(this).data('id');
             var order = $(this).data('order');
@@ -43,7 +43,7 @@ var ExecuteStepManager = {
             var stepId = $(this).data('step-id');
             ControlStepManager.openAddFormModal(stepId);
         }).tooltip();
-        $("#edit-execute-step-" + id ).click(function(event) {
+        $("#edit-execute-step-" + id).click(function(event) {
             event.preventDefault();
             var id = $(this).data('id');
             var testId = $(this).data('test-id');

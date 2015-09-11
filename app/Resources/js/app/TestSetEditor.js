@@ -15,7 +15,6 @@ var TestSetEditor = {
             $(".execution-grid-collapse-toggle-icon").removeClass("fontello-icon-down-open")
                     .addClass("fontello-icon-up-open");
         });
-
         $("#execution-grid-collapse").on('hidden.bs.collapse', function() {
             $(".execution-grid-collapse-toggle-icon").removeClass("fontello-icon-up-open")
                     .addClass("fontello-icon-down-open");

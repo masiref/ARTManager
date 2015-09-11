@@ -4,14 +4,12 @@ var PageManager = {
             backdrop: 'static',
             show: false
         });
-
         $("[id^=add-page-]").click(function() {
             var objectMapId = $(this).data('object-map-id');
             var objectMapName = $(this).data('object-map-name');
             var objectMapDescription = $(this).data('object-map-description');
             PageManager.openAddFormModal(objectMapId, objectMapName, objectMapDescription);
         });
-
         $("#save-page").click(function() {
             var objectMapId = $(this).data('object-map-id');
             var objectMapName = $(this).data('object-map-name');

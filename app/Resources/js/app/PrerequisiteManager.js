@@ -19,7 +19,7 @@ var PrerequisiteManager = {
         });
     },
     initItem: function(id) {
-        $("#delete-prerequisite-" + id ).click(function(event) {
+        $("#delete-prerequisite-" + id).click(function(event) {
             event.preventDefault();
             var id = $(this).data('id');
             var name = $(this).data('name');
