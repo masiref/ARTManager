@@ -69,11 +69,24 @@ var TestSetManager = {
     closeAddFormModal: function() {
         $("#modal-add-test-set").modal('hide');
     },
-    openRunFormModal: function() {
-        $("#modal-run-test-sets").modal('show');
+    openMultipleRunFormModal: function(applicationId) {
+        var treeCssSelector = TestSetPlanner.getTreeCssSelector(applicationId);
+        var objects = $(treeCssSelector).treeview('getChecked');
+        $.ajax({
+            type: 'POST',
+            url: Routing.generate('app_application_test_set_entities_run_ajax', {
+                id: applicationId
+            }),
+            data: {
+                objects: objects
+            }
+        }).done(function(data) {
+            $("#modal-run-test-sets-body").html($(data.modalContent));
+            $("#modal-run-test-sets").modal('show');
+        });
     },
-    openMultipleRunFormModal: function() {
-        $("#modal-run-test-sets").modal('show');
+    closeMultipleRunFormModal: function() {
+        $("#modal-run-test-sets").modal('hide');
     },
     save: function(folderId, folderName) {
         $.ajax({

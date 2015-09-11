@@ -67,6 +67,31 @@ var TestSetEditor = {
             }
         });
     },
+    saveRuns: function(applicationId) {
+        var treeCssSelector = TestSetPlanner.getTreeCssSelector(applicationId);
+        var objects = $(treeCssSelector).treeview('getChecked');
+        var data = $("#form-add-test-set-run").serializeArray();
+        data.push({ name: "objects", value: JSON.stringify(objects) });
+        $.ajax({
+            type: 'POST',
+            url: Routing.generate('app_application_test_sets_run_ajax'),
+            data: $.param(data)
+        }).done(function(data) {
+            if (data.error) {
+                var message = "Runs not added !\n" + data.error;
+                Base.showErrorMessage(message);
+            } else {
+                swal({
+                    title: "Success",
+                    text: "Your runs have been added to the queue. You can follow their execution in the sidebar.",
+                    type: "success"
+                }, function() {
+                    Base.refreshSidebar(true);
+                });
+                TestSetManager.closeMultipleRunFormModal();
+            }
+        });
+    },
     refreshExecutionGrid: function(grid) {
         $("#execution-grid").replaceWith($(grid));
         TestInstanceManager.initItems();

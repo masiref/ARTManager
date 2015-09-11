@@ -5,7 +5,9 @@ namespace App\MainBundle\Controller;
 use App\MainBundle\Entity\Application;
 use App\MainBundle\Entity\TestSet;
 use App\MainBundle\Entity\TestSetFolder;
+use App\MainBundle\Entity\TestSetRun;
 use App\MainBundle\Form\Type\TestSetFolderType;
+use App\MainBundle\Form\Type\TestSetRunType;
 use App\MainBundle\Form\Type\TestSetType;
 use Doctrine\DBAL\DBALException;
 use JMS\SecurityExtraBundle\Annotation\Secure;
@@ -28,10 +30,14 @@ class TestSetPlannerController extends BaseController {
         $addTestSetFormView = $this->createForm(new TestSetType(), new TestSet(), array(
                     'method' => 'POST'
                 ))->createView();
+        $addTestSetRunFormView = $this->createForm(new TestSetRunType(), new TestSetRun(), array(
+                    'method' => 'POST'
+                ))->createView();
         return $this->render('AppMainBundle:test-set:planner/index.html.twig', array(
                     'application' => $application,
                     'addTestSetFolderFormView' => $addTestSetFolderFormView,
-                    'addTestSetFormView' => $addTestSetFormView
+                    'addTestSetFormView' => $addTestSetFormView,
+                    'addTestSetRunFormView' => $addTestSetRunFormView
         ));
     }
 
@@ -427,6 +433,39 @@ class TestSetPlannerController extends BaseController {
             $ajaxResponse['testSetFoldersCount'] = $application->getTestSetFoldersCount();
             $ajaxResponse['testSetsCount'] = $application->getTestSetsCount();
             $ajaxResponse['treeTestSets'] = $application->getJsonTestSetsTreeAsArray();
+            $response = new Response(json_encode($ajaxResponse));
+        }
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
+    }
+
+    /**
+     * @Route("/application/{id}/test/set/entities/run",
+     *      name="app_application_test_set_entities_run_ajax",
+     *      requirements={"_method" = "post"},
+     *      options={"expose" = true }
+     * )
+     * @Secure(roles="ROLE_SUPER_ADMIN")
+     * @ParamConverter("application", class="AppMainBundle:Application")
+     */
+    public function runEntitiesAction(Application $application, Request $request) {
+        if ($request->getMethod() == 'POST' && $request->isXmlHttpRequest()) {
+            $objects = $request->get("objects");
+            $em = $this->getDoctrine()->getManager();
+            $testSets = array();
+            foreach ($objects as $object) {
+                $href = $object["href"];
+                $id = substr($href, strrpos($href, "-") + 1);
+                $type = substr($href, strpos($href, "-") + 1, strrpos($href, "-") - strpos($href, "-") - 1);
+                if ($type == "test-set") {
+                    $testSets[] = $em->getRepository('AppMainBundle:TestSet')->find($id);
+                }
+            }
+            $ajaxResponse = array(
+                "modalContent" => $this->render('AppMainBundle:test-set:run/multiple_content.html.twig', array(
+                    'testSets' => $testSets
+                ))->getContent()
+            );
             $response = new Response(json_encode($ajaxResponse));
         }
         $response->headers->set('Content-Type', 'application/json');

@@ -1,24 +1,5 @@
 <div id="execution-grid">
-    <table id="execution-grid-{{ testSet.id }}"
-            class="table table-hover table-condensed table-striped table-responsive">
-        <thead>
-            <tr>
-                <th>Order</th>
-                <th>Test name</th>
-                <th>Last Run Status</th>
-                <th>Last Run Request</th>
-                <th>&nbsp;</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for testInstance in testSet.testInstances %}
-                {% include "AppMainBundle:test:instance/item.html.twig" with { 
-                    'testInstance' : testInstance,
-                    'position' : loop.index
-                } %}
-            {% endfor %}
-        </tbody>
-    </table>
+    {% include "AppMainBundle:test-set:editor/execution-grid_table.html.twig" with { 'showActions': true } %}
     <p class="text-center">
         <span id="test-instances-count-{{ testSet.id }}">
             {% if testSet.testInstances|length <= 1 %}There is {% else %}There are{% endif %}

@@ -3,6 +3,7 @@
 namespace App\MainBundle\Entity;
 
 use Cocur\Slugify\Slugify;
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -46,6 +47,9 @@ class TestSetRun implements JsonSerializable {
     /**
      * @ORM\ManyToOne(targetEntity="ExecutionServer")
      * @ORM\JoinColumn(name="execution_server_id", referencedColumnName="id")
+     * @Assert\NotNull(
+     *      message = "Please select an execution server."
+     * )
      */
     protected $executionServer;
 

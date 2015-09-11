@@ -2,6 +2,7 @@
 
 namespace App\MainBundle\Controller;
 
+use App\MainBundle\Entity\Application;
 use App\MainBundle\Entity\TestInstance;
 use App\MainBundle\Entity\TestSet;
 use App\MainBundle\Entity\TestSetRun;
@@ -206,6 +207,58 @@ class TestSetEditorController extends BaseController {
                 $ajaxResponse['executionGrid'] = $this->render('AppMainBundle:test-set:editor/execution-grid_content.html.twig', array(
                             'testSet' => $testSet
                         ))->getContent();
+            } else {
+                $ajaxResponse['error'] = (string) $form->getErrors(true);
+            }
+        }
+        $response = new Response(json_encode($ajaxResponse));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
+    }
+
+    /**
+     * @Route("/application/test/sets/run",
+     *      name="app_application_test_sets_run_ajax",
+     *      requirements={"_method" = "post"},
+     *      options={"expose" = true }
+     * )
+     * @Secure(roles="ROLE_SUPER_ADMIN")
+     */
+    public function multipleRunAction(Request $request) {
+        $ajaxResponse = array();
+        $em = $this->getDoctrine()->getManager();
+        if ($request->getMethod() == 'POST' && $request->isXmlHttpRequest()) {
+            $objects = json_decode($request->get("objects"), true);
+            $request->query->remove("objects");
+            $form = $this->createForm(new TestSetRunType(), new TestSetRun());
+            $form->handleRequest($request);
+            if ($form->isValid()) {
+                $executionServer = $form->getData()->getExecutionServer();
+                foreach ($objects as $object) {
+                    $href = $object["href"];
+                    $id = substr($href, strrpos($href, "-") + 1);
+                    $type = substr($href, strpos($href, "-") + 1, strrpos($href, "-") - strpos($href, "-") - 1);
+                    if ($type == "test-set") {
+                        $newTestSetRun = new TestSetRun();
+                        $newTestSetRun->setExecutionServer($executionServer);
+                        $newTestSetRun->setUser($this->getUser());
+                        $testSet = $em->getRepository('AppMainBundle:TestSet')->find($id);
+                        $testSet->addRun($newTestSetRun);
+                        $em->persist($testSet);
+                        $em->flush();
+                        $gearman = $this->get('gearman');
+                        $result = $gearman->doBackgroundJob('AppMainBundleServicesTestSetExecutionService~execute', json_encode(array(
+                            'testSetId' => $testSet->getId(),
+                            'executionServerId' => $newTestSetRun->getExecutionServer()->getId(),
+                            'testSetRunId' => $newTestSetRun->getId(),
+                            'testSetRunSlug' => $newTestSetRun->getSlug()
+                        )));
+                        $newTestSetRun->setStatus($em->getRepository("AppMainBundle:Status")->findDefaultTestSetRunStatus());
+                        $newTestSetRun->setGearmanJobHandle($result);
+                        $em->persist($newTestSetRun);
+                        $em->flush();
+                    }
+                }
             } else {
                 $ajaxResponse['error'] = (string) $form->getErrors(true);
             }

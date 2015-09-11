@@ -5,10 +5,12 @@ var TestSetPlanner = {
             TestSetPlanner.deleteCheckedEntities(applicationId);
         });
         $("#run-checked-entities").click(function() {
-            TestSetManager.openMultipleRunFormModal();
+            var applicationId = $(this).data('application-id');
+            TestSetManager.openMultipleRunFormModal(applicationId);
         });
-        $("#run-entity").click(function() {
-            TestSetManager.openRunFormModal()
+        $("#save-test-set-runs").click(function() {
+            var applicationId = $(this).data('application-id');
+            TestSetEditor.saveRuns(applicationId);
         });
     },
     initEditableData: function(applicationId) {

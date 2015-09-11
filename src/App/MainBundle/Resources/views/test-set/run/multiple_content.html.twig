@@ -1,0 +1,4 @@
+{% for testSet in testSets %}
+    <h3><i class="fontello-icon-beaker"></i>{{ testSet }}</h3>
+    {% include "AppMainBundle:test-set:editor/execution-grid_table.html.twig" with { 'showActions': false } %}
+{% endfor %}
