@@ -35,6 +35,9 @@
 {% block body %}
     {% include 'AppMainBundle:test:planner/tree.html.twig' with { 'application': application } %}
     {% include 'AppMainBundle:test:planner/entity-properties.html.twig' %}
+{% endblock %}
+
+{% block modals %}
     {% include 'AppMainBundle:test:folder/new.form.html.twig' %}
     {% include 'AppMainBundle:test:new.form.html.twig' %}
 {% endblock %}

@@ -49,6 +49,9 @@
         </div>
     </div>
     {% include 'AppMainBundle:object-map:list.html.twig' with { 'objectMaps': objectMaps } %}
+{% endblock %}
+
+{% block modals %}
     {% include 'AppMainBundle:object-map:new.form.html.twig' %}
 {% endblock %}
 

@@ -31,6 +31,14 @@ $(document).ready(function() {
         }
     });
     
+    $(".modal").on('show.bs.modal', function() {
+        $(".container").addClass("blur");
+    });
+    
+    $(".modal").on('hide.bs.modal', function() {
+        $(".container").removeClass("blur");
+    });
+    
     $("#refresh-sidebar").click(function() {
         Base.refreshSidebar(false);
     });

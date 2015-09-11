@@ -1,9 +1,10 @@
 {% extends 'base.html.twig' %}
 
-{% block jumbotronTitle %}<i class="fontello-icon-lock"></i>{% trans from "titles" %}Authentication{% endtrans %}{% endblock %}
-{% block jumbotronBody %}
-    <div>
-        {% block fos_user_content %}
-        {% endblock fos_user_content %}
-    </div>
+{% block jumbotronTitle %}
+    {% block fos_user_title %}
+    {% endblock fos_user_title %}
+{% endblock %}
+{% block body %}
+    {% block fos_user_content %}
+    {% endblock fos_user_content %}
 {% endblock %}

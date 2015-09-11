@@ -70,7 +70,10 @@
                 <i class="fontello-icon-calendar"></i> Created {{ project.createdAt|ago }}
             </div>
         </div>
-    </div>          
+    </div>
+{% endblock %}
+
+{% block modals %}
     {% include "AppMainBundle:application:new.form.html.twig" %}
 {% endblock %}
 

@@ -2,10 +2,14 @@
 
 {% trans_default_domain 'FOSUserBundle' %}
 
+{% block fos_user_title %}
+    <i class="fontello-icon-lock"></i>{% trans from "titles" %}Authentication{% endtrans %}
+{% endblock fos_user_title %}
+
 {% block fos_user_content %}
-    <div class="col-md-4 col-md-offset-4">
+    <div class="col-md-6 col-md-offset-3">
         <form action="{{ path("fos_user_security_check") }}" method="post"class="form-horizontal">
-        <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
             <div class="form-group">
                 <label for="username" class="col-sm-4 control-label">{{ 'security.login.username'|trans }}</label>
                 <div class="col-sm-6">

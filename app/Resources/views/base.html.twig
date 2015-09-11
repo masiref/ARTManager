@@ -15,14 +15,14 @@
         {% include "::navbar.html.twig" %}
         {% include "::sidebar.html.twig" %}
         
-        <div class="jumbotron">
+        <div class="jumbotron container">
             <h1 class="text-center">
                 {% block jumbotronTitle %}{% endblock %}
             </h1>
             <h3 class="text-center">
                 {% block jumbotronSubtitle %}{% endblock %}
             </h3>
-            <div>{% block jumbotronBody %}{% endblock %}</div>
+            {% block jumbotronBody %}{% endblock %}
         </div>
         <div class="container">
             <div class="row">
@@ -36,6 +36,7 @@
                 </div>
             </div>
         </div>
+        {% block modals %}{% endblock %}
         {% include "::footer.html.twig" %}
         {% block javascripts %}
             <script src="{{ asset('built/app.min.js') }}"></script>
@@ -43,6 +44,11 @@
             <script src="{{ path('fos_js_routing_js', {'callback': 'fos.Router.setData'}) }}"></script>
             <script type="text/javascript">
                 $(document).ready(function() {
+                    $("body").vegas({
+                        slides: [
+                            { src: "{{ asset('images/vegas/backgrounds/background-bubbles.png') }}" }
+                        ]
+                    });
                     {% for type, messages in app.session.flashBag.all %}
                         {% for message in messages %}
                             {% if type == 'error' %}

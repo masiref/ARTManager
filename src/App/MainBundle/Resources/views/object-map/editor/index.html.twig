@@ -39,6 +39,9 @@
 {% block body %}
     {% include 'AppMainBundle:object-map:editor/tree.html.twig' with { 'objectMap': objectMap } %}
     {% include 'AppMainBundle:object-map:editor/object-properties.html.twig' %}
+{% endblock %}
+
+{% block modals %}
     {% include "AppMainBundle:object-map:page/new.form.html.twig" %}
     {% include "AppMainBundle:object-map:object/new.form.html.twig" %}
 {% endblock %}

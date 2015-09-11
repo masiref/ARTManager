@@ -107,7 +107,7 @@ a {
 }
 
 .breadcrumb {
-    background-color: #fff;
+    background: none;
 }
 
 .breadcrumb > li {
@@ -125,7 +125,7 @@ a {
 }
 
 .jumbotron {
-    background-color: #fff;
+    background-color: rgba(255, 255, 255, 0.5);
     margin-bottom: 0;
 
     h1 {
@@ -232,7 +232,7 @@ div.row.step > div.step-left > div, div.row.control-step > div {
     bottom: 0px;
     width: 100%;
     height: 60px;
-    background-color: #F5F5F5;
+    background-color: #fff;
     border-top: 1px solid #E7E7E7;
 }
 
@@ -259,4 +259,12 @@ div.row.step > div.step-left > div, div.row.control-step > div {
 #sidebar-toggle {
     display: block;
     float: left;
+}
+
+.blur {
+    -o-filter: blur(2px) grayscale(50%);
+    -ms-filter: blur(2px) grayscale(50%);
+    -moz-filter: blur(2px) grayscale(50%);
+    -webkit-filter: blur(2px) grayscale(50%);
+    filter: blur(2px) grayscale(50%);
 }

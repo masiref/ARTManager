@@ -91,6 +91,7 @@ module.exports = function (grunt) {
                         app + '/libs/bootstrap3-editable/css/bootstrap-editable.css',
                         app + '/libs/bootstrap-treeview/src/css/bootstrap-treeview.css',
                         app + '/libs/jasny-bootstrap/dist/css/jasny-bootstrap.css',
+                        app + '/libs/vegas/dist/vegas.css',
                         app + '/css/**/*.css'
                     ]
                 }
@@ -122,6 +123,7 @@ module.exports = function (grunt) {
                     app + '/libs/bootstrap-treeview/src/js/bootstrap-treeview.js',
                     app + '/libs/Chart.js/Chart.js',
                     app + '/libs/jasny-bootstrap/dist/js/jasny-bootstrap.js',
+                    app + '/libs/vegas/dist/vegas.js',
                     '.tmp/js/**/*.js',
                     app + '/js/**/*.js'
                     ]
@@ -141,12 +143,17 @@ module.exports = function (grunt) {
                     expand: true,
                     cwd: app + '/libs/Fontello/fonts',
                     dest: 'web/fonts',
-                     src: ['**']
+                    src: ['**']
                 },{
                     expand: true,
                     cwd: app + '/libs/bootstrap/assets/fonts/bootstrap',
                     dest: 'web/fonts/bootstrap',
-                     src: ['**']
+                    src: ['**']
+                }, {
+                    expand: true,
+                    cwd: app + '/libs/vegas/dist/overlays',
+                    dest: 'web/images/vegas/overlays',
+                    src: ['**']
                 }]
             }
         },
