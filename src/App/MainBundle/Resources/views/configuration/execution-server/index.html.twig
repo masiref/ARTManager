@@ -41,6 +41,9 @@
         </div>
     </div>
     {% include 'AppMainBundle:configuration:execution-server/list.html.twig' with { 'executionServers': executionServers } %}
+{% endblock %}
+
+{% block modals %}
     {% include 'AppMainBundle:configuration:execution-server/new.form.html.twig' %}
 {% endblock %}
 

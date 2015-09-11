@@ -41,6 +41,9 @@
         </div>
     </div>
     {% include 'AppMainBundle:configuration:server/list.html.twig' with { 'servers': servers } %}
+{% endblock %}
+
+{% block modals %}
     {% include 'AppMainBundle:configuration:server/new.form.html.twig' %}
 {% endblock %}
 
