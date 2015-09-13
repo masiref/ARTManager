@@ -19,6 +19,10 @@ var TestSetEditor = {
             $(".execution-grid-collapse-toggle-icon").removeClass("fontello-icon-up-open")
                     .addClass("fontello-icon-down-open");
         });
+        $("#refresh-execution-grid").click(function() {
+            var id = $(this).data('id');
+            TestSetEditor.refreshExecutionGrid(id);
+        });
     },
     initItem: function(id) {
         $('#execution-grid-' + id).dataTable({
@@ -59,7 +63,7 @@ var TestSetEditor = {
                     text: "Your run has been added to the queue. You can follow its execution in the sidebar.",
                     type: "success"
                 }, function() {
-                    TestSetEditor.refreshExecutionGrid(data.executionGrid);
+                    TestSetEditor.updateExecutionGrid(data.executionGrid);
                     Base.refreshSidebar(true);
                 });
                 TestSetEditor.resetRunForm();
@@ -92,9 +96,19 @@ var TestSetEditor = {
             }
         });
     },
-    refreshExecutionGrid: function(grid) {
+    updateExecutionGrid: function(grid) {
         $("#execution-grid").replaceWith($(grid));
         TestInstanceManager.initItems();
+    },
+    refreshExecutionGrid: function(id) {
+        $.ajax({
+            type: 'POST',
+            url: Routing.generate('app_get_application_test_set_execution_grid_ajax', {
+                'id': id
+            })
+        }).done(function(data) {
+            TestSetEditor.updateExecutionGrid(data.executionGrid);
+        });
     },
     refreshBehatFeature: function(id) {
         $.ajax({
