@@ -73,8 +73,8 @@ var TestInstanceManager = {
                 Base.showErrorMessage(message);
             } else {
                 var count = data.count;
-                TestSetEditor.refreshExecutionGrid(data.executionGrid);
-                TestSetEditor.initItem(testSetId);
+                TestSetEditor.updateExecutionGrid(data.executionGrid);
+                TestSetEditor.initExecutionGrid(testSetId);
                 TestSetEditor.refreshBehatFeature(testSetId);
                 TestInstanceManager.closeAddFormModal();
                 var message = "You have added " + count + " test instance" + (count > 1 ? "s" : "");
