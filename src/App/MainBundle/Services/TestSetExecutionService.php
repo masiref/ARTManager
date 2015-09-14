@@ -3,6 +3,7 @@
 namespace App\MainBundle\Services;
 
 use App\MainBundle\Entity\Application;
+use App\MainBundle\Entity\ExecutionReport;
 use App\MainBundle\Entity\ExecutionServer;
 use App\MainBundle\Entity\Status;
 use App\MainBundle\Entity\TestSet;
@@ -75,6 +76,9 @@ class TestSetExecutionService implements GearmanOutputAwareInterface {
 
                 $this->output->writeln(">>> launching execution");
                 $passed = $this->launchExecution($application, $executionServer, $reportFolderPath);
+
+                $this->output->writeln(">>> storing execution report");
+                $this->storeExecutionReport($testSetRun, $executionServer, $reportFolderPath);
 
                 $this->output->writeln(">>> cleaning execution");
                 $this->cleanExecution($executionServer, $featureFilePath);
@@ -152,6 +156,20 @@ class TestSetExecutionService implements GearmanOutputAwareInterface {
     private function updateTestSetRunStatus(TestSetRun $testSetRun, Status $status) {
         $em = $this->em;
         $testSetRun->setStatus($status);
+        $em->persist($testSetRun);
+        $em->flush();
+    }
+
+    private function storeExecutionReport(TestSetRun $testSetRun, ExecutionServer $executionServer, $reportFolderPath) {
+        $em = $this->em;
+        $server = $executionServer->getServer();
+        $session = $server->getSession();
+        $sftp = $session->getSftp();
+        $this->output->writeln("reading content of file : " . $reportFolderPath . DIRECTORY_SEPARATOR . "report.out");
+        $reportFile = $sftp->read($reportFolderPath . DIRECTORY_SEPARATOR . "report.out");
+        $executionReport = new ExecutionReport();
+        $executionReport->setReport($reportFile);
+        $testSetRun->setExecutionReport($executionReport);
         $em->persist($testSetRun);
         $em->flush();
     }

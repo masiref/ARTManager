@@ -70,6 +70,12 @@ class TestSetRun implements JsonSerializable {
      */
     protected $gearmanJobHandle;
 
+    /**
+     * @ORM\OneToOne(targetEntity="ExecutionReport", cascade={"all"}, orphanRemoval=true)
+     * @ORM\JoinColumn(name="execution_report_id", referencedColumnName="id", nullable=true)
+     */
+    protected $executionReport;
+
     public function __construct() {
         $this->createdAt = new \DateTime();
         $t = microtime(true);
@@ -290,6 +296,27 @@ class TestSetRun implements JsonSerializable {
      */
     public function getUser() {
         return $this->user;
+    }
+
+    /**
+     * Set executionReport
+     *
+     * @param \App\MainBundle\Entity\ExecutionReport $executionReport
+     * @return TestSetRun
+     */
+    public function setExecutionReport(\App\MainBundle\Entity\ExecutionReport $executionReport = null) {
+        $this->executionReport = $executionReport;
+
+        return $this;
+    }
+
+    /**
+     * Get executionReport
+     *
+     * @return \App\MainBundle\Entity\ExecutionReport
+     */
+    public function getExecutionReport() {
+        return $this->executionReport;
     }
 
 }

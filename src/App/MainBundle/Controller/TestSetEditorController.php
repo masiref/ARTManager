@@ -206,6 +206,9 @@ class TestSetEditorController extends BaseController {
                 $ajaxResponse['executionGrid'] = $this->render('AppMainBundle:test-set:editor/execution-grid_content.html.twig', array(
                             'testSet' => $testSet
                         ))->getContent();
+                $ajaxResponse['historyGrid'] = $this->render('AppMainBundle:test-set:run/history-grid_table.html.twig', array(
+                            'testSet' => $testSet
+                        ))->getContent();
             } else {
                 $ajaxResponse['error'] = (string) $form->getErrors(true);
             }
@@ -282,6 +285,9 @@ class TestSetEditorController extends BaseController {
             $ajaxResponse['executionGrid'] = $this->render('AppMainBundle:test-set:editor/execution-grid_content.html.twig', array(
                         'testSet' => $testSet
                     ))->getContent();
+            $ajaxResponse['historyGrid'] = $this->render('AppMainBundle:test-set:run/history-grid_table.html.twig', array(
+                        'testSet' => $testSet
+                    ))->getContent();
         }
         $response = new Response(json_encode($ajaxResponse));
         $response->headers->set('Content-Type', 'application/json');
@@ -302,6 +308,27 @@ class TestSetEditorController extends BaseController {
         if ($request->getMethod() == 'POST' && $request->isXmlHttpRequest()) {
             $ajaxResponse['executionGrid'] = $this->render('AppMainBundle:test-set:run/execution-grid_table.html.twig', array(
                         'testSetRun' => $testSetRun
+                    ))->getContent();
+        }
+        $response = new Response(json_encode($ajaxResponse));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
+    }
+
+    /**
+     * @Route("/application/test/set/run/{id}/execution/report",
+     *      name="app_get_application_test_set_run_execution_report_ajax",
+     *      requirements={"_method" = "post"},
+     *      options={"expose" = true }
+     * )
+     * @Secure(roles="ROLE_SUPER_ADMIN")
+     * @ParamConverter("testSetRun", class="AppMainBundle:TestSetRun")
+     */
+    public function getRunExecutionReportAction(TestSetRun $testSetRun, Request $request) {
+        $ajaxResponse = array();
+        if ($request->getMethod() == 'POST' && $request->isXmlHttpRequest()) {
+            $ajaxResponse['report'] = $this->render('AppMainBundle:test-set:run/report_content.html.twig', array(
+                        'executionReport' => $testSetRun->getExecutionReport()
                     ))->getContent();
         }
         $response = new Response(json_encode($ajaxResponse));

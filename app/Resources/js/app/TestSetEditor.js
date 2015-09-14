@@ -39,6 +39,7 @@ var TestSetEditor = {
             var testSetId = $(this).data('test-set-id');
             TestSetEditor.highlightSelectedRunRow(id, testSetId);
             TestSetEditor.showSelectedRunExecutionGrid(id);
+            TestSetEditor.showSelectedRunExecutionReport(id);
         });
     },
     initItem: function(id) {
@@ -47,10 +48,19 @@ var TestSetEditor = {
             "searching": false,
             "paging": true,
             "info": false,
+            "order": [],
             "columnDefs": [
                 { "orderable": false, "targets": [-1, 0] }
             ]
         });
+        $("[id^=details-test-set-run-]").click(function(event) {
+            event.preventDefault();
+            var id = $(this).data('id');
+            var testSetId = $(this).data('test-set-id');
+            TestSetEditor.highlightSelectedRunRow(id, testSetId);
+            TestSetEditor.showSelectedRunExecutionGrid(id);
+            TestSetEditor.showSelectedRunExecutionReport(id);
+        }).tooltip();
     },
     initExecutionGrid: function(id) {
         $('#execution-grid-' + id).dataTable({
@@ -117,7 +127,8 @@ var TestSetEditor = {
                     type: "success"
                 }, function() {
                     TestSetEditor.updateExecutionGrid(data.executionGrid);
-                    TestSetEditor.initExecutionGrid(testSetId);
+                    TestSetEditor.updateHistoryGrid(data.historyGrid);
+                    TestSetEditor.initItem(testSetId);
                     Base.refreshSidebar(true);
                 });
                 TestSetEditor.resetRunForm();
@@ -154,6 +165,11 @@ var TestSetEditor = {
         $("#execution-grid").replaceWith($(grid));
         TestInstanceManager.initItems();
     },
+    updateHistoryGrid: function(grid) {
+        $("#history-grid-wrapper").html($(grid));
+        TestSetEditor.hideSelectedRunExecutionGrid();
+        TestSetEditor.hideSelectedRunExecutionReport();
+    },
     refreshExecutionGrid: function(id) {
         $.ajax({
             type: 'POST',
@@ -162,7 +178,8 @@ var TestSetEditor = {
             })
         }).done(function(data) {
             TestSetEditor.updateExecutionGrid(data.executionGrid);
-            TestSetEditor.initExecutionGrid(id);
+            TestSetEditor.updateHistoryGrid(data.historyGrid);
+            TestSetEditor.initItem(id);
         });
     },
     refreshBehatFeature: function(id) {
@@ -192,6 +209,26 @@ var TestSetEditor = {
     },
     updateSelectedRunExecutionGrid: function(grid) {
         $("#selected-run-execution-grid-table").html($(grid));
+    },
+    showSelectedRunExecutionReport: function(id) {
+        TestSetEditor.hideSelectedRunExecutionReport();
+        $.ajax({
+            type: 'POST',
+            url: Routing.generate('app_get_application_test_set_run_execution_report_ajax', {
+                'id': id
+            })
+        }).done(function(data) {
+            if (data.report && data.report !== "") {
+                TestSetEditor.updateSelectedRunExecutionReport(data.report);
+                $("#selected-run-execution-report").show();
+            }
+        });
+    },
+    hideSelectedRunExecutionReport: function() {
+        $("#selected-run-execution-report").hide();
+    },
+    updateSelectedRunExecutionReport: function(report) {
+        $("#selected-run-execution-report-content").html(report);
     },
     highlightSelectedRunRow: function(id, testSetId) {
         $('#history-grid-' + testSetId + ' tbody tr').removeClass("selected");

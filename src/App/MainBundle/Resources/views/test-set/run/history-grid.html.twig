@@ -1,9 +1,19 @@
 <div id="history-grid">
-    {% include "AppMainBundle:test-set:run/history-grid_table.html.twig" %}
+    <div id="history-grid-wrapper">
+        {% include "AppMainBundle:test-set:run/history-grid_table.html.twig" %}
+    </div>
     <div id="selected-run-execution-grid" style="display: none;">
         <h3 class="text-center">
             <strong><i class="fontello-icon-table"></i> Execution Grid</strong>
         </h3>
         <div id="selected-run-execution-grid-table"></div>
+    </div>
+    <div id="selected-run-execution-report" style="display: none;">
+        <h3 class="text-center">
+            <strong><i class="fontello-icon-doc-text"></i> Execution Report</strong>
+        </h3>
+        <div class="well">
+            <samp id="selected-run-execution-report-content"></samp>
+        </div>
     </div>
 </div>
