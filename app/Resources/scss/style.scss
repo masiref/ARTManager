@@ -48,6 +48,24 @@ body {
     font-weight: normal;
     font-style: normal;
 }
+@font-face {
+    font-family: 'Titillium Web';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Titillium Web'), local('TitilliumWeb-Regular'), url('../fonts/Titillium_Web/TitilliumWeb-Regular.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'Titillium Web';
+    font-style: normal;
+    font-weight: 900;
+    src: local('Titillium WebBlack'), local('TitilliumWeb-Black'), url('../fonts/Titillium_Web/TitilliumWeb-Black.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'Maven Pro';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Maven Pro Regular'), local('MavenProRegular'), url('../fonts/Maven_Pro/MavenPro-Regular.ttf') format('truetype');
+}
 
 [class^="fontello-icon-"]:before, [class*=" fontello-icon-"]:before {
     font-family: "fontello";
@@ -85,7 +103,7 @@ a {
 
 .navbar-default {
     background-color: #fff;
-    
+
     .navbar-nav > li > a {
         color: #79BDE0;
     }
