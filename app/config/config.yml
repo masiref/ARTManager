@@ -28,6 +28,7 @@ framework:
     http_method_override: true
 twig:
     globals:
+        version: "%version%"
         locale: "%locale%"
         gherkin: "@gherkin"
         mink: "@mink"
