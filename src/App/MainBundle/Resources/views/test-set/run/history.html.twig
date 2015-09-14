@@ -1,24 +1,19 @@
-{% set form = addTestSetRunFormView %}
-<div class="modal fade" id="modal-run-test-set">
-    <div class="modal-dialog">
+<div class="modal fade" id="modal-test-set-history">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title text-mygreen">
-                    <i class="fontello-icon-play"></i> Run
+                    <i class="fontello-icon-back-in-time"></i> History of
                     <strong>{{ testSet.name }}</strong>
                     <small>{{ testSet.description }}</small>
                 </h4>
             </div>
             <div class="modal-body">
-                <form id="form-add-test-set-run" name="test-set-run" method="post" action="#">
-                    {{ form_widget(form) }}
-                    {{ form_end(form) }}
+                {% include "AppMainBundle:test-set:run/history-grid.html.twig" %}
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-success" id="save-test-set-run"
-                        data-test-set-id={{ testSet.id }}><i class="fontello-icon-play"></i> Run</button>
             </div>
         </div>
     </div>

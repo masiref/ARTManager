@@ -4,6 +4,14 @@ var TestSetEditor = {
             backdrop: 'static',
             show: false
         });
+        $("#modal-run-test-sets").modal({
+            backdrop: 'static',
+            show: false
+        });
+        $("#modal-test-set-history").modal({
+            backdrop: 'static',
+            show: false
+        });
         $("#run-test-set").click(function() {
             TestSetEditor.openRunFormModal();
         });
@@ -23,8 +31,28 @@ var TestSetEditor = {
             var id = $(this).data('id');
             TestSetEditor.refreshExecutionGrid(id);
         });
+        $("#show-test-set-history").click(function() {
+            TestSetEditor.openRunHistoryModal();
+        });
+        $("[id^=details-test-set-run-]").click(function() {
+            var id = $(this).data('id');
+            var testSetId = $(this).data('test-set-id');
+            TestSetEditor.highlightSelectedRunRow(id, testSetId);
+            TestSetEditor.showSelectedRunExecutionGrid(id);
+        });
     },
     initItem: function(id) {
+        TestSetEditor.initExecutionGrid(id);
+        $('#history-grid-' + id).dataTable({
+            "searching": false,
+            "paging": true,
+            "info": false,
+            "columnDefs": [
+                { "orderable": false, "targets": [-1, 0] }
+            ]
+        });
+    },
+    initExecutionGrid: function(id) {
         $('#execution-grid-' + id).dataTable({
             "searching": false,
             "paging": false,
@@ -46,6 +74,31 @@ var TestSetEditor = {
     closeRunFormModal: function() {
         $("#modal-run-test-set").modal('hide');
     },
+    openMultipleRunFormModal: function(applicationId) {
+        var treeCssSelector = TestSetPlanner.getTreeCssSelector(applicationId);
+        var objects = $(treeCssSelector).treeview('getChecked');
+        $.ajax({
+            type: 'POST',
+            url: Routing.generate('app_application_test_set_entities_run_ajax', {
+                id: applicationId
+            }),
+            data: {
+                objects: objects
+            }
+        }).done(function(data) {
+            $("#modal-run-test-sets-body").html($(data.modalContent));
+            $("#modal-run-test-sets").modal('show');
+        });
+    },
+    closeMultipleRunFormModal: function() {
+        $("#modal-run-test-sets").modal('hide');
+    },
+    openRunHistoryModal: function() {
+        $("#modal-test-set-history").modal('show');
+    },
+    closeRunHistoryModal: function() {
+        $("#modal-test-set-history").modal('hide');
+    },
     saveRun: function(testSetId) {
         $.ajax({
             type: 'POST',
@@ -64,6 +117,7 @@ var TestSetEditor = {
                     type: "success"
                 }, function() {
                     TestSetEditor.updateExecutionGrid(data.executionGrid);
+                    TestSetEditor.initExecutionGrid(testSetId);
                     Base.refreshSidebar(true);
                 });
                 TestSetEditor.resetRunForm();
@@ -92,7 +146,7 @@ var TestSetEditor = {
                 }, function() {
                     Base.refreshSidebar(true);
                 });
-                TestSetManager.closeMultipleRunFormModal();
+                TestSetEditor.closeMultipleRunFormModal();
             }
         });
     },
@@ -108,6 +162,7 @@ var TestSetEditor = {
             })
         }).done(function(data) {
             TestSetEditor.updateExecutionGrid(data.executionGrid);
+            TestSetEditor.initExecutionGrid(id);
         });
     },
     refreshBehatFeature: function(id) {
@@ -119,5 +174,27 @@ var TestSetEditor = {
         }).done(function(data) {
             $("#behat-feature").html(data.feature);
         });
+    },
+    showSelectedRunExecutionGrid: function(id) {
+        TestSetEditor.hideSelectedRunExecutionGrid();
+        $.ajax({
+            type: 'POST',
+            url: Routing.generate('app_get_application_test_set_run_execution_grid_ajax', {
+                'id': id
+            })
+        }).done(function(data) {
+            TestSetEditor.updateSelectedRunExecutionGrid(data.executionGrid);
+            $("#selected-run-execution-grid").show();
+        });
+    },
+    hideSelectedRunExecutionGrid: function() {
+        $("#selected-run-execution-grid").hide();
+    },
+    updateSelectedRunExecutionGrid: function(grid) {
+        $("#selected-run-execution-grid-table").html($(grid));
+    },
+    highlightSelectedRunRow: function(id, testSetId) {
+        $('#history-grid-' + testSetId + ' tbody tr').removeClass("selected");
+        $('#row-test-set-run-' + id).addClass("selected");
     }
 };

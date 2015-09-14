@@ -2,7 +2,6 @@
 
 namespace App\MainBundle\Controller;
 
-use App\MainBundle\Entity\Application;
 use App\MainBundle\Entity\TestInstance;
 use App\MainBundle\Entity\TestSet;
 use App\MainBundle\Entity\TestSetRun;
@@ -282,6 +281,27 @@ class TestSetEditorController extends BaseController {
         if ($request->getMethod() == 'POST' && $request->isXmlHttpRequest()) {
             $ajaxResponse['executionGrid'] = $this->render('AppMainBundle:test-set:editor/execution-grid_content.html.twig', array(
                         'testSet' => $testSet
+                    ))->getContent();
+        }
+        $response = new Response(json_encode($ajaxResponse));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
+    }
+
+    /**
+     * @Route("/application/test/set/run/{id}/execution/grid",
+     *      name="app_get_application_test_set_run_execution_grid_ajax",
+     *      requirements={"_method" = "post"},
+     *      options={"expose" = true }
+     * )
+     * @Secure(roles="ROLE_SUPER_ADMIN")
+     * @ParamConverter("testSetRun", class="AppMainBundle:TestSetRun")
+     */
+    public function getRunExecutionGridAction(TestSetRun $testSetRun, Request $request) {
+        $ajaxResponse = array();
+        if ($request->getMethod() == 'POST' && $request->isXmlHttpRequest()) {
+            $ajaxResponse['executionGrid'] = $this->render('AppMainBundle:test-set:run/execution-grid_table.html.twig', array(
+                        'testSetRun' => $testSetRun
                     ))->getContent();
         }
         $response = new Response(json_encode($ajaxResponse));

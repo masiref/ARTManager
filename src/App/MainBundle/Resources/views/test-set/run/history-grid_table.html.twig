@@ -1,0 +1,18 @@
+<table id="history-grid-{{ testSet.id }}"
+        class="table table-hover table-condensed table-striped table-responsive">
+    <thead>
+        <tr>
+            <th>Requested</th>
+            <th>By</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for testSetRun in testSet.runs %}
+            {% include "AppMainBundle:test-set:run/item.html.twig" with { 
+                'testSetRun': testSetRun
+            } %}
+        {% endfor %}
+    </tbody>
+</table>

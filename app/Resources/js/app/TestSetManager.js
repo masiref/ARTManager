@@ -4,10 +4,6 @@ var TestSetManager = {
             backdrop: 'static',
             show: false
         });
-        $("#modal-run-test-sets").modal({
-            backdrop: 'static',
-            show: false
-        });
         $("#add-test-set").click(function() {
             var folderId = $(this).data('test-set-folder-id');
             var folderName = $(this).data('test-set-folder-name');
@@ -68,25 +64,6 @@ var TestSetManager = {
     },
     closeAddFormModal: function() {
         $("#modal-add-test-set").modal('hide');
-    },
-    openMultipleRunFormModal: function(applicationId) {
-        var treeCssSelector = TestSetPlanner.getTreeCssSelector(applicationId);
-        var objects = $(treeCssSelector).treeview('getChecked');
-        $.ajax({
-            type: 'POST',
-            url: Routing.generate('app_application_test_set_entities_run_ajax', {
-                id: applicationId
-            }),
-            data: {
-                objects: objects
-            }
-        }).done(function(data) {
-            $("#modal-run-test-sets-body").html($(data.modalContent));
-            $("#modal-run-test-sets").modal('show');
-        });
-    },
-    closeMultipleRunFormModal: function() {
-        $("#modal-run-test-sets").modal('hide');
     },
     save: function(folderId, folderName) {
         $.ajax({

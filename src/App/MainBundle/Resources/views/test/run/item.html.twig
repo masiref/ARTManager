@@ -1,0 +1,19 @@
+{% set testInstance = testRun.testInstance %}
+<tr id="row-test-run-{{ testRun.id }}">
+    <td id="cell-test-run-{{ testRun.id }}-order">
+        {{ testInstance.order }}
+    </td>
+    <td id="cell-test-run-{{ testRun.id }}-test-name">
+        {{ testInstance.test }}
+    </td>
+    <td id="cell-test-run-{{ testRun.id }}-status">
+        {% if testRun.status %}
+            {{ testRun.status.html|raw }}
+        {% endif %}
+    </td>
+    <td id="cell-test-run-{{ testRun.id }}-requested">
+        {% if testRun.status %}
+            {{ testRun.createdAt|ago }}
+        {% endif %}
+    </td>
+</tr>

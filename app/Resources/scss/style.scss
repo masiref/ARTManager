@@ -268,3 +268,7 @@ div.row.step > div.step-left > div, div.row.control-step > div {
     -webkit-filter: blur(2px) grayscale(50%);
     filter: blur(2px) grayscale(50%);
 }
+
+.table > tbody > tr.selected > td {
+    background-color: #F9E4B3;
+}

@@ -1,0 +1,18 @@
+<table id="run-execution-grid-{{ testSetRun.id }}"
+        class="table table-hover table-condensed table-striped table-responsive">
+    <thead>
+        <tr>
+            <th>Order</th>
+            <th>Test name</th>
+            <th>Status</th>
+            <th>Requested</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for testRun in testSetRun.testRuns %}
+            {% include "AppMainBundle:test:run/item.html.twig" with { 
+                'testRun': testRun
+            } %}
+        {% endfor %}
+    </tbody>
+</table>

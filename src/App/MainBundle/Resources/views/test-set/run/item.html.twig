@@ -1,0 +1,20 @@
+<tr id="row-test-set-run-{{ testSetRun.id }}">
+    <td id="cell-test-set-run-{{ testSetRun.id }}-runned">
+        {{ testSetRun.createdAt|ago }}
+    </td>
+    <td id="cell-test-set-run-{{ testSetRun.id }}-user">
+        {{ testSetRun.user }}
+    </td>
+    <td id="cell-test-set-run-{{ testSetRun.id }}-status">
+        {% if testSetRun.status %}
+            {{ testSetRun.status.html|raw }}
+        {% endif %}
+    </td>
+    <td id="cell-test-set-run-{{ testSetRun.id }}-actions">
+        <a href="#" id="details-test-set-run-{{ testSetRun.id }}"
+           data-id="{{ testSetRun.id }}"
+           data-test-set-id="{{ testSetRun.testSet.id }}"
+           data-toggle="tooltip" data-placement="right" title="Show details">
+            <i class="fontello-icon-info-circled"></i></a>
+    </td>
+</tr>

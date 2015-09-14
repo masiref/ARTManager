@@ -6,7 +6,7 @@ var TestSetPlanner = {
         });
         $("#run-checked-entities").click(function() {
             var applicationId = $(this).data('application-id');
-            TestSetManager.openMultipleRunFormModal(applicationId);
+            TestSetEditor.openMultipleRunFormModal(applicationId);
         });
         $("#save-test-set-runs").click(function() {
             var applicationId = $(this).data('application-id');
