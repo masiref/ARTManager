@@ -6,9 +6,16 @@ $(document).ready(function() {
         event.preventDefault();
     });
     
+    $(window).keydown(function(event) {
+        if (event.keyCode === 13) {
+            event.preventDefault();
+            return false;
+        }
+    });
+    
     $('a[data-toggle="tooltip"]').tooltip();
     
-    $('.datatable').DataTable({
+    $('.datatable').dataTable({
         "searching": false,
         "paging": false,
         "info": false,

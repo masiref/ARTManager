@@ -85,7 +85,7 @@ var ApplicationManager = {
         table.fnAddTr(rowNode[0]);
     },
     remove: function(id, projectId) {
-        var oTable = $('#applications-' + projectId).DataTable();
+        var oTable = $('#applications-' + projectId).dataTable();
         oTable.row("#row-application-" + id).remove().draw();
     },
     save: function(projectId, projectName) {

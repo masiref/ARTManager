@@ -1,5 +1,5 @@
 @import 'app/Resources/libs/bootstrap/assets/stylesheets/bootstrap';
-@import 'app/Resources/libs/sweetalert/lib/sweet-alert';
+@import 'app/Resources/libs/sweetalert/dev/sweetalert';
 @import 'app/Resources/css/loader.css';
 
 $state-mypurple-bg:             #F3C6D9;
@@ -241,8 +241,11 @@ div.row.step > div.step-left > div, div.row.control-step > div {
 }
 
 .sweet-alert {
-    color: #293540;
     font-family: 'Maven Pro', sans-serif;
+}
+
+.sweet-alert h2, .sweet-alert p {
+    color: #293540;
 }
 
 .footer {

@@ -50,7 +50,8 @@ var TestSetEditor = {
             "info": false,
             "order": [],
             "columnDefs": [
-                { "orderable": false, "targets": [-1, 0] }
+                { "width": "35%", "targets": 0 },
+                { "orderable": false, "targets": [ 0, -1 ] }
             ]
         });
         $("[id^=details-test-set-run-]").click(function(event) {
