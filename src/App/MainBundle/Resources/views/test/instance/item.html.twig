@@ -16,6 +16,9 @@
             {{ lastRun.createdAt|ago }}
         {% endif %}
     </td>
+    <td id="cell-test-instance-{{ testInstance.id }}-execution-server">
+        {{ lastRun.testSetRun.executionServer }}
+    </td>
     {% if showActions %}
         <td id="cell-test-instance-{{ testInstance.id }}-actions">
             {#<a href="#" id="details-test-instance-{{ testInstance.id }}"

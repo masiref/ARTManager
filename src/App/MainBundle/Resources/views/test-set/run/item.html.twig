@@ -8,6 +8,14 @@
             {{ testSetRun.status.html|raw }}
         {% endif %}
     </td>
+    <td id="cell-test-set-run-{{ testSetRun.id }}-duration">
+        {% if testSetRun.endedAt %}
+            {{ testSetRun.endedAt.diff(testSetRun.startedAt)|date('%s') }}
+        {% endif %}
+    </td>
+    <td id="cell-test-set-run-{{ testSetRun.id }}-execution-server">
+        {{ testSetRun.executionServer }}
+    </td>
     <td id="cell-test-set-run-{{ testSetRun.id }}-actions">
         <a href="#" id="details-test-set-run-{{ testSetRun.id }}"
            data-id="{{ testSetRun.id }}"

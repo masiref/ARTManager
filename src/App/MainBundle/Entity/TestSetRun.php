@@ -76,6 +76,16 @@ class TestSetRun implements JsonSerializable {
      */
     protected $executionReport;
 
+    /**
+     * @ORM\Column(name="started_at", type="datetime", nullable=true)
+     */
+    protected $startedAt;
+
+    /**
+     * @ORM\Column(name="ended_at", type="datetime", nullable=true)
+     */
+    protected $endedAt;
+
     public function __construct() {
         $this->createdAt = new \DateTime();
         $t = microtime(true);
@@ -317,6 +327,48 @@ class TestSetRun implements JsonSerializable {
      */
     public function getExecutionReport() {
         return $this->executionReport;
+    }
+
+    /**
+     * Set endedAt
+     *
+     * @param \DateTime $endedAt
+     * @return TestSetRun
+     */
+    public function setEndedAt($endedAt) {
+        $this->endedAt = $endedAt;
+
+        return $this;
+    }
+
+    /**
+     * Get endedAt
+     *
+     * @return \DateTime
+     */
+    public function getEndedAt() {
+        return $this->endedAt;
+    }
+
+    /**
+     * Set startedAt
+     *
+     * @param \DateTime $startedAt
+     * @return TestSetRun
+     */
+    public function setStartedAt($startedAt) {
+        $this->startedAt = $startedAt;
+
+        return $this;
+    }
+
+    /**
+     * Get startedAt
+     *
+     * @return \DateTime
+     */
+    public function getStartedAt() {
+        return $this->startedAt;
     }
 
 }

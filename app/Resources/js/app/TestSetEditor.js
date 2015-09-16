@@ -34,6 +34,10 @@ var TestSetEditor = {
         $("#show-test-set-history").click(function() {
             TestSetEditor.openRunHistoryModal();
         });
+        $("#modal-test-set-history").on("shown.bs.modal", function(e) {
+            var id = $("#show-test-set-history").data("id");
+            TestSetEditor.initHistoryGrid(id);
+        });
         $("[id^=details-test-set-run-]").click(function() {
             var id = $(this).data('id');
             var testSetId = $(this).data('test-set-id');
@@ -44,16 +48,6 @@ var TestSetEditor = {
     },
     initItem: function(id) {
         TestSetEditor.initExecutionGrid(id);
-        $('#history-grid-' + id).dataTable({
-            "searching": false,
-            "paging": true,
-            "info": false,
-            "order": [],
-            "columnDefs": [
-                { "width": "35%", "targets": 0 },
-                { "orderable": false, "targets": [ 0, -1 ] }
-            ]
-        });
         $("[id^=details-test-set-run-]").click(function(event) {
             event.preventDefault();
             var id = $(this).data('id');
@@ -74,6 +68,17 @@ var TestSetEditor = {
             callback: function() {
                 TestSetEditor.refreshBehatFeature(id);
             }
+        });
+    },
+    initHistoryGrid: function(id) {
+        $('#history-grid-' + id).dataTable({
+            "searching": false,
+            "paging": true,
+            "info": false,
+            "order": [],
+            "columnDefs": [
+                { "orderable": false, "targets": [ 0, -1 ] }
+            ]
         });
     },
     resetRunForm: function() {

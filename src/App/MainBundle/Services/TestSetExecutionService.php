@@ -9,6 +9,7 @@ use App\MainBundle\Entity\Status;
 use App\MainBundle\Entity\TestSet;
 use App\MainBundle\Entity\TestSetRun;
 use Cocur\Slugify\Slugify;
+use DateTime;
 use Doctrine\ORM\EntityManager;
 use Exception;
 use Mmoreram\GearmanBundle\Command\Util\GearmanOutputAwareInterface;
@@ -65,6 +66,7 @@ class TestSetExecutionService implements GearmanOutputAwareInterface {
                 $reportFolderPath = $reportsPath . $testSetRunId . "-" . $testSetRunSlug;
 
                 $this->output->writeln(">>> updating execution status (running)");
+                $testSetRun->setStartedAt(new DateTime());
                 $this->updateTestSetRunStatus($testSetRun, $em->getRepository("AppMainBundle:Status")->findRunningTestSetRunStatus());
 
                 $this->output->writeln(">>> preparing execution");
@@ -83,6 +85,7 @@ class TestSetExecutionService implements GearmanOutputAwareInterface {
                 $this->output->writeln(">>> cleaning execution");
                 $this->cleanExecution($executionServer, $featureFilePath);
 
+                $testSetRun->setEndedAt(new DateTime());
                 $this->output->writeln(">>> updating execution status (passed or failed)");
                 $this->updateFinishedTestSetRunStatus($testSetRun, $passed);
 
