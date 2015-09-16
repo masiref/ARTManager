@@ -58,19 +58,21 @@ var TestSetEditor = {
         }).tooltip();
     },
     initExecutionGrid: function(id) {
-        $('#execution-grid-' + id).dataTable({
-            "searching": false,
-            "paging": false,
-            "info": false,
-            "order": [],
-            "ordering": false
-        }).rowReordering({
-            sURL: Routing.generate('app_update_application_test_set_test_instance_orders_ajax'),
-            sRequestType: "POST",
-            callback: function() {
-                TestSetEditor.refreshBehatFeature(id);
-            }
-        });
+        if (!($.fn.dataTable.isDataTable('#execution-grid-' + id))) {
+            $('#execution-grid-' + id).dataTable({
+                "searching": false,
+                "paging": false,
+                "info": false,
+                "order": [],
+                "ordering": false
+            }).rowReordering({
+                sURL: Routing.generate('app_update_application_test_set_test_instance_orders_ajax'),
+                sRequestType: "POST",
+                callback: function() {
+                    TestSetEditor.refreshBehatFeature(id);
+                }
+            });
+        }
     },
     initHistoryGrid: function(id) {
         if (!($.fn.dataTable.isDataTable('#history-grid-' + id))) {

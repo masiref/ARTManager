@@ -40,7 +40,8 @@
         "friendsofsymfony/jsrouting-bundle": "~1.5",
         "herzult/php-ssh": "~1.0",
         "cocur/slugify": "^1.2",
-        "mmoreram/gearman-bundle": "^3.0"
+        "mmoreram/gearman-bundle": "^3.0",
+	"behat/gherkin": "4.3"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3"

@@ -102,7 +102,7 @@ var TestInstanceManager = {
                     var message = "Test instance was not deleted !\n" + data.error;
                     Base.showErrorMessage(message);
                 } else {
-                    TestSetEditor.refreshExecutionGrid(data.executionGrid);
+                    TestSetEditor.updateExecutionGrid(data.executionGrid);
                     TestSetEditor.initItem(data.testSetId);
                     TestSetEditor.refreshBehatFeature(data.testSetId);
                     Base.showSuccessMessage("Test instance deleted !");
