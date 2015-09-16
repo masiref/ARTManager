@@ -71,15 +71,17 @@ var TestSetEditor = {
         });
     },
     initHistoryGrid: function(id) {
-        $('#history-grid-' + id).dataTable({
-            "searching": false,
-            "paging": true,
-            "info": false,
-            "order": [],
-            "columnDefs": [
-                { "orderable": false, "targets": [ 0, -1 ] }
-            ]
-        });
+        if (!($.fn.dataTable.isDataTable('#history-grid-' + id))) {
+            $('#history-grid-' + id).dataTable({
+                "searching": false,
+                "paging": true,
+                "info": false,
+                "order": [],
+                "columnDefs": [
+                    { "orderable": false, "targets": [ 0, -1 ] }
+                ]
+            });
+        }
     },
     resetRunForm: function() {
         $("#form-add-test-set-run")[0].reset();
