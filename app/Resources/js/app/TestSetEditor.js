@@ -61,7 +61,9 @@ var TestSetEditor = {
         $('#execution-grid-' + id).dataTable({
             "searching": false,
             "paging": false,
-            "info": false
+            "info": false,
+            "order": [],
+            "ordering": false
         }).rowReordering({
             sURL: Routing.generate('app_update_application_test_set_test_instance_orders_ajax'),
             sRequestType: "POST",
