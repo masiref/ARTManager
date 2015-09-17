@@ -11,3 +11,7 @@ services:
     test_set_execution:
         class: App\MainBundle\Services\TestSetExecutionService
         arguments: [@doctrine.orm.entity_manager, @gherkin, @slugify]
+    appmain.form_extention.form_icon:
+        class: App\MainBundle\Form\Extension\FieldTypeIconExtension
+        tags:
+            - { name: form.type_extension, alias: form }

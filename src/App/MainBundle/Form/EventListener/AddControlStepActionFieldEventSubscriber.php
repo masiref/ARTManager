@@ -37,11 +37,13 @@ class AddControlStepActionFieldEventSubscriber implements EventSubscriberInterfa
         }
 
         $form->add($this->factory->createNamed('action', 'entity', null, array(
+                    'label' => 'Verification',
                     'class' => 'AppMainBundle:Action',
                     'empty_value' => '',
                     'auto_initialize' => false,
                     'choices' => $actions,
-                    'attr' => array('data-step-id' => $step->getId())
+                    'attr' => array('data-step-id' => $step->getId()),
+                    'icon' => 'ok-circled'
         )));
     }
 

@@ -41,7 +41,8 @@ class PrerequisiteType extends AbstractType {
                     $qb->andWhere($qb->expr()->notIn('t.id', $prerequisitesTestsId));
                 }
                 return $qb;
-            }
+            },
+            'icon' => 'tasks'
         ]);
     }
 

@@ -53,7 +53,8 @@ class AddExecuteStepActionParametersFieldEventSubscriber implements EventSubscri
         $form->add('parameterDatas', 'collection', array(
             'type' => new ParameterDataType(),
             'by_reference' => false,
-            'options' => array('label' => false)
+            'options' => array('label' => false),
+            'icon' => 'wrench'
         ));
     }
 

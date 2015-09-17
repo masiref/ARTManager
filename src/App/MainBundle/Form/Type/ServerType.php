@@ -9,14 +9,25 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 class ServerType extends AbstractType {
 
     public function buildForm(FormBuilderInterface $builder, array $options) {
-        $builder->add('name');
-        $builder->add('description', 'textarea', array(
-            'required' => false
+        $builder->add('name', 'text', array(
+            'icon' => 'pencil'
         ));
-        $builder->add('host');
-        $builder->add('port');
-        $builder->add('username');
-        $builder->add('password');
+        $builder->add('description', 'textarea', array(
+            'required' => false,
+            'icon' => 'info'
+        ));
+        $builder->add('host', 'text', array(
+            'icon' => 'address'
+        ));
+        $builder->add('port', 'integer', array(
+            'icon' => 'lifebuoy'
+        ));
+        $builder->add('username', 'text', array(
+            'icon' => 'user'
+        ));
+        $builder->add('password', 'text', array(
+            'icon' => 'key'
+        ));
     }
 
     public function getName() {

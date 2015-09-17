@@ -10,19 +10,24 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 class ObjectType extends AbstractType {
 
     public function buildForm(FormBuilderInterface $builder, array $options) {
-        $builder->add('name');
+        $builder->add('name', 'text', array(
+            'icon' => 'pencil'
+        ));
         $builder->add('description', 'textarea', array(
-            'required' => false
+            'required' => false,
+            'icon' => 'info'
         ));
         $builder->add('objectType', 'entity', array(
             'class' => 'AppMainBundle:ObjectType',
             'property' => 'name',
             'query_builder' => function(EntityRepository $er) {
                 return $er->createQueryBuilder('ot')->orderBy('ot.name', 'ASC');
-            }
+            },
+            'icon' => 'code'
         ));
         $builder->add('objectIdentifier', new ObjectIdentifierType(), array(
-            'label' => 'Identification'
+            'label' => 'Identification',
+            'icon' => 'target'
         ));
     }
 

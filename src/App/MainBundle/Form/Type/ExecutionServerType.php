@@ -9,16 +9,21 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 class ExecutionServerType extends AbstractType {
 
     public function buildForm(FormBuilderInterface $builder, array $options) {
-        $builder->add('name');
+        $builder->add('name', 'text', array(
+            'icon' => 'pencil'
+        ));
         $builder->add('description', 'textarea', array(
-            'required' => false
+            'required' => false,
+            'icon' => 'info'
         ));
         $builder->add('artRunnerPath', 'text', array(
-            'label' => 'ART Runner Path'
+            'label' => 'ART Runner Path',
+            'icon' => 'address'
         ));
         $builder->add('server', 'entity', array(
             'class' => 'AppMainBundle:Server',
             'property' => 'name',
+            'icon' => 'desktop'
         ));
     }
 

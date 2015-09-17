@@ -9,9 +9,12 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 class ObjectMapType extends AbstractType {
 
     public function buildForm(FormBuilderInterface $builder, array $options) {
-        $builder->add('name', 'text');
+        $builder->add('name', 'text', array(
+            'icon' => 'pencil'
+        ));
         $builder->add('description', 'textarea', array(
-            'required' => false
+            'required' => false,
+            'icon' => 'info'
         ));
     }
 

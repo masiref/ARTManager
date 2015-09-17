@@ -37,7 +37,8 @@ class AddExecuteStepActionFieldEventSubscriber implements EventSubscriberInterfa
                     'empty_value' => '',
                     'auto_initialize' => false,
                     'choices' => $actions,
-                    'attr' => array('data-test-id' => $test->getId())
+                    'attr' => array('data-test-id' => $test->getId()),
+                    'icon' => 'up-hand'
         )));
     }
 

@@ -11,7 +11,8 @@ class TestSetRunType extends AbstractType {
 
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder->add('name', 'text', array(
-            'required' => false
+            'required' => false,
+            'icon' => 'pencil'
         ));
         $builder->add('executionServer', 'entity', array(
             'class' => 'AppMainBundle:ExecutionServer',
@@ -19,7 +20,8 @@ class TestSetRunType extends AbstractType {
             'empty_value' => 'Select an execution server',
             'query_builder' => function(EntityRepository $er) {
                 return $er->createQueryBuilder('es')->orderBy('es.name', 'ASC');
-            }
+            },
+            'icon' => 'gauge'
         ));
     }
 

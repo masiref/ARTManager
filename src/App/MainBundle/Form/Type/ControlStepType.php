@@ -55,7 +55,8 @@ class ControlStepType extends AbstractType {
                                 ->addOrderBy('p.page')
                                 ->addOrderBy('p.name');
             },
-            'attr' => array('data-step-id' => $step->getId())
+            'attr' => array('data-step-id' => $step->getId()),
+            'icon' => 'th-large'
         ));
 
         $builder->add('object', 'entity', array(
@@ -68,7 +69,8 @@ class ControlStepType extends AbstractType {
                                 ->where('o.page = :page')
                                 ->setParameter('page', $page);
             },
-            'attr' => array('data-step-id' => $step->getId())
+            'attr' => array('data-step-id' => $step->getId()),
+            'icon' => 'puzzle'
         ));
     }
 

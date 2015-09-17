@@ -50,7 +50,8 @@ class ExecuteStepType extends AbstractType {
                                 ->addOrderBy('o.name')
                 ;
             },
-            'attr' => array('data-test-id' => $test->getId())
+            'attr' => array('data-test-id' => $test->getId()),
+            'icon' => 'puzzle'
         ));
     }
 
