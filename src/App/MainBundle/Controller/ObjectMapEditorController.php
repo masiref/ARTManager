@@ -10,6 +10,7 @@ use App\MainBundle\Form\Type\ObjectMapType;
 use App\MainBundle\Form\Type\ObjectType;
 use App\MainBundle\Form\Type\PageType;
 use Doctrine\DBAL\DBALException;
+use Doctrine\ORM\Event\LifecycleEventArgs;
 use JMS\SecurityExtraBundle\Annotation\Secure;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -286,6 +287,12 @@ class ObjectMapEditorController extends BaseController {
                     $errors = $validator->validate($page);
                     if (count($errors) == 0) {
                         $em->persist($page);
+                        // updating page type can have impact on steps using the page
+                        $controlSteps = $em->getRepository("AppMainBundle:ControlStep")->findByPage($page);
+                        foreach ($controlSteps as $controlStep) {
+                            $controlStep->updateSentenceGroup(new LifecycleEventArgs($controlStep, $em));
+                            $em->persist($controlStep);
+                        }
                         $em->flush();
                         $response = new Response(json_encode(array(
                                     "pageId" => $page->getId(),
