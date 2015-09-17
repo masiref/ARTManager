@@ -1,5 +1,6 @@
 <tr id="row-test-set-run-{{ testSetRun.id }}">
-    <td id="cell-test-set-run-{{ testSetRun.id }}-runned">{{ testSetRun.createdAt|ago }}</td>
+    <td id="cell-test-set-run-{{ testSetRun.id }}-name">{{ testSetRun.name }}</td>
+    <td id="cell-test-set-run-{{ testSetRun.id }}-requested">{{ testSetRun.createdAt|ago }}</td>
     <td id="cell-test-set-run-{{ testSetRun.id }}-user">
         {{ testSetRun.user }}
     </td>

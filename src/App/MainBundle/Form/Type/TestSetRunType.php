@@ -10,6 +10,9 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 class TestSetRunType extends AbstractType {
 
     public function buildForm(FormBuilderInterface $builder, array $options) {
+        $builder->add('name', 'text', array(
+            'required' => false
+        ));
         $builder->add('executionServer', 'entity', array(
             'class' => 'AppMainBundle:ExecutionServer',
             'property' => 'name',

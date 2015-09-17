@@ -144,7 +144,7 @@ class Object implements JsonSerializable {
     public function getMinkIdentification() {
         $result = "";
         $objectIdentifier = $this->objectIdentifier;
-        if ($objectIdentifier != null) {
+        if ($objectIdentifier != null && $objectIdentifier->getValue() != null && $objectIdentifier->getValue() != "") {
             $result = $objectIdentifier->getValue();
         } else {
             $result = $this->getName();

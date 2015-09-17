@@ -23,6 +23,11 @@ class TestSetRun implements JsonSerializable {
     protected $id;
 
     /**
+     * @ORM\Column(name="name", type="string", nullable=true)
+     */
+    protected $name;
+
+    /**
      * @ORM\Column(name="slug", type="string")
      */
     protected $slug;
@@ -96,6 +101,7 @@ class TestSetRun implements JsonSerializable {
                 . "-" . $this->testSet
                 . "-" . $micro
         );
+        $this->name = $this->slug;
         $this->testRuns = new ArrayCollection();
     }
 
@@ -369,6 +375,27 @@ class TestSetRun implements JsonSerializable {
      */
     public function getStartedAt() {
         return $this->startedAt;
+    }
+
+    /**
+     * Set name
+     *
+     * @param string $name
+     * @return TestSetRun
+     */
+    public function setName($name) {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string
+     */
+    public function getName() {
+        return $this->name;
     }
 
 }
