@@ -2,6 +2,7 @@
 
 namespace App\MainBundle\Form\Type;
 
+use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
@@ -16,6 +17,9 @@ class ObjectType extends AbstractType {
         $builder->add('objectType', 'entity', array(
             'class' => 'AppMainBundle:ObjectType',
             'property' => 'name',
+            'query_builder' => function(EntityRepository $er) {
+                return $er->createQueryBuilder('ot')->orderBy('ot.name', 'ASC');
+            }
         ));
         $builder->add('objectIdentifier', new ObjectIdentifierType(), array(
             'label' => 'Identification'

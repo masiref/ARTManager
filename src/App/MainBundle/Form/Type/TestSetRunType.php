@@ -2,6 +2,7 @@
 
 namespace App\MainBundle\Form\Type;
 
+use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
@@ -12,7 +13,10 @@ class TestSetRunType extends AbstractType {
         $builder->add('executionServer', 'entity', array(
             'class' => 'AppMainBundle:ExecutionServer',
             'property' => 'name',
-            'empty_value' => 'Select an execution server'
+            'empty_value' => 'Select an execution server',
+            'query_builder' => function(EntityRepository $er) {
+                return $er->createQueryBuilder('es')->orderBy('es.name', 'ASC');
+            }
         ));
     }
 

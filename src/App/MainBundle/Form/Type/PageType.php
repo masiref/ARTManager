@@ -2,6 +2,7 @@
 
 namespace App\MainBundle\Form\Type;
 
+use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
@@ -16,8 +17,13 @@ class PageType extends AbstractType {
         $builder->add('pageType', 'entity', array(
             'class' => 'AppMainBundle:PageType',
             'property' => 'name',
+            'query_builder' => function(EntityRepository $er) {
+                return $er->createQueryBuilder('pt')->orderBy('pt.name', 'ASC');
+            }
         ));
-        $builder->add('path');
+        $builder->add('path', 'text', array(
+            'label' => 'Path (standard) or Title (modal)'
+        ));
     }
 
     public function getName() {
