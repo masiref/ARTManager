@@ -1,26 +1,26 @@
 <tr id="row-test-instance-{{ testInstance.id }}" data-position="{{ position }}">
-    <td id="cell-test-instance-{{ testInstance.id }}-order">
+    <td id="cell-test-instance-{{ testInstance.id }}-order" class="text-center">
         {{ testInstance.order }}
     </td>
     <td id="cell-test-instance-{{ testInstance.id }}-test-name">
         {{ testInstance.test }}
     </td>
-    <td id="cell-test-instance-{{ testInstance.id }}-status">
+    <td id="cell-test-instance-{{ testInstance.id }}-status" class="text-center">
         {% set lastRun = testInstance.lastRun %}
         {% if lastRun and lastRun.status %}
             {{ lastRun.status.html|raw }}
         {% endif %}
     </td>
-    <td id="cell-test-instance-{{ testInstance.id }}-last-runned">
+    <td id="cell-test-instance-{{ testInstance.id }}-last-requested" class="text-center">
         {% if lastRun and lastRun.status %}
             {{ lastRun.createdAt|ago }}
         {% endif %}
     </td>
-    <td id="cell-test-instance-{{ testInstance.id }}-execution-server">
+    <td id="cell-test-instance-{{ testInstance.id }}-execution-server" class="text-center">
         {{ lastRun.testSetRun.executionServer }}
     </td>
     {% if showActions %}
-        <td id="cell-test-instance-{{ testInstance.id }}-actions">
+        <td id="cell-test-instance-{{ testInstance.id }}-actions" class="text-center">
             {#<a href="#" id="details-test-instance-{{ testInstance.id }}"
                data-id="{{ testInstance.id }}" 
                data-order="{{ testInstance.order }}"

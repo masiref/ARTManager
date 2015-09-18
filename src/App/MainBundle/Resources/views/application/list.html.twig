@@ -1,11 +1,11 @@
 <table id="applications-{{ project.id }}"
-        class="table table-hover table-condensed table-striped table-responsive datatable"
+        class="table table-hover table-condensed table-striped table-responsive table-bordered"
         {% if project.applications|length == 0 %}style="display: none;"{% endif %}>
     <thead>
         <tr>
-            <th>&nbsp;</th>
             <th><i class="fontello-icon-pencil"></i>Name</th>
             <th><i class="fontello-icon-info"></i>Description</th>
+            <th class="text-center"><i class="fontello-icon-edit"></i>Actions</th>
         </tr>
     </thead>
     <tbody>

@@ -1,23 +1,23 @@
 <tr id="row-test-set-run-{{ testSetRun.id }}">
     <td id="cell-test-set-run-{{ testSetRun.id }}-name">{{ testSetRun.name }}</td>
-    <td id="cell-test-set-run-{{ testSetRun.id }}-requested">{{ testSetRun.createdAt|ago }}</td>
-    <td id="cell-test-set-run-{{ testSetRun.id }}-user">
+    <td id="cell-test-set-run-{{ testSetRun.id }}-requested" class="text-center">{{ testSetRun.createdAt|ago }}</td>
+    <td id="cell-test-set-run-{{ testSetRun.id }}-user" class="text-center">
         {{ testSetRun.user }}
     </td>
-    <td id="cell-test-set-run-{{ testSetRun.id }}-status">
+    <td id="cell-test-set-run-{{ testSetRun.id }}-status" class="text-center">
         {% if testSetRun.status %}
             {{ testSetRun.status.html|raw }}
         {% endif %}
     </td>
-    <td id="cell-test-set-run-{{ testSetRun.id }}-duration">
+    <td id="cell-test-set-run-{{ testSetRun.id }}-duration" class="text-center">
         {% if testSetRun.endedAt %}
             {{ testSetRun.endedAt.diff(testSetRun.startedAt)|date('%s') }}
         {% endif %}
     </td>
-    <td id="cell-test-set-run-{{ testSetRun.id }}-execution-server">
+    <td id="cell-test-set-run-{{ testSetRun.id }}-execution-server" class="text-center">
         {{ testSetRun.executionServer }}
     </td>
-    <td id="cell-test-set-run-{{ testSetRun.id }}-actions">
+    <td id="cell-test-set-run-{{ testSetRun.id }}-actions" class="text-center">
         <a href="#" id="details-test-set-run-{{ testSetRun.id }}"
            data-id="{{ testSetRun.id }}"
            data-test-set-id="{{ testSetRun.testSet.id }}"

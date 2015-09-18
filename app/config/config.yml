@@ -26,6 +26,8 @@ framework:
         handler_id: null
     fragments: null
     http_method_override: true
+simple_things_form_extra:
+    help_extension: true
 twig:
     globals:
         version: "%version%"

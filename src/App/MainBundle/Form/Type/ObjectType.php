@@ -26,6 +26,7 @@ class ObjectType extends AbstractType {
             'icon' => 'code'
         ));
         $builder->add('objectIdentifier', new ObjectIdentifierType(), array(
+            'required' => false,
             'label' => 'Identification',
             'icon' => 'target'
         ));

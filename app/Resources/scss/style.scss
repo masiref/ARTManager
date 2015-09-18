@@ -272,6 +272,9 @@ div.row.step > div.step-left > div, div.row.control-step > div {
     width: 500px;
     background-color: #293540;
     border: none;
+    -moz-box-shadow: 10px 0 5px -2px #888;
+    -webkit-box-shadow: 10px 0 5px -2px #888;
+    box-shadow: 10px 0 5px -2px #888;
 }
 
 #sidebar > h2, #sidebar h3 {
@@ -293,4 +296,9 @@ div.row.step > div.step-left > div, div.row.control-step > div {
 
 .table > tbody > tr.selected > td {
     background-color: #F9E4B3;
+}
+
+.panel-footer {
+    border-top: 0px none;
+    background-color: #fff;
 }

@@ -23,7 +23,7 @@ class TestSetRun implements JsonSerializable {
     protected $id;
 
     /**
-     * @ORM\Column(name="name", type="string", nullable=true)
+     * @ORM\Column(name="name", type="string")
      */
     protected $name;
 

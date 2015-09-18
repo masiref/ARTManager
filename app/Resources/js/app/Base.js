@@ -15,18 +15,6 @@ $(document).ready(function() {
     
     $('a[data-toggle="tooltip"]').tooltip();
     
-    $('.datatable').dataTable({
-        "searching": false,
-        "paging": false,
-        "info": false,
-        "order": [
-            [ 1, 'asc' ]
-        ],
-        "columnDefs": [
-            { "orderable": false, "targets": 0 }
-        ]
-    });
-    
     $('input, textarea').attr('autocomplete', 'off');
     
     jQuery.fn.extend({

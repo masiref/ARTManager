@@ -4,8 +4,67 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "729132d1bb250adebc0d1d0aef02a386",
+    "hash": "a6d47e9a1d9deb2c5aed0bc25659f8f7",
+    "content-hash": "42dc22db26b973de49429fc45603ac24",
     "packages": [
+        {
+            "name": "behat/gherkin",
+            "version": "v4.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Behat/Gherkin.git",
+                "reference": "43777c51058b77bcd84a8775b7a6ad05e986b5db"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Behat/Gherkin/zipball/43777c51058b77bcd84a8775b7a6ad05e986b5db",
+                "reference": "43777c51058b77bcd84a8775b7a6ad05e986b5db",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.1"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.0",
+                "symfony/yaml": "~2.1"
+            },
+            "suggest": {
+                "symfony/yaml": "If you want to parse features, represented in YAML files"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "4.2-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Behat\\Gherkin": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Konstantin Kudryashov",
+                    "email": "ever.zet@gmail.com",
+                    "homepage": "http://everzet.com"
+                }
+            ],
+            "description": "Gherkin DSL parser for PHP 5.3",
+            "homepage": "http://behat.org/",
+            "keywords": [
+                "BDD",
+                "Behat",
+                "Cucumber",
+                "DSL",
+                "gherkin",
+                "parser"
+            ],
+            "time": "2014-06-06 01:24:32"
+        },
         {
             "name": "behat/transliterator",
             "version": "v1.0.1",
@@ -958,7 +1017,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSUserBundle/zipball/c1cfdf9a3df9fc72822a3c67b78f611817e7352e",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSUserBundle/zipball/62fc3973ea1ef0d5b0f8d4e7d6402414e7f1e4d7",
                 "reference": "6d6d636c2dbab0b58be01c51889b8a08e1af3d4d",
                 "shasum": ""
             },
@@ -1765,7 +1824,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/KnpLabs/DoctrineBehaviors/zipball/d411af325ed2636f0cf2012bc5ccd0974d189fc4",
+                "url": "https://api.github.com/repos/KnpLabs/DoctrineBehaviors/zipball/f2663e442c36b04eb9dda6984d6a4f4803eb5c02",
                 "reference": "d411af325ed2636f0cf2012bc5ccd0974d189fc4",
                 "shasum": ""
             },
@@ -2096,7 +2155,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/KnpLabs/KnpPaginatorBundle/zipball/84accca9c921dcbdc9c4be3ba0366a25f8d779b3",
+                "url": "https://api.github.com/repos/KnpLabs/KnpPaginatorBundle/zipball/4a1daf55560ca7cf9c13b357135d72f4dc13375f",
                 "reference": "84accca9c921dcbdc9c4be3ba0366a25f8d779b3",
                 "shasum": ""
             },
@@ -2910,6 +2969,54 @@
             "time": "2014-11-10 16:07:56"
         },
         {
+            "name": "simplethings/form-extra-bundle",
+            "version": "v1.1.0",
+            "target-dir": "SimpleThings/FormExtraBundle",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/simplethings/SimpleThingsFormExtraBundle.git",
+                "reference": "cb5dca6ffd9bbbd047b8f82d9156de5d5b4a7571"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/simplethings/SimpleThingsFormExtraBundle/zipball/cb5dca6ffd9bbbd047b8f82d9156de5d5b4a7571",
+                "reference": "cb5dca6ffd9bbbd047b8f82d9156de5d5b4a7571",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0",
+                "symfony/symfony": "~2.1"
+            },
+            "type": "symfony-bundle",
+            "autoload": {
+                "psr-0": {
+                    "SimpleThings\\FormExtraBundle\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Benjamin Eberlei",
+                    "email": "kontakt@beberlei.de"
+                },
+                {
+                    "name": "Henrik Bjornskov",
+                    "email": "henrik@bjrnskov.dk",
+                    "homepage": "http://henrik.bjrnskov.dk"
+                }
+            ],
+            "description": "This bundles provides extra FormType's for Symfony2",
+            "keywords": [
+                "Symfony2",
+                "form",
+                "recaptcha"
+            ],
+            "time": "2014-04-17 08:30:37"
+        },
+        {
             "name": "sonata-project/admin-bundle",
             "version": "2.3.x-dev",
             "source": {
@@ -2919,7 +3026,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sonata-project/SonataAdminBundle/zipball/8ce1a1b605e6b897e5403aa2003d40a05eca2f69",
+                "url": "https://api.github.com/repos/sonata-project/SonataAdminBundle/zipball/1dfcfcf8650e8d8c4a4400b9525b2097110f1f11",
                 "reference": "4e8dd310cb5eb4064087b4b6df2b72015548fb7c",
                 "shasum": ""
             },
@@ -3127,7 +3234,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sonata-project/SonataCoreBundle/zipball/740faff31ceda763a9887bc05141c3040d2ec2cf",
+                "url": "https://api.github.com/repos/sonata-project/SonataCoreBundle/zipball/55f44c11efdd8c579d2aea414fbe1415a2a4001f",
                 "reference": "329ca0bb9cc413a649b3ab4d73077c4da74f1c13",
                 "shasum": ""
             },
@@ -4319,66 +4426,7 @@
             "time": "2015-07-28 13:10:50"
         }
     ],
-    "packages-dev": [
-        {
-            "name": "behat/gherkin",
-            "version": "v4.3.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Behat/Gherkin.git",
-                "reference": "43777c51058b77bcd84a8775b7a6ad05e986b5db"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Behat/Gherkin/zipball/43777c51058b77bcd84a8775b7a6ad05e986b5db",
-                "reference": "43777c51058b77bcd84a8775b7a6ad05e986b5db",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.1"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "~4.0",
-                "symfony/yaml": "~2.1"
-            },
-            "suggest": {
-                "symfony/yaml": "If you want to parse features, represented in YAML files"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "4.2-dev"
-                }
-            },
-            "autoload": {
-                "psr-0": {
-                    "Behat\\Gherkin": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Konstantin Kudryashov",
-                    "email": "ever.zet@gmail.com",
-                    "homepage": "http://everzet.com"
-                }
-            ],
-            "description": "Gherkin DSL parser for PHP 5.3",
-            "homepage": "http://behat.org/",
-            "keywords": [
-                "BDD",
-                "Behat",
-                "Cucumber",
-                "DSL",
-                "gherkin",
-                "parser"
-            ],
-            "time": "2014-06-06 01:24:32"
-        }
-    ],
+    "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {

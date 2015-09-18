@@ -26,8 +26,9 @@ class PageType extends AbstractType {
             'icon' => 'code'
         ));
         $builder->add('path', 'text', array(
-            'label' => 'Path (standard) or Title (modal)',
-            'icon' => 'address'
+            'label' => 'Path',
+            'icon' => 'address',
+            'help' => 'When the selected type is "Modal", specify the title of it.'
         ));
     }
 

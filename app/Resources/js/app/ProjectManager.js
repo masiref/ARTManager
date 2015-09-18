@@ -14,6 +14,17 @@ var ProjectManager = {
             var id = $(this).data('id');
             var name = $(this).data('name');
             ProjectManager.delete(id, name);
+        });    
+        $("table").filter('[id^=applications-]').dataTable({
+            "searching": false,
+            "paging": false,
+            "info": false,
+            "order": [
+                [ 1, 'asc' ]
+            ],
+            "columnDefs": [
+                { "orderable": false, "targets": -1 }
+            ]
         });
     },
     initItem: function(id) {
@@ -34,7 +45,7 @@ var ProjectManager = {
         ProjectManager.initApplicationsTable(id);
     },
     initApplicationsTable: function(id) {
-        $('#applications-' + id).DataTable({
+        $('#applications-' + id).dataTable({
             "searching": false,
             "paging": false,
             "info": false,
@@ -42,7 +53,7 @@ var ProjectManager = {
                 [ 1, 'asc' ]
             ],
             "columnDefs": [
-                { "orderable": false, "targets": 0 }
+                { "orderable": false, "targets": -1 }
             ]
         });
     },

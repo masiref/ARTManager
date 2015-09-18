@@ -41,7 +41,8 @@
         "herzult/php-ssh": "~1.0",
         "cocur/slugify": "^1.2",
         "mmoreram/gearman-bundle": "^3.0",
-	"behat/gherkin": "4.3"
+	"behat/gherkin": "4.3",
+        "simplethings/form-extra-bundle": "^1.1"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3"

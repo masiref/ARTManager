@@ -40,6 +40,7 @@ class AppKernel extends Kernel {
             new Cocur\Slugify\Bridge\Symfony\CocurSlugifyBundle(),
             new Doctrine\Bundle\DoctrineCacheBundle\DoctrineCacheBundle(),
             new Mmoreram\GearmanBundle\GearmanBundle(),
+            new SimpleThings\FormExtraBundle\SimpleThingsFormExtraBundle(),
             new Application\Sonata\UserBundle\ApplicationSonataUserBundle(),
             new Application\Sonata\MediaBundle\ApplicationSonataMediaBundle(),
             new App\MainBundle\AppMainBundle(),
