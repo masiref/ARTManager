@@ -13,8 +13,7 @@ use JsonSerializable;
  * @ORM\Table(name="action", uniqueConstraints={@ORM\UniqueConstraint(name="IDX_Unique", columns={"name"})})
  * @UniqueEntity(
  *      fields={"name"},
- *      message="Name already used.",
- *      groups="action"
+ *      message="Name already used."
  * )
  */
 class Action implements JsonSerializable {

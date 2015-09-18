@@ -39,7 +39,7 @@ class ObjectType extends AbstractType {
     public function setDefaultOptions(OptionsResolverInterface $resolver) {
         $resolver->setDefaults(array(
             'data_class' => 'App\MainBundle\Entity\Object',
-            'validation_group' => array('object'),
+            'validation_groups' => array('Default', 'object'),
             'cascade_validation' => true
         ));
     }

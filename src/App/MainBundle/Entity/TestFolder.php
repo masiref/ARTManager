@@ -15,21 +15,13 @@ use JsonSerializable;
  *      @ORM\UniqueConstraint(name="IDX_Unique_Test_Folder", columns={"name", "parent_id"})
  * })
  * @UniqueEntity(
- *      fields={"name"},
+ *      fields={"name", "application"},
  *      message="Name already used.",
  *      groups="test_folder_application"
  * )
  * @UniqueEntity(
- *      fields={"application"},
- *      groups="test_folder_application"
- * )
- * @UniqueEntity(
- *      fields={"name"},
+ *      fields={"name", "testFolder"},
  *      message="Name already used.",
- *      groups="test_folder_test_folder"
- * )
- * @UniqueEntity(
- *      fields={"testFolder"},
  *      groups="test_folder_test_folder"
  * )
  */

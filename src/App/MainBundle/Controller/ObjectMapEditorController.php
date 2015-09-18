@@ -9,7 +9,6 @@ use App\MainBundle\Entity\Page;
 use App\MainBundle\Form\Type\ObjectMapType;
 use App\MainBundle\Form\Type\ObjectType;
 use App\MainBundle\Form\Type\PageType;
-use Doctrine\DBAL\DBALException;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use JMS\SecurityExtraBundle\Annotation\Secure;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -156,19 +155,18 @@ class ObjectMapEditorController extends BaseController {
         $ajaxResponse = array();
         $em = $this->getDoctrine()->getManager();
         if ($request->getMethod() == 'POST' && $request->isXmlHttpRequest()) {
+            $formPage = new Page();
+            $formPage->setObjectMap($objectMap);
+            if ($parentId != -1) {
+                $parentPage = $em->getRepository("AppMainBundle:Page")->find($parentId);
+                $formPage->setPage($parentPage);
+            }
             $form = $this->createForm(new PageType(), new Page());
             $form->handleRequest($request);
             if ($form->isValid()) {
                 $page = $form->getData();
-                $page->setObjectMap($objectMap);
-                if ($parentId != -1) {
-                    $parentPage = $em->getRepository("AppMainBundle:Page")->find($parentId);
-                    $parentPage->addPage($page);
-                    $em->persist($parentPage);
-                } else {
-                    $objectMap->addPage($page);
-                    $em->persist($objectMap);
-                }
+                $objectMap->addPage($page);
+                $em->persist($objectMap);
                 $page->setSelected(true);
                 $em->flush();
                 $ajaxResponse['id'] = $page->getId();
@@ -177,7 +175,7 @@ class ObjectMapEditorController extends BaseController {
                 $ajaxResponse['pagesCount'] = $objectMap->getPagesCount();
                 $ajaxResponse["treeObjectMap"] = $objectMap->getJsonTreeAsArray();
             } else {
-                $ajaxResponse['error'] = (string) $form->getErrors(true);
+                $ajaxResponse['error'] = $this->getErrorsAsString($form);
             }
         }
         $response = new Response(json_encode($ajaxResponse));
@@ -394,32 +392,24 @@ class ObjectMapEditorController extends BaseController {
         $ajaxResponse = array();
         $em = $this->getDoctrine()->getManager();
         if ($request->getMethod() == 'POST' && $request->isXmlHttpRequest()) {
-            $form = $this->createForm(new ObjectType(), new Object());
+            $formObject = new Object();
+            $formObject->setPage($page);
+            $form = $this->createForm(new ObjectType(), $formObject);
             $form->handleRequest($request);
             if ($form->isValid()) {
                 $object = $form->getData();
-                try {
-                    $page->addObject($object);
-                    $em->persist($page);
-                    $page->setSelected(true);
-                    $em->flush();
-                    $ajaxResponse['id'] = $object->getId();
-                    $ajaxResponse['name'] = $object->getName();
-                    $ajaxResponse['description'] = $object->getDescription();
-                    $objectMap = $object->getPage()->getRootObjectMap();
-                    $ajaxResponse['objectMapId'] = $objectMap->getId();
-                    $ajaxResponse['objectsCount'] = $objectMap->getObjectsCount();
-                    $ajaxResponse['treeObjectMap'] = $objectMap->getJsonTreeAsArray();
-                } catch (DBALException $e) {
-                    $e->getCode();
-                    if ($object->getName() == null || $object->getName() == "") {
-                        $ajaxResponse['error'] = "ERROR: Name cannot be empty.";
-                    } else {
-                        $ajaxResponse['error'] = "ERROR: Name already used.";
-                    }
-                }
+                $em->persist($object);
+                $em->flush();
+                $page->setSelected(true);
+                $ajaxResponse['id'] = $object->getId();
+                $ajaxResponse['name'] = $object->getName();
+                $ajaxResponse['description'] = $object->getDescription();
+                $objectMap = $page->getRootObjectMap();
+                $ajaxResponse['objectMapId'] = $objectMap->getId();
+                $ajaxResponse['objectsCount'] = $objectMap->getObjectsCount();
+                $ajaxResponse['treeObjectMap'] = $objectMap->getJsonTreeAsArray();
             } else {
-                $ajaxResponse['error'] = (string) $form->getErrors(true);
+                $ajaxResponse['error'] = $this->getErrorsAsString($form);
             }
         }
         $response = new Response(json_encode($ajaxResponse));

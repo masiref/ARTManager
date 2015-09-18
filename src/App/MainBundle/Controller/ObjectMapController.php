@@ -5,7 +5,6 @@ namespace App\MainBundle\Controller;
 use App\MainBundle\Entity\Application;
 use App\MainBundle\Entity\ObjectMap;
 use App\MainBundle\Form\Type\ObjectMapType;
-use Doctrine\DBAL\DBALException;
 use JMS\SecurityExtraBundle\Annotation\Secure;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -87,34 +86,26 @@ class ObjectMapController extends BaseController {
         $ajaxResponse = array();
         $em = $this->getDoctrine()->getManager();
         if ($request->getMethod() == 'POST' && $request->isXmlHttpRequest()) {
-            $form = $this->createForm(new ObjectMapType(), new ObjectMap());
+            $formObjectMap = new ObjectMap();
+            $formObjectMap->setApplication($application);
+            $form = $this->createForm(new ObjectMapType(), $formObjectMap);
             $form->handleRequest($request);
             if ($form->isValid()) {
                 $objectMap = $form->getData();
-                try {
-                    $objectMap->setApplication($application);
-                    $em->persist($objectMap);
-                    $em->flush();
-                    $ajaxResponse['objectMap'] = $objectMap;
-                    $addObjectMapFormView = $this->createForm(new ObjectMapType(), new ObjectMap(), array(
-                                'action' => $this->generateUrl('app_add_application_object_map_ajax', array('id' => -1)),
-                                'method' => 'POST'
-                            ))->createView();
-                    $ajaxResponse['panel'] = $this->render('AppMainBundle:object-map:item.html.twig', array(
-                                'application' => $application,
-                                'objectMap' => $objectMap,
-                                'addObjectMapFormView' => $addObjectMapFormView
-                            ))->getContent();
-                } catch (DBALException $e) {
-                    $e->getCode();
-                    if ($objectMap->getName() == null || $objectMap->getName() == "") {
-                        $ajaxResponse['error'] = "ERROR: Name cannot be empty.";
-                    } else {
-                        $ajaxResponse['error'] = "ERROR: Name already used.";
-                    }
-                }
+                $em->persist($objectMap);
+                $em->flush();
+                $ajaxResponse['objectMap'] = $objectMap;
+                $addObjectMapFormView = $this->createForm(new ObjectMapType(), new ObjectMap(), array(
+                            'action' => $this->generateUrl('app_add_application_object_map_ajax', array('id' => -1)),
+                            'method' => 'POST'
+                        ))->createView();
+                $ajaxResponse['panel'] = $this->render('AppMainBundle:object-map:item.html.twig', array(
+                            'application' => $application,
+                            'objectMap' => $objectMap,
+                            'addObjectMapFormView' => $addObjectMapFormView
+                        ))->getContent();
             } else {
-                $ajaxResponse['error'] = (string) $form->getErrors(true);
+                $ajaxResponse['error'] = $this->getErrorsAsString($form);
             }
         }
         $response = new Response(json_encode($ajaxResponse));

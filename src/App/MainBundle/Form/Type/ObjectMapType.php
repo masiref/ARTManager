@@ -25,7 +25,7 @@ class ObjectMapType extends AbstractType {
     public function setDefaultOptions(OptionsResolverInterface $resolver) {
         $resolver->setDefaults(array(
             'data_class' => 'App\MainBundle\Entity\ObjectMap',
-            'validation_group' => array('object_map'),
+            'validation_groups' => array('Default', 'object_map'),
             'cascade_validation' => true
         ));
     }

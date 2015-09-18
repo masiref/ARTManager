@@ -7,7 +7,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use JsonSerializable;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass="ParameterSetRepository")
@@ -15,24 +14,6 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *      @ORM\UniqueConstraint(name="IDX_Unique_Object_Type", columns={"action_id", "object_type_id"}),
  *      @ORM\UniqueConstraint(name="IDX_Unique_Page_Type", columns={"action_id", "page_type_id"})
  * })
- * @UniqueEntity(
- *      fields={"action"},
- *      message="Action and Object Type already mapped.",
- *      groups="parameter_set_object"
- * )
- * @UniqueEntity(
- *      fields={"objectType"},
- *      groups="parameter_set_object"
- * )
- * @UniqueEntity(
- *      fields={"action"},
- *      message="Action and Page Type already mapped.",
- *      groups="parameter_set_page"
- * )
- * @UniqueEntity(
- *      fields={"objectType"},
- *      groups="parameter_set_page"
- * )
  */
 class ParameterSet implements JsonSerializable {
 

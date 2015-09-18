@@ -67,7 +67,7 @@ class DefaultController extends BaseController {
                             'addApplicationFormView' => $addApplicationFormView
                         ))->getContent();
             } else {
-                $ajaxResponse['error'] = (string) $form->getErrors(true);
+                $ajaxResponse['error'] = $this->getErrorsAsString($form);
             }
         }
         $response = new Response(json_encode($ajaxResponse));
@@ -109,31 +109,24 @@ class DefaultController extends BaseController {
         $ajaxResponse = array();
         $em = $this->getDoctrine()->getManager();
         if ($request->getMethod() == 'POST' && $request->isXmlHttpRequest()) {
-            $form = $this->createForm(new ApplicationType(), new Application());
+            $formApplication = new Application();
+            $formApplication->setProject($project);
+            $form = $this->createForm(new ApplicationType(), $formApplication);
             $form->handleRequest($request);
             if ($form->isValid()) {
                 $application = $form->getData();
-                try {
-                    $application->setProject($project);
-                    $em->persist($application);
-                    $em->flush();
-                    $ajaxResponse['id'] = $application->getId();
-                    $ajaxResponse['name'] = $application->getName();
-                    $ajaxResponse['description'] = $application->getDescription();
-                    $ajaxResponse['row'] = $this->render('AppMainBundle:application:item.html.twig', array(
-                                'project' => $project,
-                                'application' => $application
-                            ))->getContent();
-                } catch (DBALException $e) {
-                    $e->getCode();
-                    if ($application->getName() == null || $application->getName() == "") {
-                        $ajaxResponse['error'] = "ERROR: Name cannot be empty.";
-                    } else {
-                        $ajaxResponse['error'] = "ERROR: Name already used.";
-                    }
-                }
+                //$application->setProject($project);
+                $em->persist($application);
+                $em->flush();
+                $ajaxResponse['id'] = $application->getId();
+                $ajaxResponse['name'] = $application->getName();
+                $ajaxResponse['description'] = $application->getDescription();
+                $ajaxResponse['row'] = $this->render('AppMainBundle:application:item.html.twig', array(
+                            'project' => $project,
+                            'application' => $application
+                        ))->getContent();
             } else {
-                $ajaxResponse['error'] = (string) $form->getErrors(true);
+                $ajaxResponse['error'] = $this->getErrorsAsString($form);
             }
         }
         $response = new Response(json_encode($ajaxResponse));

@@ -25,7 +25,7 @@ class TestType extends AbstractType {
     public function setDefaultOptions(OptionsResolverInterface $resolver) {
         $resolver->setDefaults(array(
             'data_class' => 'App\MainBundle\Entity\Test',
-            'validation_group' => array('test'),
+            'validation_groups' => array('Default', 'test'),
             'cascade_validation' => true
         ));
     }

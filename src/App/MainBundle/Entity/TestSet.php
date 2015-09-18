@@ -15,12 +15,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity
  * @ORM\Table(name="test_set", uniqueConstraints={@ORM\UniqueConstraint(name="IDX_Unique", columns={"name", "test_set_folder_id"})})
  * @UniqueEntity(
- *      fields={"name"},
+ *      fields={"name", "testSetFolder"},
  *      message="Name already used.",
- *      groups="test_set"
- * )
- * @UniqueEntity(
- *      fields={"testSetFolder"},
  *      groups="test_set"
  * )
  */

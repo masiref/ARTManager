@@ -3,10 +3,11 @@
 namespace App\MainBundle\Controller;
 
 use JMS\SecurityExtraBundle\Annotation\Secure;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
 abstract class BaseController extends Controller {
 
@@ -79,6 +80,16 @@ abstract class BaseController extends Controller {
         $response = new Response(json_encode($ajaxResponse));
         $response->headers->set('Content-Type', 'application/json');
         return $response;
+    }
+
+    protected function getErrorsAsString(Form $form) {
+        $errors = "";
+        $iterator = $form->getErrors(true);
+        while ($iterator->current() != null) {
+            $errors .= $iterator->current()->getMessage() . "\n";
+            $iterator->next();
+        }
+        return $errors;
     }
 
 }

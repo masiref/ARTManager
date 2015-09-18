@@ -15,12 +15,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity
  * @ORM\Table(name="test", uniqueConstraints={@ORM\UniqueConstraint(name="IDX_Unique", columns={"name", "test_folder_id"})})
  * @UniqueEntity(
- *      fields={"name"},
+ *      fields={"name", "testFolder"},
  *      message="Name already used.",
- *      groups="test"
- * )
- * @UniqueEntity(
- *      fields={"testFolder"},
  *      groups="test"
  * )
  */
@@ -83,7 +79,7 @@ class Test implements JsonSerializable {
     protected $prerequisites;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Application") 
+     * @ORM\ManyToOne(targetEntity="Application")
      * @ORM\JoinColumn(name="application_id", referencedColumnName="id")
      */
     protected $application;

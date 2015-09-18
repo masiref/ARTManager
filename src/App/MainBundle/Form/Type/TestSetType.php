@@ -25,7 +25,7 @@ class TestSetType extends AbstractType {
     public function setDefaultOptions(OptionsResolverInterface $resolver) {
         $resolver->setDefaults(array(
             'data_class' => 'App\MainBundle\Entity\TestSet',
-            'validation_group' => array('test_set'),
+            'validation_groups' => array('Default', 'test_set'),
             'cascade_validation' => true
         ));
     }

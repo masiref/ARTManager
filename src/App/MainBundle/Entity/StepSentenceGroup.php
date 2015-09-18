@@ -6,20 +6,10 @@ use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use JsonSerializable;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass="StepSentenceGroupRepository")
  * @ORM\Table(name="step_sentence_group", uniqueConstraints={@ORM\UniqueConstraint(name="IDX_Unique", columns={"action_id", "object_type_id"})})
- * @UniqueEntity(
- *      fields={"action"},
- *      message="Action and Object Type already mapped.",
- *      groups="parameter_set"
- * )
- * @UniqueEntity(
- *      fields={"objectType"},
- *      groups="parameter_set"
- * )
  */
 class StepSentenceGroup implements JsonSerializable {
 

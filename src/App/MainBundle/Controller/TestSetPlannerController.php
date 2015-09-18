@@ -116,36 +116,27 @@ class TestSetPlannerController extends BaseController {
         $ajaxResponse = array();
         $em = $this->getDoctrine()->getManager();
         if ($request->getMethod() == 'POST' && $request->isXmlHttpRequest()) {
-            $form = $this->createForm(new TestSetFolderType(), new TestSetFolder());
+            $formTestSetFolder = new TestSetFolder();
+            if ($parentId != -1) {
+                $parentTestSetFolder = $em->getRepository("AppMainBundle:TestSetFolder")->find($parentId);
+                $formTestSetFolder->setTestSetFolder($parentTestSetFolder);
+            } else {
+                $formTestSetFolder->setApplication($application);
+            }
+            $form = $this->createForm(new TestSetFolderType(), $formTestSetFolder);
             $form->handleRequest($request);
             if ($form->isValid()) {
                 $testSetFolder = $form->getData();
-                try {
-                    if ($parentId != -1) {
-                        $parentTestSetFolder = $em->getRepository("AppMainBundle:TestSetFolder")->find($parentId);
-                        $parentTestSetFolder->addTestSetFolder($testSetFolder);
-                        $em->persist($parentTestSetFolder);
-                    } else {
-                        $application->addTestSetFolder($testSetFolder);
-                        $em->persist($application);
-                    }
-                    $testSetFolder->setSelected(true);
-                    $em->flush();
-                    $ajaxResponse['id'] = $testSetFolder->getId();
-                    $ajaxResponse['name'] = $testSetFolder->getName();
-                    $ajaxResponse['description'] = $testSetFolder->getDescription();
-                    $ajaxResponse['testSetFoldersCount'] = $application->getTestSetFoldersCount();
-                    $ajaxResponse['treeTestSets'] = $application->getJsonTestSetsTreeAsArray();
-                } catch (DBALException $e) {
-                    $e->getCode();
-                    if ($testSetFolder->getName() == null || $testSetFolder->getName() == "") {
-                        $ajaxResponse['error'] = "ERROR: Name cannot be empty.";
-                    } else {
-                        $ajaxResponse['error'] = "ERROR: Name already used.";
-                    }
-                }
+                $em->persist($testSetFolder);
+                $testSetFolder->setSelected(true);
+                $em->flush();
+                $ajaxResponse['id'] = $testSetFolder->getId();
+                $ajaxResponse['name'] = $testSetFolder->getName();
+                $ajaxResponse['description'] = $testSetFolder->getDescription();
+                $ajaxResponse['testSetFoldersCount'] = $application->getTestSetFoldersCount();
+                $ajaxResponse['treeTestSets'] = $application->getJsonTestSetsTreeAsArray();
             } else {
-                $ajaxResponse['error'] = (string) $form->getErrors(true);
+                $ajaxResponse['error'] = $this->getErrorsAsString($form);
             }
         }
         $response = new Response(json_encode($ajaxResponse));
@@ -286,32 +277,24 @@ class TestSetPlannerController extends BaseController {
         $ajaxResponse = array();
         $em = $this->getDoctrine()->getManager();
         if ($request->getMethod() == 'POST' && $request->isXmlHttpRequest()) {
-            $form = $this->createForm(new TestSetType(), new TestSet());
+            $formTestSet = new TestSet();
+            $formTestSet->setTestSetFolder($testSetFolder);
+            $form = $this->createForm(new TestSetType(), $formTestSet);
             $form->handleRequest($request);
             if ($form->isValid()) {
                 $testSet = $form->getData();
-                try {
-                    $testSetFolder->addTestSet($testSet);
-                    $em->persist($testSetFolder);
-                    $testSetFolder->setSelected(true);
-                    $em->flush();
-                    $ajaxResponse['id'] = $testSet->getId();
-                    $ajaxResponse['name'] = $testSet->getName();
-                    $ajaxResponse['description'] = $testSet->getDescription();
-                    $application = $testSet->getTestSetFolder()->getRootApplication();
-                    $ajaxResponse['applicationId'] = $application->getId();
-                    $ajaxResponse['testSetsCount'] = $application->getTestSetsCount();
-                    $ajaxResponse['treeTestSets'] = $application->getJsonTestSetsTreeAsArray();
-                } catch (DBALException $e) {
-                    $e->getCode();
-                    if ($testSet->getName() == null || $testSet->getName() == "") {
-                        $ajaxResponse['error'] = "ERROR: Name cannot be empty.";
-                    } else {
-                        $ajaxResponse['error'] = "ERROR: Name already used.";
-                    }
-                }
+                $em->persist($testSet);
+                $em->flush();
+                $testSetFolder->setSelected(true);
+                $ajaxResponse['id'] = $testSet->getId();
+                $ajaxResponse['name'] = $testSet->getName();
+                $ajaxResponse['description'] = $testSet->getDescription();
+                $application = $testSetFolder->getRootApplication();
+                $ajaxResponse['applicationId'] = $application->getId();
+                $ajaxResponse['testSetsCount'] = $application->getTestSetsCount();
+                $ajaxResponse['treeTestSets'] = $application->getJsonTestSetsTreeAsArray();
             } else {
-                $ajaxResponse['error'] = (string) $form->getErrors(true);
+                $ajaxResponse['error'] = $this->getErrorsAsString($form);
             }
         }
         $response = new Response(json_encode($ajaxResponse));

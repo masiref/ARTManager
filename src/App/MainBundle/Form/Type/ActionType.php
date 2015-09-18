@@ -19,7 +19,7 @@ class ActionType extends AbstractType {
     public function setDefaultOptions(OptionsResolverInterface $resolver) {
         $resolver->setDefaults(array(
             'data_class' => 'App\MainBundle\Entity\Action',
-            'validation_group' => array('action'),
+            'validation_groups' => array('Default', 'action'),
             'cascade_validation' => true
         ));
     }

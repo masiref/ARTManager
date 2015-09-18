@@ -11,16 +11,8 @@ use JsonSerializable;
  * @ORM\Entity
  * @ORM\Table(name="object", uniqueConstraints={@ORM\UniqueConstraint(name="IDX_Unique", columns={"name", "page_id", "object_type_id"})})
  * @UniqueEntity(
- *      fields={"name"},
+ *      fields={"name", "page", "objectType"},
  *      message="Name already used.",
- *      groups="object"
- * )
- * @UniqueEntity(
- *      fields={"page"},
- *      groups="object"
- * )
- * @UniqueEntity(
- *      fields={"objectType"},
  *      groups="object"
  * )
  */

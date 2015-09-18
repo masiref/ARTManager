@@ -14,16 +14,8 @@ use JsonSerializable;
  *      @ORM\UniqueConstraint(name="IDX_Unique_Page", columns={"name", "parent_id", "page_type_id"})
  * })
  * @UniqueEntity(
- *      fields={"name"},
+ *      fields={"name", "page", "pageType"},
  *      message="Name already used.",
- *      groups="page_page"
- * )
- * @UniqueEntity(
- *      fields={"page"},
- *      groups="page_page"
- * )
- * @UniqueEntity(
- *      fields={"pageType"},
  *      groups="page_page"
  * )
  */

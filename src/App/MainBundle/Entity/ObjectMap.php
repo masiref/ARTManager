@@ -13,12 +13,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity
  * @ORM\Table(name="object_map", uniqueConstraints={@ORM\UniqueConstraint(name="IDX_Unique", columns={"name", "application_id"})})
  * @UniqueEntity(
- *      fields={"name"},
+ *      fields={"name", "application"},
  *      message="Name already used.",
- *      groups="object_map"
- * )
- * @UniqueEntity(
- *      fields={"application"},
  *      groups="object_map"
  * )
  */

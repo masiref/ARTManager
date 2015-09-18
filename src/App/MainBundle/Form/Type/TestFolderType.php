@@ -25,7 +25,7 @@ class TestFolderType extends AbstractType {
     public function setDefaultOptions(OptionsResolverInterface $resolver) {
         $resolver->setDefaults(array(
             'data_class' => 'App\MainBundle\Entity\TestFolder',
-            'validation_group' => array('test_folder_application', 'test_folder_test_folder'),
+            'validation_groups' => array('Default', 'test_folder_application', 'test_folder_test_folder'),
             'cascade_validation' => true
         ));
     }

@@ -13,8 +13,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table(name="status", uniqueConstraints={@ORM\UniqueConstraint(name="IDX_Unique", columns={"name"})})
  * @UniqueEntity(
  *      fields={"name"},
- *      message="Name already used.",
- *      groups="status"
+ *      message="Name already used."
  * )
  */
 class Status implements JsonSerializable {
