@@ -735,10 +735,20 @@ class ObjectMapEditorController extends BaseController {
                 $type = substr($href, strpos($href, "-") + 1, strrpos($href, "-") - strpos($href, "-") - 1);
                 if ($type == "page") {
                     $persistedObject = $em->getRepository('AppMainBundle:Page')->find($id);
+                    $controlSteps = $em->getRepository("AppMainBundle:ControlStep")->findByPage($persistedObject);
+                    $remove = (count($controlSteps) == 0);
                 } elseif ($type == "object") {
                     $persistedObject = $em->getRepository('AppMainBundle:Object')->find($id);
+                    $executeSteps = $em->getRepository("AppMainBundle:ExecuteStep")->findByObject($persistedObject);
+                    $controlSteps = $em->getRepository("AppMainBundle:ControlStep")->findByObject($persistedObject);
+                    $remove = (count($executeSteps) == 0 && count($controlSteps) == 0);
                 }
-                $em->remove($persistedObject);
+                if ($remove) {
+                    $em->remove($persistedObject);
+                } else {
+                    $persistedObject->setDeleted(true);
+                    $em->persist($persistedObject);
+                }
             }
             $em->flush();
             $objectMap = $em->getRepository('AppMainBundle:ObjectMap')->find($objectMap->getId());

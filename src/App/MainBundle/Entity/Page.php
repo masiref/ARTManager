@@ -105,6 +105,16 @@ class Page implements JsonSerializable {
      */
     protected $path;
 
+    /**
+     * @ORM\Column(name="deleted", type="boolean")
+     */
+    protected $deleted = false;
+
+    /**
+     * @ORM\Column(name="deleted_at", type="datetime", nullable=true)
+     */
+    protected $deletedAt;
+
     public function __construct() {
         $this->createdAt = new \DateTime();
         $this->pages = new ArrayCollection();
@@ -158,10 +168,14 @@ class Page implements JsonSerializable {
     private function getNodes() {
         $nodes = array();
         foreach ($this->pages as $page) {
-            $nodes[] = $page->getJsonTreeAsArray();
+            if (!$page->getDeleted()) {
+                $nodes[] = $page->getJsonTreeAsArray();
+            }
         }
         foreach ($this->objects as $object) {
-            $nodes[] = $object->getJsonTreeAsArray();
+            if (!$object->getDeleted()) {
+                $nodes[] = $object->getJsonTreeAsArray();
+            }
         }
         return $nodes;
     }
@@ -474,6 +488,51 @@ class Page implements JsonSerializable {
      */
     public function getPath() {
         return $this->path;
+    }
+
+    /**
+     * Set deleted
+     *
+     * @param boolean $deleted
+     * @return Page
+     */
+    public function setDeleted($deleted) {
+        if ($deleted) {
+            $this->deletedAt = new \DateTime();
+        }
+        $this->deleted = $deleted;
+
+        return $this;
+    }
+
+    /**
+     * Get deleted
+     *
+     * @return boolean
+     */
+    public function getDeleted() {
+        return $this->deleted;
+    }
+
+    /**
+     * Set deletedAt
+     *
+     * @param \DateTime $deletedAt
+     * @return Page
+     */
+    public function setDeletedAt($deletedAt) {
+        $this->deletedAt = $deletedAt;
+
+        return $this;
+    }
+
+    /**
+     * Get deletedAt
+     *
+     * @return \DateTime
+     */
+    public function getDeletedAt() {
+        return $this->deletedAt;
     }
 
 }

@@ -100,7 +100,7 @@ class ObjectMap implements JsonSerializable {
     public function getJsonTreeAsArray() {
         $result = array();
         foreach ($this->pages as $page) {
-            if ($page->getPage() == null) {
+            if ($page->getPage() == null && !$page->getDeleted()) {
                 $result[] = $page->getJsonTreeAsArray();
             }
         }

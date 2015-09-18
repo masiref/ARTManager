@@ -76,6 +76,16 @@ class Object implements JsonSerializable {
      */
     protected $objectIdentifier;
 
+    /**
+     * @ORM\Column(name="deleted", type="boolean")
+     */
+    protected $deleted = false;
+
+    /**
+     * @ORM\Column(name="deleted_at", type="datetime", nullable=true)
+     */
+    protected $deletedAt;
+
     public function __construct() {
         $this->createdAt = new \DateTime();
     }
@@ -293,6 +303,51 @@ class Object implements JsonSerializable {
      */
     public function getObjectIdentifier() {
         return $this->objectIdentifier;
+    }
+
+    /**
+     * Set deleted
+     *
+     * @param boolean $deleted
+     * @return Object
+     */
+    public function setDeleted($deleted) {
+        if ($deleted) {
+            $this->deletedAt = new \DateTime();
+        }
+        $this->deleted = $deleted;
+
+        return $this;
+    }
+
+    /**
+     * Get deleted
+     *
+     * @return boolean
+     */
+    public function getDeleted() {
+        return $this->deleted;
+    }
+
+    /**
+     * Set deletedAt
+     *
+     * @param \DateTime $deletedAt
+     * @return Object
+     */
+    public function setDeletedAt($deletedAt) {
+        $this->deletedAt = $deletedAt;
+
+        return $this;
+    }
+
+    /**
+     * Get deletedAt
+     *
+     * @return \DateTime
+     */
+    public function getDeletedAt() {
+        return $this->deletedAt;
     }
 
 }

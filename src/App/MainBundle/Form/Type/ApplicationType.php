@@ -29,7 +29,7 @@ class ApplicationType extends AbstractType {
     public function setDefaultOptions(OptionsResolverInterface $resolver) {
         $resolver->setDefaults(array(
             'data_class' => 'App\MainBundle\Entity\Application',
-            'validation_group' => array('application'),
+            'validation_groups' => array('application'),
             'cascade_validation' => true
         ));
     }

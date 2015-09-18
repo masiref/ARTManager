@@ -292,6 +292,7 @@ var ObjectMapManager = {
                     ObjectMapManager.refreshObjectMapPageSummary(id, pagesCount);
                     ObjectMapManager.refreshObjectMapObjectSummary(id, objectsCount);
                     ObjectMapManager.refreshCheckedObjectCount(id);
+                    ObjectManager.unsetAddButtonDataAttributes();
                     var message = "You have deleted " + count + " object" + (count > 1 ? "s" : "");
                     Base.showSuccessMessage(message);
                 }
