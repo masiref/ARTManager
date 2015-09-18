@@ -6,7 +6,6 @@ use App\MainBundle\Entity\Application;
 use App\MainBundle\Entity\Project;
 use App\MainBundle\Form\Type\ApplicationType;
 use App\MainBundle\Form\Type\ProjectType;
-use Doctrine\DBAL\DBALException;
 use JMS\SecurityExtraBundle\Annotation\Secure;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -115,7 +114,6 @@ class DefaultController extends BaseController {
             $form->handleRequest($request);
             if ($form->isValid()) {
                 $application = $form->getData();
-                //$application->setProject($project);
                 $em->persist($application);
                 $em->flush();
                 $ajaxResponse['id'] = $application->getId();
