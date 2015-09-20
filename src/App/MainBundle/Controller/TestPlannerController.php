@@ -22,11 +22,9 @@ class TestPlannerController extends BaseController {
      */
     public function indexAction(Application $application) {
         $addTestFolderFormView = $this->createForm(new TestFolderType(), new TestFolder(), array(
-                    'action' => $this->generateUrl('app_add_application_test_folder_ajax', array('id' => -1, 'parentId' => -1)),
                     'method' => 'POST'
                 ))->createView();
         $addTestFormView = $this->createForm(new TestType(), new Test(), array(
-                    //'action' => $this->generateUrl('app_add_application_test_ajax', array('id' => -1, 'parentId' => -1)),
                     'method' => 'POST'
                 ))->createView();
         return $this->render('AppMainBundle:test:planner/index.html.twig', array(
@@ -289,7 +287,7 @@ class TestPlannerController extends BaseController {
                 $ajaxResponse['testsCount'] = $application->getTestsCount();
                 $ajaxResponse['treeTests'] = $application->getJsonTestsTreeAsArray();
             } else {
-                $ajaxResponse['error'] = (string) $form->getErrors(true);
+                $ajaxResponse['error'] = $this->getErrorsAsString($form);
             }
         }
         $response = new Response(json_encode($ajaxResponse));
