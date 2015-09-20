@@ -50,21 +50,33 @@ class Server implements JsonSerializable {
     protected $description;
 
     /**
+     * @Assert\NotBlank(
+     *      message = "Host cannot be empty."
+     * )
      * @ORM\Column(type="string")
      */
     protected $host;
 
     /**
+     * @Assert\NotBlank(
+     *      message = "Port cannot be empty."
+     * )
      * @ORM\Column(type="integer")
      */
-    protected $port;
+    protected $port = 22;
 
     /**
+     * @Assert\NotBlank(
+     *      message = "Username cannot be empty."
+     * )
      * @ORM\Column(type="string")
      */
     protected $username;
 
     /**
+     * @Assert\NotBlank(
+     *      message = "Password cannot be empty."
+     * )
      * @ORM\Column(type="string")
      */
     protected $password;

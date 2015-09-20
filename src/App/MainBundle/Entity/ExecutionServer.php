@@ -45,6 +45,9 @@ class ExecutionServer implements JsonSerializable {
     protected $description;
 
     /**
+     * @Assert\NotBlank(
+     *      message = "ART Runner Path cannot be empty."
+     * )
      * @ORM\Column(type="string")
      */
     protected $artRunnerPath;

@@ -77,7 +77,7 @@ class ConfigurationController extends BaseController {
                             'server' => $server
                         ))->getContent();
             } else {
-                $ajaxResponse['error'] = (string) $form->getErrors(true);
+                $ajaxResponse['error'] = $this->getErrorsAsString($form);
             }
         }
         $response = new Response(json_encode($ajaxResponse));
@@ -151,7 +151,7 @@ class ConfigurationController extends BaseController {
                             'executionServer' => $executionServer
                         ))->getContent();
             } else {
-                $ajaxResponse['error'] = (string) $form->getErrors(true);
+                $ajaxResponse['error'] = $this->getErrorsAsString($form);
             }
         }
         $response = new Response(json_encode($ajaxResponse));
