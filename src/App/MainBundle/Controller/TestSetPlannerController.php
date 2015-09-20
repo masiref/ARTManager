@@ -283,7 +283,8 @@ class TestSetPlannerController extends BaseController {
             $form->handleRequest($request);
             if ($form->isValid()) {
                 $testSet = $form->getData();
-                $em->persist($testSet);
+                $testSetFolder->addTestSet($testSet);
+                $em->persist($testSetFolder);
                 $em->flush();
                 $testSetFolder->setSelected(true);
                 $ajaxResponse['id'] = $testSet->getId();
