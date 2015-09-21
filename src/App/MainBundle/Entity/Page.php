@@ -2,11 +2,13 @@
 
 namespace App\MainBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
+use App\MainBundle\Utility;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Doctrine\ORM\Mapping as ORM;
 use JsonSerializable;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
@@ -98,6 +100,11 @@ class Page implements JsonSerializable {
     protected $path;
 
     /**
+     * @ORM\Column(name="regular_expression_path", type="boolean")
+     */
+    protected $regularExpressionPath = false;
+
+    /**
      * @ORM\Column(name="deleted", type="boolean")
      */
     protected $deleted = false;
@@ -108,7 +115,7 @@ class Page implements JsonSerializable {
     protected $deletedAt;
 
     public function __construct() {
-        $this->createdAt = new \DateTime();
+        $this->createdAt = new DateTime();
         $this->pages = new ArrayCollection();
         $this->objects = new ArrayCollection();
         $this->testsStartingWith = new ArrayCollection();
@@ -279,7 +286,7 @@ class Page implements JsonSerializable {
     /**
      * Set createdAt
      *
-     * @param \DateTime $createdAt
+     * @param DateTime $createdAt
      * @return Page
      */
     public function setCreatedAt($createdAt) {
@@ -291,7 +298,7 @@ class Page implements JsonSerializable {
     /**
      * Get createdAt
      *
-     * @return \DateTime
+     * @return DateTime
      */
     public function getCreatedAt() {
         return $this->createdAt;
@@ -308,10 +315,10 @@ class Page implements JsonSerializable {
     /**
      * Set objectMap
      *
-     * @param \App\MainBundle\Entity\ObjectMap $objectMap
+     * @param ObjectMap $objectMap
      * @return Page
      */
-    public function setObjectMap(\App\MainBundle\Entity\ObjectMap $objectMap = null) {
+    public function setObjectMap(ObjectMap $objectMap = null) {
         $this->objectMap = $objectMap;
 
         return $this;
@@ -320,7 +327,7 @@ class Page implements JsonSerializable {
     /**
      * Get objectMap
      *
-     * @return \App\MainBundle\Entity\ObjectMap
+     * @return ObjectMap
      */
     public function getObjectMap() {
         return $this->objectMap;
@@ -329,10 +336,10 @@ class Page implements JsonSerializable {
     /**
      * Set page
      *
-     * @param \App\MainBundle\Entity\Page $page
+     * @param Page $page
      * @return Page
      */
-    public function setPage(\App\MainBundle\Entity\Page $page = null) {
+    public function setPage(Page $page = null) {
         $this->page = $page;
 
         return $this;
@@ -341,7 +348,7 @@ class Page implements JsonSerializable {
     /**
      * Get page
      *
-     * @return \App\MainBundle\Entity\Page
+     * @return Page
      */
     public function getPage() {
         return $this->page;
@@ -350,10 +357,10 @@ class Page implements JsonSerializable {
     /**
      * Add pages
      *
-     * @param \App\MainBundle\Entity\Page $pages
+     * @param Page $pages
      * @return Page
      */
-    public function addPage(\App\MainBundle\Entity\Page $pages) {
+    public function addPage(Page $pages) {
         $pages->page = $this;
         $this->pages[] = $pages;
 
@@ -363,9 +370,9 @@ class Page implements JsonSerializable {
     /**
      * Remove pages
      *
-     * @param \App\MainBundle\Entity\Page $pages
+     * @param Page $pages
      */
-    public function removePage(\App\MainBundle\Entity\Page $pages) {
+    public function removePage(Page $pages) {
         $this->pages->removeElement($pages);
     }
 
@@ -381,10 +388,10 @@ class Page implements JsonSerializable {
     /**
      * Add objects
      *
-     * @param \App\MainBundle\Entity\Object $objects
+     * @param Object $objects
      * @return Page
      */
-    public function addObject(\App\MainBundle\Entity\Object $objects) {
+    public function addObject(Object $objects) {
         $objects->setPage($this);
         $this->objects[] = $objects;
 
@@ -394,9 +401,9 @@ class Page implements JsonSerializable {
     /**
      * Remove objects
      *
-     * @param \App\MainBundle\Entity\Object $objects
+     * @param Object $objects
      */
-    public function removeObject(\App\MainBundle\Entity\Object $objects) {
+    public function removeObject(Object $objects) {
         $this->objects->removeElement($objects);
     }
 
@@ -412,10 +419,10 @@ class Page implements JsonSerializable {
     /**
      * Set pageType
      *
-     * @param \App\MainBundle\Entity\PageType $pageType
+     * @param PageType $pageType
      * @return Page
      */
-    public function setPageType(\App\MainBundle\Entity\PageType $pageType = null) {
+    public function setPageType(PageType $pageType = null) {
         $this->pageType = $pageType;
 
         return $this;
@@ -424,7 +431,7 @@ class Page implements JsonSerializable {
     /**
      * Get pageType
      *
-     * @return \App\MainBundle\Entity\PageType
+     * @return PageType
      */
     public function getPageType() {
         return $this->pageType;
@@ -433,10 +440,10 @@ class Page implements JsonSerializable {
     /**
      * Add testsStartingWith
      *
-     * @param \App\MainBundle\Entity\Test $testsStartingWith
+     * @param Test $testsStartingWith
      * @return Page
      */
-    public function addTestsStartingWith(\App\MainBundle\Entity\Test $testsStartingWith) {
+    public function addTestsStartingWith(Test $testsStartingWith) {
         $testsStartingWith->setStartingPage($this);
         $this->testsStartingWith[] = $testsStartingWith;
 
@@ -446,9 +453,9 @@ class Page implements JsonSerializable {
     /**
      * Remove testsStartingWith
      *
-     * @param \App\MainBundle\Entity\Test $testsStartingWith
+     * @param Test $testsStartingWith
      */
-    public function removeTestsStartingWith(\App\MainBundle\Entity\Test $testsStartingWith) {
+    public function removeTestsStartingWith(Test $testsStartingWith) {
         $this->testsStartingWith->removeElement($testsStartingWith);
     }
 
@@ -469,6 +476,7 @@ class Page implements JsonSerializable {
      */
     public function setPath($path) {
         $this->path = $path;
+        $this->regularExpressionPath = Utility::isRegex($path);
 
         return $this;
     }
@@ -490,7 +498,7 @@ class Page implements JsonSerializable {
      */
     public function setDeleted($deleted) {
         if ($deleted) {
-            $this->deletedAt = new \DateTime();
+            $this->deletedAt = new DateTime();
         }
         $this->deleted = $deleted;
 
@@ -509,7 +517,7 @@ class Page implements JsonSerializable {
     /**
      * Set deletedAt
      *
-     * @param \DateTime $deletedAt
+     * @param DateTime $deletedAt
      * @return Page
      */
     public function setDeletedAt($deletedAt) {
@@ -521,10 +529,31 @@ class Page implements JsonSerializable {
     /**
      * Get deletedAt
      *
-     * @return \DateTime
+     * @return DateTime
      */
     public function getDeletedAt() {
         return $this->deletedAt;
+    }
+
+    /**
+     * Set regularExpressionPath
+     *
+     * @param boolean $regularExpressionPath
+     * @return Page
+     */
+    public function setRegularExpressionPath($regularExpressionPath) {
+        $this->regularExpressionPath = $regularExpressionPath;
+
+        return $this;
+    }
+
+    /**
+     * Get regularExpressionPath
+     *
+     * @return boolean
+     */
+    public function getRegularExpressionPath() {
+        return $this->regularExpressionPath;
     }
 
 }

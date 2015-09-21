@@ -7,6 +7,7 @@ use App\MainBundle\Entity\Test;
 use App\MainBundle\Entity\TestFolder;
 use App\MainBundle\Form\Type\TestFolderType;
 use App\MainBundle\Form\Type\TestType;
+use App\MainBundle\Utility;
 use JMS\SecurityExtraBundle\Annotation\Secure;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -129,7 +130,7 @@ class TestPlannerController extends BaseController {
                 $ajaxResponse['testFoldersCount'] = $application->getTestFoldersCount();
                 $ajaxResponse['treeTests'] = $application->getJsonTestsTreeAsArray();
             } else {
-                $ajaxResponse['error'] = $this->getErrorsAsString($form);
+                $ajaxResponse['error'] = Utility::getErrorsAsString($form);
             }
         }
         $response = new Response(json_encode($ajaxResponse));
@@ -287,7 +288,7 @@ class TestPlannerController extends BaseController {
                 $ajaxResponse['testsCount'] = $application->getTestsCount();
                 $ajaxResponse['treeTests'] = $application->getJsonTestsTreeAsArray();
             } else {
-                $ajaxResponse['error'] = $this->getErrorsAsString($form);
+                $ajaxResponse['error'] = Utility::getErrorsAsString($form);
             }
         }
         $response = new Response(json_encode($ajaxResponse));

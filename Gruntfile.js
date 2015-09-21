@@ -121,6 +121,7 @@ module.exports = function (grunt) {
                     app + '/libs/Chart.js/Chart.js',
                     app + '/libs/jasny-bootstrap/dist/js/jasny-bootstrap.js',
                     app + '/libs/vegas/dist/vegas.js',
+                    app + '/libs/holderjs/holder.js',
                     '.tmp/js/**/*.js',
                     app + '/js/**/*.js'
                     ]

@@ -5,6 +5,7 @@ namespace App\MainBundle\Controller;
 use App\MainBundle\Entity\Application;
 use App\MainBundle\Entity\ObjectMap;
 use App\MainBundle\Form\Type\ObjectMapType;
+use App\MainBundle\Utility;
 use JMS\SecurityExtraBundle\Annotation\Secure;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -105,7 +106,7 @@ class ObjectMapController extends BaseController {
                             'addObjectMapFormView' => $addObjectMapFormView
                         ))->getContent();
             } else {
-                $ajaxResponse['error'] = $this->getErrorsAsString($form);
+                $ajaxResponse['error'] = Utility::getErrorsAsString($form);
             }
         }
         $response = new Response(json_encode($ajaxResponse));

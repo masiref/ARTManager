@@ -9,7 +9,7 @@ use App\MainBundle\Entity\TestSetRun;
 use App\MainBundle\Form\Type\TestSetFolderType;
 use App\MainBundle\Form\Type\TestSetRunType;
 use App\MainBundle\Form\Type\TestSetType;
-use Doctrine\DBAL\DBALException;
+use App\MainBundle\Utility;
 use JMS\SecurityExtraBundle\Annotation\Secure;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -136,7 +136,7 @@ class TestSetPlannerController extends BaseController {
                 $ajaxResponse['testSetFoldersCount'] = $application->getTestSetFoldersCount();
                 $ajaxResponse['treeTestSets'] = $application->getJsonTestSetsTreeAsArray();
             } else {
-                $ajaxResponse['error'] = $this->getErrorsAsString($form);
+                $ajaxResponse['error'] = Utility::getErrorsAsString($form);
             }
         }
         $response = new Response(json_encode($ajaxResponse));
@@ -295,7 +295,7 @@ class TestSetPlannerController extends BaseController {
                 $ajaxResponse['testSetsCount'] = $application->getTestSetsCount();
                 $ajaxResponse['treeTestSets'] = $application->getJsonTestSetsTreeAsArray();
             } else {
-                $ajaxResponse['error'] = $this->getErrorsAsString($form);
+                $ajaxResponse['error'] = Utility::getErrorsAsString($form);
             }
         }
         $response = new Response(json_encode($ajaxResponse));

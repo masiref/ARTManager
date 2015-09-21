@@ -15,3 +15,6 @@ services:
         class: App\MainBundle\Form\Extension\FieldTypeIconExtension
         tags:
             - { name: form.type_extension, alias: form }
+    test_set_run_manager:
+        class: App\MainBundle\Services\TestSetRunService
+        arguments: [@doctrine.orm.entity_manager]

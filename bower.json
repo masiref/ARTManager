@@ -15,6 +15,7 @@
     "bootstrap": "https://github.com/twbs/bootstrap-sass/archive/v3.3.0.tar.gz",
     "bootstrap-treeview": "1.2.0",
     "datatables": "~1.10.9",
+    "holderjs": "~2.8.2",
     "jasny-bootstrap": "3.1.3",
     "jquery": "2.0.1",
     "jquery-ui": "1.11.4",

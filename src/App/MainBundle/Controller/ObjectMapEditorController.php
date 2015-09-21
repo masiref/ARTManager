@@ -9,6 +9,7 @@ use App\MainBundle\Entity\Page;
 use App\MainBundle\Form\Type\ObjectMapType;
 use App\MainBundle\Form\Type\ObjectType;
 use App\MainBundle\Form\Type\PageType;
+use App\MainBundle\Utility;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use JMS\SecurityExtraBundle\Annotation\Secure;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -175,7 +176,7 @@ class ObjectMapEditorController extends BaseController {
                 $ajaxResponse['pagesCount'] = $objectMap->getPagesCount();
                 $ajaxResponse["treeObjectMap"] = $objectMap->getJsonTreeAsArray();
             } else {
-                $ajaxResponse['error'] = $this->getErrorsAsString($form);
+                $ajaxResponse['error'] = Utility::getErrorsAsString($form);
             }
         }
         $response = new Response(json_encode($ajaxResponse));
@@ -409,7 +410,7 @@ class ObjectMapEditorController extends BaseController {
                 $ajaxResponse['objectsCount'] = $objectMap->getObjectsCount();
                 $ajaxResponse['treeObjectMap'] = $objectMap->getJsonTreeAsArray();
             } else {
-                $ajaxResponse['error'] = $this->getErrorsAsString($form);
+                $ajaxResponse['error'] = Utility::getErrorsAsString($form);
             }
         }
         $response = new Response(json_encode($ajaxResponse));

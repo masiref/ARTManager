@@ -6,6 +6,7 @@ use App\MainBundle\Entity\ExecutionServer;
 use App\MainBundle\Entity\Server;
 use App\MainBundle\Form\Type\ExecutionServerType;
 use App\MainBundle\Form\Type\ServerType;
+use App\MainBundle\Utility;
 use JMS\SecurityExtraBundle\Annotation\Secure;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -77,7 +78,7 @@ class ConfigurationController extends BaseController {
                             'server' => $server
                         ))->getContent();
             } else {
-                $ajaxResponse['error'] = $this->getErrorsAsString($form);
+                $ajaxResponse['error'] = Utility::getErrorsAsString($form);
             }
         }
         $response = new Response(json_encode($ajaxResponse));
@@ -151,7 +152,7 @@ class ConfigurationController extends BaseController {
                             'executionServer' => $executionServer
                         ))->getContent();
             } else {
-                $ajaxResponse['error'] = $this->getErrorsAsString($form);
+                $ajaxResponse['error'] = Utility::getErrorsAsString($form);
             }
         }
         $response = new Response(json_encode($ajaxResponse));

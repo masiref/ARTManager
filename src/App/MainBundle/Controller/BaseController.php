@@ -12,40 +12,10 @@ use Symfony\Component\HttpFoundation\Response;
 abstract class BaseController extends Controller {
 
     public function render($view, array $parameters = array(), Response $response = null) {
-        $em = $this->getDoctrine()->getManager();
-        $plannedTestSetRuns = $em->getRepository("AppMainBundle:TestSetRun")->findPlannedOrderByCreatedAt();
-        $parameters['plannedTestSetRuns'] = array(
-            "count" => count($plannedTestSetRuns),
-            "byApplicationTestSet" => $this->getTestSetRunsByApplicationTestSet($plannedTestSetRuns)
-        );
-        $recentTestSetRuns = $em->getRepository("AppMainBundle:TestSetRun")->findRecentOrderByCreatedAt();
-        $parameters['recentTestSetRuns'] = array(
-            "count" => count($recentTestSetRuns),
-            "byApplicationTestSet" => $this->getTestSetRunsByApplicationTestSet($recentTestSetRuns)
-        );
+        $testSetRunManager = $this->get('test_set_run_manager');
+        $parameters['plannedTestSetRuns'] = $testSetRunManager->getPlannedSidebarSection();
+        $parameters['recentTestSetRuns'] = $testSetRunManager->getRecentSidebarSection();
         return parent::render($view, $parameters, $response);
-    }
-
-    private function getTestSetRunsByApplicationTestSet($testSetRuns) {
-        $result = array();
-        foreach ($testSetRuns as $testSetRun) {
-            $testSet = $testSetRun->getTestSet();
-            $application = $testSet->getApplication();
-            if (!array_key_exists($application->getId(), $result)) {
-                $result[$application->getId()] = array(
-                    "application" => $application,
-                    "testSets" => array()
-                );
-            }
-            if (!array_key_exists($testSet->getId(), $result[$application->getId()]["testSets"])) {
-                $result[$application->getId()]["testSets"][$testSet->getId()] = array(
-                    "testSet" => $testSet,
-                    "testSetRuns" => array()
-                );
-            }
-            $result[$application->getId()]["testSets"][$testSet->getId()]["testSetRuns"][] = $testSetRun;
-        }
-        return $result;
     }
 
     /**

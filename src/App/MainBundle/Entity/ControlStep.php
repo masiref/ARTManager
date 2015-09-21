@@ -172,7 +172,12 @@ class ControlStep extends Step {
             $result = str_replace("%object%", $this->object->getMinkIdentification(), $result);
         }
         if ($this->page != null) {
-            $result = str_replace("%page%", $this->page->getMinkIdentification(), $result);
+            $result = str_replace(
+                    "%page%", $this->page->getMinkIdentification(), $result
+            );
+            if ($this->page->getRegularExpressionPath()) {
+                $result .= ($this->page->getRegularExpressionPath() ? " [regular expression]" : "");
+            }
         }
         return $result;
     }
