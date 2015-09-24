@@ -51,7 +51,8 @@ class PageType implements JsonSerializable {
     protected $createdAt;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Action", mappedBy="pageTypes", cascade={"all"}, orphanRemoval=true)
+     * @ORM\ManyToMany(targetEntity="Action", mappedBy="pageTypes")
+     * @ORM\OrderBy({"name" = "ASC"})
      */
     protected $actions;
 

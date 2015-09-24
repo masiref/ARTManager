@@ -63,11 +63,29 @@ class ControlStepType extends AbstractType {
             'class' => 'AppMainBundle:Object',
             'property' => 'name',
             'label' => 'Object',
+            'group_by' => 'containerName',
             'empty_value' => '',
             'query_builder' => function(EntityRepository $er) use ($page) {
-                return $er->createQueryBuilder('o')
-                                ->where('o.page = :page')
-                                ->setParameter('page', $page);
+                $qb = $er->createQueryBuilder('o');
+                $or = $qb->expr()->andX(
+                        $qb->expr()->isNull('p.page'), $qb->expr()->eq('pt.name', ':containerType'), $qb->expr()->eq('p.objectMap', ':objectMap')
+                );
+                $or1 = $qb->expr()->andX(
+                        $qb->expr()->eq('p.page', ':page'), $qb->expr()->eq('pt.name', ':containerType')
+                );
+                $qb->leftJoin('o.page', 'p')
+                        ->join('p.pageType', 'pt')
+                        ->where('p = :page')
+                        ->orWhere($or)
+                        ->orWhere($or1)
+                        ->setParameter('page', $page)
+                        ->setParameter('containerType', 'Container')
+                        ->setParameter('objectMap', $page->getRootObjectMap())
+                        ->addOrderBy('p.page')
+                        ->addOrderBy('p.name')
+                        ->addOrderBy('o.name')
+                ;
+                return $qb;
             },
             'attr' => array('data-step-id' => $step->getId()),
             'icon' => 'puzzle'

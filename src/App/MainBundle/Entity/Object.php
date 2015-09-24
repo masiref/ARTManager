@@ -154,6 +154,15 @@ class Object implements JsonSerializable {
         return $result;
     }
 
+    public function getContainerName() {
+        $page = $this->page;
+        $pageType = $page->getPageType();
+        if ($pageType->getName() === "Container") {
+            return $page->getName();
+        }
+        return null;
+    }
+
     /**
      * Get id
      *

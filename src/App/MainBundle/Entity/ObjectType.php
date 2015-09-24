@@ -52,6 +52,7 @@ class ObjectType implements JsonSerializable {
 
     /**
      * @ORM\ManyToMany(targetEntity="Action", mappedBy="objectTypes")
+     * @ORM\OrderBy({"name" = "ASC"})
      */
     protected $actions;
 

@@ -25,11 +25,12 @@ class ObjectMapEditorController extends BaseController {
      * @ParamConverter("objectMap", class="AppMainBundle:ObjectMap")
      */
     public function editorAction(ObjectMap $objectMap) {
+        $em = $this->getDoctrine()->getManager();
         $addObjectMapFormView = $this->createForm(new ObjectMapType(), new ObjectMap(), array(
                     'action' => $this->generateUrl('app_add_application_object_map_ajax', array('id' => -1)),
                     'method' => 'POST'
                 ))->createView();
-        $addPageFormView = $this->createForm(new PageType(), new Page(), array(
+        $addPageFormView = $this->createForm(new PageType($em, $this->get('slugify')), new Page(), array(
                     'action' => $this->generateUrl('app_add_application_object_map_page_ajax', array('id' => -1, 'parentId' => -1)),
                     'method' => 'POST'
                 ))->createView();
@@ -162,7 +163,7 @@ class ObjectMapEditorController extends BaseController {
                 $parentPage = $em->getRepository("AppMainBundle:Page")->find($parentId);
                 $formPage->setPage($parentPage);
             }
-            $form = $this->createForm(new PageType(), new Page());
+            $form = $this->createForm(new PageType($em, $this->get('slugify')), $formPage);
             $form->handleRequest($request);
             if ($form->isValid()) {
                 $page = $form->getData();

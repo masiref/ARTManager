@@ -6,10 +6,24 @@ use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use App\MainBundle\Form\EventListener\AppPageEventSubscriber;
 
 class PageType extends AbstractType {
 
+    private $em;
+    private $slugify;
+
+    public function __construct($em, $slugify) {
+        $this->em = $em;
+        $this->slugify = $slugify;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options) {
+        $em = $this->em;
+        $slugify = $this->slugify;
+
+        $builder->addEventSubscriber(new AppPageEventSubscriber($builder->getFormFactory(), $em, $slugify));
+
         $builder->add('name', 'text', array(
             'icon' => 'pencil'
         ));
@@ -28,7 +42,7 @@ class PageType extends AbstractType {
         $builder->add('path', 'text', array(
             'label' => 'Path',
             'icon' => 'address',
-            'help' => 'When the selected type is "Modal", specify the title of it.'
+            'help' => 'When the selected type is "Modal", specify the title of it. Not required when the selected type is "Container".'
         ));
     }
 

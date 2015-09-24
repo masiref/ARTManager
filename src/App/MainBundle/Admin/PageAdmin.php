@@ -31,7 +31,8 @@ class PageAdmin extends Admin {
                     ))
                     ->add('page', 'sonata_type_model', array(
                         'label' => 'Parent',
-                        'btn_add' => false
+                        'btn_add' => false,
+                        'required' => false
                     ))
                     ->add('pages', 'sonata_type_collection', array(
                         'label' => 'Sub Pages',
