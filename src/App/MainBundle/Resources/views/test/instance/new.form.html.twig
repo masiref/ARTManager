@@ -6,7 +6,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
                 <h4 class="modal-title text-mygreen">
-                    <i class="fontello-icon-tint"></i> Add a <strong>test instance</strong> to 
+                    <i class="fontello-icon-tint"></i> Add a <strong>scenario instance</strong> to 
                     <strong>{{ testSet.name }}</strong>
                     <small>{{ testSet.description }}</small>
                 </h4>
@@ -15,7 +15,7 @@
                 <div class="panel panel-mypurple" id="panel-tests-{{ application.id }}">
                     <div class="panel-heading">
                         <strong>
-                            <i class="fontello-icon-database"></i> Test Plan
+                            <i class="fontello-icon-database"></i> Scenario Plan
                         </strong>
                     </div>
                     <div class="panel-body" id="panel-body-{{ application.id }}">
@@ -27,7 +27,7 @@
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                 <button type="button" class="btn btn-primary" id="save-test-instances"
                         data-test-set-id="{{ testSet.id }}"
-                        data-application-id="{{ application.id }}">Add selected tests</button>
+                        data-application-id="{{ application.id }}">Add selected scenarios</button>
             </div>
         </div>
     </div>

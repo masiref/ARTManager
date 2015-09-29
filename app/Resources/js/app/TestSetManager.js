@@ -74,7 +74,7 @@ var TestSetManager = {
             data: $("#form-add-test-set").serialize()
         }).done(function(data) {
             if (data.error) {
-                var message = "Test set not added !\n" + data.error;
+                var message = "Feature not added !\n" + data.error;
                 Base.showErrorMessage(message);
             } else {
                 var name = data.name;

@@ -4,12 +4,12 @@
         <span id="test-instances-count-{{ testSet.id }}">
             {% if testSet.testInstances|length <= 1 %}There is {% else %}There are{% endif %}
             {% if testSet.testInstances|length == 0 %}no {% else %}<span class="badge">{{ testSet.testInstances|length }}</span>{% endif %}
-            test instance{% if testSet.testInstances|length > 1 %}s{% endif %} in the execution grid
+            scenario instance{% if testSet.testInstances|length > 1 %}s{% endif %} in the execution grid
         </span>
     </p>
     <p class="text-center">
         <a href="#" id="add-test-instance"
-           data-toggle="tooltip" data-placement="bottom" title="Add a new test instance">
+           data-toggle="tooltip" data-placement="bottom" title="Add a new scenario instance">
            <i class="fontello-icon-plus-circled"></i><i class="fontello-icon-tint"></i>
         </a>
     </p>

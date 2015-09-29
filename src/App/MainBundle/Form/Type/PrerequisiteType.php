@@ -25,8 +25,8 @@ class PrerequisiteType extends AbstractType {
         $builder->add('test', 'entity', ['class' => 'AppMainBundle:Test',
             'property' => 'name',
             'group_by' => 'parentName',
-            'label' => 'Test',
-            'empty_value' => 'Select a test',
+            'label' => 'Scenario',
+            'empty_value' => 'Select a scenario',
             'query_builder' => function(EntityRepository $er) use ($application, $test) {
                 $qb = $er->createQueryBuilder('t')
                         ->join('t.application', 'a')

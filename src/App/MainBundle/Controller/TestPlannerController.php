@@ -210,7 +210,7 @@ class TestPlannerController extends BaseController {
                     $response = new Response($message, 400);
                 }
             } else {
-                $response = new Response("Unknown test folder", 400);
+                $response = new Response("Unknown scenario folder", 400);
             }
         }
         $response->headers->set('Content-Type', 'application/json');
@@ -251,7 +251,7 @@ class TestPlannerController extends BaseController {
                     $response = new Response($message, 400);
                 }
             } else {
-                $response = new Response("Unknown test folder", 400);
+                $response = new Response("Unknown scenario folder", 400);
             }
         }
         $response->headers->set('Content-Type', 'application/json');
@@ -330,7 +330,7 @@ class TestPlannerController extends BaseController {
                     $response = new Response($message, 400);
                 }
             } else {
-                $response = new Response("Unknown test", 400);
+                $response = new Response("Unknown scenario", 400);
             }
         }
         $response->headers->set('Content-Type', 'application/json');
@@ -371,7 +371,7 @@ class TestPlannerController extends BaseController {
                     $response = new Response($message, 400);
                 }
             } else {
-                $response = new Response("Unknown test", 400);
+                $response = new Response("Unknown scenario", 400);
             }
         }
         $response->headers->set('Content-Type', 'application/json');

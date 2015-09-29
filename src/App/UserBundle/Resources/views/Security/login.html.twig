@@ -3,7 +3,7 @@
 {% trans_default_domain 'FOSUserBundle' %}
 
 {% block fos_user_title %}
-    <i class="fontello-icon-lock"></i>{% trans from "titles" %}Authentication{% endtrans %}
+    <i class="fontello-icon-lock"></i><strong>{% trans from "titles" %}Authentication{% endtrans %}</strong>
 {% endblock fos_user_title %}
 
 {% block fos_user_content %}
@@ -11,13 +11,19 @@
         <form action="{{ path("fos_user_security_check") }}" method="post"class="form-horizontal">
             <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
             <div class="form-group">
-                <label for="username" class="col-sm-4 control-label">{{ 'security.login.username'|trans }}</label>
+                <label for="username" class="col-sm-4 control-label">
+                    <i class="fontello-icon-user"></i>
+                    {{ 'security.login.username'|trans }}
+                </label>
                 <div class="col-sm-6">
                     <input type="text" id="username" name="_username" value="{{ last_username }}" required="required" class="form-control">
                 </div>
             </div>
             <div class="form-group">
-                <label for="password" class="col-sm-4 control-label">{{ 'security.login.password'|trans }}</label>
+                <label for="password" class="col-sm-4 control-label">
+                    <i class="fontello-icon-eye-off"></i>
+                    {{ 'security.login.password'|trans }}
+                </label>
                 <div class="col-sm-6">
                     <input type="password" id="password" name="_password" required="required" class="form-control">
                 </div>

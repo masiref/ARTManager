@@ -71,7 +71,7 @@ var TestSetPlanner = {
         var subtitle = 'There ';
         subtitle += (count <= 1 ? 'is ' : 'are ');
         subtitle += (count === 0 ? 'no ' : '<span class="badge">' + count + '</span>');
-        subtitle += ' test set' + (count > 1 ? "s" : "");
+        subtitle += ' feature' + (count > 1 ? "s" : "");
         $('#test-sets-count').html(subtitle);
     },
     showEntityPropertiesPanel: function() {

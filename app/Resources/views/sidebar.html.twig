@@ -1,8 +1,9 @@
 {% if app.user %}
     <div id="sidebar" class="navmenu navmenu-inverse navmenu-fixed-left offcanvas">
         <h2 id="sidebar-title" class="text-center">
-            <i id="sidebar-title-icon" class="fontello-icon-hourglass"></i>Planned Test Set Runs
-            <a href="#" id="refresh-sidebar" data-placement="bottom" title="Refresh"><i class="fontello-icon-arrows-cw"></i></a>
+            <i id="sidebar-title-icon" class="fontello-icon-hourglass"></i>Planned Feature Runs
+            <a href="#" id="refresh-sidebar" data-toggle="tooltip" data-placement="bottom" title="Refresh">
+                <i class="fontello-icon-arrows-cw"></i></a>
         </h2>
         <div id="sidebar-content">
             {% include "AppMainBundle:test-set:run/section.html.twig"
@@ -26,8 +27,8 @@
         </div>
     </div>
     <div class="affix">
-        <button type="button" id="sidebar-toggle" class="navbar-toggle" data-toggle="offcanvas" data-target="#sidebar" data-canvas="body">
+        <a href="#" id="sidebar-toggle" class="navbar-toggle" data-toggle="offcanvas" data-target="#sidebar" data-canvas="body">
             <i class="fontello-icon-hourglass"></i>
-        </button>
+        </a>
     </div>
 {% endif %}

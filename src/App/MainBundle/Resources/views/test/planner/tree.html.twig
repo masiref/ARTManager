@@ -3,7 +3,7 @@
     <div class="panel panel-{{ context }}" id="panel-tests-{{ application.id }}">
         <div class="panel-heading">
             <strong>
-                <i class="fontello-icon-database"></i> Test Plan
+                <i class="fontello-icon-database"></i> Scenario Plan
             </strong>
         </div>
         <div class="panel-body" id="panel-body-{{ application.id }}">
@@ -24,14 +24,14 @@
                 <span id="tests-count">
                     {% if application.testsCount <= 1 %}There is {% else %}There are{% endif %}
                     {% if application.testsCount == 0 %}no {% else %}<span class="badge">{{ application.testsCount }}</span>{% endif %}
-                    test{% if application.testsCount > 1 %}s{% endif %}
+                    scenario{% if application.testsCount > 1 %}s{% endif %}
                 </span>
                 <span class="pull-right">
                     <a href="#" id="add-test"
                        data-test-folder-id=""
                        data-test-folder-name=""
                        data-test-folder-description=""
-                       data-toggle="tooltip" data-placement="left" title="Add a new test">
+                       data-toggle="tooltip" data-placement="left" title="Add a new scenario">
                         <i class="fontello-icon-plus-circled"></i><i class="fontello-icon-tasks"></i>
                     </a>
                 </span>

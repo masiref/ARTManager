@@ -63,7 +63,7 @@ var TestPlanner = {
         var subtitle = 'There ';
         subtitle += (count <= 1 ? 'is ' : 'are ');
         subtitle += (count === 0 ? 'no ' : '<span class="badge">' + count + '</span>');
-        subtitle += ' test' + (count > 1 ? "s" : "");
+        subtitle += ' scenario' + (count > 1 ? "s" : "");
         $('#tests-count').html(subtitle);
     },
     showEntityPropertiesPanel: function() {

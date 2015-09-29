@@ -3,7 +3,7 @@
 
 {% block jumbotronTitle %}
     <span class="text-mypurple">
-        <i class="fontello-icon-ellipsis-vert"></i><strong>Test</strong> Editor
+        <i class="fontello-icon-ellipsis-vert"></i><strong>Scenario</strong> Editor
     </span>
 {% endblock %}
 
@@ -12,7 +12,7 @@
 {% block jumbotronBody %}
     <p class="text-center">
         <a href="{{ path('app_index_application_test_planner', { 'id': application.id }) }}">
-            <i class="fontello-icon-left-circled"></i>Return to <strong>{{ application.name }}</strong> Test Plan
+            <i class="fontello-icon-left-circled"></i>Return to <strong>{{ application.name }}</strong> Scenario Plan
         </a>
     </p>
 {% endblock %}
@@ -31,7 +31,7 @@
     </li>
     <li>
         <a href="{{ path('app_index_application_test_planner', { 'id': application.id }) }}">
-            <i class="fontello-icon-right-open"></i>Test Plan</a>
+            <i class="fontello-icon-right-open"></i>Scenario Plan</a>
     </li>
     <li class="active">
         <i class="fontello-icon-angle-circled-right"></i>{{ test }}

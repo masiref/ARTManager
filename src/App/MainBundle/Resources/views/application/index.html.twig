@@ -100,9 +100,9 @@
             </a>
             <a href="{{ path('app_index_application_test_planner', { 'id': application.id }) }}"
                class="list-group-item list-group-item-mypurple">
-                <h4 class="list-group-item-heading"><i class="fontello-icon-tasks"></i> <strong>Test</strong> Planner</h4>
+                <h4 class="list-group-item-heading"><i class="fontello-icon-tasks"></i> <strong>Scenario</strong> Plan</h4>
                 <p class="list-group-item-text">
-                    <p>Design the tests of your application</p>
+                    <p>Describe and organize your scenarios</p>
                     <ul class="list-unstyled text-right">
                         <li>
                             {% if application.testFoldersCount <= 1 %}There is {% else %}There are{% endif %}
@@ -112,7 +112,7 @@
                         {% if application.testFoldersCount > 0 %}
                             <li>
                                 containing <span class="badge">{{ application.testsCount }}</span>
-                                test{% if application.testsCount > 1 %}s{% endif %}
+                                scenario{% if application.testsCount > 1 %}s{% endif %}
                             </li>
                         {% endif %}
                     </ul>
@@ -120,9 +120,9 @@
             </a>
             <a href="{{ path('app_index_application_test_set_planner', { 'id': application.id }) }}"
                class="list-group-item list-group-item-mygreen">
-                <h4 class="list-group-item-heading"><i class="fontello-icon-beaker"></i> <strong>Test</strong> Lab</h4>
+                <h4 class="list-group-item-heading"><i class="fontello-icon-beaker"></i> <strong>Feature</strong> Lab</h4>
                 <p class="list-group-item-text">
-                    <p>Run the tests of your application</p>
+                    <p>Define and run your features</p>
                     <ul class="list-unstyled text-right">
                         <li>
                             {% if application.testSetFoldersCount <= 1 %}There is {% else %}There are{% endif %}
@@ -132,7 +132,7 @@
                         {% if application.testSetFoldersCount > 0 %}
                             <li>
                                 containing <span class="badge">{{ application.testSetsCount }}</span>
-                                test set{% if application.testSetsCount > 1 %}s{% endif %}
+                                feature{% if application.testSetsCount > 1 %}s{% endif %}
                             </li>
                         {% endif %}
                     </ul>

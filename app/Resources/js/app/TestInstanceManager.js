@@ -69,7 +69,7 @@ var TestInstanceManager = {
             }
         }).done(function(data) {
             if (data.error) {
-                var message = "Selected test instances were not added !\n" + data.error;
+                var message = "Selected scenario instances were not added !\n" + data.error;
                 Base.showErrorMessage(message);
             } else {
                 var count = data.count;
@@ -77,14 +77,14 @@ var TestInstanceManager = {
                 TestSetEditor.initExecutionGrid(testSetId);
                 TestSetEditor.refreshBehatFeature(testSetId);
                 TestInstanceManager.closeAddFormModal();
-                var message = "You have added " + count + " test instance" + (count > 1 ? "s" : "");
+                var message = "You have added " + count + " scenario instance" + (count > 1 ? "s" : "");
                 Base.showSuccessMessage(message);
             }
         });
     },
     delete: function(id, name) {
         swal({
-            title: "Delete test instance " + name + " ?",
+            title: "Delete scenario instance " + name + " ?",
             text: "You will not be able to recover it !",
             type: "warning",
             showCancelButton: true,
@@ -99,13 +99,13 @@ var TestInstanceManager = {
                 })
             }).done(function(data) {
                 if (data.error) {
-                    var message = "Test instance was not deleted !\n" + data.error;
+                    var message = "Scenario instance was not deleted !\n" + data.error;
                     Base.showErrorMessage(message);
                 } else {
                     TestSetEditor.updateExecutionGrid(data.executionGrid);
                     TestSetEditor.initItem(data.testSetId);
                     TestSetEditor.refreshBehatFeature(data.testSetId);
-                    Base.showSuccessMessage("Test instance deleted !");
+                    Base.showSuccessMessage("Scenario instance deleted !");
                 }
             });
         });

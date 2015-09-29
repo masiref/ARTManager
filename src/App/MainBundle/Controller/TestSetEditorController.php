@@ -67,7 +67,7 @@ class TestSetEditorController extends BaseController {
                             'testSet' => $testSet
                         ))->getContent();
             } else {
-                $ajaxResponse['error'] = "No test selected";
+                $ajaxResponse['error'] = "No scenario selected";
             }
         }
         $response = new Response(json_encode($ajaxResponse));

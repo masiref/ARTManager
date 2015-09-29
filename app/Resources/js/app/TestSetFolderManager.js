@@ -69,7 +69,7 @@ var TestSetFolderManager = {
             data: $("#form-add-test-set-folder").serialize()
         }).done(function(data) {
             if (data.error) {
-                var message = "Test set folder not added !\n" + data.error;
+                var message = "Feature folder not added !\n" + data.error;
                 Base.showErrorMessage(message);
             } else {
                 var name = data.name;

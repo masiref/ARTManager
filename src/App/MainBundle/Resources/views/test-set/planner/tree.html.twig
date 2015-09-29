@@ -3,7 +3,7 @@
     <div class="panel panel-{{ context }}" id="panel-test-sets-{{ application.id }}">
         <div class="panel-heading">
             <strong>
-                <i class="fontello-icon-database"></i> Test Lab
+                <i class="fontello-icon-database"></i> Feature Lab
             </strong>
         </div>
         <div class="panel-body" id="panel-body-{{ application.id }}">
@@ -24,14 +24,14 @@
                 <span id="test-sets-count">
                     {% if application.testSetsCount <= 1 %}There is {% else %}There are{% endif %}
                     {% if application.testSetsCount == 0 %}no {% else %}<span class="badge">{{ application.testSetsCount }}</span>{% endif %}
-                    test set{% if application.testSetsCount > 1 %}s{% endif %}
+                    feature{% if application.testSetsCount > 1 %}s{% endif %}
                 </span>
                 <span class="pull-right">
                     <a href="#" id="add-test-set"
                        data-test-set-folder-id=""
                        data-test-set-folder-name=""
                        data-test-set-folder-description=""
-                       data-toggle="tooltip" data-placement="left" title="Add a new test set">
+                       data-toggle="tooltip" data-placement="left" title="Add a new feature">
                         <i class="fontello-icon-plus-circled"></i><i class="fontello-icon-beaker"></i>
                     </a>
                 </span>
@@ -44,7 +44,7 @@
                 <a href="#" id="run-checked-entities" class="btn btn-success disabled"
                    data-toggle="tooltip"
                    data-placement="bottom"
-                   title="Run selected test sets"
+                   title="Run selected features"
                    data-application-id="{{ application.id }}">
                     <span class="badge" id="checked-entities-count-run">0</span> <i class="fontello-icon-play"></i>
                 </a>

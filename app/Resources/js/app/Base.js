@@ -37,6 +37,11 @@ $(document).ready(function() {
     $("#refresh-sidebar").click(function() {
         Base.refreshSidebar(false);
     });
+    
+    $("#sidebar-toggle").tooltip({
+        placement: "right",
+        title: "Show sidebar"
+    });
 });
 
 var Base = {

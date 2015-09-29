@@ -74,7 +74,7 @@ var TestManager = {
             data: $("#form-add-test").serialize()
         }).done(function(data) {
             if (data.error) {
-                var message = "Test not added !\n" + data.error;
+                var message = "Scenario not added !\n" + data.error;
                 Base.showErrorMessage(message);
             } else {
                 var name = data.name;

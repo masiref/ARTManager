@@ -69,7 +69,7 @@ var TestFolderManager = {
             data: $("#form-add-test-folder").serialize()
         }).done(function(data) {
             if (data.error) {
-                var message = "Test folder not added !\n" + data.error;
+                var message = "Scenario folder not added !\n" + data.error;
                 Base.showErrorMessage(message);
             } else {
                 var name = data.name;
