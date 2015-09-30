@@ -1,8 +1,9 @@
 {% extends 'base.html.twig' %}
 {% set page_ = "configuration" %}
+{% set context = "custom-yellow" %}
 
 {% block jumbotronTitle %}
-    <span class="text-myblue">
+    <span class="text-{{ context }}">
         <i class="fontello-icon-desktop"></i><strong>Server</strong> Manager
     </span>
 {% endblock %}
@@ -28,7 +29,6 @@
 {% endblock %}
 
 {% block body %}
-    {% set context = 'myblue' %}
     <div class="col-md-7">
         <div class="panel panel-{{ context }}" id="panel-server-{{ server.id }}">
             <div class="panel-heading">
@@ -113,7 +113,7 @@
     </div>
     <div class="col-md-5">
         <div class="list-group">
-            <a href="#" class="list-group-item list-group-item-myblue" id="check-connection-server-{{ server.id }}"
+            <a href="#" class="list-group-item list-group-item-custom-green" id="check-connection-server-{{ server.id }}"
                data-id="{{ server.id }}">
                 <h4 class="list-group-item-heading">
                     <i class="fontello-icon-light-up"></i> <strong>Check connection</strong>

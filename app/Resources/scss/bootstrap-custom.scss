@@ -1,0 +1,85 @@
+@import 'app/Resources/libs/bootstrap/assets/stylesheets/bootstrap';
+@import 'colors.scss';
+
+@include list-group-item-variant(custom-blue, $state-custom-blue-bg, $state-custom-blue-text);
+@include list-group-item-variant(custom-green, $state-custom-green-bg, $state-custom-green-text);
+@include list-group-item-variant(custom-yellow, $state-custom-yellow-bg, $state-custom-yellow-text);
+@include list-group-item-variant(custom-orange, $state-custom-orange-bg, $state-custom-orange-text);
+@include list-group-item-variant(custom-red, $state-custom-red-bg, $state-custom-red-text);
+@include list-group-item-variant(custom-purple, $state-custom-purple-bg, $state-custom-purple-text);
+
+.bg-custom-blue {
+    background-color: $state-custom-blue-bg;
+}
+.bg-custom-green {
+    background-color: $state-custom-green-bg;
+}
+.bg-custom-yellow {
+    background-color: $state-custom-yellow-bg;
+}
+.bg-custom-orange {
+    background-color: $state-custom-orange-bg;
+}
+.bg-custom-red {
+    background-color: $state-custom-red-bg;
+}
+.bg-custom-purple {
+    background-color: $state-custom-purple-bg;
+}
+
+.text-custom-blue {
+    color: $state-custom-blue-text;
+}
+.text-custom-green {
+    color: $state-custom-green-text;
+}
+.text-custom-yellow {
+    color: $state-custom-yellow-text;
+}
+.text-custom-orange {
+    color: $state-custom-orange-text;
+}
+.text-custom-red {
+    color: $state-custom-red-text;
+}
+.text-custom-purple {
+    color: $state-custom-purple-text;
+}
+
+.panel-custom-blue {
+    @include panel-variant($panel-custom-blue-border, $panel-custom-blue-text, $panel-custom-blue-heading-bg, $panel-custom-blue-border);
+}
+.panel-custom-green {
+    @include panel-variant($panel-custom-green-border, $panel-custom-green-text, $panel-custom-green-heading-bg, $panel-custom-green-border);
+}
+.panel-custom-yellow {
+    @include panel-variant($panel-custom-yellow-border, $panel-custom-yellow-text, $panel-custom-yellow-heading-bg, $panel-custom-yellow-border);
+}
+.panel-custom-orange {
+    @include panel-variant($panel-custom-orange-border, $panel-custom-orange-text, $panel-custom-orange-heading-bg, $panel-custom-orange-border);
+}
+.panel-custom-red {
+    @include panel-variant($panel-custom-red-border, $panel-custom-red-text, $panel-custom-red-heading-bg, $panel-custom-red-border);
+}
+.panel-custom-purple {
+    @include panel-variant($panel-custom-purple-border, $panel-custom-purple-text, $panel-custom-purple-heading-bg, $panel-custom-purple-border);
+}
+
+.label-custom-blue {
+    @include label-variant($label-custom-blue-bg);
+}
+.label-custom-green {
+    @include label-variant($label-custom-green-bg);
+}
+.label-custom-yellow {
+    @include label-variant($label-custom-yellow-bg);
+}
+.label-custom-orange {
+    @include label-variant($label-custom-orange-bg);
+}
+.label-custom-red {
+    @include label-variant($label-custom-red-bg);
+}
+.label-custom-purple {
+    @include label-variant($label-custom-purple-bg);
+}

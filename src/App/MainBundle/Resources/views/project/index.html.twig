@@ -1,8 +1,9 @@
 {% extends 'base.html.twig' %}
 {% set page_ = "project-manager" %}
+{% set context = "custom-blue" %}
 
 {% block jumbotronTitle %}
-    <span class="text-info">
+    <span class="text-{{ context }}">
         <i class="fontello-icon-cog-alt"></i><strong>Project</strong> Manager
     </span>
 {% endblock %}
@@ -23,7 +24,6 @@
 {% endblock %}
 
 {% block body %}
-    {% set context = 'info' %}
     <div class="col-md-7">
         <div class="panel panel-{{ context }}" id="panel-project-{{ project.id }}">
             <div class="panel-heading">
@@ -74,7 +74,7 @@
 {% endblock %}
 
 {% block modals %}
-    {% include "AppMainBundle:application:new.form.html.twig" %}
+    {% include "AppMainBundle:application:new.form.html.twig" with { 'context' : 'custom-green' } %}
 {% endblock %}
 
 {% block javascripts %}

@@ -1,86 +1,11 @@
-@import 'app/Resources/libs/bootstrap/assets/stylesheets/bootstrap';
 @import 'app/Resources/libs/sweetalert/dev/sweetalert';
 @import 'app/Resources/css/loader.css';
-
-$state-mypurple-bg:             #F3C6D9;
-$state-mypurple-text:           #572348;
-$state-mypurple-border:         darken(adjust-hue($state-mypurple-bg, -10), 5%) !default;
-$panel-mypurple-text:           $state-mypurple-text !default;
-$panel-mypurple-border:         $state-mypurple-border !default;
-$panel-mypurple-heading-bg:     $state-mypurple-bg !default;
-
-$state-mygreen-bg:             #D9FFA8;
-$state-mygreen-text:           #459436;
-$state-mygreen-border:         darken(adjust-hue($state-mygreen-bg, -10), 5%) !default;
-$panel-mygreen-text:           $state-mygreen-text !default;
-$panel-mygreen-border:         $state-mygreen-border !default;
-$panel-mygreen-heading-bg:     $state-mygreen-bg !default;
-
-$state-myblue-bg:              #E1EBF5;
-$state-myblue-text:            #024772;
-$state-myblue-border:          darken(adjust-hue($state-myblue-bg, -10), 5%) !default;
-$panel-myblue-text:            $state-myblue-text !default;
-$panel-myblue-border:          $state-myblue-border !default;
-$panel-myblue-heading-bg:      $state-myblue-bg !default;
-
-$state-myorange-bg:              #F9E4B3;
-$state-myorange-text:            #FF6313;
-$state-myorange-border:          darken(adjust-hue($state-myorange-bg, -10), 5%) !default;
-$panel-myorange-text:            $state-myorange-text !default;
-$panel-myorange-border:          $state-myorange-border !default;
-$panel-myorange-heading-bg:      $state-myorange-bg !default;
-
 
 body {
     color: #293540;
     font-family: 'Maven Pro', sans-serif;
     padding-top: 60px;
     margin-bottom: 60px;
-}
-
-@font-face {
-    font-family: 'fontello';
-    src: url('../fonts/fontello.eot?65928365');
-    src: url('../fonts/fontello.eot?65928365#iefix') format('embedded-opentype'),
-        url('../fonts/fontello.woff?65928365') format('woff'),
-        url('../fonts/fontello.ttf?65928365') format('truetype'),
-        url('../fonts/fontello.svg?65928365#fontello') format('svg');
-    font-weight: normal;
-    font-style: normal;
-}
-@font-face {
-    font-family: 'Titillium Web';
-    font-style: normal;
-    font-weight: 400;
-    src: local('Titillium Web'), local('TitilliumWeb-Regular'), url('../fonts/Titillium_Web/TitilliumWeb-Regular.ttf') format('truetype');
-}
-@font-face {
-    font-family: 'Titillium Web';
-    font-style: normal;
-    font-weight: 900;
-    src: local('Titillium WebBlack'), local('TitilliumWeb-Black'), url('../fonts/Titillium_Web/TitilliumWeb-Black.ttf') format('truetype');
-}
-@font-face {
-    font-family: 'Maven Pro';
-    font-style: normal;
-    font-weight: 400;
-    src: local('Maven Pro Regular'), local('MavenProRegular'), url('../fonts/Maven_Pro/MavenPro-Regular.ttf') format('truetype');
-}
-
-[class^="fontello-icon-"]:before, [class*=" fontello-icon-"]:before {
-    font-family: "fontello";
-    font-style: normal;
-    font-weight: normal;
-    speak: none;
-    display: inline-block;
-    text-decoration: inherit;
-    width: 1em;
-    margin-right: .2em;
-    text-align: center;
-    font-variant: normal;
-    text-transform: none;
-    line-height: 1em;
-    margin-left: .2em;
 }
 
 a {
@@ -91,62 +16,9 @@ a {
     transition:.5s;
 }
 
-.navbar-header {
-    .navbar-brand {
-        color: #293540;
-    }
-}
-
-.navbar-item-hover {
-    box-shadow: 0 4px 2px -2px #79BDE0;
-}
-
-.navbar-default {
-    background-color: #fff;
-
-    .navbar-nav > li > a {
-        color: #79BDE0;
-    }
-
-    .navbar-nav > .active > a, .navbar-nav > .active > a:focus, .navbar-nav > .active > a:hover {
-        @extend .navbar-item-hover;
-        background-color: #fff;
-        color: #293540;
-    }
-
-    .navbar-nav > li > a:focus, .navbar-nav > li > a:hover {
-        @extend .navbar-item-hover;
-        color: #79BDE0;
-    }
-}
-
-.navbar-default .navbar-text {
-    color: #79BDE0;
-}
-
-.breadcrumb {
-    background: none;
-}
-
-.breadcrumb > li {
-    display: inline;
-}
-
-.breadcrumb > li + li:before {
-    color: #ccc;
-    content: "";
-    padding: 0 0;
-}
-
-.breadcrumb > .active {
-    font-weight: bold;
-    color: #293540;
-}
-
 .jumbotron {
     background-color: rgba(255, 255, 255, 0.5);
     margin-bottom: 0;
-
     h1 {
         font-family: 'Titillium Web', sans-serif;
     }
@@ -160,115 +32,12 @@ a {
     background-color: #293540;
 }
 
-.vcenter {
-    display: inline-block;
-    vertical-align: middle;
-    float: none;
-}
-
-.test-prerequisites, .test-starting, .test-scenario, .test-set-execution-grid {
-    border-bottom: 1px dashed #ccc;
-}
-
-.step {
-    border-bottom: 1px solid #ccc;
-}
-
-.step-header {
-    border-bottom: 3px solid #ccc;
-}
-
-.step-order {
-    font-size: 25px;
-    text-align: center;
-}
-
-.row.step {
-    background-color: #fff;
-}
-
-.row.step.deleted {
-    background-color: #F2DEDE;
-}
-
-div.row.step > div.step-left > div, div.row.control-step > div {
-    min-height: 3em;
-    line-height: 3em;
-}
-
-.control-step-order {
-    font-size: 15px;
-    text-align: center;
-}
-
-@include list-group-item-variant(mypurple, $state-mypurple-bg, $state-mypurple-text);
-.bg-mypurple {
-    background-color: $state-mypurple-bg;
-}
-.text-mypurple {
-    color: $state-mypurple-text;
-}
-.panel-mypurple {
-    @include panel-variant($panel-mypurple-border, $panel-mypurple-text, $panel-mypurple-heading-bg, $panel-mypurple-border);
-}
-
-@include list-group-item-variant(mygreen, $state-mygreen-bg, $state-mygreen-text);
-.bg-mygreen {
-    background-color: $state-mygreen-bg;
-}
-.text-mygreen {
-    color: $state-mygreen-text;
-}
-.panel-mygreen {
-    @include panel-variant($panel-mygreen-border, $panel-mygreen-text, $panel-mygreen-heading-bg, $panel-mygreen-border);
-}
-
-@include list-group-item-variant(myblue, $state-myblue-bg, $state-myblue-text);
-.bg-myblue {
-    background-color: $state-myblue-bg;
-}
-.text-myblue {
-    color: $state-myblue-text;
-}
-.panel-myblue {
-    @include panel-variant($panel-myblue-border, $panel-myblue-text, $panel-myblue-heading-bg, $panel-myblue-border);
-}
-
-@include list-group-item-variant(myorange, $state-myorange-bg, $state-myorange-text);
-.bg-myorange {
-    background-color: $state-myorange-bg;
-}
-.text-myorange {
-    color: $state-myorange-text;
-}
-.panel-myorange {
-    @include panel-variant($panel-myorange-border, $panel-myorange-text, $panel-myorange-heading-bg, $panel-myorange-border);
-}
-
-.sweet-alert {
-    font-family: 'Maven Pro', sans-serif;
-}
-
-.sweet-alert h2, .sweet-alert p {
-    color: #293540;
-}
-
-.footer {
-    position: fixed;
-    bottom: 0px;
-    width: 100%;
-    height: 60px;
-    background-color: #fff;
-    border-top: 1px solid #E7E7E7;
-}
-
-.footer > .container {
-    padding-right: 15px;
-    padding-left: 15px; 
-}
-
-.footer > .container .text-muted {
-    margin: 20px 0px;
+.blur {
+    -o-filter: blur(2px) grayscale(50%);
+    -ms-filter: blur(2px) grayscale(50%);
+    -moz-filter: blur(2px) grayscale(50%);
+    -webkit-filter: blur(2px) grayscale(50%);
+    filter: blur(2px) grayscale(50%);
 }
 
 #sidebar {
@@ -290,12 +59,22 @@ div.row.step > div.step-left > div, div.row.control-step > div {
     float: left;
 }
 
-.blur {
-    -o-filter: blur(2px) grayscale(50%);
-    -ms-filter: blur(2px) grayscale(50%);
-    -moz-filter: blur(2px) grayscale(50%);
-    -webkit-filter: blur(2px) grayscale(50%);
-    filter: blur(2px) grayscale(50%);
+.footer {
+    position: fixed;
+    bottom: 0px;
+    width: 100%;
+    height: 60px;
+    background-color: #fff;
+    border-top: 1px solid #E7E7E7;
+}
+
+.footer > .container {
+    padding-right: 15px;
+    padding-left: 15px; 
+}
+
+.footer > .container .text-muted {
+    margin: 20px 0px;
 }
 
 .table > tbody > tr.selected > td {

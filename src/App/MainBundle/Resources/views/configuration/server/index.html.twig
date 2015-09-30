@@ -1,8 +1,9 @@
 {% extends 'base.html.twig' %}
 {% set page_ = "configuration" %}
+{% set context = "custom-yellow" %}
 
 {% block jumbotronTitle %}
-    <span class="text-myblue">
+    <span class="text-{{ context }}">
         <i class="fontello-icon-desktop"></i><strong>Server</strong> Manager
     </span>
 {% endblock %}

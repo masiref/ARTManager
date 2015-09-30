@@ -1,8 +1,9 @@
 {% extends 'base.html.twig' %}
 {% set page_ = "test-set-editor" %}
+{% set context = "custom-purple" %}
 
 {% block jumbotronTitle %}
-    <span class="text-mygreen">
+    <span class="text-{{ context }}">
         <i class="fontello-icon-beaker"></i><strong>Feature</strong> Editor
     </span>
 {% endblock %}

@@ -1,8 +1,9 @@
 {% extends 'base.html.twig' %}
 {% set page_ = "test-planner" %}
+{% set context = "custom-red" %}
 
 {% block jumbotronTitle %}
-    <span class="text-mypurple">
+    <span class="text-{{ context }}">
         <i class="fontello-icon-tasks"></i><strong>Scenario</strong> Plan
     </span>
 {% endblock %}

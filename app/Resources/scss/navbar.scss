@@ -1,0 +1,32 @@
+.navbar-header {
+    .navbar-brand {
+        color: #293540;
+    }
+}
+
+.navbar-item-hover {
+    box-shadow: 0 4px 2px -2px #79BDE0;
+}
+
+.navbar-default {
+    background-color: #fff;
+
+    .navbar-nav > li > a {
+        color: #79BDE0;
+    }
+
+    .navbar-nav > .active > a, .navbar-nav > .active > a:focus, .navbar-nav > .active > a:hover {
+        @extend .navbar-item-hover;
+        background-color: #fff;
+        color: #293540;
+    }
+
+    .navbar-nav > li > a:focus, .navbar-nav > li > a:hover {
+        @extend .navbar-item-hover;
+        color: #79BDE0;
+    }
+}
+
+.navbar-default .navbar-text {
+    color: #79BDE0;
+}

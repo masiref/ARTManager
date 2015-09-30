@@ -1,0 +1,47 @@
+$state-custom-blue-bg: #E4FFFF;
+$state-custom-blue-text: #2C82C9;
+$state-custom-blue-border: darken(adjust-hue($state-custom-blue-bg, -10), 5%) !default;
+$panel-custom-blue-text: $state-custom-blue-text !default;
+$panel-custom-blue-border: $state-custom-blue-border !default;
+$panel-custom-blue-heading-bg: $state-custom-blue-bg !default;
+$label-custom-blue-bg: $state-custom-blue-text !default;
+
+$state-custom-green-bg: #E4FFFF;
+$state-custom-green-text: #2CC990;
+$state-custom-green-border: darken(adjust-hue($state-custom-green-bg, -10), 5%) !default;
+$panel-custom-green-text: $state-custom-green-text !default;
+$panel-custom-green-border: $state-custom-green-border !default;
+$panel-custom-green-heading-bg: $state-custom-green-bg !default;
+$label-custom-green-bg: $state-custom-green-text !default;
+
+$state-custom-yellow-bg: #FFFFEF;
+$state-custom-yellow-text: #EFC94C;
+$state-custom-yellow-border: darken(adjust-hue($state-custom-yellow-bg, -10), 5%) !default;
+$panel-custom-yellow-text: $state-custom-yellow-text !default;
+$panel-custom-yellow-border: $state-custom-yellow-border !default;
+$panel-custom-yellow-heading-bg: $state-custom-yellow-bg !default;
+$label-custom-yellow-bg: $state-custom-yellow-text !default;
+
+$state-custom-orange-bg: #FFFFE4;
+$state-custom-orange-text: #FCB941;
+$state-custom-orange-border: darken(adjust-hue($state-custom-orange-bg, -10), 5%) !default;
+$panel-custom-orange-text: $state-custom-orange-text !default;
+$panel-custom-orange-border: $state-custom-orange-border !default;
+$panel-custom-orange-heading-bg: $state-custom-orange-bg !default;
+$label-custom-orange-bg: $state-custom-orange-text !default;
+
+$state-custom-red-bg: #FFEFDF;
+$state-custom-red-text: #E74C3C;
+$state-custom-red-border: darken(adjust-hue($state-custom-red-bg, -10), 5%) !default;
+$panel-custom-red-text: $state-custom-red-text !default;
+$panel-custom-red-border: $state-custom-red-border !default;
+$panel-custom-red-heading-bg: $state-custom-red-bg !default;
+$label-custom-red-bg: $state-custom-red-text !default;
+
+$state-custom-purple-bg: #FFEAFF;
+$state-custom-purple-text: #755B91;
+$state-custom-purple-border: darken(adjust-hue($state-custom-purple-bg, -10), 5%) !default;
+$panel-custom-purple-text: $state-custom-purple-text !default;
+$panel-custom-purple-border: $state-custom-purple-border !default;
+$panel-custom-purple-heading-bg: $state-custom-purple-bg !default;
+$label-custom-purple-bg: $state-custom-purple-text !default;

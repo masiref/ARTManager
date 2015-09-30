@@ -1,0 +1,47 @@
+@font-face {
+    font-family: 'fontello';
+    src: url('../fonts/fontello.eot?65928365');
+    src: url('../fonts/fontello.eot?65928365#iefix') format('embedded-opentype'),
+        url('../fonts/fontello.woff?65928365') format('woff'),
+        url('../fonts/fontello.ttf?65928365') format('truetype'),
+        url('../fonts/fontello.svg?65928365#fontello') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Titillium Web';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Titillium Web'), local('TitilliumWeb-Regular'), url('../fonts/Titillium_Web/TitilliumWeb-Regular.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Titillium Web';
+    font-style: normal;
+    font-weight: 900;
+    src: local('Titillium WebBlack'), local('TitilliumWeb-Black'), url('../fonts/Titillium_Web/TitilliumWeb-Black.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Maven Pro';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Maven Pro Regular'), local('MavenProRegular'), url('../fonts/Maven_Pro/MavenPro-Regular.ttf') format('truetype');
+}
+
+[class^="fontello-icon-"]:before, [class*=" fontello-icon-"]:before {
+    font-family: "fontello";
+    font-style: normal;
+    font-weight: normal;
+    speak: none;
+    display: inline-block;
+    text-decoration: inherit;
+    width: 1em;
+    margin-right: .2em;
+    text-align: center;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1em;
+    margin-left: .2em;
+}

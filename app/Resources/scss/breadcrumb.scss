@@ -1,0 +1,18 @@
+.breadcrumb {
+    background: none;
+}
+
+.breadcrumb > li {
+    display: inline;
+}
+
+.breadcrumb > li + li:before {
+    color: #ccc;
+    content: "";
+    padding: 0 0;
+}
+
+.breadcrumb > .active {
+    font-weight: bold;
+    color: #293540;
+}

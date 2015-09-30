@@ -1,5 +1,6 @@
 {% extends 'base.html.twig' %}
 {% set page_ = "homepage" %}
+{% set context = "custom-blue" %}
 
 {% block jumbotronTitle %}
     <i class="fontello-icon-ok"></i><strong>ART</strong> Manager
@@ -34,7 +35,7 @@
 
 {% block modals %}
     {% include 'AppMainBundle:project:new.form.html.twig' %}
-    {% include "AppMainBundle:application:new.form.html.twig" %}
+    {% include "AppMainBundle:application:new.form.html.twig" with { 'context': 'custom-green' } %}
 {% endblock %}
 
 {% block javascripts %}

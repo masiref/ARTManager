@@ -1,8 +1,9 @@
 {% extends 'base.html.twig' %}
 {% set page_ = "configuration" %}
+{% set context = "custom-red" %}
 
 {% block jumbotronTitle %}
-    <span class="text-myorange">
+    <span class="text-{{ context }}">
         <i class="fontello-icon-gauge"></i><strong>Execution Server</strong> Manager
     </span>
 {% endblock %}

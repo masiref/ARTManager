@@ -1,8 +1,9 @@
 {% extends 'base.html.twig' %}
 {% set page_ = "object-map-manager" %}
+{% set context = "custom-yellow" %}
 
 {% block jumbotronTitle %}
-    <span class="text-danger">
+    <span class="text-{{ context }}">
         <i class="fontello-icon-sitemap"></i><strong>Object Map</strong> Manager
     </span>
 {% endblock %}

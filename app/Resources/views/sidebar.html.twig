@@ -10,7 +10,7 @@
                 with {
                     'title': "Active",
                     'icon': "flash",
-                    'context': "success",
+                    'context': "custom-green",
                     'count': plannedTestSetRuns.count,
                     'testSetRunsByApplicationTestSet': plannedTestSetRuns.byApplicationTestSet 
                 }
@@ -19,7 +19,7 @@
                 with {
                     'title': "Recent",
                     'icon': "back-in-time",
-                    'context': "info",
+                    'context': "custom-blue",
                     'count': recentTestSetRuns.count,
                     'testSetRunsByApplicationTestSet': recentTestSetRuns.byApplicationTestSet 
                 }
@@ -27,8 +27,8 @@
         </div>
     </div>
     <div class="affix">
-        <a href="#" id="sidebar-toggle" class="navbar-toggle" data-toggle="offcanvas" data-target="#sidebar" data-canvas="body">
+        <button type="button" id="sidebar-toggle" class="navbar-toggle" data-toggle="offcanvas" data-target="#sidebar" data-canvas="body">
             <i class="fontello-icon-hourglass"></i>
-        </a>
+        </button>
     </div>
 {% endif %}

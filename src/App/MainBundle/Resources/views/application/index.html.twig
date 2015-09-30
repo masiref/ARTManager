@@ -1,8 +1,9 @@
 {% extends 'base.html.twig' %}
 {% set page_ = "application-manager" %}
+{% set context = "custom-green" %}
 
 {% block jumbotronTitle %}
-    <span class="text-success">
+    <span class="text-{{ context }}">
         <i class="fontello-icon-leaf"></i><strong>Application</strong> Manager
     </span>
 {% endblock %}
@@ -29,7 +30,6 @@
 {% endblock %}
 
 {% block body %}
-    {% set context = 'success' %}
     <div class="col-md-7">
         <div class="panel panel-{{ context }}" id="panel-application-{{ application.id }}">
             <div class="panel-heading">
@@ -75,7 +75,7 @@
     <div class="col-md-5">
         <div class="list-group">
             <a href="{{ path('app_index_application_object_map', { 'id': application.id }) }}"
-               class="list-group-item list-group-item-danger">
+               class="list-group-item list-group-item-custom-yellow">
                 <h4 class="list-group-item-heading"><i class="fontello-icon-sitemap"></i> <strong>Object Map</strong> Manager</h4>
                 <p class="list-group-item-text">
                     <p>Map the objects of your application</p>
@@ -98,8 +98,23 @@
                     </ul>
                 </p>
             </a>
+            {#<a href="#"
+               class="list-group-item list-group-item-custom-orange">
+                <h4 class="list-group-item-heading"><i class="fontello-icon-level-up"></i> <strong>Business Step</strong> Manager</h4>
+                <p class="list-group-item-text">
+                    <p>Design business steps for your scenarios</p>
+                    <ul class="list-unstyled text-right">
+                        <li>
+                            There is <span class="badge">1</span> folder
+                        </li>
+                        <li>
+                            containing <span class="badge">3</span> business steps
+                        </li>
+                    </ul>
+                </p>
+            </a>#}
             <a href="{{ path('app_index_application_test_planner', { 'id': application.id }) }}"
-               class="list-group-item list-group-item-mypurple">
+               class="list-group-item list-group-item-custom-red">
                 <h4 class="list-group-item-heading"><i class="fontello-icon-tasks"></i> <strong>Scenario</strong> Plan</h4>
                 <p class="list-group-item-text">
                     <p>Describe and organize your scenarios</p>
@@ -119,7 +134,7 @@
                 </p>
             </a>
             <a href="{{ path('app_index_application_test_set_planner', { 'id': application.id }) }}"
-               class="list-group-item list-group-item-mygreen">
+               class="list-group-item list-group-item-custom-purple">
                 <h4 class="list-group-item-heading"><i class="fontello-icon-beaker"></i> <strong>Feature</strong> Lab</h4>
                 <p class="list-group-item-text">
                     <p>Define and run your features</p>

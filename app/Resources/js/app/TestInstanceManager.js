@@ -69,7 +69,7 @@ var TestInstanceManager = {
             }
         }).done(function(data) {
             if (data.error) {
-                var message = "Selected scenario instances were not added !\n" + data.error;
+                var message = "Scenario instances were not added !\n" + data.error;
                 Base.showErrorMessage(message);
             } else {
                 var count = data.count;
