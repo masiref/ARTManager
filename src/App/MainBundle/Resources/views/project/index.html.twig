@@ -81,6 +81,7 @@
     {{ parent() }}
     <script type="text/javascript">
         $(document).ready(function() {
+            ProjectManager.init();
             ProjectManager.initEditableData();
             ApplicationManager.init();
         });
