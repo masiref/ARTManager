@@ -210,7 +210,7 @@ class TestSetEditorController extends BaseController {
                             'testSet' => $testSet
                         ))->getContent();
             } else {
-                $ajaxResponse['error'] = (string) $form->getErrors(true);
+                $ajaxResponse['error'] = $this->getErrorsAsString($form);
             }
         }
         $response = new Response(json_encode($ajaxResponse));
@@ -262,7 +262,7 @@ class TestSetEditorController extends BaseController {
                     }
                 }
             } else {
-                $ajaxResponse['error'] = (string) $form->getErrors(true);
+                $ajaxResponse['error'] = $this->getErrorsAsString($form);
             }
         }
         $response = new Response(json_encode($ajaxResponse));

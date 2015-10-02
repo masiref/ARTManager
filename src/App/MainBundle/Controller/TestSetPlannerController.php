@@ -435,6 +435,7 @@ class TestSetPlannerController extends BaseController {
     public function runEntitiesAction(Application $application, Request $request) {
         if ($request->getMethod() == 'POST' && $request->isXmlHttpRequest()) {
             $objects = $request->get("objects");
+
             $em = $this->getDoctrine()->getManager();
             $testSets = array();
             foreach ($objects as $object) {
@@ -445,11 +446,17 @@ class TestSetPlannerController extends BaseController {
                     $testSets[] = $em->getRepository('AppMainBundle:TestSet')->find($id);
                 }
             }
-            $ajaxResponse = array(
-                "modalContent" => $this->render('AppMainBundle:test-set:run/multiple_content.html.twig', array(
-                    'testSets' => $testSets
-                ))->getContent()
-            );
+            if (count($testSets) > 0) {
+                $ajaxResponse = array(
+                    "modalContent" => $this->render('AppMainBundle:test-set:run/multiple_content.html.twig', array(
+                        'testSets' => $testSets
+                    ))->getContent()
+                );
+            } else {
+                $ajaxResponse = array(
+                    "error" => "No features were selected !"
+                );
+            }
             $response = new Response(json_encode($ajaxResponse));
         }
         $response->headers->set('Content-Type', 'application/json');

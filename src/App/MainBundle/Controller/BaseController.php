@@ -28,8 +28,9 @@ abstract class BaseController extends Controller {
      */
     public function refreshSidebar(Request $request) {
         $ajaxResponse = array();
-        $em = $this->getDoctrine()->getManager();
         if ($request->getMethod() == 'POST' && $request->isXmlHttpRequest()) {
+            $em = $this->getDoctrine()->getManager();
+            $testSetRunManager = $this->get('test_set_run_manager');
             $plannedTestSetRuns = $em->getRepository("AppMainBundle:TestSetRun")->findPlannedOrderByCreatedAt();
             $recentTestSetRuns = $em->getRepository("AppMainBundle:TestSetRun")->findRecentOrderByCreatedAt();
             $ajaxResponse['sidebar'] = $this->render('AppMainBundle:test-set:run/section.html.twig', array(
@@ -37,14 +38,14 @@ abstract class BaseController extends Controller {
                         'icon' => "flash",
                         'context' => "success",
                         'count' => count($plannedTestSetRuns),
-                        'testSetRunsByApplicationTestSet' => $this->getTestSetRunsByApplicationTestSet($plannedTestSetRuns)
+                        'testSetRunsByApplicationTestSet' => $testSetRunManager->getTestSetRunsByApplicationTestSet($plannedTestSetRuns)
                     ))->getContent();
             $ajaxResponse['sidebar'] .= $this->render('AppMainBundle:test-set:run/section.html.twig', array(
                         'title' => "Recent",
                         'icon' => "back-in-time",
                         'context' => "info",
                         'count' => count($recentTestSetRuns),
-                        'testSetRunsByApplicationTestSet' => $this->getTestSetRunsByApplicationTestSet($recentTestSetRuns)
+                        'testSetRunsByApplicationTestSet' => $testSetRunManager->getTestSetRunsByApplicationTestSet($recentTestSetRuns)
                     ))->getContent();
         }
         $response = new Response(json_encode($ajaxResponse));

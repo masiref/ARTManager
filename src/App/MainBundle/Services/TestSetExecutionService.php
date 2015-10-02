@@ -69,21 +69,26 @@ class TestSetExecutionService implements GearmanOutputAwareInterface {
                 $testSetRun->setStartedAt(new DateTime());
                 $this->updateTestSetRunStatus($testSetRun, $em->getRepository("AppMainBundle:Status")->findRunningTestSetRunStatus());
 
-                $this->output->writeln(">>> preparing execution");
-                $this->createReportFolder($executionServer, $reportFolderPath);
-                $this->output->writeln($reportFolderPath . " created on " . $executionServer->getServer());
+                $server = $executionServer->getServer();
+                $passed = false;
 
-                $featureFilePath = $this->copyFeatureFile($testSet, $executionServer);
-                $this->output->writeln($featureFilePath . " copied on " . $executionServer->getServer());
+                if ($server->checkConnection()) {
+                    $this->output->writeln(">>> preparing execution");
+                    $this->createReportFolder($executionServer, $reportFolderPath);
+                    $this->output->writeln($reportFolderPath . " created on " . $server);
 
-                $this->output->writeln(">>> launching execution");
-                $passed = $this->launchExecution($application, $executionServer, $reportFolderPath);
+                    $featureFilePath = $this->copyFeatureFile($testSet, $executionServer);
+                    $this->output->writeln($featureFilePath . " copied on " . $server);
 
-                $this->output->writeln(">>> storing execution report");
-                $this->storeExecutionReport($testSetRun, $executionServer, $reportFolderPath);
+                    $this->output->writeln(">>> launching execution");
+                    $passed = $this->launchExecution($application, $executionServer, $reportFolderPath);
 
-                $this->output->writeln(">>> cleaning execution");
-                $this->cleanExecution($executionServer, $featureFilePath);
+                    $this->output->writeln(">>> storing execution report");
+                    $this->storeExecutionReport($testSetRun, $executionServer, $reportFolderPath);
+
+                    $this->output->writeln(">>> cleaning execution");
+                    $this->cleanExecution($executionServer, $featureFilePath);
+                }
 
                 $testSetRun->setEndedAt(new DateTime());
                 $this->output->writeln(">>> updating execution status (passed or failed)");

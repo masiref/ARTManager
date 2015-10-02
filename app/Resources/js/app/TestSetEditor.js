@@ -108,8 +108,12 @@ var TestSetEditor = {
                 objects: objects
             }
         }).done(function(data) {
-            $("#modal-run-test-sets-body").html($(data.modalContent));
-            $("#modal-run-test-sets").modal('show');
+            if (data.error) {
+                Base.showErrorMessage(data.error);
+            } else {
+                $("#modal-run-test-sets-body").html($(data.modalContent));
+                $("#modal-run-test-sets").modal('show');
+            }
         });
     },
     closeMultipleRunFormModal: function() {
