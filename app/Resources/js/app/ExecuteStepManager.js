@@ -6,7 +6,12 @@ var ExecuteStepManager = {
         });
         $("#add-execute-step").click(function() {
             var testId = $(this).data('test-id');
-            ExecuteStepManager.openAddFormModal(testId);
+            var startingPageId = $(this).data('starting-page-id');
+            if (startingPageId !== "") {
+                ExecuteStepManager.openAddFormModal(testId);
+            } else {
+                Base.showErrorMessage("Please select a starting page !")
+            }
         });
         $("#save-execute-step").click(function() {
             var testId = $(this).data('test-id');

@@ -2,9 +2,13 @@
 
 {% trans_default_domain 'FOSUserBundle' %}
 
-{% block fos_user_title %}
-    <i class="fontello-icon-lock"></i><strong>{% trans from "titles" %}Authentication{% endtrans %}</strong>
-{% endblock fos_user_title %}
+{% block jumbotronTitle %}
+    <i class="fontello-icon-ok"></i><strong>ART</strong> Manager
+{% endblock %}
+
+{% block jumbotronSubtitle %}
+    <strong>A</strong>utomate your <strong>R</strong>egression <strong>T</strong>ests projects
+{% endblock %}
 
 {% block fos_user_content %}
     <div class="col-md-6 col-md-offset-3">

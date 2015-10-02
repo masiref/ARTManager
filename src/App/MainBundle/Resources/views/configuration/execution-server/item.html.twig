@@ -1,3 +1,5 @@
+{% set context = context|default('custom-red') %}
+
 <div class="col-md-6">
     <div class="panel panel-{{ context }}" id="panel-execution-server-{{ executionServer.id }}">
         <div class="panel-heading">

@@ -31,17 +31,20 @@ class TestEditorController extends BaseController {
         $executeStep->setTest($test);
         $application = $test->getTestFolder()->getRootApplication();
         $builder = $this->createFormBuilder($test);
+        $standardPageType = $this->getDoctrine()->getManager()->getRepository('AppMainBundle:PageType')->findByName('Standard');
         $startingPageForm = $builder->add('startingPage', 'entity', array(
             'class' => 'AppMainBundle:Page',
             'property' => 'name',
             'group_by' => 'parentName',
             'empty_value' => 'Select a page',
-            'query_builder' => function(EntityRepository $er) use ($application) {
+            'query_builder' => function(EntityRepository $er) use ($application, $standardPageType) {
                 return $er->createQueryBuilder('p')
                                 ->join('p.objectMap', 'om')
                                 ->join('om.application', 'a')
                                 ->where('a = :application')
+                                ->andWhere('p.pageType = :pageType')
                                 ->setParameter('application', $application)
+                                ->setParameter('pageType', $standardPageType)
                                 ->orderBy('om.name')
                                 ->addOrderBy('p.page')
                                 ->addOrderBy('p.name');

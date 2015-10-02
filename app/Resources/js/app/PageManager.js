@@ -136,6 +136,16 @@ var PageManager = {
             }
         });
     },
+    setAddButtonDataAttributes: function(objectMapId, objectMapName, objectMapDescription) {
+        $('#add-page').data('object-map-id', objectMapId);
+        $('#add-page').data('object-map-name', objectMapName);
+        $('#add-page').data('object-map-description', objectMapDescription);
+    },
+    unsetAddButtonDataAttributes: function() {
+        $('#add-page').removeData('object-map-id');
+        $('#add-page').removeData('object-map-name');
+        $('#add-page').removeData('object-map-description');
+    },
     showTypeBlock: function() {
         $('#page-type-block').show();
     },

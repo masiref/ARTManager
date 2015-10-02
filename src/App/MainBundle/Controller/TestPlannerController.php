@@ -273,6 +273,7 @@ class TestPlannerController extends BaseController {
         if ($request->getMethod() == 'POST' && $request->isXmlHttpRequest()) {
             $formTest = new Test();
             $formTest->setTestFolder($testFolder);
+            $formTest->setApplication($testFolder->getRootApplication());
             $form = $this->createForm(new TestType(), $formTest);
             $form->handleRequest($request);
             if ($form->isValid()) {

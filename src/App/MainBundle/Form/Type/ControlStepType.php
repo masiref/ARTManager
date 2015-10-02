@@ -45,12 +45,14 @@ class ControlStepType extends AbstractType {
             'label' => 'Page',
             'group_by' => 'parentName',
             'empty_value' => '',
-            'query_builder' => function(EntityRepository $er) use ($application) {
+            'query_builder' => function(EntityRepository $er) use ($application, $em) {
                 return $er->createQueryBuilder('p')
                                 ->join('p.objectMap', 'om')
                                 ->join('om.application', 'a')
                                 ->where('a = :application')
+                                ->andWhere('p.pageType != :pageType')
                                 ->setParameter('application', $application)
+                                ->setParameter('pageType', $em->getRepository('AppMainBundle:PageType')->findByName('Container'))
                                 ->orderBy('om.name')
                                 ->addOrderBy('p.page')
                                 ->addOrderBy('p.name');

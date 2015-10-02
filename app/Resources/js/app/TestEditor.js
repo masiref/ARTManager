@@ -7,8 +7,11 @@ var TestEditor = {
     initItem: function(testId, prerequisiteCount) {
         $("#form_startingPage").change(function() {
             var pageId = $(this).val();
-            var pageName = $(this).find("option:selected").text();
-            TestEditor.updateStartingPage(testId, pageId, pageName);
+            if (pageId !== "") {
+                var pageName = $(this).find("option:selected").text();
+                $("#add-execute-step").data('starting-page-id', pageId);
+                TestEditor.updateStartingPage(testId, pageId, pageName);
+            }
         });
         $("#prerequisites-collapse").on('shown.bs.collapse', function() {
             $(".prerequisites-collapse-toggle-icon").removeClass("fontello-icon-down-open")

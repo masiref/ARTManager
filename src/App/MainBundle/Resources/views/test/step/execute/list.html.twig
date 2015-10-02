@@ -27,6 +27,7 @@
             <div class="col-md-12">
                 <a href="#" id="add-execute-step"
                    data-test-id="{{ test.id }}"
+                   data-starting-page-id="{% if test.startingPage %}{{ test.startingPage.id }}{% endif %}"
                    data-toggle="tooltip"
                    data-placement="right"
                    title="Add a new step">
