@@ -1,9 +1,9 @@
 .test-prerequisites, .test-starting, .test-scenario, .test-set-execution-grid {
-    border-bottom: 1px dashed #ccc;
+    border-bottom: 10px solid rgba(255, 255, 255, 0.5);
 }
 
 .step {
-    border-bottom: 1px solid #ccc;
+    border-bottom: 5px solid #fff;
 }
 
 .step-header {
@@ -16,7 +16,7 @@
 }
 
 .row.step {
-    background-color: #fff;
+    background-color: rgba(255, 255, 255, 0.8);
 }
 
 .row.step.deleted {

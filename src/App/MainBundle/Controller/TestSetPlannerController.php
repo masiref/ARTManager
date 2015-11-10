@@ -47,7 +47,7 @@ class TestSetPlannerController extends BaseController {
      *      requirements={"_method" = "post"},
      *      options={"expose" = true }
      * )
-     * @Secure(roles="ROLE_SUPER_ADMIN")
+     * @Secure(roles="ROLE_USER")
      * @ParamConverter("application", class="AppMainBundle:Application")
      */
     public function getTestSetsTreeAction(Application $application, Request $request) {
@@ -66,7 +66,7 @@ class TestSetPlannerController extends BaseController {
      *      requirements={"_method" = "post"},
      *      options={"expose" = true }
      * )
-     * @Secure(roles="ROLE_SUPER_ADMIN")
+     * @Secure(roles="ROLE_USER")
      * @ParamConverter("testSetFolder", class="AppMainBundle:TestSetFolder")
      */
     public function getTestSetsTreeWithSelectedFolderAction(TestSetFolder $testSetFolder, Request $request) {
@@ -87,7 +87,7 @@ class TestSetPlannerController extends BaseController {
      *      requirements={"_method" = "post"},
      *      options={"expose" = true }
      * )
-     * @Secure(roles="ROLE_SUPER_ADMIN")
+     * @Secure(roles="ROLE_USER")
      * @ParamConverter("testSet", class="AppMainBundle:TestSet")
      */
     public function getTestSetsTreeWithSelectedTestSetAction(TestSet $testSet, Request $request) {
@@ -109,7 +109,7 @@ class TestSetPlannerController extends BaseController {
      *      options={"expose" = true },
      *      defaults={"parentId" = -1}
      * )
-     * @Secure(roles="ROLE_SUPER_ADMIN")
+     * @Secure(roles="ROLE_USER")
      * @ParamConverter("application", class="AppMainBundle:Application")
      */
     public function addTestSetFolderAction(Application $application, $parentId, Request $request) {
@@ -150,7 +150,7 @@ class TestSetPlannerController extends BaseController {
      *      requirements={"_method" = "post"},
      *      options={"expose" = true }
      * )
-     * @Secure(roles="ROLE_SUPER_ADMIN")
+     * @Secure(roles="ROLE_USER")
      * @ParamConverter("testSetFolder", class="AppMainBundle:TestSetFolder")
      */
     public function getTestSetFolderAction(TestSetFolder $testSetFolder, Request $request) {
@@ -169,7 +169,7 @@ class TestSetPlannerController extends BaseController {
      *      requirements={"_method" = "post"},
      *      options={"expose" = true }
      * )
-     * @Secure(roles="ROLE_SUPER_ADMIN")
+     * @Secure(roles="ROLE_USER")
      * @ParamConverter("testSet", class="AppMainBundle:TestSet")
      */
     public function getTestSetAction(TestSet $testSet, Request $request) {
@@ -188,7 +188,7 @@ class TestSetPlannerController extends BaseController {
      *      requirements={"_method" = "post"},
      *      options={"expose" = true }
      * )
-     * @Secure(roles="ROLE_SUPER_ADMIN")
+     * @Secure(roles="ROLE_USER")
      */
     public function updateTestSetFolderNameAction(Request $request) {
         if ($request->getMethod() == 'POST' && $request->isXmlHttpRequest()) {
@@ -229,7 +229,7 @@ class TestSetPlannerController extends BaseController {
      *      requirements={"_method" = "post"},
      *      options={"expose" = true }
      * )
-     * @Secure(roles="ROLE_SUPER_ADMIN")
+     * @Secure(roles="ROLE_USER")
      */
     public function updateTestSetFolderDescriptionAction(Request $request) {
         if ($request->getMethod() == 'POST' && $request->isXmlHttpRequest()) {
@@ -270,7 +270,7 @@ class TestSetPlannerController extends BaseController {
      *      requirements={"_method" = "post"},
      *      options={"expose" = true }
      * )
-     * @Secure(roles="ROLE_SUPER_ADMIN")
+     * @Secure(roles="ROLE_USER")
      * @ParamConverter("testSetFolder", class="AppMainBundle:TestSetFolder")
      */
     public function addTestSetAction(TestSetFolder $testSetFolder, Request $request) {
@@ -309,7 +309,7 @@ class TestSetPlannerController extends BaseController {
      *      requirements={"_method" = "post"},
      *      options={"expose" = true }
      * )
-     * @Secure(roles="ROLE_SUPER_ADMIN")
+     * @Secure(roles="ROLE_USER")
      */
     public function updateTestSetNameAction(Request $request) {
         if ($request->getMethod() == 'POST' && $request->isXmlHttpRequest()) {
@@ -350,7 +350,7 @@ class TestSetPlannerController extends BaseController {
      *      requirements={"_method" = "post"},
      *      options={"expose" = true }
      * )
-     * @Secure(roles="ROLE_SUPER_ADMIN")
+     * @Secure(roles="ROLE_USER")
      */
     public function updateTestSetDescriptionAction(Request $request) {
         if ($request->getMethod() == 'POST' && $request->isXmlHttpRequest()) {
@@ -391,7 +391,7 @@ class TestSetPlannerController extends BaseController {
      *      requirements={"_method" = "post"},
      *      options={"expose" = true }
      * )
-     * @Secure(roles="ROLE_SUPER_ADMIN")
+     * @Secure(roles="ROLE_USER")
      * @ParamConverter("application", class="AppMainBundle:Application")
      */
     public function deleteEntitiesAction(Application $application, Request $request) {
@@ -429,7 +429,7 @@ class TestSetPlannerController extends BaseController {
      *      requirements={"_method" = "post"},
      *      options={"expose" = true }
      * )
-     * @Secure(roles="ROLE_SUPER_ADMIN")
+     * @Secure(roles="ROLE_USER")
      * @ParamConverter("application", class="AppMainBundle:Application")
      */
     public function runEntitiesAction(Application $application, Request $request) {

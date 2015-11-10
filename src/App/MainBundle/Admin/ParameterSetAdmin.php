@@ -11,13 +11,18 @@ class ParameterSetAdmin extends Admin {
 
     protected function configureFormFields(FormMapper $formMapper) {
         $formMapper->add('action', 'sonata_type_model', array(
-                    'btn_add' => false
+                    'btn_add' => false,
+                    'required' => false
                 ))
                 ->add('objectType', 'sonata_type_model', array(
                     'btn_add' => false,
                     'required' => false
                 ))
                 ->add('pageType', 'sonata_type_model', array(
+                    'btn_add' => false,
+                    'required' => false
+                ))
+                ->add('businessStep', 'sonata_type_model', array(
                     'btn_add' => false,
                     'required' => false
                 ))
@@ -39,6 +44,7 @@ class ParameterSetAdmin extends Admin {
                 ->add('action')
                 ->add('objectType')
                 ->add('pageType')
+                ->add('businessStep')
                 ->add('parameters');
     }
 
@@ -48,6 +54,7 @@ class ParameterSetAdmin extends Admin {
                 ->add('action')
                 ->add('objectType')
                 ->add('pageType')
+                ->add('businessStep')
                 ->add('parameters');
     }
 

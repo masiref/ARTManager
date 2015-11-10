@@ -11,13 +11,18 @@ class StepSentenceGroupAdmin extends Admin {
 
     protected function configureFormFields(FormMapper $formMapper) {
         $formMapper->add('action', 'sonata_type_model', array(
-                    'btn_add' => false
+                    'btn_add' => false,
+                    'required' => false
                 ))
                 ->add('objectType', 'sonata_type_model', array(
                     'btn_add' => false,
                     'required' => false
                 ))
                 ->add('pageType', 'sonata_type_model', array(
+                    'btn_add' => false,
+                    'required' => false
+                ))
+                ->add('businessStep', 'sonata_type_model', array(
                     'btn_add' => false,
                     'required' => false
                 ))
@@ -33,6 +38,7 @@ class StepSentenceGroupAdmin extends Admin {
                 ->add('action')
                 ->add('objectType')
                 ->add('pageType')
+                ->add('businessStep')
                 ->add('sentences');
     }
 
@@ -42,6 +48,7 @@ class StepSentenceGroupAdmin extends Admin {
                 ->add('action')
                 ->add('objectType')
                 ->add('pageType')
+                ->add('businessStep')
                 ->add('sentences');
     }
 

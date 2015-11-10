@@ -26,4 +26,12 @@ class ParameterSetRepository extends EntityRepository {
         return $query->getOneOrNullResult();
     }
 
+    public function findByBusinessStep($businessStep) {
+        $query = $this->createQueryBuilder('ps')
+                ->where('ps.businessStep = :businessStep')
+                ->setParameter('businessStep', $businessStep)
+                ->getQuery();
+        return $query->getOneOrNullResult();
+    }
+
 }

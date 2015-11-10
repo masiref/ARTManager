@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 {% set page_ = "configuration" %}
-{% set context = "custom-yellow" %}
+{% set context = "custom-orange" %}
 
 {% block jumbotronTitle %}
     <span class="text-{{ context }}">
@@ -35,8 +35,9 @@
             </span>
             <span class="pull-right">
                 <a href="#" id="add-server"
+                   class="btn btn-xs btn-custom-orange"
                    data-toggle="tooltip" data-placement="left" title="Add a new server">
-                    <i class="fontello-icon-plus-circled"></i><i class="fontello-icon-desktop"></i>
+                    Create <i class="fontello-icon-desktop"></i>
                 </a>
             </span>
         </div>

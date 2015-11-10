@@ -24,7 +24,7 @@ abstract class BaseController extends Controller {
      *      requirements={"_method" = "post"},
      *      options={"expose" = true }
      * )
-     * @Secure(roles="ROLE_SUPER_ADMIN")
+     * @Secure(roles="ROLE_USER")
      */
     public function refreshSidebar(Request $request) {
         $ajaxResponse = array();

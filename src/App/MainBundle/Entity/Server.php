@@ -149,6 +149,13 @@ class Server implements JsonSerializable {
         return $result;
     }
 
+    public function getAnonymizedPassword() {
+        if ($this->password !== null) {
+            return str_repeat("*", strlen($this->password));
+        }
+        return "";
+    }
+
     /**
      * Get id
      *

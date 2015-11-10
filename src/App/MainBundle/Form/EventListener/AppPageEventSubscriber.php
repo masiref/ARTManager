@@ -32,7 +32,6 @@ class AppPageEventSubscriber implements EventSubscriberInterface {
         $slugify = $this->slugify;
 
         $data = $event->getData();
-        $form = $event->getForm();
         $pageTypeId = $data["pageType"];
         $pageType = $em->getRepository("AppMainBundle:PageType")->find($pageTypeId);
         if ($pageType->getName() == "Container" && ($data["path"] == null || trim($data["path"]) == "")) {

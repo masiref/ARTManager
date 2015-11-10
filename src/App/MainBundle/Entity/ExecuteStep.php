@@ -2,17 +2,19 @@
 
 namespace App\MainBundle\Entity;
 
+use App\MainBundle\Validator\Constraints as AppMainAssert;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="execute_step")
  * @ORM\HasLifecycleCallbacks()
+ * @AppMainAssert\ExecuteStepHasObjectOrBusinessStep()
+ * @AppMainAssert\ExecuteStepHasActionWhenObjectIsSelected()
  */
 class ExecuteStep extends Step {
 
@@ -42,6 +44,11 @@ class ExecuteStep extends Step {
     protected $test;
 
     /**
+     * @var \App\MainBundle\Entity\BusinessStep
+     */
+    protected $businessStep;
+
+    /**
      * @var Collection
      */
     protected $controlSteps;
@@ -53,15 +60,13 @@ class ExecuteStep extends Step {
 
     /**
      * @ORM\ManyToOne(targetEntity="Action")
-     * @ORM\JoinColumn(name="action_id", referencedColumnName="id", nullable=false)
-     * @Assert\NotNull
+     * @ORM\JoinColumn(name="action_id", referencedColumnName="id", nullable=true)
      */
     protected $action;
 
     /**
      * @ORM\ManyToOne(targetEntity="Object")
-     * @ORM\JoinColumn(name="object_id", referencedColumnName="id", nullable=false)
-     * @Assert\NotNull
+     * @ORM\JoinColumn(name="object_id", referencedColumnName="id", nullable=true)
      */
     protected $object;
 
@@ -93,6 +98,10 @@ class ExecuteStep extends Step {
                 }
             }
             return $result;
+        } else {
+            if ($this->businessStep != null) {
+                return $this->businessStep . "";
+            }
         }
         return "New";
     }
@@ -109,12 +118,14 @@ class ExecuteStep extends Step {
             }
             $order = $this->order - 1;
             while ($page == null && $order > 0) {
-                $page = $this->test->getPageAtStepOrder($order);
+                $test = $this->businessStep !== null ? $this->businessStep : $this->test;
+                $page = $test->getPageAtStepOrder($order);
                 $order -= 1;
             }
         }
         if ($page === null) {
-            $page = $this->test->getStartingPage();
+            $test = $this->businessStep !== null ? $this->businessStep : $this->test;
+            $page = $test->getStartingPage();
         }
         return $page;
     }
@@ -133,7 +144,8 @@ class ExecuteStep extends Step {
             }
         }
         if ($page === null) {
-            $page = $this->test->getPageAtStepOrder($this->order - 1);
+            $test = $this->test !== null ? $this->test : $this->businessStep;
+            $page = $test->getPageAtStepOrder($this->order - 1);
         }
         return $page;
     }
@@ -145,28 +157,42 @@ class ExecuteStep extends Step {
     public function updateSentenceGroup(LifecycleEventArgs $event) {
         $oldAction = null;
         $oldObjectType = null;
+        $oldBusinessStep = null;
         $oldSentenceGroup = $this->sentenceGroup;
         if ($oldSentenceGroup !== null) {
             $oldAction = $oldSentenceGroup->getAction();
             $oldObjectType = $oldSentenceGroup->getObjectType();
+            $oldBusinessStep = $oldSentenceGroup->getBusinessStep();
         }
         $action = $this->action;
-        $objectType = $this->object->getObjectType();
-        if ($oldAction != $action || $oldObjectType != $objectType) {
+        $objectType = $this->object !== null ? $this->object->getObjectType() : null;
+        $businessStep = $this->businessStep;
+        if ($oldAction != $action || $oldObjectType != $objectType || $oldBusinessStep != $businessStep) {
             $em = $event->getEntityManager();
-            $sentenceGroup = $em->getRepository("AppMainBundle:StepSentenceGroup")
-                    ->findByObjectTypeAndAction($objectType, $action);
+            if ($action !== null && $objectType !== null) {
+                $sentenceGroup = $em->getRepository("AppMainBundle:StepSentenceGroup")
+                        ->findByObjectTypeAndAction($objectType, $action);
+            } else {
+                $sentenceGroup = $em->getRepository("AppMainBundle:StepSentenceGroup")
+                        ->findByBusinessStep($businessStep);
+            }
             $this->sentenceGroup = $sentenceGroup;
         }
     }
 
     public function getSentence($locale = 'en') {
-        $result = str_replace("\"%object%\"", $this->object->getHtml(), parent::getSentence($locale));
+        $result = parent::getSentence($locale);
+        if ($this->object !== null) {
+            $result = str_replace("\"%object%\"", $this->object->getHtml(), $result);
+        }
         return $result;
     }
 
     public function getMinkSentence($locale = 'en') {
-        $result = str_replace("%object%", $this->object->getMinkIdentification(), parent::getMinkSentence($locale));
+        $result = parent::getMinkSentence($locale);
+        if ($this->object !== null) {
+            $result = str_replace("%object%", $this->object->getMinkIdentification(), $result);
+        }
         return $result;
     }
 
@@ -408,6 +434,27 @@ class ExecuteStep extends Step {
      */
     public function getSentenceGroup() {
         return $this->sentenceGroup;
+    }
+
+    /**
+     * Set businessStep
+     *
+     * @param \App\MainBundle\Entity\BusinessStep $businessStep
+     * @return ExecuteStep
+     */
+    public function setBusinessStep(\App\MainBundle\Entity\BusinessStep $businessStep = null) {
+        $this->businessStep = $businessStep;
+
+        return $this;
+    }
+
+    /**
+     * Get businessStep
+     *
+     * @return \App\MainBundle\Entity\BusinessStep
+     */
+    public function getBusinessStep() {
+        return $this->businessStep;
     }
 
 }

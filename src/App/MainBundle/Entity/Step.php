@@ -2,9 +2,11 @@
 
 namespace App\MainBundle\Entity;
 
+use Cocur\Slugify\Slugify;
 use DateTime;
-use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
 use JsonSerializable;
 
 /**
@@ -48,7 +50,13 @@ class Step implements JsonSerializable {
      * @ORM\ManyToOne(targetEntity="Test", inversedBy="steps")
      * @ORM\JoinColumn(name="test_id", referencedColumnName="id", nullable=true)
      */
-    protected $test;            // ExecuteStep must be contained in one Test
+    protected $test;            // ExecuteStep must be contained in a Test or a Business Step
+
+    /**
+     * @ORM\ManyToOne(targetEntity="BusinessStep", inversedBy="steps")
+     * @ORM\JoinColumn(name="business_step_id", referencedColumnName="id", nullable=true)
+     */
+    protected $businessStep;    // ExecuteStep must be contained in a Test or a Business Step
 
     /**
      * @ORM\ManyToOne(targetEntity="Step", inversedBy="controlSteps")
@@ -63,7 +71,7 @@ class Step implements JsonSerializable {
 
     /**
      * @ORM\ManyToOne(targetEntity="StepSentenceGroup")
-     * @ORM\JoinColumn(name="sentence_group_id", referencedColumnName="id", nullable=true)
+     * @ORM\JoinColumn(name="sentence_group_id", referencedColumnName="id", nullable=true, onDelete="SET NULL")
      */
     protected $sentenceGroup;
     protected $minkSentence;
@@ -107,7 +115,11 @@ class Step implements JsonSerializable {
             foreach ($this->parameterDatas as $parameterData) {
                 $parameter = $parameterData->getParameter();
                 $placeholder = "%" . $parameter->getPlaceholder() . "%";
-                $result = str_replace($placeholder, "<b>" . $parameterData->getValue() . "</b>", $result);
+                $value = $parameterData->getValue();
+                if (substr($value, 0, 1) === "/") {
+                    $value = "&lt;" . substr($value, 1) . "&gt;";
+                }
+                $result = str_replace($placeholder, "<b>" . $value . "</b>", $result);
             }
         }
         return $result;
@@ -127,7 +139,12 @@ class Step implements JsonSerializable {
             foreach ($this->parameterDatas as $parameterData) {
                 $parameter = $parameterData->getParameter();
                 $placeholder = "%" . $parameter->getPlaceholder() . "%";
-                $result = str_replace($placeholder, $parameterData->getValue(), $result);
+                $value = $parameterData->getValue();
+                if (substr($value, 0, 1) === "/") {
+                    $slugify = new Slugify();
+                    $value = "%" . $slugify->slugify(substr($value, 1)) . "%";
+                }
+                $result = str_replace($placeholder, $value, $result);
             }
         }
         return $result;
@@ -229,10 +246,10 @@ class Step implements JsonSerializable {
     /**
      * Add controlSteps
      *
-     * @param \App\MainBundle\Entity\Step $controlSteps
+     * @param Step $controlSteps
      * @return Step
      */
-    public function addControlStep(\App\MainBundle\Entity\Step $controlSteps) {
+    public function addControlStep(Step $controlSteps) {
         $controlSteps->setOrder($this->controlSteps->count() + 1);
         $controlSteps->setParentStep($this);
         $this->controlSteps[] = $controlSteps;
@@ -243,16 +260,16 @@ class Step implements JsonSerializable {
     /**
      * Remove controlSteps
      *
-     * @param \App\MainBundle\Entity\Step $controlSteps
+     * @param Step $controlSteps
      */
-    public function removeControlStep(\App\MainBundle\Entity\Step $controlSteps) {
+    public function removeControlStep(Step $controlSteps) {
         $this->controlSteps->removeElement($controlSteps);
     }
 
     /**
      * Get controlSteps
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return Collection
      */
     public function getControlSteps() {
         return $this->controlSteps;
@@ -261,10 +278,10 @@ class Step implements JsonSerializable {
     /**
      * Set parentStep
      *
-     * @param \App\MainBundle\Entity\Step $parentStep
+     * @param Step $parentStep
      * @return Step
      */
-    public function setParentStep(\App\MainBundle\Entity\Step $parentStep = null) {
+    public function setParentStep(Step $parentStep = null) {
         $this->parentStep = $parentStep;
 
         return $this;
@@ -273,7 +290,7 @@ class Step implements JsonSerializable {
     /**
      * Get parentStep
      *
-     * @return \App\MainBundle\Entity\Step
+     * @return Step
      */
     public function getParentStep() {
         return $this->parentStep;
@@ -282,10 +299,10 @@ class Step implements JsonSerializable {
     /**
      * Add parameterDatas
      *
-     * @param \App\MainBundle\Entity\ParameterData $parameterDatas
+     * @param ParameterData $parameterDatas
      * @return Step
      */
-    public function addParameterData(\App\MainBundle\Entity\ParameterData $parameterDatas) {
+    public function addParameterData(ParameterData $parameterDatas) {
         $parameterDatas->setStep($this);
         $this->parameterDatas[] = $parameterDatas;
 
@@ -295,16 +312,16 @@ class Step implements JsonSerializable {
     /**
      * Remove parameterDatas
      *
-     * @param \App\MainBundle\Entity\ParameterData $parameterDatas
+     * @param ParameterData $parameterDatas
      */
-    public function removeParameterData(\App\MainBundle\Entity\ParameterData $parameterDatas) {
+    public function removeParameterData(ParameterData $parameterDatas) {
         $this->parameterDatas->removeElement($parameterDatas);
     }
 
     /**
      * Get parameterDatas
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return Collection
      */
     public function getParameterDatas() {
         return $this->parameterDatas;
@@ -313,10 +330,10 @@ class Step implements JsonSerializable {
     /**
      * Set sentenceGroup
      *
-     * @param \App\MainBundle\Entity\StepSentenceGroup $sentenceGroup
+     * @param StepSentenceGroup $sentenceGroup
      * @return Step
      */
-    public function setSentenceGroup(\App\MainBundle\Entity\StepSentenceGroup $sentenceGroup = null) {
+    public function setSentenceGroup(StepSentenceGroup $sentenceGroup = null) {
         $this->sentenceGroup = $sentenceGroup;
 
         return $this;
@@ -325,7 +342,7 @@ class Step implements JsonSerializable {
     /**
      * Get sentenceGroup
      *
-     * @return \App\MainBundle\Entity\StepSentenceGroup
+     * @return StepSentenceGroup
      */
     public function getSentenceGroup() {
         return $this->sentenceGroup;
@@ -333,6 +350,27 @@ class Step implements JsonSerializable {
 
     function setMinkSentence($minkSentence) {
         $this->minkSentence = $minkSentence;
+    }
+
+    /**
+     * Set businessStep
+     *
+     * @param BusinessStep $businessStep
+     * @return Step
+     */
+    public function setBusinessStep(BusinessStep $businessStep = null) {
+        $this->businessStep = $businessStep;
+
+        return $this;
+    }
+
+    /**
+     * Get businessStep
+     *
+     * @return BusinessStep
+     */
+    public function getBusinessStep() {
+        return $this->businessStep;
     }
 
 }

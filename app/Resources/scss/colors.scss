@@ -5,6 +5,9 @@ $panel-custom-blue-text: $state-custom-blue-text !default;
 $panel-custom-blue-border: $state-custom-blue-border !default;
 $panel-custom-blue-heading-bg: $state-custom-blue-bg !default;
 $label-custom-blue-bg: $state-custom-blue-text !default;
+$btn-custom-blue-color: #fff !default;
+$btn-custom-blue-bg: $state-custom-blue-text !default;
+$btn-custom-blue-border: darken($btn-custom-blue-bg, 5%) !default;
 
 $state-custom-green-bg: #E4FFFF;
 $state-custom-green-text: #2CC990;
@@ -13,6 +16,9 @@ $panel-custom-green-text: $state-custom-green-text !default;
 $panel-custom-green-border: $state-custom-green-border !default;
 $panel-custom-green-heading-bg: $state-custom-green-bg !default;
 $label-custom-green-bg: $state-custom-green-text !default;
+$btn-custom-green-color: #fff !default;
+$btn-custom-green-bg: $state-custom-green-text !default;
+$btn-custom-green-border: darken($btn-custom-green-bg, 5%) !default;
 
 $state-custom-yellow-bg: #FFFFEF;
 $state-custom-yellow-text: #EFC94C;
@@ -21,6 +27,9 @@ $panel-custom-yellow-text: $state-custom-yellow-text !default;
 $panel-custom-yellow-border: $state-custom-yellow-border !default;
 $panel-custom-yellow-heading-bg: $state-custom-yellow-bg !default;
 $label-custom-yellow-bg: $state-custom-yellow-text !default;
+$btn-custom-yellow-color: #fff !default;
+$btn-custom-yellow-bg: $state-custom-yellow-text !default;
+$btn-custom-yellow-border: darken($btn-custom-yellow-bg, 5%) !default;
 
 $state-custom-orange-bg: #FFFFE4;
 $state-custom-orange-text: #FCB941;
@@ -29,6 +38,9 @@ $panel-custom-orange-text: $state-custom-orange-text !default;
 $panel-custom-orange-border: $state-custom-orange-border !default;
 $panel-custom-orange-heading-bg: $state-custom-orange-bg !default;
 $label-custom-orange-bg: $state-custom-orange-text !default;
+$btn-custom-orange-color: #fff !default;
+$btn-custom-orange-bg: $state-custom-orange-text !default;
+$btn-custom-orange-border: darken($btn-custom-orange-bg, 5%) !default; 
 
 $state-custom-red-bg: #FFEFDF;
 $state-custom-red-text: #E74C3C;
@@ -37,6 +49,9 @@ $panel-custom-red-text: $state-custom-red-text !default;
 $panel-custom-red-border: $state-custom-red-border !default;
 $panel-custom-red-heading-bg: $state-custom-red-bg !default;
 $label-custom-red-bg: $state-custom-red-text !default;
+$btn-custom-red-color: #fff !default;
+$btn-custom-red-bg: $state-custom-red-text !default;
+$btn-custom-red-border: darken($btn-custom-red-bg, 5%) !default; 
 
 $state-custom-purple-bg: #FFEAFF;
 $state-custom-purple-text: #755B91;
@@ -45,3 +60,17 @@ $panel-custom-purple-text: $state-custom-purple-text !default;
 $panel-custom-purple-border: $state-custom-purple-border !default;
 $panel-custom-purple-heading-bg: $state-custom-purple-bg !default;
 $label-custom-purple-bg: $state-custom-purple-text !default;
+$btn-custom-purple-color: #fff !default;
+$btn-custom-purple-bg: $state-custom-purple-text !default;
+$btn-custom-purple-border: darken($btn-custom-purple-bg, 5%) !default; 
+
+$state-custom-brown-bg: #FFE8DA;
+$state-custom-brown-text: #674537;
+$state-custom-brown-border: darken(adjust-hue($state-custom-brown-bg, -10), 5%) !default;
+$panel-custom-brown-text: $state-custom-brown-text !default;
+$panel-custom-brown-border: $state-custom-brown-border !default;
+$panel-custom-brown-heading-bg: $state-custom-brown-bg !default;
+$label-custom-brown-bg: $state-custom-brown-text !default;
+$btn-custom-brown-color: #fff !default;
+$btn-custom-brown-bg: $state-custom-brown-text !default;
+$btn-custom-brown-border: darken($btn-custom-brown-bg, 5%) !default; 

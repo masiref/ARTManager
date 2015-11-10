@@ -40,7 +40,7 @@ class ObjectMapController extends BaseController {
      *      requirements={"_method" = "post"},
      *      options={"expose" = true }
      * )
-     * @Secure(roles="ROLE_SUPER_ADMIN")
+     * @Secure(roles="ROLE_USER")
      * @ParamConverter("objectMap", class="AppMainBundle:ObjectMap")
      */
     public function getObjectMapTreeAction(ObjectMap $objectMap, Request $request) {
@@ -59,7 +59,7 @@ class ObjectMapController extends BaseController {
      *      requirements={"_method" = "post"},
      *      options={"expose" = true }
      * )
-     * @Secure(roles="ROLE_SUPER_ADMIN")
+     * @Secure(roles="ROLE_USER")
      * @ParamConverter("application", class="AppMainBundle:Application")
      */
     public function getObjectMapTreesAction(Application $application, Request $request) {
@@ -80,7 +80,7 @@ class ObjectMapController extends BaseController {
      *      requirements={"_method" = "post"},
      *      options={"expose" = true }
      * )
-     * @Secure(roles="ROLE_SUPER_ADMIN")
+     * @Secure(roles="ROLE_USER")
      * @ParamConverter("application", class="AppMainBundle:Application")
      */
     public function addObjectMapAction(Application $application, Request $request) {
@@ -120,7 +120,7 @@ class ObjectMapController extends BaseController {
      *      requirements={"_method" = "post"},
      *      options={"expose" = true }
      * )
-     * @Secure(roles="ROLE_SUPER_ADMIN")
+     * @Secure(roles="ROLE_USER")
      * @ParamConverter("objectMap", class="AppMainBundle:ObjectMap")
      */
     public function deleteObjectMapAction(ObjectMap $objectMap, Request $request) {

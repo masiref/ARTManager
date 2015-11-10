@@ -17,15 +17,24 @@ a {
 }
 
 .jumbotron {
-    background-color: rgba(255, 255, 255, 0.5);
-    margin-bottom: 0;
+    padding: 28px 0px;
+    background: rgba(255, 255, 255, 0.2);
+    margin-bottom: 10px;
     h1 {
         font-family: 'Titillium Web', sans-serif;
     }
+    border-bottom: 10px solid rgba(255, 255, 255, 0.5);
 }
 
-.well {
+.well, .tab-content {
     background-color: rgba(255, 255, 255, 0.5);
+}
+
+.tab-content {
+    min-height: 20px;
+    padding: 19px;
+    margin-bottom: 20px;
+    border-radius: 4px;
 }
 
 .badge {
@@ -79,6 +88,10 @@ a {
 
 .table > tbody > tr.selected > td {
     background-color: #F9E4B3;
+}
+
+.panel {
+    background-color: rgba(255, 255, 255, 0.8);
 }
 
 .panel-footer {

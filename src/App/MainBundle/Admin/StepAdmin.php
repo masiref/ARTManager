@@ -23,13 +23,19 @@ class StepAdmin extends Admin {
         if (!$this->hasParentFieldDescription()) {
             if ($subject instanceof ExecuteStep) {
                 $formMapper->add('test', 'sonata_type_model', array(
-                            'btn_add' => false
+                            'btn_add' => false,
+                            'required' => false
+                        ))->add('businessStep', 'sonata_type_model', array(
+                            'btn_add' => false,
+                            'required' => false
                         ))
                         ->add('action', 'sonata_type_model', array(
-                            'btn_add' => false
+                            'btn_add' => false,
+                            'required' => false
                         ))
                         ->add('object', 'sonata_type_model', array(
-                            'btn_add' => false
+                            'btn_add' => false,
+                            'required' => false
                 ));
             } elseif ($subject instanceof ControlStep) {
                 $formMapper->add('parentStep', 'sonata_type_model', array(
@@ -52,6 +58,7 @@ class StepAdmin extends Admin {
         $datagridMapper
                 ->add('order')
                 ->add('test')
+                ->add('businessStep')
                 ->add('parentStep');
     }
 
@@ -60,6 +67,7 @@ class StepAdmin extends Admin {
                 ->addIdentifier('id')
                 ->add('order')
                 ->add('test')
+                ->add('businessStep')
                 ->add('parentStep');
     }
 

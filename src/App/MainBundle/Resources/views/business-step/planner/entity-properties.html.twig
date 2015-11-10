@@ -1,0 +1,50 @@
+<div class="col-md-4" style="position: relative;">
+    <div class="col-md-4" style="position: fixed;">
+        <div class="panel panel-info" id="panel-business-step-properties">
+            <div class="panel-heading">
+                <strong>
+                    <i class="fontello-icon-list-bullet"></i> Entity Properties
+                </strong>
+                <span class="pull-right">
+                    <a href="#" data-toggle="tooltip"
+                       data-placement="top"
+                       title="Select a folder or a business step in the tree to edit its properties">
+                       <i class="fontello-icon-info-circled"></i>
+                    </a>
+                </span>
+            </div>
+            <div class="panel-body" id="panel-body-entity-properties" style="display:none;">
+                <div class="text-center">
+                    <div id="entity-properties-loader" class="three-quarters-loader" style="display:none;"></div>
+                </div>
+                <div id="panel-body-content-entity-properties">
+                    <p>
+                        <i id="entity-icon" class="fontello-icon-puzzle"></i>
+                        <a href="#" id="entity-name"
+                           data-type="text"
+                           data-pk=""
+                           data-url=""
+                           data-title="Update name"></a>
+                    </p>
+                    <blockquote>
+                        <p>
+                            <small>
+                                <a href="#" id="entity-description"
+                                   data-type="textarea"
+                                   data-pk=""
+                                   data-url=""
+                                   data-title="Update description"></a>
+                            </small>
+                        </p>
+                    </blockquote>
+                </div>
+                <div id="panel-body-content-entity-actions">
+                    <a id="edit-entity" class="btn btn-primary"><i class="fontello-icon-edit"></i> Edit</a>
+                </div>
+            </div>
+            <div class="panel-footer text-right" id="panel-footer-entity-properties" style="display:none;">
+                <i class="fontello-icon-calendar"></i> Created on <span id="entity-creation-date">date</span>
+            </div>
+        </div>
+    </div>
+</div>

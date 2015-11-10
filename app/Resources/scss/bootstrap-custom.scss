@@ -7,6 +7,7 @@
 @include list-group-item-variant(custom-orange, $state-custom-orange-bg, $state-custom-orange-text);
 @include list-group-item-variant(custom-red, $state-custom-red-bg, $state-custom-red-text);
 @include list-group-item-variant(custom-purple, $state-custom-purple-bg, $state-custom-purple-text);
+@include list-group-item-variant(custom-brown, $state-custom-brown-bg, $state-custom-brown-text);
 
 .bg-custom-blue {
     background-color: $state-custom-blue-bg;
@@ -25,6 +26,9 @@
 }
 .bg-custom-purple {
     background-color: $state-custom-purple-bg;
+}
+.bg-custom-brown {
+    background-color: $state-custom-brown-bg;
 }
 
 .text-custom-blue {
@@ -45,6 +49,9 @@
 .text-custom-purple {
     color: $state-custom-purple-text;
 }
+.text-custom-brown {
+    color: $state-custom-brown-text;
+}
 
 .panel-custom-blue {
     @include panel-variant($panel-custom-blue-border, $panel-custom-blue-text, $panel-custom-blue-heading-bg, $panel-custom-blue-border);
@@ -64,6 +71,9 @@
 .panel-custom-purple {
     @include panel-variant($panel-custom-purple-border, $panel-custom-purple-text, $panel-custom-purple-heading-bg, $panel-custom-purple-border);
 }
+.panel-custom-brown {
+    @include panel-variant($panel-custom-brown-border, $panel-custom-brown-text, $panel-custom-brown-heading-bg, $panel-custom-brown-border);
+}
 
 .label-custom-blue {
     @include label-variant($label-custom-blue-bg);
@@ -82,4 +92,29 @@
 }
 .label-custom-purple {
     @include label-variant($label-custom-purple-bg);
+}
+.label-custom-brown {
+    @include label-variant($label-custom-brown-bg);
+}
+
+.btn-custom-blue {
+    @include button-variant($btn-custom-blue-color, $btn-custom-blue-bg, $btn-custom-blue-border);
+}
+.btn-custom-green {
+    @include button-variant($btn-custom-green-color, $btn-custom-green-bg, $btn-custom-green-border);
+}
+.btn-custom-yellow {
+    @include button-variant($btn-custom-yellow-color, $btn-custom-yellow-bg, $btn-custom-yellow-border);
+}
+.btn-custom-orange {
+    @include button-variant($btn-custom-orange-color, $btn-custom-orange-bg, $btn-custom-orange-border);
+}
+.btn-custom-red {
+    @include button-variant($btn-custom-red-color, $btn-custom-red-bg, $btn-custom-red-border);
+}
+.btn-custom-purple {
+    @include button-variant($btn-custom-purple-color, $btn-custom-purple-bg, $btn-custom-purple-border);
+}
+.btn-custom-brown {
+    @include button-variant($btn-custom-brown-color, $btn-custom-brown-bg, $btn-custom-brown-border);
 }

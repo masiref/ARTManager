@@ -28,7 +28,7 @@ class ExecutionServerController extends BaseController {
      *      requirements={"_method" = "post"},
      *      options={"expose" = true }
      * )
-     * @Secure(roles="ROLE_SUPER_ADMIN")
+     * @Secure(roles="ROLE_USER")
      */
     public function updateNameAction(Request $request) {
         if ($request->getMethod() == 'POST' && $request->isXmlHttpRequest()) {
@@ -67,7 +67,7 @@ class ExecutionServerController extends BaseController {
      *      requirements={"_method" = "post"},
      *      options={"expose" = true }
      * )
-     * @Secure(roles="ROLE_SUPER_ADMIN")
+     * @Secure(roles="ROLE_USER")
      */
     public function updateDescriptionAction(Request $request) {
         if ($request->getMethod() == 'POST' && $request->isXmlHttpRequest()) {
@@ -104,7 +104,7 @@ class ExecutionServerController extends BaseController {
      *      name="app_get_configuration_servers_ajax",
      *      options={"expose" = true }
      * )
-     * @Secure(roles="ROLE_SUPER_ADMIN")
+     * @Secure(roles="ROLE_USER")
      */
     public function getServersAction(Request $request) {
         $ajaxResponse = array();
@@ -126,7 +126,7 @@ class ExecutionServerController extends BaseController {
      *      requirements={"_method" = "post"},
      *      options={"expose" = true }
      * )
-     * @Secure(roles="ROLE_SUPER_ADMIN")
+     * @Secure(roles="ROLE_USER")
      */
     public function updateServerAction(Request $request) {
         if ($request->getMethod() == 'POST' && $request->isXmlHttpRequest()) {
@@ -169,7 +169,7 @@ class ExecutionServerController extends BaseController {
      *      requirements={"_method" = "post"},
      *      options={"expose" = true }
      * )
-     * @Secure(roles="ROLE_SUPER_ADMIN")
+     * @Secure(roles="ROLE_USER")
      */
     public function updateArtRunnerPathAction(Request $request) {
         if ($request->getMethod() == 'POST' && $request->isXmlHttpRequest()) {

@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+{% set page_ = "business-step-manager" %}
+{% set context = "custom-brown" %}
+
+{% block jumbotronTitle %}
+    <span class="text-{{ context }}">
+        <i class="fontello-icon-level-up"></i><strong>Business Step</strong> Manager
+    </span>
+{% endblock %}
+
+{% block jumbotronBody %}
+    <p class="text-center">
+        <a href="{{ path('app_index_application', { 'id': application.id }) }}">
+            <i class="fontello-icon-left-circled"></i>Return to <strong>{{ application.name }}</strong> application
+        </a>
+    </p>
+{% endblock %}
+
+{% block breadcrumb_items %}
+    <li>
+        <a href="{{ path('homepage') }}"><i class="fontello-icon-right-open"></i>Home</a>
+    </li>
+    <li>
+        <a href="{{ path('app_index_project', { 'id': application.project.id }) }}">
+            <i class="fontello-icon-right-open"></i>{{ application.project }}</a>
+    </li>
+    <li>
+        <a href="{{ path('app_index_application', { 'id': application.id }) }}">
+            <i class="fontello-icon-right-open"></i>{{ application }}</a>
+    </li>
+    <li class="active">
+        <i class="fontello-icon-angle-circled-right"></i>Business Steps
+    </li>
+{% endblock %}
+
+{% block body %}
+    {% include 'AppMainBundle:business-step:planner/tree.html.twig' with { 'application': application } %}
+    {% include 'AppMainBundle:business-step:planner/entity-properties.html.twig' %}
+{% endblock %}
+
+{% block modals %}
+    {% include 'AppMainBundle:business-step:folder/new.form.html.twig' %}
+    {% include 'AppMainBundle:business-step:new.form.html.twig' %}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript">
+        $(document).ready(function() {
+            BusinessStepPlanner.init();
+            BusinessStepPlanner.initEditableData({{ application.id }});
+            BusinessStepFolderManager.init();
+            BusinessStepManager.init();
+            BusinessStepPlanner.refresh({{ application.id }}, true, true);
+        });
+    </script>
+{% endblock %}

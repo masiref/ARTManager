@@ -75,7 +75,7 @@ class TestEditorController extends BaseController {
      *      requirements={"_method" = "post"},
      *      options={"expose" = true }
      * )
-     * @Secure(roles="ROLE_SUPER_ADMIN")
+     * @Secure(roles="ROLE_USER")
      * @ParamConverter("test", class="AppMainBundle:Test")
      */
     public function checkExecuteStepAction(Test $test, Request $request) {
@@ -101,7 +101,7 @@ class TestEditorController extends BaseController {
      *      requirements={"_method" = "post"},
      *      options={"expose" = true }
      * )
-     * @Secure(roles="ROLE_SUPER_ADMIN")
+     * @Secure(roles="ROLE_USER")
      * @ParamConverter("step", class="AppMainBundle:ExecuteStep")
      */
     public function checkControlStepAction(ExecuteStep $step, Request $request) {
@@ -127,7 +127,7 @@ class TestEditorController extends BaseController {
      *      requirements={"_method" = "post"},
      *      options={"expose" = true }
      * )
-     * @Secure(roles="ROLE_SUPER_ADMIN")
+     * @Secure(roles="ROLE_USER")
      * @ParamConverter("test", class="AppMainBundle:Test")
      */
     public function addExecuteStepAction(Test $test, Request $request) {
@@ -162,7 +162,7 @@ class TestEditorController extends BaseController {
      *      requirements={"_method" = "post"},
      *      options={"expose" = true }
      * )
-     * @Secure(roles="ROLE_SUPER_ADMIN")
+     * @Secure(roles="ROLE_USER")
      * @ParamConverter("step", class="AppMainBundle:ExecuteStep")
      */
     public function addControlStepAction(ExecuteStep $step, Request $request) {
@@ -198,7 +198,7 @@ class TestEditorController extends BaseController {
      *      requirements={"_method" = "post"},
      *      options={"expose" = true }
      * )
-     * @Secure(roles="ROLE_SUPER_ADMIN")
+     * @Secure(roles="ROLE_USER")
      * @ParamConverter("step", class="AppMainBundle:ExecuteStep")
      */
     public function deleteExecuteStepAction(ExecuteStep $step, Request $request) {
@@ -234,7 +234,7 @@ class TestEditorController extends BaseController {
      *      requirements={"_method" = "post"},
      *      options={"expose" = true }
      * )
-     * @Secure(roles="ROLE_SUPER_ADMIN")
+     * @Secure(roles="ROLE_USER")
      * @ParamConverter("test", class="AppMainBundle:Test")
      */
     public function getExecuteStepsOrders(Test $test, Request $request) {
@@ -256,7 +256,7 @@ class TestEditorController extends BaseController {
      *      requirements={"_method" = "post"},
      *      options={"expose" = true }
      * )
-     * @Secure(roles="ROLE_SUPER_ADMIN")
+     * @Secure(roles="ROLE_USER")
      * @ParamConverter("step", class="AppMainBundle:ControlStep")
      */
     public function deleteControlStepAction(ControlStep $step, Request $request) {
@@ -288,7 +288,7 @@ class TestEditorController extends BaseController {
      *      requirements={"_method" = "post"},
      *      options={"expose" = true }
      * )
-     * @Secure(roles="ROLE_SUPER_ADMIN")
+     * @Secure(roles="ROLE_USER")
      * @ParamConverter("step", class="AppMainBundle:ExecuteStep")
      */
     public function getControlStepsOrders(ExecuteStep $step, Request $request) {
@@ -309,7 +309,7 @@ class TestEditorController extends BaseController {
      *      name="app_get_application_test_step_actions_ajax",
      *      options={"expose" = true }
      * )
-     * @Secure(roles="ROLE_SUPER_ADMIN")
+     * @Secure(roles="ROLE_USER")
      */
     public function getActions(Request $request) {
         $ajaxResponse = array();
@@ -328,7 +328,7 @@ class TestEditorController extends BaseController {
      *      requirements={"_method" = "post"},
      *      options={"expose" = true }
      * )
-     * @Secure(roles="ROLE_SUPER_ADMIN")
+     * @Secure(roles="ROLE_USER")
      * @ParamConverter("test", class="AppMainBundle:Test")
      */
     public function updateStartingPage(Test $test, Request $request) {
@@ -357,7 +357,7 @@ class TestEditorController extends BaseController {
      *      options={"expose" = true },
      *      defaults={"id" = -1}
      * )
-     * @Secure(roles="ROLE_SUPER_ADMIN")
+     * @Secure(roles="ROLE_USER")
      * @ParamConverter("test", class="AppMainBundle:Test", options={"id" = "testId"})
      */
     public function getExecuteStepFormAction($id, Test $test, Request $request) {
@@ -396,7 +396,7 @@ class TestEditorController extends BaseController {
      *      requirements={"_method" = "post"},
      *      options={"expose" = true }
      * )
-     * @Secure(roles="ROLE_SUPER_ADMIN")
+     * @Secure(roles="ROLE_USER")
      * @ParamConverter("step", class="AppMainBundle:ExecuteStep")
      */
     public function updateExecuteStepAction(ExecuteStep $step, Request $request) {
@@ -431,7 +431,7 @@ class TestEditorController extends BaseController {
      *      options={"expose" = true },
      *      defaults={"id" = -1}
      * )
-     * @Secure(roles="ROLE_SUPER_ADMIN")
+     * @Secure(roles="ROLE_USER")
      * @ParamConverter("step", class="AppMainBundle:ExecuteStep", options={"id" = "stepId"})
      */
     public function getControlStepFormAction($id, ExecuteStep $step, Request $request) {
@@ -471,7 +471,7 @@ class TestEditorController extends BaseController {
      *      requirements={"_method" = "post"},
      *      options={"expose" = true }
      * )
-     * @Secure(roles="ROLE_SUPER_ADMIN")
+     * @Secure(roles="ROLE_USER")
      * @ParamConverter("controlStep", class="AppMainBundle:ControlStep")
      */
     public function updateControlStepAction(ControlStep $controlStep, Request $request) {
@@ -505,7 +505,7 @@ class TestEditorController extends BaseController {
      *      requirements={"_method" = "post"},
      *      options={"expose" = true }
      * )
-     * @Secure(roles="ROLE_SUPER_ADMIN")
+     * @Secure(roles="ROLE_USER")
      * @ParamConverter("test", class="AppMainBundle:Test")
      */
     public function getPrerequisiteFormAction(Test $test, Request $request) {
@@ -530,7 +530,7 @@ class TestEditorController extends BaseController {
      *      requirements={"_method" = "post"},
      *      options={"expose" = true }
      * )
-     * @Secure(roles="ROLE_SUPER_ADMIN")
+     * @Secure(roles="ROLE_USER")
      * @ParamConverter("test", class="AppMainBundle:Test")
      */
     public function addPrerequisiteAction(Test $test, Request $request) {
@@ -572,7 +572,7 @@ class TestEditorController extends BaseController {
      *      requirements={"_method" = "post"},
      *      options={"expose" = true }
      * )
-     * @Secure(roles="ROLE_SUPER_ADMIN")
+     * @Secure(roles="ROLE_USER")
      * @ParamConverter("prerequisite", class="AppMainBundle:Prerequisite")
      */
     public function deletePrerequisiteAction(Prerequisite $prerequisite, Request $request) {
@@ -617,7 +617,7 @@ class TestEditorController extends BaseController {
      *      requirements={"_method" = "post"},
      *      options={"expose" = true }
      * )
-     * @Secure(roles="ROLE_SUPER_ADMIN")
+     * @Secure(roles="ROLE_USER")
      * @ParamConverter("test", class="AppMainBundle:Test")
      */
     public function getPrerequisitesOrdersAction(Test $test, Request $request) {
@@ -639,7 +639,7 @@ class TestEditorController extends BaseController {
      *      requirements={"_method" = "post"},
      *      options={"expose" = true }
      * )
-     * @Secure(roles="ROLE_SUPER_ADMIN")
+     * @Secure(roles="ROLE_USER")
      * @ParamConverter("test", class="AppMainBundle:Test")
      */
     public function getBehatScenarioAction(Test $test, Request $request) {
@@ -660,7 +660,7 @@ class TestEditorController extends BaseController {
      *      requirements={"_method" = "post"},
      *      options={"expose" = true }
      * )
-     * @Secure(roles="ROLE_SUPER_ADMIN")
+     * @Secure(roles="ROLE_USER")
      */
     public function updateExecuteStepsOrdersAction(Request $request) {
         $ajaxResponse = array();
@@ -690,7 +690,7 @@ class TestEditorController extends BaseController {
      *      requirements={"_method" = "post"},
      *      options={"expose" = true }
      * )
-     * @Secure(roles="ROLE_SUPER_ADMIN")
+     * @Secure(roles="ROLE_USER")
      */
     public function updateControlStepsOrdersAction(Request $request) {
         $ajaxResponse = array();

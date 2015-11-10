@@ -54,6 +54,21 @@ var ExecuteStepManager = {
             var testId = $(this).data('test-id');
             ExecuteStepManager.openEditFormModal(id, testId);
         }).tooltip();
+        $("#control-step-rows-" + id).filter("[id^=delete-control-step-]").click(function(event) {
+            event.preventDefault();
+            var id = $(this).data('id');
+            var order = $(this).data('order');
+            var stepId = $(this).data('step-id');
+            var stepOrder = $(this).data('step-order');
+            ControlStepManager.delete(id, order, stepId, stepOrder);
+        }).tooltip();
+
+        $("#control-step-rows-" + id).filter("[id^=edit-control-step-]").click(function(event) {
+            event.preventDefault();
+            var id = $(this).data('id');
+            var stepId = $(this).data('step-id');
+            ControlStepManager.openEditFormModal(id, stepId);
+        }).tooltip();
     },
     resetForm: function() {
         $("#execute_step_action").parent().remove();
@@ -204,6 +219,10 @@ var ExecuteStepManager = {
             var testId = $(this).data('test-id');
             ExecuteStepManager.updateFormAfterActionSelection(testId);
         });
+        $("#execute_step_businessStep").change(function() {
+            var testId = $(this).data('test-id');
+            ExecuteStepManager.updateFormAfterBusinessStepSelection(testId);
+        });
     },
     updateFormAfterObjectSelection: function(testId) {
         $("#execute_step_action").parent().remove();
@@ -222,6 +241,21 @@ var ExecuteStepManager = {
         });
     },
     updateFormAfterActionSelection: function(testId) {
+        $("#execute_step_parameterDatas").parent().remove();
+        $.ajax({
+            type: 'POST',
+            url: Routing.generate('app_check_application_test_execute_step_ajax', {
+                'id': testId
+            }),
+            data: $("#form-execute-step").serialize()
+        }).done(function(data) {
+            if (data.form) {
+                $("#form-execute-step").replaceWith($(data.form));
+                ExecuteStepManager.triggerFormEventListeners();
+            }
+        });
+    },
+    updateFormAfterBusinessStepSelection: function(testId) {
         $("#execute_step_parameterDatas").parent().remove();
         $.ajax({
             type: 'POST',

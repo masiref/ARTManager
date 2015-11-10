@@ -6,13 +6,13 @@
             <i class="fontello-icon-desktop"></i> <strong>{{ server.name }}</strong>
             <span class="pull-right">
                 <a href="{{ path('app_index_configuration_server', { 'id': server.id }) }}"
-                   id="open-server-{{ server.id }}"
-                   data-toggle="tooltip" data-placement="top" title="Open">
-                   <i class="fontello-icon-folder-open"></i></a>
+                   class="btn btn-xs btn-primary"
+                   id="open-server-{{ server.id }}">
+                    <i class="fontello-icon-folder-open"></i></a>
                 <a href="#" id="delete-server-{{ server.id }}" data-id="{{ server.id }}"
-                   data-name="{{ server.name }}"
-                   data-toggle="tooltip" data-placement="right" title="Delete">
-                   <i class="fontello-icon-trash"></i></a>
+                   class="btn btn-xs btn-danger"
+                   data-name="{{ server.name }}">
+                    <i class="fontello-icon-trash"></i></a>
             </span>
         </div>
         <div class="panel-body" id="panel-body-{{ server.id }}">
@@ -45,7 +45,7 @@
                 <div class="col-md-6">
                     <div class="list-group-item">
                         <h4><i class="fontello-icon-key"></i>Password</h4>
-                        <p>{{ server.password }}</p>
+                        <p>{{ server.anonymizedPassword }}</p>
                     </div>
                 </div>
             </div>

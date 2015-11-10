@@ -6,13 +6,13 @@
             <i class="fontello-icon-gauge"></i> <strong>{{ executionServer.name }}</strong>
             <span class="pull-right">
                 <a href="{{ path('app_index_configuration_execution_server', { 'id': executionServer.id }) }}"
-                   id="open-execution-server-{{ executionServer.id }}"
-                   data-toggle="tooltip" data-placement="top" title="Open">
-                   <i class="fontello-icon-folder-open"></i></a>
+                   class="btn btn-xs btn-primary"
+                   id="open-execution-server-{{ executionServer.id }}">
+                    <i class="fontello-icon-folder-open"></i></a>
                 <a href="#" id="delete-execution-server-{{ executionServer.id }}" data-id="{{ executionServer.id }}"
-                   data-name="{{ executionServer.name }}"
-                   data-toggle="tooltip" data-placement="right" title="Delete">
-                   <i class="fontello-icon-trash"></i></a>
+                   class="btn btn-xs btn-danger"
+                   data-name="{{ executionServer.name }}">
+                    <i class="fontello-icon-trash"></i></a>
             </span>
         </div>
         <div class="panel-body" id="panel-body-{{ executionServer.id }}">

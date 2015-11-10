@@ -1,0 +1,55 @@
+<div class="col-md-8">
+    <div class="panel panel-{{ context }}" id="panel-business-steps-{{ application.id }}">
+        <div class="panel-heading">
+            <strong>
+                <i class="fontello-icon-database"></i> Business Steps
+            </strong>
+        </div>
+        <div class="panel-body" id="panel-body-{{ application.id }}">
+            <p>
+                <span id="business-step-folders-count">
+                    {% if application.businessStepFoldersCount <= 1 %}There is {% else %}There are{% endif %}
+                    {% if application.businessStepFoldersCount == 0 %}no {% else %}<span class="badge">{{ application.businessStepFoldersCount }}</span>{% endif %}
+                    folder{% if application.businessStepFoldersCount > 1 %}s{% endif %}
+                </span>
+                <span class="pull-right">
+                    <a href="#" id="add-business-step-folder"
+                       class="btn btn-xs btn-custom-brown"
+                       data-toggle="tooltip" data-placement="left" title="Add a new folder">
+                        New <i class="fontello-icon-folder"></i>
+                    </a>
+                </span>
+            </p>
+            <p>
+                <span id="business-steps-count">
+                    {% if application.businessStepsCount <= 1 %}There is {% else %}There are{% endif %}
+                    {% if application.businessStepsCount == 0 %}no {% else %}<span class="badge">{{ application.businessStepsCount }}</span>{% endif %}
+                    business step{% if application.businessStepsCount > 1 %}s{% endif %}
+                </span>
+                <span class="pull-right">
+                    <a href="#" id="add-business-step"
+                       class="btn btn-xs btn-custom-brown"
+                       data-business-step-folder-id=""
+                       data-business-step-folder-name=""
+                       data-business-step-folder-description=""
+                       data-toggle="tooltip" data-placement="left" title="Add a new business step">
+                        New <i class="fontello-icon-level-up"></i>
+                    </a>
+                </span>
+            </p>
+            <div class="text-center">
+                <div id="tree-business-steps-{{ application.id }}-loader" class="three-quarters-loader"></div>
+            </div>
+            <div id="tree-business-steps-{{ application.id }}"></div>
+            <p>
+                <a href="#" id="delete-checked-entities" class="btn btn-danger disabled"
+                   data-toggle="tooltip"
+                   data-placement="bottom"
+                   title="Delete selected entities"
+                   data-application-id="{{ application.id }}">
+                    <span class="badge" id="checked-entities-count">0</span> <i class="fontello-icon-trash"></i>
+                </a>
+            </p>
+        </div>
+    </div>
+</div>

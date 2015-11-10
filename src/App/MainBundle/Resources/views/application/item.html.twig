@@ -4,11 +4,12 @@
     </td>
     <td id="cell-application-{{ application.id }}-description">{{ application.description }}</td>
     <td id="cell-application-{{ application.id }}-delete-anchor" class="text-center">
-        <a href="#" id="delete-application-{{ application.id }}" data-id="{{ application.id }}" 
+        <a href="#" id="delete-application-{{ application.id }}" data-id="{{ application.id }}"
+           class="text-danger"
            data-name="{{ application.name }}" 
            data-project-id="{{ project.id }}"
            data-project-name="{{ project.name }}"
            data-toggle="tooltip" data-placement="left" title="Delete">
-            <i class="fontello-icon-minus-circled"></i></a>
+            <i class="fontello-icon-trash"></i></a>
     </td>
 </tr>

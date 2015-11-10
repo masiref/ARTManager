@@ -2,7 +2,6 @@
 
 namespace App\MainBundle\Form\EventListener;
 
-use App\MainBundle\Entity\Test;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Form\FormEvent;
@@ -15,7 +14,7 @@ class AddExecuteStepActionFieldEventSubscriber implements EventSubscriberInterfa
     private $em;
     private $test;
 
-    public function __construct(FormFactoryInterface $factory, EntityManager $em, Test $test) {
+    public function __construct(FormFactoryInterface $factory, EntityManager $em, $test) {
         $this->factory = $factory;
         $this->em = $em;
         $this->test = $test;
@@ -46,8 +45,9 @@ class AddExecuteStepActionFieldEventSubscriber implements EventSubscriberInterfa
         $data = $event->getData();
         $form = $event->getForm();
         $object = $data->getObject();
+        $businessStep = $data->getBusinessStep();
 
-        if ($object != null) {
+        if ($object != null && $businessStep == null) {
             $this->addActions($object, $form);
         }
     }
@@ -59,6 +59,7 @@ class AddExecuteStepActionFieldEventSubscriber implements EventSubscriberInterfa
         $form = $event->getForm();
 
         $objectId = $data["object"];
+        $businessStepId = isset($data["businessStep"]) ? $data["businessStep"] : null;
         $object = $em->getRepository("AppMainBundle:Object")->find($objectId);
 
         if ($form->has('action')) {
@@ -68,7 +69,9 @@ class AddExecuteStepActionFieldEventSubscriber implements EventSubscriberInterfa
             }
         }
 
-        $this->addActions($object, $form);
+        if ($businessStepId == null) {
+            $this->addActions($object, $form);
+        }
     }
 
 }

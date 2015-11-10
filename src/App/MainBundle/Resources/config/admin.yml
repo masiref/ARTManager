@@ -106,6 +106,26 @@ services:
             - ~
         calls:
             - [ setTranslationDomain, [AppMainBundle] ]
+    sonata.admin.business_step_folder:
+        class: App\MainBundle\Admin\BusinessStepFolderAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Tests", label: "Business Step Folder" }
+        arguments:
+            - ~
+            - App\MainBundle\Entity\BusinessStepFolder
+            - ~
+        calls:
+            - [ setTranslationDomain, [AppMainBundle] ]
+    sonata.admin.business_step:
+        class: App\MainBundle\Admin\BusinessStepAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Tests", label: "Business Step" }
+        arguments:
+            - ~
+            - App\MainBundle\Entity\BusinessStep
+            - ~
+        calls:
+            - [ setTranslationDomain, [AppMainBundle] ]
     sonata.admin.step:
         class: App\MainBundle\Admin\StepAdmin
         tags:

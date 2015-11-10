@@ -44,11 +44,18 @@ class StepSentenceGroup implements JsonSerializable {
     protected $pageType;
 
     /**
-     * @ORM\ManyToMany(targetEntity="StepSentence", inversedBy="groups")
+     * @ORM\OneToOne(targetEntity="BusinessStep", mappedBy="stepSentenceGroup", cascade={"persist"})
+     * @ORM\JoinColumn(name="business_step_id", referencedColumnName="id", onDelete="SET NULL")
+     */
+    protected $businessStep;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="StepSentence", inversedBy="groups", cascade={"all"})
      * @ORM\JoinTable(name="group_step_sentence",
      *      joinColumns={@ORM\JoinColumn(name="group_id", referencedColumnName="id")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="step_sentence_id", referencedColumnName="id")}
      * )
+     * @ORM\OrderBy({"locale" = "ASC"})
      */
     protected $sentences;
 
@@ -58,8 +65,17 @@ class StepSentenceGroup implements JsonSerializable {
     }
 
     public function __toString() {
-        if ($this->action != null && $this->objectType != null) {
-            return $this->action . " " . $this->objectType;
+        if ($this->action != null) {
+            $result = $this->action . " / ";
+            if ($this->objectType != null) {
+                return $result . $this->objectType;
+            }
+            if ($this->pageType != null) {
+                return $result . $this->pageType;
+            }
+        }
+        if ($this->businessStep != null) {
+            return $this->businessStep . "";
         }
         return "New";
     }
@@ -194,6 +210,27 @@ class StepSentenceGroup implements JsonSerializable {
      */
     public function getPageType() {
         return $this->pageType;
+    }
+
+    /**
+     * Set businessStep
+     *
+     * @param \App\MainBundle\Entity\BusinessStep $businessStep
+     * @return StepSentenceGroup
+     */
+    public function setBusinessStep(\App\MainBundle\Entity\BusinessStep $businessStep = null) {
+        $this->businessStep = $businessStep;
+
+        return $this;
+    }
+
+    /**
+     * Get businessStep
+     *
+     * @return \App\MainBundle\Entity\BusinessStep
+     */
+    public function getBusinessStep() {
+        return $this->businessStep;
     }
 
 }

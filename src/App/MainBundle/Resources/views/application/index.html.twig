@@ -98,21 +98,26 @@
                     </ul>
                 </p>
             </a>
-            {#<a href="#"
-               class="list-group-item list-group-item-custom-orange">
+            <a href="{{ path('app_index_application_business_step_planner', { 'id': application.id }) }}"
+               class="list-group-item list-group-item-custom-brown">
                 <h4 class="list-group-item-heading"><i class="fontello-icon-level-up"></i> <strong>Business Step</strong> Manager</h4>
                 <p class="list-group-item-text">
                     <p>Design business steps for your scenarios</p>
                     <ul class="list-unstyled text-right">
                         <li>
-                            There is <span class="badge">1</span> folder
+                            {% if application.businessStepFoldersCount <= 1 %}There is {% else %}There are{% endif %}
+                            {% if application.businessStepFoldersCount == 0 %}no {% else %}<span class="badge">{{ application.businessStepFoldersCount }}</span>{% endif %}
+                            folder{% if application.businessStepFoldersCount > 1 %}s{% endif %}
                         </li>
-                        <li>
-                            containing <span class="badge">3</span> business steps
-                        </li>
+                        {% if application.businessStepFoldersCount > 0 %}
+                            <li>
+                                containing <span class="badge">{{ application.businessStepsCount }}</span>
+                                business step{% if application.businessStepsCount > 1 %}s{% endif %}
+                            </li>
+                        {% endif %}
                     </ul>
                 </p>
-            </a>#}
+            </a>
             <a href="{{ path('app_index_application_test_planner', { 'id': application.id }) }}"
                class="list-group-item list-group-item-custom-red">
                 <h4 class="list-group-item-heading"><i class="fontello-icon-tasks"></i> <strong>Scenario</strong> Plan</h4>

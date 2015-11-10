@@ -1,0 +1,62 @@
+{% extends 'base.html.twig' %}
+{% set page_ = "business-step-editor" %}
+{% set context = "custom-brown" %}
+
+{% block jumbotronTitle %}
+    <span class="text-{{ context }}">
+        <i class="fontello-icon-level-up"></i><strong>Business Step</strong> Editor
+    </span>
+{% endblock %}
+
+{% set application = businessStep.businessStepFolder.rootApplication %}
+
+{% block jumbotronBody %}
+    <p class="text-center">
+        <a href="{{ path('app_index_application_business_step_planner', { 'id': application.id }) }}">
+            <i class="fontello-icon-left-circled"></i>Return to <strong>{{ application.name }}</strong> Business Steps
+        </a>
+    </p>
+{% endblock %}
+
+{% block breadcrumb_items %}
+    <li>
+        <a href="{{ path('homepage') }}"><i class="fontello-icon-right-open"></i>Home</a>
+    </li>
+    <li>
+        <a href="{{ path('app_index_project', { 'id': application.project.id }) }}">
+            <i class="fontello-icon-right-open"></i>{{ application.project }}</a>
+    </li>
+    <li>
+        <a href="{{ path('app_index_application', { 'id': application.id }) }}">
+            <i class="fontello-icon-right-open"></i>{{ application }}</a>
+    </li>
+    <li>
+        <a href="{{ path('app_index_application_business_step_planner', { 'id': application.id }) }}">
+            <i class="fontello-icon-right-open"></i>Business Steps</a>
+    </li>
+    <li class="active">
+        <i class="fontello-icon-angle-circled-right"></i>{{ businessStep }}
+    </li>
+{% endblock %}
+
+{% block body %}
+    {% include 'AppMainBundle:business-step:editor/sentences.html.twig' %}
+    {% include 'AppMainBundle:test:editor/starting-page.html.twig' with { 'test': businessStep } %}
+    {% include 'AppMainBundle:test:step/execute/list.html.twig' with { 'test': businessStep } %}
+{% endblock %}
+
+{% block modals %}
+    {% include 'AppMainBundle:test:step/execute/form.html.twig' %}
+    {% include 'AppMainBundle:test:step/control/form.html.twig' %}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript">
+        $(document).ready(function() {
+            BusinessStepEditor.init();
+            BusinessStepEditor.initItem({{ businessStep.id }});
+            BusinessStepEditor.initEditableData();
+        });
+    </script>
+{% endblock %}

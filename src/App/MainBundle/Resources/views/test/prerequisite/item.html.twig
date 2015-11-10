@@ -5,9 +5,10 @@
         {{ prerequisite.test }}
     </span>
     <a href="#" id="delete-prerequisite-{{ prerequisite.id }}"
+       class="text-danger"
        data-id="{{ prerequisite.id }}"
        data-name="{{ prerequisite.test }}"
        data-toggle="tooltip" data-placement="right" title="Delete">
-        <i class="fontello-icon-minus-circled"></i>
+        <i class="fontello-icon-trash"></i>
     </a>
 </li>

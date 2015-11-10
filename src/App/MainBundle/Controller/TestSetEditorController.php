@@ -38,7 +38,7 @@ class TestSetEditorController extends BaseController {
      *      requirements={"_method" = "post"},
      *      options={"expose" = true }
      * )
-     * @Secure(roles="ROLE_SUPER_ADMIN")
+     * @Secure(roles="ROLE_USER")
      * @ParamConverter("testSet", class="AppMainBundle:TestSet"))
      */
     public function addSelectedTestInstances(TestSet $testSet, Request $request) {
@@ -81,7 +81,7 @@ class TestSetEditorController extends BaseController {
      *      requirements={"_method" = "post"},
      *      options={"expose" = true }
      * )
-     * @Secure(roles="ROLE_SUPER_ADMIN")
+     * @Secure(roles="ROLE_USER")
      * @ParamConverter("testInstance", class="AppMainBundle:TestInstance"))
      */
     public function deleteTestInstanceAction(TestInstance $testInstance, Request $request) {
@@ -115,7 +115,7 @@ class TestSetEditorController extends BaseController {
      *      requirements={"_method" = "post"},
      *      options={"expose" = true }
      * )
-     * @Secure(roles="ROLE_SUPER_ADMIN")
+     * @Secure(roles="ROLE_USER")
      */
     public function updateTestInstancesOrdersAction(Request $request) {
         $ajaxResponse = array();
@@ -156,7 +156,7 @@ class TestSetEditorController extends BaseController {
      *      requirements={"_method" = "post"},
      *      options={"expose" = true }
      * )
-     * @Secure(roles="ROLE_SUPER_ADMIN")
+     * @Secure(roles="ROLE_USER")
      * @ParamConverter("testSet", class="AppMainBundle:TestSet")
      */
     public function getBehatFeatureAction(TestSet $testSet, Request $request) {
@@ -177,7 +177,7 @@ class TestSetEditorController extends BaseController {
      *      requirements={"_method" = "post"},
      *      options={"expose" = true }
      * )
-     * @Secure(roles="ROLE_SUPER_ADMIN")
+     * @Secure(roles="ROLE_USER")
      * @ParamConverter("testSet", class="AppMainBundle:TestSet")
      */
     public function runAction(TestSet $testSet, Request $request) {
@@ -224,7 +224,7 @@ class TestSetEditorController extends BaseController {
      *      requirements={"_method" = "post"},
      *      options={"expose" = true }
      * )
-     * @Secure(roles="ROLE_SUPER_ADMIN")
+     * @Secure(roles="ROLE_USER")
      */
     public function multipleRunAction(Request $request) {
         $ajaxResponse = array();
@@ -276,7 +276,7 @@ class TestSetEditorController extends BaseController {
      *      requirements={"_method" = "post"},
      *      options={"expose" = true }
      * )
-     * @Secure(roles="ROLE_SUPER_ADMIN")
+     * @Secure(roles="ROLE_USER")
      * @ParamConverter("testSet", class="AppMainBundle:TestSet")
      */
     public function getExecutionGridAction(TestSet $testSet, Request $request) {
@@ -300,7 +300,7 @@ class TestSetEditorController extends BaseController {
      *      requirements={"_method" = "post"},
      *      options={"expose" = true }
      * )
-     * @Secure(roles="ROLE_SUPER_ADMIN")
+     * @Secure(roles="ROLE_USER")
      * @ParamConverter("testSetRun", class="AppMainBundle:TestSetRun")
      */
     public function getRunExecutionGridAction(TestSetRun $testSetRun, Request $request) {
@@ -321,7 +321,7 @@ class TestSetEditorController extends BaseController {
      *      requirements={"_method" = "post"},
      *      options={"expose" = true }
      * )
-     * @Secure(roles="ROLE_SUPER_ADMIN")
+     * @Secure(roles="ROLE_USER")
      * @ParamConverter("testSetRun", class="AppMainBundle:TestSetRun")
      */
     public function getRunExecutionReportAction(TestSetRun $testSetRun, Request $request) {

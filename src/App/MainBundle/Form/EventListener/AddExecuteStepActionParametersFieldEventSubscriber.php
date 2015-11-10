@@ -3,7 +3,6 @@
 namespace App\MainBundle\Form\EventListener;
 
 use App\MainBundle\Entity\ParameterData;
-use App\MainBundle\Entity\Test;
 use App\MainBundle\Form\Type\ParameterDataType;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -17,7 +16,7 @@ class AddExecuteStepActionParametersFieldEventSubscriber implements EventSubscri
     private $em;
     private $test;
 
-    public function __construct(FormFactoryInterface $factory, EntityManager $em, Test $test) {
+    public function __construct(FormFactoryInterface $factory, EntityManager $em, $test) {
         $this->factory = $factory;
         $this->em = $em;
         $this->test = $test;

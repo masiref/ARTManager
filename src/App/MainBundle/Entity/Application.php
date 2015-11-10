@@ -69,6 +69,12 @@ class Application implements JsonSerializable {
     protected $testFolders;
 
     /**
+     * @ORM\OneToMany(targetEntity="BusinessStepFolder", mappedBy="application", cascade={"all"}, orphanRemoval=true)
+     * @ORM\OrderBy({"name" = "ASC"})
+     */
+    protected $businessStepFolders;
+
+    /**
      * @ORM\ManyToOne(targetEntity="Project", inversedBy="applications")
      * @ORM\JoinColumn(name="project_id", referencedColumnName="id")
      */
@@ -85,6 +91,7 @@ class Application implements JsonSerializable {
         $this->objectMaps = new ArrayCollection();
         $this->testFolders = new ArrayCollection();
         $this->testSetFolders = new ArrayCollection();
+        $this->businessStepFolders = new ArrayCollection();
     }
 
     public function __toString() {
@@ -165,6 +172,30 @@ class Application implements JsonSerializable {
         $result = array();
         foreach ($this->testSetFolders as $testSetFolder) {
             $result[] = $testSetFolder->getJsonTreeAsArray();
+        }
+        return $result;
+    }
+
+    public function getBusinessStepFoldersCount() {
+        $count = $this->businessStepFolders->count();
+        foreach ($this->businessStepFolders as $businessStepFolder) {
+            $count += $businessStepFolder->getBusinessStepFoldersCount();
+        }
+        return $count;
+    }
+
+    public function getBusinessStepsCount() {
+        $count = 0;
+        foreach ($this->businessStepFolders as $businessStepFolder) {
+            $count += $businessStepFolder->getBusinessStepsCount();
+        }
+        return $count;
+    }
+
+    public function getJsonBusinessStepsTreeAsArray() {
+        $result = array();
+        foreach ($this->businessStepFolders as $businessStepFolder) {
+            $result[] = $businessStepFolder->getJsonTreeAsArray();
         }
         return $result;
     }
@@ -374,6 +405,37 @@ class Application implements JsonSerializable {
      */
     public function getTestSetFolders() {
         return $this->testSetFolders;
+    }
+
+    /**
+     * Add businessStepFolders
+     *
+     * @param \App\MainBundle\Entity\BusinessStepFolder $businessStepFolders
+     * @return Application
+     */
+    public function addBusinessStepFolder(\App\MainBundle\Entity\BusinessStepFolder $businessStepFolders) {
+        $businessStepFolders->setApplication($this);
+        $this->businessStepFolders[] = $businessStepFolders;
+
+        return $this;
+    }
+
+    /**
+     * Remove businessStepFolders
+     *
+     * @param \App\MainBundle\Entity\BusinessStepFolder $businessStepFolders
+     */
+    public function removeBusinessStepFolder(\App\MainBundle\Entity\BusinessStepFolder $businessStepFolders) {
+        $this->businessStepFolders->removeElement($businessStepFolders);
+    }
+
+    /**
+     * Get businessStepFolders
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getBusinessStepFolders() {
+        return $this->businessStepFolders;
     }
 
 }

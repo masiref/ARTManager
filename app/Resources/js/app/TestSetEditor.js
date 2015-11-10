@@ -196,6 +196,7 @@ var TestSetEditor = {
             TestSetEditor.updateExecutionGrid(data.executionGrid);
             TestSetEditor.updateHistoryGrid(data.historyGrid);
             TestSetEditor.initItem(id);
+            TestSetEditor.refreshBehatFeature(id);
         });
     },
     refreshBehatFeature: function(id) {

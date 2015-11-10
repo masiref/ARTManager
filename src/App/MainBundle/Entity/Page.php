@@ -92,6 +92,12 @@ class Page implements JsonSerializable {
     protected $testsStartingWith;
 
     /**
+     * @ORM\OneToMany(targetEntity="BusinessStep", mappedBy="startingPage", cascade={"all"}, orphanRemoval=true)
+     * @ORM\OrderBy({"name" = "ASC"})
+     */
+    protected $businessStepsStartingWith;
+
+    /**
      * @ORM\Column(type="string")
      * @Assert\NotBlank(
      *      message = "Path cannot be empty."
@@ -119,6 +125,7 @@ class Page implements JsonSerializable {
         $this->pages = new ArrayCollection();
         $this->objects = new ArrayCollection();
         $this->testsStartingWith = new ArrayCollection();
+        $this->businessStepsStartingWith = new ArrayCollection();
     }
 
     public function __toString() {
@@ -554,6 +561,37 @@ class Page implements JsonSerializable {
      */
     public function getRegularExpressionPath() {
         return $this->regularExpressionPath;
+    }
+
+    /**
+     * Add businessStepsStartingWith
+     *
+     * @param \App\MainBundle\Entity\BusinessStep $businessStepsStartingWith
+     * @return Page
+     */
+    public function addBusinessStepsStartingWith(\App\MainBundle\Entity\BusinessStep $businessStepsStartingWith) {
+        $businessStepsStartingWith->setStartingPage($this);
+        $this->businessStepsStartingWith[] = $businessStepsStartingWith;
+
+        return $this;
+    }
+
+    /**
+     * Remove businessStepsStartingWith
+     *
+     * @param \App\MainBundle\Entity\BusinessStep $businessStepsStartingWith
+     */
+    public function removeBusinessStepsStartingWith(\App\MainBundle\Entity\BusinessStep $businessStepsStartingWith) {
+        $this->businessStepsStartingWith->removeElement($businessStepsStartingWith);
+    }
+
+    /**
+     * Get businessStepsStartingWith
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getBusinessStepsStartingWith() {
+        return $this->businessStepsStartingWith;
     }
 
 }

@@ -44,6 +44,11 @@ class ControlStep extends Step {
     protected $test;
 
     /**
+     * @var \App\MainBundle\Entity\BusinessStep
+     */
+    protected $businessStep;
+
+    /**
      * @var Collection
      */
     protected $controlSteps;
@@ -441,6 +446,27 @@ class ControlStep extends Step {
      */
     public function getSentenceGroup() {
         return $this->sentenceGroup;
+    }
+
+    /**
+     * Set businessStep
+     *
+     * @param \App\MainBundle\Entity\BusinessStep $businessStep
+     * @return ControlStep
+     */
+    public function setBusinessStep(\App\MainBundle\Entity\BusinessStep $businessStep = null) {
+        $this->businessStep = $businessStep;
+
+        return $this;
+    }
+
+    /**
+     * Get businessStep
+     *
+     * @return \App\MainBundle\Entity\BusinessStep
+     */
+    public function getBusinessStep() {
+        return $this->businessStep;
     }
 
 }

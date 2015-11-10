@@ -28,7 +28,7 @@ class ServerController extends BaseController {
      *      requirements={"_method" = "post"},
      *      options={"expose" = true }
      * )
-     * @Secure(roles="ROLE_SUPER_ADMIN")
+     * @Secure(roles="ROLE_USER")
      */
     public function updateNameAction(Request $request) {
         if ($request->getMethod() == 'POST' && $request->isXmlHttpRequest()) {
@@ -67,7 +67,7 @@ class ServerController extends BaseController {
      *      requirements={"_method" = "post"},
      *      options={"expose" = true }
      * )
-     * @Secure(roles="ROLE_SUPER_ADMIN")
+     * @Secure(roles="ROLE_USER")
      */
     public function updateDescriptionAction(Request $request) {
         if ($request->getMethod() == 'POST' && $request->isXmlHttpRequest()) {
@@ -105,7 +105,7 @@ class ServerController extends BaseController {
      *      requirements={"_method" = "post"},
      *      options={"expose" = true }
      * )
-     * @Secure(roles="ROLE_SUPER_ADMIN")
+     * @Secure(roles="ROLE_USER")
      */
     public function updateHostAction(Request $request) {
         if ($request->getMethod() == 'POST' && $request->isXmlHttpRequest()) {
@@ -144,7 +144,7 @@ class ServerController extends BaseController {
      *      requirements={"_method" = "post"},
      *      options={"expose" = true }
      * )
-     * @Secure(roles="ROLE_SUPER_ADMIN")
+     * @Secure(roles="ROLE_USER")
      */
     public function updatePortAction(Request $request) {
         if ($request->getMethod() == 'POST' && $request->isXmlHttpRequest()) {
@@ -182,7 +182,7 @@ class ServerController extends BaseController {
      *      requirements={"_method" = "post"},
      *      options={"expose" = true }
      * )
-     * @Secure(roles="ROLE_SUPER_ADMIN")
+     * @Secure(roles="ROLE_USER")
      */
     public function updateUsernameAction(Request $request) {
         if ($request->getMethod() == 'POST' && $request->isXmlHttpRequest()) {
@@ -220,7 +220,7 @@ class ServerController extends BaseController {
      *      requirements={"_method" = "post"},
      *      options={"expose" = true }
      * )
-     * @Secure(roles="ROLE_SUPER_ADMIN")
+     * @Secure(roles="ROLE_USER")
      */
     public function updatePasswordAction(Request $request) {
         if ($request->getMethod() == 'POST' && $request->isXmlHttpRequest()) {
@@ -258,7 +258,7 @@ class ServerController extends BaseController {
      *      requirements={"_method" = "post"},
      *      options={"expose" = true }
      * )
-     * @Secure(roles="ROLE_SUPER_ADMIN")
+     * @Secure(roles="ROLE_USER")
      * @ParamConverter("server", class="AppMainBundle:Server")
      */
     public function checkConnectionAction(Server $server, Request $request) {

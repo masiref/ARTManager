@@ -1,12 +1,13 @@
 <div class="col-md-1">
     <a href="#"
        id="delete-control-step-{{ controlStep.id }}"
-           data-id="{{ controlStep.id }}"
-           data-order="{{ controlStep.order }}"
-           data-step-id="{{ controlStep.parentStep.id }}"
-           data-step-order="{{ controlStep.parentStep.order }}"
-           data-toggle="tooltip" data-placement="bottom" title="Delete">
-        <i class="fontello-icon-minus-circled"></i>
+       class="text-danger"
+       data-id="{{ controlStep.id }}"
+       data-order="{{ controlStep.order }}"
+       data-step-id="{{ controlStep.parentStep.id }}"
+       data-step-order="{{ controlStep.parentStep.order }}"
+       data-toggle="tooltip" data-placement="bottom" title="Delete">
+        <i class="fontello-icon-trash"></i>
     </a>
 </div>
 <div class="col-md-1">

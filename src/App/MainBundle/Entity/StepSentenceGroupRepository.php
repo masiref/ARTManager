@@ -26,4 +26,12 @@ class StepSentenceGroupRepository extends EntityRepository {
         return $query->getOneOrNullResult();
     }
 
+    public function findByBusinessStep($businessStep) {
+        $query = $this->createQueryBuilder('ssg')
+                ->where('ssg.businessStep = :businessStep')
+                ->setParameter('businessStep', $businessStep)
+                ->getQuery();
+        return $query->getOneOrNullResult();
+    }
+
 }

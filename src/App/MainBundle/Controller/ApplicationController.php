@@ -28,7 +28,7 @@ class ApplicationController extends BaseController {
      *      requirements={"_method" = "post"},
      *      options={"expose" = true }
      * )
-     * @Secure(roles="ROLE_SUPER_ADMIN")
+     * @Secure(roles="ROLE_USER")
      */
     public function updateNameAction(Request $request) {
         if ($request->getMethod() == 'POST' && $request->isXmlHttpRequest()) {
@@ -67,7 +67,7 @@ class ApplicationController extends BaseController {
      *      requirements={"_method" = "post"},
      *      options={"expose" = true }
      * )
-     * @Secure(roles="ROLE_SUPER_ADMIN")
+     * @Secure(roles="ROLE_USER")
      */
     public function updateDescriptionAction(Request $request) {
         if ($request->getMethod() == 'POST' && $request->isXmlHttpRequest()) {
@@ -105,7 +105,7 @@ class ApplicationController extends BaseController {
      *      requirements={"_method" = "post"},
      *      options={"expose" = true }
      * )
-     * @Secure(roles="ROLE_SUPER_ADMIN")
+     * @Secure(roles="ROLE_USER")
      */
     public function updateUrlAction(Request $request) {
         if ($request->getMethod() == 'POST' && $request->isXmlHttpRequest()) {

@@ -12,7 +12,7 @@ class BehatScenario {
     private $mink;
     private $locale;
 
-    public function __construct(Test $test, GherkinService $gherkin, MinkService $mink) {
+    public function __construct($test, GherkinService $gherkin, MinkService $mink) {
         $this->test = $test;
         $this->gherkin = $gherkin;
         $this->mink = $mink;
@@ -58,8 +58,9 @@ class BehatScenario {
         return $content;
     }
 
-    private function generateSteps() {
+    private function generateSteps($fromStep = null) {
         $gherkin = $this->gherkin;
+        $mink = $this->mink;
         $locale = $this->locale;
 
         $prefix = "  ";
@@ -68,15 +69,42 @@ class BehatScenario {
         $previousStepHasControlSteps = false;
         foreach ($this->test->getSteps() as $i => $step) {
             $stepPrefix = ($previousStepHasControlSteps || $i == 0 ? $gherkin->getWhenKeyword() : $gherkin->getAndKeyword()) . " ";
-            $content .= $prefix . $stepPrefix . $step->getMinkSentence($locale) . PHP_EOL;
-            $controlSteps = $step->getControlSteps();
-            $previousStepHasControlSteps = $controlSteps->count() > 0;
-            foreach ($controlSteps as $j => $controlStep) {
-                $controlStepPrefix = ($j > 0 ? $gherkin->getAndKeyword() : $gherkin->getThenKeyword()) . " ";
-                $content .= $prefix . $controlStepPrefix . $controlStep->getMinkSentence($locale) . PHP_EOL;
+            $businessStep = ($this->test instanceof Test) ? $step->getBusinessStep() : null;
+            $previousBusinessStepHasControlSteps = false;
+            if ($businessStep !== null) {
+                $content .= $prefix . "# ==== business step ================" . PHP_EOL;
+                $content .= $prefix . "# " . $businessStep . PHP_EOL;
+                $scenario = new BehatScenario($businessStep, $gherkin, $mink);
+                $steps = $scenario->generateSteps($step);
+                $content .= $steps;
+                $content .= $prefix . "# ==== end business step ============" . PHP_EOL;
+                $previousBusinessStepHasControlSteps = $businessStep->isLastStepHasControlSteps();
+            } else {
+                $sentence = $step->getMinkSentence($locale);
+                if ($fromStep !== null) {
+                    $sentence = $this->updateMinkSentence($sentence, $fromStep);
+                }
+                $content .= $prefix . $stepPrefix . $sentence . PHP_EOL;
             }
+            $controlSteps = $step->getControlSteps();
+            foreach ($controlSteps as $j => $controlStep) {
+                $controlStepPrefix = ($j > 0 || $previousBusinessStepHasControlSteps ? $gherkin->getAndKeyword() : $gherkin->getThenKeyword()) . " ";
+                $sentence = $controlStep->getMinkSentence($locale);
+                if ($fromStep !== null) {
+                    $sentence = $this->updateMinkSentence($sentence, $fromStep);
+                }
+                $content .= $prefix . $controlStepPrefix . $sentence . PHP_EOL;
+            }
+            $previousStepHasControlSteps = $controlSteps->count() > 0;
         }
         return $content;
+    }
+
+    private function updateMinkSentence($sentence, $step) {
+        foreach ($step->getParameterDatas() as $parameterData) {
+            $sentence = str_replace("%" . $parameterData->getParameter()->getPlaceholder() . "%", $parameterData->getValue(), $sentence);
+        }
+        return $sentence;
     }
 
 }

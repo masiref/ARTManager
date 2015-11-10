@@ -20,7 +20,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *      groups="test"
  * )
  */
-class Test implements JsonSerializable {
+class Test extends StepContainer implements JsonSerializable {
 
     /**
      * @ORM\Column(type="integer")
@@ -157,6 +157,14 @@ class Test implements JsonSerializable {
             $tests[] = $prerequisite->getTest()->getId();
         }
         return $tests;
+    }
+
+    public function getFolder() {
+        return $this->getTestFolder();
+    }
+
+    public function setFolder($folder) {
+        return $this->setTestFolder($folder);
     }
 
     /**

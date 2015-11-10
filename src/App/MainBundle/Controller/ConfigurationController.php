@@ -38,7 +38,7 @@ class ConfigurationController extends BaseController {
      *      name="app_configuration_servers",
      *      options={"expose" = true }
      * )
-     * @Secure(roles="ROLE_SUPER_ADMIN")
+     * @Secure(roles="ROLE_USER")
      */
     public function serversAction() {
         $em = $this->getDoctrine()->getManager();
@@ -61,7 +61,7 @@ class ConfigurationController extends BaseController {
      *      requirements={"_method" = "post"},
      *      options={"expose" = true }
      * )
-     * @Secure(roles="ROLE_SUPER_ADMIN")
+     * @Secure(roles="ROLE_USER")
      */
     public function addServerAction(Request $request) {
         $ajaxResponse = array();
@@ -92,7 +92,7 @@ class ConfigurationController extends BaseController {
      *      requirements={"_method" = "post"},
      *      options={"expose" = true }
      * )
-     * @Secure(roles="ROLE_SUPER_ADMIN")
+     * @Secure(roles="ROLE_USER")
      * @ParamConverter("server", class="AppMainBundle:Server")
      */
     public function deleteServerAction(Server $server, Request $request) {
@@ -112,7 +112,7 @@ class ConfigurationController extends BaseController {
      *      name="app_configuration_execution_servers",
      *      options={"expose" = true }
      * )
-     * @Secure(roles="ROLE_SUPER_ADMIN")
+     * @Secure(roles="ROLE_USER")
      */
     public function executionServersAction() {
         $em = $this->getDoctrine()->getManager();
@@ -135,7 +135,7 @@ class ConfigurationController extends BaseController {
      *      requirements={"_method" = "post"},
      *      options={"expose" = true }
      * )
-     * @Secure(roles="ROLE_SUPER_ADMIN")
+     * @Secure(roles="ROLE_USER")
      */
     public function addExecutionServerAction(Request $request) {
         $ajaxResponse = array();
@@ -166,7 +166,7 @@ class ConfigurationController extends BaseController {
      *      requirements={"_method" = "post"},
      *      options={"expose" = true }
      * )
-     * @Secure(roles="ROLE_SUPER_ADMIN")
+     * @Secure(roles="ROLE_USER")
      * @ParamConverter("executionServer", class="AppMainBundle:ExecutionServer")
      */
     public function deleteExecutionServerAction(ExecutionServer $executionServer, Request $request) {

@@ -40,6 +40,13 @@ $(document).ready(function() {
 });
 
 var Base = {
+    loadBackground: function(background) {
+        $("body").vegas({
+            slides: [
+                { src: background }
+            ]
+        });
+    },
     showErrorMessage: function(message) {
         swal({
             title: "Error",

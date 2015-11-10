@@ -2,8 +2,10 @@
 
 namespace App\MainBundle\Form\Type;
 
+use App\MainBundle\Entity\Test;
 use App\MainBundle\Form\EventListener\AddExecuteStepActionFieldEventSubscriber;
 use App\MainBundle\Form\EventListener\AddExecuteStepActionParametersFieldEventSubscriber;
+use App\MainBundle\Form\EventListener\AddExecuteStepBusinessStepParametersFieldEventSubscriber;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -25,6 +27,7 @@ class ExecuteStepType extends AbstractType {
         $step = $builder->getData();
         $page = $this->page;
         $test = $this->test;
+        $application = $test->getApplication();
         $order = $step->getOrder();
         if ($order != 0) {
             $page = $test->getPageAtStepOrder($order - 1);
@@ -35,8 +38,10 @@ class ExecuteStepType extends AbstractType {
 
         $addExecuteStepActionFieldEventSubscriber = new AddExecuteStepActionFieldEventSubscriber($factory, $em, $test);
         $addExecuteStepActionParametersFieldEventSubscriber = new AddExecuteStepActionParametersFieldEventSubscriber($factory, $em, $test);
+        $addExecuteStepBusinessStepParametersFieldEventSubscriber = new AddExecuteStepBusinessStepParametersFieldEventSubscriber($factory, $em, $test);
         $builder->addEventSubscriber($addExecuteStepActionFieldEventSubscriber);
         $builder->addEventSubscriber($addExecuteStepActionParametersFieldEventSubscriber);
+        $builder->addEventSubscriber($addExecuteStepBusinessStepParametersFieldEventSubscriber);
 
         $builder->add('object', 'entity', array(
             'class' => 'AppMainBundle:Object',
@@ -69,6 +74,25 @@ class ExecuteStepType extends AbstractType {
             'attr' => array('data-test-id' => $test->getId()),
             'icon' => 'puzzle'
         ));
+
+        if ($test instanceof Test) {
+            $builder->add('businessStep', 'entity', array(
+                'class' => 'AppMainBundle:BusinessStep',
+                'property' => 'name',
+                'label' => 'Business step',
+                'group_by' => 'parentName',
+                'empty_value' => '',
+                'query_builder' => function(EntityRepository $er) use ($application, $page) {
+                    return $er->createQueryBuilder('bs')
+                                    ->where('bs.application = :application')
+                                    ->andWhere('bs.startingPage = :page')
+                                    ->setParameter('application', $application)
+                                    ->setParameter('page', $page);
+                },
+                'attr' => array('data-test-id' => $test->getId()),
+                'icon' => 'level-up'
+            ));
+        }
     }
 
     public function getName() {
@@ -79,7 +103,8 @@ class ExecuteStepType extends AbstractType {
         $resolver->setDefaults(array(
             'data_class' => 'App\MainBundle\Entity\ExecuteStep',
             'validation_group' => array(),
-            'cascade_validation' => true
+            'cascade_validation' => true,
+            'allow_extra_fields' => true
         ));
     }
 

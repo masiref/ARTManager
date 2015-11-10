@@ -45,7 +45,7 @@ class DefaultController extends BaseController {
      *      requirements={"_method" = "post"},
      *      options={"expose" = true }
      * )
-     * @Secure(roles="ROLE_SUPER_ADMIN")
+     * @Secure(roles="ROLE_USER")
      */
     public function addProjectAction(Request $request) {
         $ajaxResponse = array();
@@ -81,7 +81,7 @@ class DefaultController extends BaseController {
      *      requirements={"_method" = "post"},
      *      options={"expose" = true }
      * )
-     * @Secure(roles="ROLE_SUPER_ADMIN")
+     * @Secure(roles="ROLE_USER")
      * @ParamConverter("project", class="AppMainBundle:Project")
      */
     public function deleteProjectAction(Project $project, Request $request) {
@@ -102,7 +102,7 @@ class DefaultController extends BaseController {
      *      requirements={"_method" = "post"},
      *      options={"expose" = true }
      * )
-     * @Secure(roles="ROLE_SUPER_ADMIN")
+     * @Secure(roles="ROLE_USER")
      * @ParamConverter("project", class="AppMainBundle:Project")
      */
     public function addApplicationAction(Project $project, Request $request) {
@@ -139,7 +139,7 @@ class DefaultController extends BaseController {
      *      requirements={"_method" = "post"},
      *      options={"expose" = true }
      * )
-     * @Secure(roles="ROLE_SUPER_ADMIN")
+     * @Secure(roles="ROLE_USER")
      * @ParamConverter("application", class="AppMainBundle:Application")
      */
     public function deleteApplicationAction(Application $application, Request $request) {

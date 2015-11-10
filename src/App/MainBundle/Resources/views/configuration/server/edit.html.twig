@@ -97,10 +97,10 @@
                             <h4><i class="fontello-icon-key"></i>Password</h4>
                             <p>
                                 <a href="#" id="password"
-                                   data-type="text"
+                                   data-type="password"
                                    data-pk="{{ server.id }}"
                                    data-url="{{ path('app_configuration_server_update_password_ajax', { 'id': server.id }) }}"
-                                   data-title="Update password">{{ server.password }}</a>
+                                   data-title="Update password">{{ server.anonymizedPassword }}</a>
                             </p>
                         </div>
                     </div>
@@ -122,6 +122,8 @@
                     <p>Check the connection to the server</p>
                 </p>
             </a>
+        </div>
+    </div>
 {% endblock %}
 
 {% block javascripts %}

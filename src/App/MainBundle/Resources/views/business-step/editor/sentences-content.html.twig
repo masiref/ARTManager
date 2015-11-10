@@ -1,0 +1,52 @@
+{% set form = addStepSentenceFormView %}
+{% set businessStep = businessStep|default(stepSentenceGroup.businessStep) %}
+<p class="text-center">
+    <ul class="nav nav-tabs" role="tablist">
+        {% for stepSentence in stepSentenceGroup.sentences %}
+            <li role="presentation" {% if loop.index == 1 %} class="active"{% endif %}>
+                <a href="#sentence-tab-{{ stepSentence.id }}"
+                   aria-controls="sentence-tab-{{ stepSentence.id }}"
+                   role="tab"
+                   data-toggle="tab">{{ stepSentence.locale }}</a>
+            </li>
+        {% endfor %}
+        <li role="presentation">
+            <a href="#sentence-tab-new"
+               aria-controls="sentence-tab-new"
+               role="tab"
+               data-toggle="tab"><i class="fontello-icon-plus-circled"></i></a>
+        </li>
+    </ul>
+    <div class="tab-content">
+        {% for stepSentence in stepSentenceGroup.sentences %}
+            <div role="tabpanel"
+                 class="tab-pane {% if loop.index == 1 %} active{% endif %}"
+                 id="sentence-tab-{{ stepSentence.id }}">
+                <a href="#" id="sentence-content-{{ stepSentence.id }}"
+                   data-type="textarea"
+                   data-pk="{{ stepSentence.id }}"
+                   data-url="{{ path('app_application_business_step_sentence_update_sentence_ajax', { 'id': stepSentence.id }) }}"
+                   data-title="Update sentence">{{ stepSentence.sentence }}</a>
+                {% if stepSentence.locale != locale %}
+                    <p class="text-right">
+                        <a href="#" class="text-danger" id="delete-step-sentence-{{ stepSentence.id }}"
+                           data-toggle="tooltip"
+                           data-placement="left"
+                           data-title="Delete"
+                           data-id="{{ stepSentence.id }}"
+                           data-business-step-id="{{ businessStep.id }}"><i class="fontello-icon-trash"></i></a>
+                    </p>
+                {% endif %}
+            </div>
+        {% endfor %}
+        <div role="tabpanel"
+             class="tab-pane"
+             id="sentence-tab-new">
+            <form id="form-add-step-sentence" name="step-sentence" method="post" action="#">
+                {{ form_widget(form) }}
+                {{ form_end(form) }}
+            <button type="button" class="btn btn-custom-brown" id="save-step-sentence"
+                    data-business-step-id="{{ businessStep.id }}">Add</button>
+        </div>
+    </div>
+</p>

@@ -53,7 +53,7 @@ class ObjectMapEditorController extends BaseController {
      *      requirements={"_method" = "post"},
      *      options={"expose" = true }
      * )
-     * @Secure(roles="ROLE_SUPER_ADMIN")
+     * @Secure(roles="ROLE_USER")
      */
     public function updateNameAction(Request $request) {
         if ($request->getMethod() == 'POST' && $request->isXmlHttpRequest()) {
@@ -92,7 +92,7 @@ class ObjectMapEditorController extends BaseController {
      *      requirements={"_method" = "post"},
      *      options={"expose" = true }
      * )
-     * @Secure(roles="ROLE_SUPER_ADMIN")
+     * @Secure(roles="ROLE_USER")
      */
     public function updateDescriptionAction(Request $request) {
         if ($request->getMethod() == 'POST' && $request->isXmlHttpRequest()) {
@@ -130,7 +130,7 @@ class ObjectMapEditorController extends BaseController {
      *      requirements={"_method" = "post"},
      *      options={"expose" = true }
      * )
-     * @Secure(roles="ROLE_SUPER_ADMIN")
+     * @Secure(roles="ROLE_USER")
      * @ParamConverter("page", class="AppMainBundle:Page")
      */
     public function getPageAction(Page $page, Request $request) {
@@ -150,7 +150,7 @@ class ObjectMapEditorController extends BaseController {
      *      options={"expose" = true },
      *      defaults={"parentId" = -1}
      * )
-     * @Secure(roles="ROLE_SUPER_ADMIN")
+     * @Secure(roles="ROLE_USER")
      * @ParamConverter("objectMap", class="AppMainBundle:ObjectMap")
      */
     public function addPageAction(ObjectMap $objectMap, $parentId, Request $request) {
@@ -191,7 +191,7 @@ class ObjectMapEditorController extends BaseController {
      *      requirements={"_method" = "post"},
      *      options={"expose" = true }
      * )
-     * @Secure(roles="ROLE_SUPER_ADMIN")
+     * @Secure(roles="ROLE_USER")
      */
     public function updatePageNameAction(Request $request) {
         if ($request->getMethod() == 'POST' && $request->isXmlHttpRequest()) {
@@ -232,7 +232,7 @@ class ObjectMapEditorController extends BaseController {
      *      requirements={"_method" = "post"},
      *      options={"expose" = true }
      * )
-     * @Secure(roles="ROLE_SUPER_ADMIN")
+     * @Secure(roles="ROLE_USER")
      */
     public function updatePageDescriptionAction(Request $request) {
         if ($request->getMethod() == 'POST' && $request->isXmlHttpRequest()) {
@@ -273,7 +273,7 @@ class ObjectMapEditorController extends BaseController {
      *      requirements={"_method" = "post"},
      *      options={"expose" = true }
      * )
-     * @Secure(roles="ROLE_SUPER_ADMIN")
+     * @Secure(roles="ROLE_USER")
      */
     public function updatePageTypeAction(Request $request) {
         if ($request->getMethod() == 'POST' && $request->isXmlHttpRequest()) {
@@ -326,7 +326,7 @@ class ObjectMapEditorController extends BaseController {
      *      requirements={"_method" = "post"},
      *      options={"expose" = true }
      * )
-     * @Secure(roles="ROLE_SUPER_ADMIN")
+     * @Secure(roles="ROLE_USER")
      * @ParamConverter("page", class="AppMainBundle:Page")
      */
     public function getObjectMapTreeWithSelectedPageAction(Page $page, Request $request) {
@@ -346,7 +346,7 @@ class ObjectMapEditorController extends BaseController {
      *      name="app_application_get_object_map_page_types_ajax",
      *      options={"expose" = true }
      * )
-     * @Secure(roles="ROLE_SUPER_ADMIN")
+     * @Secure(roles="ROLE_USER")
      */
     public function getPageTypesAction(Request $request) {
         $ajaxResponse = array();
@@ -368,7 +368,7 @@ class ObjectMapEditorController extends BaseController {
      *      requirements={"_method" = "post"},
      *      options={"expose" = true }
      * )
-     * @Secure(roles="ROLE_SUPER_ADMIN")
+     * @Secure(roles="ROLE_USER")
      * @ParamConverter("object", class="AppMainBundle:Object")
      */
     public function getObjectAction(Object $object, Request $request) {
@@ -387,7 +387,7 @@ class ObjectMapEditorController extends BaseController {
      *      requirements={"_method" = "post"},
      *      options={"expose" = true }
      * )
-     * @Secure(roles="ROLE_SUPER_ADMIN")
+     * @Secure(roles="ROLE_USER")
      * @ParamConverter("page", class="AppMainBundle:Page")
      */
     public function addObjectAction(Page $page, Request $request) {
@@ -425,7 +425,7 @@ class ObjectMapEditorController extends BaseController {
      *      requirements={"_method" = "post"},
      *      options={"expose" = true }
      * )
-     * @Secure(roles="ROLE_SUPER_ADMIN")
+     * @Secure(roles="ROLE_USER")
      */
     public function updateObjectNameAction(Request $request) {
         if ($request->getMethod() == 'POST' && $request->isXmlHttpRequest()) {
@@ -466,7 +466,7 @@ class ObjectMapEditorController extends BaseController {
      *      requirements={"_method" = "post"},
      *      options={"expose" = true }
      * )
-     * @Secure(roles="ROLE_SUPER_ADMIN")
+     * @Secure(roles="ROLE_USER")
      */
     public function updateObjectDescriptionAction(Request $request) {
         if ($request->getMethod() == 'POST' && $request->isXmlHttpRequest()) {
@@ -507,7 +507,7 @@ class ObjectMapEditorController extends BaseController {
      *      requirements={"_method" = "post"},
      *      options={"expose" = true }
      * )
-     * @Secure(roles="ROLE_SUPER_ADMIN")
+     * @Secure(roles="ROLE_USER")
      */
     public function updateObjectTypeAction(Request $request) {
         if ($request->getMethod() == 'POST' && $request->isXmlHttpRequest()) {
@@ -554,7 +554,7 @@ class ObjectMapEditorController extends BaseController {
      *      requirements={"_method" = "post"},
      *      options={"expose" = true }
      * )
-     * @Secure(roles="ROLE_SUPER_ADMIN")
+     * @Secure(roles="ROLE_USER")
      * @ParamConverter("object", class="AppMainBundle:Object")
      */
     public function getObjectMapTreeWithSelectedObjectAction(Object $object, Request $request) {
@@ -574,7 +574,7 @@ class ObjectMapEditorController extends BaseController {
      *      name="app_application_get_object_map_page_object_types_ajax",
      *      options={"expose" = true }
      * )
-     * @Secure(roles="ROLE_SUPER_ADMIN")
+     * @Secure(roles="ROLE_USER")
      */
     public function getObjectTypesAction(Request $request) {
         $ajaxResponse = array();
@@ -595,7 +595,7 @@ class ObjectMapEditorController extends BaseController {
      *      name="app_application_get_object_map_page_object_identifier_types_ajax",
      *      options={"expose" = true }
      * )
-     * @Secure(roles="ROLE_SUPER_ADMIN")
+     * @Secure(roles="ROLE_USER")
      */
     public function getObjectIdentifierTypesAction(Request $request) {
         $ajaxResponse = array();
@@ -617,7 +617,7 @@ class ObjectMapEditorController extends BaseController {
      *      requirements={"_method" = "post"},
      *      options={"expose" = true }
      * )
-     * @Secure(roles="ROLE_SUPER_ADMIN")
+     * @Secure(roles="ROLE_USER")
      */
     public function updateObjectIdentifierTypeAction(Request $request) {
         if ($request->getMethod() == 'POST' && $request->isXmlHttpRequest()) {
@@ -668,7 +668,7 @@ class ObjectMapEditorController extends BaseController {
      *      requirements={"_method" = "post"},
      *      options={"expose" = true }
      * )
-     * @Secure(roles="ROLE_SUPER_ADMIN")
+     * @Secure(roles="ROLE_USER")
      */
     public function updateObjectIdentifierValueAction(Request $request) {
         if ($request->getMethod() == 'POST' && $request->isXmlHttpRequest()) {
@@ -714,7 +714,7 @@ class ObjectMapEditorController extends BaseController {
      *      requirements={"_method" = "post"},
      *      options={"expose" = true }
      * )
-     * @Secure(roles="ROLE_SUPER_ADMIN")
+     * @Secure(roles="ROLE_USER")
      * @ParamConverter("objectMap", class="AppMainBundle:ObjectMap")
      */
     public function deleteObjectsAction(ObjectMap $objectMap, Request $request) {
@@ -762,7 +762,7 @@ class ObjectMapEditorController extends BaseController {
      *      requirements={"_method" = "post"},
      *      options={"expose" = true }
      * )
-     * @Secure(roles="ROLE_SUPER_ADMIN")
+     * @Secure(roles="ROLE_USER")
      */
     public function updatePagePathAction(Request $request) {
         if ($request->getMethod() == 'POST' && $request->isXmlHttpRequest()) {

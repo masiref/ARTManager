@@ -6,12 +6,13 @@
             <i class="fontello-icon-cog"></i><strong>{{ project.name }}</strong>
             <span class="pull-right">
                 <a href="{{ path('app_index_project', { 'id': project.id }) }}"
-                   id="open-project-{{ project.id }}"
-                   data-toggle="tooltip" data-placement="top" title="Open">
+                   class="btn btn-xs btn-primary"
+                   id="open-project-{{ project.id }}">
                    <i class="fontello-icon-folder-open"></i></a>
-                <a href="#" id="delete-project-{{ project.id }}" data-id="{{ project.id }}"
-                   data-name="{{ project.name }}"
-                   data-toggle="tooltip" data-placement="right" title="Delete">
+                <a href="#" id="delete-project-{{ project.id }}"
+                   class="btn btn-xs btn-danger"
+                   data-id="{{ project.id }}"
+                   data-name="{{ project.name }}">
                    <i class="fontello-icon-trash"></i></a>
             </span>
         </div>
@@ -29,11 +30,12 @@
                 </span>
                 <span class="pull-right">
                     <a href="#" id="add-application-{{ project.id }}"
+                       class="btn btn-xs btn-custom-green"
                        data-project-id="{{ project.id }}"
                        data-project-name="{{ project.name }}"
                        data-project-description="{{ project.description }}"
                        data-toggle="tooltip" data-placement="left" title="Add a new application">
-                       <i class="fontello-icon-plus-circled"></i><i class="fontello-icon-leaf"></i>
+                        Create <i class="fontello-icon-leaf"></i>
                     </a>
                 </span>
             </p>

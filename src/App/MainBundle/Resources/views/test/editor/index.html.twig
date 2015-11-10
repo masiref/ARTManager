@@ -41,7 +41,7 @@
 
 {% block body %}
     {% include 'AppMainBundle:test:prerequisite/list.html.twig' %}
-    {% include 'AppMainBundle:test:editor/starting-page.html.twig' with { 'page': test.startingPage } %}
+    {% include 'AppMainBundle:test:editor/starting-page.html.twig' %}
     {% include 'AppMainBundle:test:step/execute/list.html.twig' %}
     {% include 'AppMainBundle:test:editor/behat.html.twig' %}
 {% endblock %}

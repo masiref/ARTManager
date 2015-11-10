@@ -31,11 +31,12 @@
                data-toggle="tooltip" data-placement="right" title="Details">
                 <i class="fontello-icon-info-circled"></i></a>#}
             <a href="#" id="delete-test-instance-{{ testInstance.id }}"
+               class="text-danger"
                data-id="{{ testInstance.id }}" 
                data-order="{{ testInstance.order }}"
                data-test-name="{{ testInstance.test }}"
                data-toggle="tooltip" data-placement="right" title="Delete">
-                <i class="fontello-icon-minus-circled"></i></a>
+                <i class="fontello-icon-trash"></i></a>
         </td>
     {% endif %}
 </tr>

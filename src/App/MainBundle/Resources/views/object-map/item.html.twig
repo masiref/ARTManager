@@ -10,12 +10,13 @@
                 </a>
                 <span class="pull-right">
                     <a href="{{ path('app_editor_application_object_map', { 'id': objectMap.id }) }}"
-                       id="open-object-map-{{ objectMap.id }}"
-                       data-toggle="tooltip" data-placement="top" title="Open">
+                       class="btn btn-xs btn-primary"
+                       id="open-object-map-{{ objectMap.id }}">
                        <i class="fontello-icon-folder-open"></i></a>
-                    <a href="#" id="delete-object-map-{{ objectMap.id }}" data-id="{{ objectMap.id }}"
-                       data-name="{{ objectMap.name }}"
-                       data-toggle="tooltip" data-placement="right" title="Delete">
+                    <a href="#" id="delete-object-map-{{ objectMap.id }}"
+                       class="btn btn-xs btn-danger"
+                       data-id="{{ objectMap.id }}"
+                       data-name="{{ objectMap.name }}">
                        <i class="fontello-icon-trash"></i></a>
                 </span>
             </h4>
