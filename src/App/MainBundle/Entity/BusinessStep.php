@@ -135,7 +135,8 @@ class BusinessStep extends StepContainer implements JsonSerializable {
         $page = $this->startingPage;
         if ($order > 0) {
             $step = null;
-            foreach ($this->steps as $step) {
+            $steps = $this->getSteps();
+            foreach ($steps as $step) {
                 if ($step->getOrder() === $order) {
                     break;
                 }
@@ -148,7 +149,7 @@ class BusinessStep extends StepContainer implements JsonSerializable {
     }
 
     public function getActivePage() {
-        return $this->getPageAtStepOrder($this->steps->count());
+        return $this->getPageAtStepOrder($this->getSteps()->count());
     }
 
     public function getParentName() {
@@ -173,7 +174,8 @@ class BusinessStep extends StepContainer implements JsonSerializable {
 
     public function isLastStepHasControlSteps() {
         $result = false;
-        $lastStep = $this->steps->get($this->steps->count() - 1);
+        $steps = $this->getSteps();
+        $lastStep = $steps->get($steps->count() - 1);
         if ($lastStep !== null) {
             $result = $lastStep->getControlSteps()->count() > 0;
         }

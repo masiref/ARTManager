@@ -3,7 +3,7 @@
         {{ testInstance.order }}
     </td>
     <td id="cell-test-instance-{{ testInstance.id }}-test-name">
-        {{ testInstance.test }}
+        <a href="{{ path('app_index_application_test_editor', { 'id': testInstance.test.id }) }}" target="about:blank">{{ testInstance.test }}</a>
     </td>
     <td id="cell-test-instance-{{ testInstance.id }}-status" class="text-center">
         {% set lastRun = testInstance.lastRun %}

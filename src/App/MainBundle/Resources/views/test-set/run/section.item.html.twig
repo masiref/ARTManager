@@ -1,8 +1,10 @@
 <div class="panel panel-{{ context }}">
     <div class="panel-heading">
-        <i class="fontello-icon-cog"></i>{{ application.project }}
+        <a href="{{ path('app_index_project', { 'id' : application.project.id }) }}">
+            <i class="fontello-icon-cog"></i>{{ application.project }}</a>
         <i class="fontello-icon-right-open"></i>
-        <i class="fontello-icon-leaf"></i>{{ application }}
+        <a href="{{ path('app_index_application', { 'id' : application.id }) }}">
+            <i class="fontello-icon-leaf"></i>{{ application }}</a>
     </div>
     <div class="list-group">
         <div class="list-group-item">

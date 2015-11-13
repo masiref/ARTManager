@@ -90,6 +90,7 @@ module.exports = function (grunt) {
                         app + '/libs/bootstrap-treeview/src/css/bootstrap-treeview.css',
                         app + '/libs/jasny-bootstrap/dist/css/jasny-bootstrap.css',
                         app + '/libs/vegas/dist/vegas.css',
+                        app + '/libs/intro.js/introjs.css',
                         app + '/css/**/*.css'
                     ]
                 }
@@ -122,6 +123,7 @@ module.exports = function (grunt) {
                     app + '/libs/jasny-bootstrap/dist/js/jasny-bootstrap.js',
                     app + '/libs/vegas/dist/vegas.js',
                     app + '/libs/holderjs/holder.js',
+                    app + '/libs/intro.js/intro.js',
                     '.tmp/js/**/*.js',
                     app + '/js/**/*.js'
                     ]

@@ -117,14 +117,17 @@ class ExecuteStep extends Step {
                 $page = $lastControlStep->getActivePage();
             }
             $order = $this->order - 1;
+            $businessStep = $this->businessStep;
+            if ($page === null && $businessStep !== null && $this->test !== null) {
+                $page = $businessStep->getActivePage();
+            }
+            $test = $businessStep !== null ? $businessStep : $this->test;
             while ($page == null && $order > 0) {
-                $test = $this->businessStep !== null ? $this->businessStep : $this->test;
                 $page = $test->getPageAtStepOrder($order);
                 $order -= 1;
             }
         }
         if ($page === null) {
-            $test = $this->businessStep !== null ? $this->businessStep : $this->test;
             $page = $test->getStartingPage();
         }
         return $page;
@@ -144,7 +147,7 @@ class ExecuteStep extends Step {
             }
         }
         if ($page === null) {
-            $test = $this->test !== null ? $this->test : $this->businessStep;
+            $test = $this->businessStep !== null ? $this->businessStep : $this->test;
             $page = $test->getPageAtStepOrder($this->order - 1);
         }
         return $page;

@@ -40,13 +40,13 @@ var BusinessStepEditor = {
         $("#step-rows").sortable({
             update: function(event, ui) {
                 var steps = $(this).sortable('toArray', { 'attribute': 'data-id' }).toString();
-                BusinessStepExecuteStepManager.updateOrders(testId, steps);
+                BusinessStepExecuteStepManager.updateOrders(businessStepId, steps);
             }
         }).disableSelection();
         $("[id^=control-step-rows-]").sortable({
             update: function(event, ui) {
                 var steps = $(this).sortable('toArray', { 'attribute': 'data-id' }).toString();
-                BusinessStepControlStepManager.updateOrders(testId, steps);
+                BusinessStepControlStepManager.updateOrders(businessStepId, steps);
             }
         }).disableSelection();
     },

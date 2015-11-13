@@ -45,9 +45,9 @@ class AddExecuteStepActionFieldEventSubscriber implements EventSubscriberInterfa
         $data = $event->getData();
         $form = $event->getForm();
         $object = $data->getObject();
-        $businessStep = $data->getBusinessStep();
+        $action = $data->getAction();
 
-        if ($object != null && $businessStep == null) {
+        if ($action != null) {
             $this->addActions($object, $form);
         }
     }
